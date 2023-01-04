@@ -37,7 +37,9 @@ public class Sede_DAO {
 
                 try{
                     Statement LocalStatement = this.getStatement();
+
                     ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Sede");
+
                     while(LocalRS.next()){
                         Sede_temp = new Sede(LocalRS.getString("nome"), LocalRS.getString("indirizzo"), LocalRS.getString("città"));
                         AllSede.add(Sede_temp);
@@ -50,6 +52,48 @@ public class Sede_DAO {
                 return AllSede;
             }
 
+            public void InsertSede(Sede Sede_temp){
+                try {
+                    Statement LocalStatement = this.getStatement();
+                    String command = "INSERT INTO Main.Sede VALUES (DEFAULT, '";
+                    command = command + Sede_temp.getNome() + "', '";
+                    command = command + Sede_temp.getIndirizzo() + "', '";
+                    command = command + Sede_temp.getCitta() + "');";
+
+                    LocalStatement.execute(command);
+                }
+                catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            public void DeleteSede(Sede Sede_temp){
+                try {
+                    Statement LocalStatement = this.getStatement();
+                    String command = "DELETE FROM Main.Sede WHERE " + Sede_temp.toSQLctrl() +";";
+
+                    LocalStatement.execute(command);
+                }
+                catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+
+
+            public void UpdateSede(Sede OldSede, Sede NewSede){
+                try {
+                    Statement LocalStatement = this.getStatement();
+                    String command = "UPDATE Main.Sede SET (Nome, Indirizzo, Città) = " +
+                                     "("+ NewSede.toSQLrow() +") " +
+                                     "WHERE " + OldSede.toSQLctrl() + ";";
+
+                    LocalStatement.execute(command);
+                }
+                catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+
+            }
 
         }
 
