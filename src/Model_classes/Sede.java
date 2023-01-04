@@ -1,9 +1,13 @@
 package Model_classes;
 
+import DAO_classes.Sede_DAO;
+
 public class Sede {
     private String nome;
     private String indirizzo;
     private String citta;
+
+    private Sede_DAO dao = new Sede_DAO();
 
 
 
@@ -37,6 +41,10 @@ public class Sede {
         this.citta = citta;
     }
 
+    public Sede_DAO getDao() {
+        return dao;
+    }
+
     public String toSQLrow() {
         String ret = "'" + this.nome + "', '"+ this.indirizzo +"', '"+ this.citta + "'";
         return ret;
@@ -48,4 +56,6 @@ public class Sede {
                      "' AND Città = '"+ this.citta + "'";
         return ret;
     }
+
+
 }

@@ -91,5 +91,20 @@ public class Sede_DAO {
 
             }
 
+            public Integer getPK(Sede temp){
+                try{
+                    Statement localStmt = this.getStatement();
+                    String command = "SELECT Sede_ID FROM Main.Sede WHERE " + temp.toSQLctrl() + ";";
+
+                    ResultSet localRS = localStmt.executeQuery(command);
+                    if(localRS.next())
+                        return localRS.getInt("Sede_ID");
+                }
+                catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+                return null;
+            }
+
         }
 
