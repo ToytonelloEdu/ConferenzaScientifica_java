@@ -42,7 +42,7 @@ import java.sql.SQLException;
             } catch (SQLException | ClassNotFoundException  throwables) {
                 throwables.printStackTrace();
             }
-
+            //funonzia
             return conn;
         }
     }
