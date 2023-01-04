@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ConferenzaScientifica_java:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ConferenzaScientifica_java_jar</output-path>
+    <root id="archive" name="ConferenzaScientifica_java.jar">
+      <element id="module-output" name="ConferenzaScientifica_java" />
+    </root>
+  </artifact>
+</component>
