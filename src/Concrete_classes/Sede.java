@@ -36,4 +36,16 @@ public class Sede {
     public void setCitta(String citta) {
         this.citta = citta;
     }
+
+    public String toSQLrow() {
+        String ret = "'" + this.nome + "', '"+ this.indirizzo +"', '"+ this.citta + "'";
+        return ret;
+    }
+
+    public String toSQLctrl() {
+        String ret = "Nome = '"+ this.nome +
+                     "' AND Indirizzo = '"+ this.indirizzo +
+                     "' AND Città = '"+ this.citta + "'";
+        return ret;
+    }
 }
