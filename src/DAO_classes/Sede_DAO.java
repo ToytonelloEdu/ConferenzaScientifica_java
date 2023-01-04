@@ -1,10 +1,9 @@
 package DAO_classes;
 
-import Concrete_classes.Sede;
+import Model_classes.Sede;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Sede_DAO {
 

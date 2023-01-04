@@ -1,4 +1,4 @@
-package Concrete_classes;
+package Model_classes;
 
 public class Sede {
     private String nome;
