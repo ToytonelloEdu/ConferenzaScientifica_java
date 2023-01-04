@@ -1,5 +1,7 @@
 package Model_classes;
 
+import DAO_classes.Conferenza_DAO;
+
 import java.util.Date;
 
 public class Conferenza {
@@ -9,6 +11,11 @@ public class Conferenza {
     private String descrizione;
     private Sede collocazione;
 
+    private Conferenza_DAO dao;
+
+    public Conferenza(){
+
+    }
     public Conferenza(String nome, Date dataInizio, Date dataFine, String descrizione, Sede collocazione){
         this.nome = nome;
         this.dataInizio = dataInizio;
@@ -46,7 +53,7 @@ public class Conferenza {
     }
 
     public void setDescrizione(String descrizione) {
-        descrizione = descrizione;
+        this.descrizione = descrizione;
     }
 
     public Sede getCollocazione() {
@@ -54,6 +61,10 @@ public class Conferenza {
     }
 
     public void setCollocazione(Sede collocazione) {
-        collocazione = collocazione;
+        this.collocazione = collocazione;
+    }
+
+    public Conferenza_DAO getDao() {
+        return dao;
     }
 }

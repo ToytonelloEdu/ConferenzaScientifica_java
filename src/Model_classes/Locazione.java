@@ -1,11 +1,14 @@
 package Model_classes;
 
+import DAO_classes.Locazione_DAO;
 import DAO_classes.Sede_DAO;
 
 public class Locazione {
     private Sede Collocazione;
     private String Nome;
     private int PostiDisponibili;
+    private Locazione_DAO dao = new Locazione_DAO();
+
 
     public Locazione(Sede Collocazione, String Nome, int PostiDisponibili){
         this.Collocazione = Collocazione;
@@ -35,6 +38,10 @@ public class Locazione {
 
     public void setPostiDisponibili(int postiDisponibili) {
         PostiDisponibili = postiDisponibili;
+    }
+
+    public Locazione_DAO getDao() {
+        return dao;
     }
 
     public String toSQLrow() {

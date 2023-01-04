@@ -1,5 +1,5 @@
-import DAO_classes.Sede_DAO;
-import Model_classes.Sede;
+import DAO_classes.*;
+import Model_classes.*;
 
 public class Controller {
     CF_MainFrame MainFrame;
@@ -7,8 +7,9 @@ public class Controller {
     public static void main(String[] args) {
         //Controller business_logic = new Controller();
         Sede foo = new Sede("Casa Ascione", "Via Cupa Camaldoli, 18", "Torre del Greco");
-        Sede_DAO prova = foo.getDao();
-        System.out.println(prova.getPK(foo));
+        Locazione foo2 = new Locazione(foo, "Studio di Antonio", 4);
+        Locazione_DAO prova = foo2.getDao();
+        prova.InsertLocazione(foo2);
     }
 
     public Controller(){

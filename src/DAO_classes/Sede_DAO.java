@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Sede_DAO {
 
             public Sede_DAO(){
-
             }
 
             public Statement getStatement() throws SQLException {
