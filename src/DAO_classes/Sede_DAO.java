@@ -9,10 +9,7 @@ import java.util.List;
 public class Sede_DAO {
 
             public Sede_DAO(){
-                List<Sede> temp = this.getAllSede();
-                for (Sede s: temp) {
-                    System.out.println(s.getNome());
-                }
+
             }
 
             public Statement getStatement() throws SQLException {
@@ -35,17 +32,15 @@ public class Sede_DAO {
             }
 
             public ArrayList<Sede> getAllSede(){
-                ArrayList<Sede> AllSede = new ArrayList();
+                ArrayList<Sede> AllSede = new ArrayList<>();
                 Sede Sede_temp;
 
                 try{
                     Statement LocalStatement = this.getStatement();
                     ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Sede");
-                    System.out.println(LocalRS.getString("nome"));
                     while(LocalRS.next()){
-                        Sede_temp = new Sede(LocalRS.getString("nome"), LocalRS.getString("indirizzo"), LocalRS.getString("citta"));
+                        Sede_temp = new Sede(LocalRS.getString("nome"), LocalRS.getString("indirizzo"), LocalRS.getString("città"));
                         AllSede.add(Sede_temp);
-                        LocalRS.next();
                     }
                     return AllSede;
                 }

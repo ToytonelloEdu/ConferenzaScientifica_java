@@ -13,7 +13,6 @@ public class Controller {
 
     public static void main(String[] args) {
         Controller business_logic = new Controller();
-        Sede_DAO prova = new Sede_DAO();
     }
 
     public Controller(){
