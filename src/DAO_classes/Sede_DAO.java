@@ -55,10 +55,7 @@ public class Sede_DAO {
             public void InsertSede(Sede Sede_temp){
                 try {
                     Statement LocalStatement = this.getStatement();
-                    String command = "INSERT INTO Main.Sede VALUES (DEFAULT, '";
-                    command = command + Sede_temp.getNome() + "', '";
-                    command = command + Sede_temp.getIndirizzo() + "', '";
-                    command = command + Sede_temp.getCitta() + "');";
+                    String command = "INSERT INTO Main.Sede VALUES (DEFAULT, "+ Sede_temp.toSQLrow() +");";
 
                     LocalStatement.execute(command);
                 }
