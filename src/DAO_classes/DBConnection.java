@@ -1,3 +1,5 @@
+package DAO_classes;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,7 +38,6 @@ import java.sql.SQLException;
                     // registra il driver
                     Class.forName("org.postgresql.Driver");
                     // chiama il DriverManager e chiedi la connessione
-                    //conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=bdd_test_schema", "postgres", pwd);
                     conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Conferencer DB?currentSchema=main", "postgres", pwd);
                 }
             } catch (SQLException | ClassNotFoundException  throwables) {
