@@ -126,7 +126,7 @@ public class Sponsor_DAO {
         return null;
     }
 
-    private static void setSponsor_tempFields(Sponsor Sponsor_temp, ResultSet localRS) throws SQLException {
+    private void setSponsor_tempFields(Sponsor Sponsor_temp, ResultSet localRS) throws SQLException {
         Sponsor_temp.setNome(localRS.getString("nome"));
         Sponsor_temp.setPartitaIVA(localRS.getString("partitaiva"));
     }

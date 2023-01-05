@@ -47,4 +47,9 @@ public class Istituzione {
                      "' AND Nazione = '"+ this.Nazione + "'";
         return ret;
     }
+
+    public int toPK(){
+        return this.getDao().getPK(this);
+    }
+
 }

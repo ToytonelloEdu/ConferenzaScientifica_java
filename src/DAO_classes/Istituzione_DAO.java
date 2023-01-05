@@ -124,7 +124,7 @@ public class Istituzione_DAO {
         return null;
     }
 
-    private static void setIstituzione_tempFields(Istituzione Istituzione_temp, ResultSet localRS) throws SQLException {
+    private void setIstituzione_tempFields(Istituzione Istituzione_temp, ResultSet localRS) throws SQLException {
         Istituzione_temp.setNome(localRS.getString("nome"));
         Istituzione_temp.setNazione(localRS.getString("nazione"));
     }
