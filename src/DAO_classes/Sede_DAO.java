@@ -123,7 +123,7 @@ public class Sede_DAO {
                 return null;
             }
 
-            private static void setSede_tempFields(Sede Sede_temp, ResultSet localRS) throws SQLException {
+            private void setSede_tempFields(Sede Sede_temp, ResultSet localRS) throws SQLException {
                 Sede_temp.setNome(localRS.getString("nome"));
                 Sede_temp.setIndirizzo(localRS.getString("indirizzo"));
                 Sede_temp.setCitta(localRS.getString("città"));

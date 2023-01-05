@@ -92,4 +92,8 @@ public class Conferenza {
         return new Timestamp(data.getTime());
     }
 
+    public int toPK(){
+        return this.getDao().getPK(this);
+    }
+
 }

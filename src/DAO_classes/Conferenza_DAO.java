@@ -104,7 +104,7 @@ public class Conferenza_DAO {
     public Integer getPK(Conferenza Conf_temp){
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT Conf_ID FROM Main.Sede WHERE " + Conf_temp.toSQLctrl() + ";";
+            String command = "SELECT Conf_ID FROM Main.Conferenza WHERE " + Conf_temp.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next())
@@ -119,7 +119,7 @@ public class Conferenza_DAO {
     public Conferenza getByPK(int PK){
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT * FROM Main.Sede WHERE Conf_ID = " + PK + ";";
+            String command = "SELECT * FROM Main.Conferenza WHERE Conf_ID = " + PK + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
