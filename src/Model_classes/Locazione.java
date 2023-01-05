@@ -49,4 +49,10 @@ public class Locazione {
         return ret;
     }
 
+    public String toSQLctrl(Integer Sede_ID) {
+        String ret = "Sede_ID = '"+ Sede_ID +
+                "' AND Nome_loc = '"+ this.Nome +
+                "' AND PostiDisp = '"+ this.PostiDisponibili + "'";
+        return ret;
+    }
 }

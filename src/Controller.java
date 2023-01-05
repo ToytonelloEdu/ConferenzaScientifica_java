@@ -1,15 +1,18 @@
 import DAO_classes.*;
 import Model_classes.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Controller {
     CF_MainFrame MainFrame;
 
     public static void main(String[] args) {
-        //Controller business_logic = new Controller();
-        Sede foo = new Sede("Casa Ascione", "Via Cupa Camaldoli, 18", "Torre del Greco");
-        Locazione foo2 = new Locazione(foo, "Studio di Antonio", 4);
-        Locazione_DAO prova = foo2.getDao();
-        prova.InsertLocazione(foo2);
+        Controller business_logic = new Controller();
+        Istituzione foo = new Istituzione("Università degli Studi di Pomigliano, Napoli", "Italia");
+        Istituzione foo2 = new Istituzione("Università degli Studi di Liverpool, Londra", "Inghilterra");
+        Istituzione_DAO prova = foo.getDao();
+        prova.UpdateIstituzione(foo, foo2);
     }
 
     public Controller(){
