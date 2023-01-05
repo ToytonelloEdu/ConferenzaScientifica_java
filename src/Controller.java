@@ -1,15 +1,19 @@
 import DAO_classes.*;
 import Model_classes.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Controller {
     CF_MainFrame MainFrame;
 
     public static void main(String[] args) {
         //Controller business_logic = new Controller();
-        Sede foo = new Sede("Casa Ascione", "Via Cupa Camaldoli, 18", "Torre del Greco");
-        Locazione foo2 = new Locazione(foo, "Studio di Antonio", 4);
-        Locazione_DAO prova = foo2.getDao();
-        prova.InsertLocazione(foo2);
+        Conferenza_DAO prova = new Conferenza_DAO();
+        ArrayList<Conferenza> Lista = prova.getAllConferenza();
+        for(Conferenza o: Lista){
+            System.out.println(o.getDataInizio() +", "+ o.getDataFine());
+        }
     }
 
     public Controller(){
