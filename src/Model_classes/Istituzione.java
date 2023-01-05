@@ -9,6 +9,9 @@ public class Istituzione {
     private String Nazione;
     private Istituzione_DAO dao = new Istituzione_DAO();
 
+    public Istituzione(){
+
+    }
     public Istituzione(String Nome, String Nazione){
         this.Nome = Nome;
         this.Nazione = Nazione;

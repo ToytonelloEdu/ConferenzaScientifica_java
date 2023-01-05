@@ -9,6 +9,9 @@ public class Locazione {
     private int PostiDisponibili;
     private Locazione_DAO dao = new Locazione_DAO();
 
+    public Locazione(){
+
+    }
 
     public Locazione(Sede Collocazione, String Nome, int PostiDisponibili){
         this.Collocazione = Collocazione;

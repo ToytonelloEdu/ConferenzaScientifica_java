@@ -32,7 +32,6 @@ public class Istituzione_DAO {
 
     public ArrayList<Istituzione> getAllIstituzione(){
         ArrayList<Istituzione> AllIstituzione = new ArrayList<>();
-        Istituzione Istituzione_temp;
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -40,7 +39,8 @@ public class Istituzione_DAO {
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Istituzione");
 
             while(LocalRS.next()){
-                Istituzione_temp = new Istituzione(LocalRS.getString("nome"), LocalRS.getString("nazione"));
+                Istituzione Istituzione_temp = new Istituzione();
+                setIstituzione_tempFields(Istituzione_temp, LocalRS);
                 AllIstituzione.add(Istituzione_temp);
             }
             return AllIstituzione;
@@ -90,4 +90,42 @@ public class Istituzione_DAO {
 
     }
 
+    public Integer getPK(Istituzione temp){
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT Istit_ID FROM Main.Istituzione WHERE " + temp.toSQLctrl() + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next())
+                return localRS.getInt("Istit_ID");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Istituzione getByPK(int PK) {
+        Istituzione Istituzione_temp = new Istituzione();
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Istituzione WHERE Istit_ID = " + PK + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next()) {
+                setIstituzione_tempFields(Istituzione_temp, localRS);
+            }
+
+            return Istituzione_temp;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    private static void setIstituzione_tempFields(Istituzione Istituzione_temp, ResultSet localRS) throws SQLException {
+        Istituzione_temp.setNome(localRS.getString("nome"));
+        Istituzione_temp.setNazione(localRS.getString("nazione"));
+    }
 }

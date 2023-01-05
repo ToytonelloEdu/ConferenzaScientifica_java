@@ -1,6 +1,8 @@
 package DAO_classes;
 import java.sql.*;
 import java.util.*;
+
+import Model_classes.Conferenza;
 import Model_classes.Locazione;
 import Model_classes.Sede;
 
@@ -30,7 +32,7 @@ public class Locazione_DAO {
 
     public ArrayList<Locazione> getAllLocazione(){
         ArrayList<Locazione> AllLocazione = new ArrayList<>();
-        Locazione Locazione_temp;
+        Sede Sede_temp = new Sede();
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -38,14 +40,26 @@ public class Locazione_DAO {
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Locazione");
 
             while(LocalRS.next()){
+                int Sede_PK = LocalRS.getInt("sede_id");
+                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
 
-
-
+                Locazione Locazione_temp = this.setLocazione_tempFields(Sede_temp, LocalRS);
+                AllLocazione.add(Locazione_temp);
             }
+            return AllLocazione;
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private Locazione setLocazione_tempFields(Sede Sede_temp, ResultSet LocalRS) throws SQLException {
+        Locazione Locazione_temp;
+        Locazione_temp = new Locazione();
+        Locazione_temp.setCollocazione(Sede_temp);
+        Locazione_temp.setNome(LocalRS.getString("nome_loc"));
+        Locazione_temp.setPostiDisponibili(LocalRS.getInt("postidisp"));
+        return Locazione_temp;
     }
 
     public void InsertLocazione(Locazione Locazione_temp){
@@ -99,6 +113,40 @@ public class Locazione_DAO {
         Sede_DAO Sede_DAO_temp = Sede_temp.getDao();
         Integer Pk_Sede_Locazione = Sede_DAO_temp.getPK(Sede_temp);
         return Pk_Sede_Locazione;
+    }
+
+    public Integer getPK(Locazione Locazione_temp){
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT Sede_ID, Nome_loc FROM Main.Locazione WHERE PostiDisponibili = " + Locazione_temp.getPostiDisponibili() + " AND Nome_loc = "+ Locazione_temp.getNome() + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next())
+                return localRS.getInt("sede_id");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Locazione getByPK(int sede_id, String nome_loc){
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Locazione WHERE Sede_ID = " + sede_id + " AND Nome_loc = "+ nome_loc + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next()) {
+                int Sede_PK = localRS.getInt("collocazione");
+                Sede Sede_temp = new Sede();
+                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
+                return setLocazione_tempFields(Sede_temp, localRS);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 }
