@@ -8,17 +8,18 @@ public class Controller {
     CF_MainFrame MainFrame;
 
     public static void main(String[] args) {
-        Controller business_logic = new Controller();
+//        Controller business_logic = new Controller();
 //        Conferenza_DAO prova = new Conferenza_DAO();
 //        ArrayList<Conferenza> Lista = prova.getAllConferenza();
 //        for(Conferenza o: Lista){
 //            System.out.println(o.getDataInizio() +", "+ o.getDataFine());
 //        }
 
-//        Sponsor foo = new Sponsor("Fastweb", "12345678912");
-//        Sponsor foo2 = new Sponsor("Iliad", "98765432198");
-//        Sponsor_DAO prova = foo.getDao();
-//        prova.UpdateSponsor(foo, foo2);
+        Conferenza_DAO conf = new Conferenza_DAO();
+        Istituzione_DAO istit = new Istituzione_DAO();
+        Ente_organizzatore foo = new Ente_organizzatore(conf.getByPK(1), istit.getByPK(1));
+        Ente_Organizzatore_DAO prova = foo.getDao();
+        prova.InsertEnteOrganizzatore(foo);
     }
 
     public Controller(){
