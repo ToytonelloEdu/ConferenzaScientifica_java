@@ -7,10 +7,9 @@ import java.util.ArrayList;
 
 public class Sede_DAO {
 
-            public Sede_DAO(){
-            }
+            public Sede_DAO(){}
 
-            public Statement getStatement() throws SQLException {
+            private Statement getStatement() throws SQLException {
                 try{
                     DBConnection dbConnection = DBConnection.getDBConnection();
 
@@ -31,7 +30,6 @@ public class Sede_DAO {
 
             public ArrayList<Sede> getAllSede(){
                 ArrayList<Sede> AllSede = new ArrayList<>();
-                Sede Sede_temp;
 
                 try{
                     Statement LocalStatement = this.getStatement();
@@ -39,7 +37,8 @@ public class Sede_DAO {
                     ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Sede");
 
                     while(LocalRS.next()){
-                        Sede_temp = new Sede(LocalRS.getString("nome"), LocalRS.getString("indirizzo"), LocalRS.getString("città"));
+                        Sede Sede_temp = new Sede();
+                        setSede_tempFields(Sede_temp, LocalRS);
                         AllSede.add(Sede_temp);
                     }
                     return AllSede;
@@ -105,5 +104,29 @@ public class Sede_DAO {
                 return null;
             }
 
-        }
+            public Sede getByPK(int PK) {
+                Sede Sede_temp = new Sede();
+                try{
+                    Statement localStmt = this.getStatement();
+                    String command = "SELECT * FROM Main.Sede WHERE Sede_ID = " + PK + ";";
+
+                    ResultSet localRS = localStmt.executeQuery(command);
+                    if(localRS.next()) {
+                        setSede_tempFields(Sede_temp, localRS);
+                    }
+
+                    return Sede_temp;
+                }
+                catch (SQLException e){
+                    System.out.println(e.getMessage());
+                }
+                return null;
+            }
+
+            private static void setSede_tempFields(Sede Sede_temp, ResultSet localRS) throws SQLException {
+                Sede_temp.setNome(localRS.getString("nome"));
+                Sede_temp.setIndirizzo(localRS.getString("indirizzo"));
+                Sede_temp.setCitta(localRS.getString("città"));
+    }
+}
 

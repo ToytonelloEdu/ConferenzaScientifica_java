@@ -2,6 +2,7 @@ package Model_classes;
 
 import DAO_classes.Conferenza_DAO;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Conferenza {
@@ -67,4 +68,28 @@ public class Conferenza {
     public Conferenza_DAO getDao() {
         return dao;
     }
+
+    public String toSQLrow(){
+        Timestamp DataInizioTimestamp = convertToTimestamp(this.dataInizio);
+        Timestamp DataFineTimestamp = convertToTimestamp(this.dataFine);
+
+        String ret = "'"+ this.nome+"', '"+ DataInizioTimestamp +"', '"+ DataFineTimestamp+ "', '"+ this.descrizione + "', "+this.collocazione.toPK();
+
+        return ret;
+    }
+
+    public String toSQLctrl(){
+        Timestamp DataInizioTimestamp = convertToTimestamp(this.dataInizio);
+        Timestamp DataFineTimestamp = convertToTimestamp(this.dataFine);
+
+        return "nomeconf = '"+ this.nome +"' AND" +
+                     "datainizio = '"+ DataInizioTimestamp +"' AND" +
+                     "datafine = '"+ DataFineTimestamp+ "' AND" +
+                     "collocazione = "+ this.collocazione.toPK()+";";
+    }
+
+    private Timestamp convertToTimestamp(Date data) {
+        return new Timestamp(data.getTime());
+    }
+
 }

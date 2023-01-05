@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Conferenza_DAO {
 
-    public Statement getStatement() throws SQLException {
+    private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();
 
@@ -29,8 +29,8 @@ public class Conferenza_DAO {
 
     public ArrayList<Conferenza> getAllConferenza(){
         ArrayList<Conferenza> AllConferenza = new ArrayList<>();
-        Conferenza Conferenza_temp;
-        Sede Sede_temp;
+        Sede Sede_temp = new Sede();
+
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -38,14 +38,10 @@ public class Conferenza_DAO {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Conferenza");
 
             while (LocalRS.next()){
-                Integer Sede_PK = LocalRS.getInt("Collocazione");
-                ResultSet SedeRS = LocalStmt.executeQuery("SELECT * FROM Main.Sede WHERE Sede_ID = '"+ Sede_PK + "';");
-                if (SedeRS.next())
-                    Sede_temp = new Sede(SedeRS.getString("nome"), SedeRS.getString("indirizzo"), SedeRS.getString("città"));
-                else
-                    Sede_temp = null;
+                int Sede_PK = LocalRS.getInt("Collocazione");
+                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
 
-                Conferenza_temp = this.setConferenza_tempFields(Sede_temp, LocalRS);
+                Conferenza Conferenza_temp = this.setConferenza_tempFields(Sede_temp, LocalRS);
                 AllConferenza.add(Conferenza_temp);
             }
             return AllConferenza;
@@ -67,16 +63,75 @@ public class Conferenza_DAO {
         return Conferenza_temp;
     }
 
-    private void InsertConferenza(){
+    public void InsertConferenza(Conferenza Conf_temp){
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "INSERT INTO Main.Conferenza VALUES (DEFAULT, "+ Conf_temp.toSQLrow() +");";
 
+            localStmt.execute(command);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
-    private void DeleteConferenza(){
+    public void DeleteConferenza(Conferenza Conf_temp){
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "DELETE FROM Main.Conferenza WHERE "+ Conf_temp.toSQLctrl()+ ";";
 
+            localStmt.execute(command);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
-    private void UpdateConferenza(){
+    public void UpdateConferenza(Conferenza OldConf, Conferenza NewConf){
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "UPDATE Main.Conferenza SET (nomeconf, datainizio, datafine, descrizione, collocazione) = " +
+                             "("+ NewConf.toSQLrow() +") "+ "WHERE "+ OldConf.toSQLctrl();
 
+
+            localStmt.execute(command);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
+    public Integer getPK(Conferenza Conf_temp){
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT Conf_ID FROM Main.Sede WHERE " + Conf_temp.toSQLctrl() + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next())
+                return localRS.getInt("Conf_ID");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Conferenza getByPK(int PK){
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Sede WHERE Conf_ID = " + PK + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next()) {
+                int Sede_PK = localRS.getInt("collocazione");
+                Sede Sede_temp = new Sede();
+                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
+                return setConferenza_tempFields(Sede_temp, localRS);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

@@ -9,7 +9,7 @@ public class Sede {
 
     private Sede_DAO dao = new Sede_DAO();
 
-
+    public Sede(){}
 
     public Sede(String nome, String indirizzo, String citta){
         this.nome = nome;
@@ -57,5 +57,9 @@ public class Sede {
         return ret;
     }
 
+    public int toPK(){
+        Sede_DAO DAO_temp = this.getDao();
+        return DAO_temp.getPK(this);
+    }
 
 }
