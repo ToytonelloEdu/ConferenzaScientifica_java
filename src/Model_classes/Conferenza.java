@@ -12,7 +12,7 @@ public class Conferenza {
     private String descrizione;
     private Sede collocazione;
 
-    private Conferenza_DAO dao;
+    private Conferenza_DAO dao = new Conferenza_DAO();
 
     public Conferenza(){
 
@@ -82,9 +82,9 @@ public class Conferenza {
         Timestamp DataInizioTimestamp = convertToTimestamp(this.dataInizio);
         Timestamp DataFineTimestamp = convertToTimestamp(this.dataFine);
 
-        return "nomeconf = '"+ this.nome +"' AND" +
-                     "datainizio = '"+ DataInizioTimestamp +"' AND" +
-                     "datafine = '"+ DataFineTimestamp+ "' AND" +
+        return "nomeconf = '"+ this.nome +"' AND " +
+                     "datainizio = '"+ DataInizioTimestamp +"' AND " +
+                     "datafine = '"+ DataFineTimestamp+ "' AND " +
                      "collocazione = "+ this.collocazione.toPK()+";";
     }
 
