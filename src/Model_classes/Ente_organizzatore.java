@@ -42,4 +42,9 @@ public class Ente_organizzatore {
         String ret = this.conferenza.toPK() +", "+ this.istituzione.toPK();
         return ret;
     }
+
+    public String toSQLctrl() {
+        return  "conferenza = "+ this.conferenza.toPK() +" AND " +
+                "istituzione = "+ this.istituzione.toPK()+";";
+    }
 }

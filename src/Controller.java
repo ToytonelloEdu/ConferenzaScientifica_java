@@ -18,8 +18,9 @@ public class Controller {
         Conferenza_DAO conf = new Conferenza_DAO();
         Istituzione_DAO istit = new Istituzione_DAO();
         Ente_organizzatore foo = new Ente_organizzatore(conf.getByPK(2), istit.getByPK(3));
+        Ente_organizzatore foo2 = new Ente_organizzatore(conf.getByPK(3), istit.getByPK(12));
         Ente_Organizzatore_DAO prova = foo.getDao();
-        prova.InsertEnteOrganizzatore(foo);
+        prova.UpdateEnteOrganizzatore(foo, foo2);
     }
 
     public Controller(){
