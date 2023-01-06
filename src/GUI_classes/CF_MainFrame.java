@@ -3,26 +3,35 @@ package GUI_classes;
 import Business_Logic.*;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CF_MainFrame extends JFrame {
     private Controller business_logic;
     private JPanel HomePanel;
-    private JPanel Conferences_List_JPanel;
+    private JTextField Search_textField;
+    private JTextArea Output_TextArea;
+    private JButton searchButton;
+    private JComboBox comboBox1;
 
     public CF_MainFrame(Controller bl) {
         business_logic = bl;
-        Conferences_List_JPanel.setLayout(new BoxLayout(Conferences_List_JPanel, BoxLayout.PAGE_AXIS));
         setContentPane(HomePanel);
         setVisible(true);
         setTitle("Conferencer");
-        setBounds(50, 50, 800, 600);
+        setBounds(50, 50, 1280, 720);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Conferences_List_JPanel.add(new Conferences_Button_JComponent("Check 1"));
-    }
 
-    public void addConfButton(Conferences_Button_JComponent temp) {
-        Conferences_List_JPanel.add(temp);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Output_TextArea.setText("");
+                String SearchIn_str = (String) comboBox1.getSelectedItem();
+                for(Object o: business_logic.searchButtonClicked(SearchIn_str)){
+                    Output_TextArea.append(o.toString()+ "\n");
 
+                }
+            }
+        });
     }
 }

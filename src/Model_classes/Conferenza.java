@@ -96,4 +96,7 @@ public class Conferenza {
         return this.getDao().getPK(this);
     }
 
+    public String toString(){
+        return this.nome + " | " + this.dataInizio + " | " + this.dataFine +" |";
+    }
 }

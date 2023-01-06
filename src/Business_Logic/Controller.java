@@ -2,7 +2,6 @@ package Business_Logic;
 
 import DAO_classes.*;
 import GUI_classes.*;
-import Model_classes.*;
 
 import java.util.List;
 
@@ -21,14 +20,15 @@ public class Controller {
             System.out.println(e.getMessage());
         }
 
-        Conf_Sponsor foo = new Conf_Sponsor(new Sponsor_DAO().getByPK(1), new Conferenza_DAO().getByPK(8), 20000.00);
-        Conf_Sponsor_DAO prova = foo.getDao();
-        prova.InsertConf_Sponsor(foo);
-
     }
 
     public Controller(){
         MainFrame = new CF_MainFrame(this);
+
+    }
+
+    public List searchButtonClicked(String searchIn_str) {
+        return new DBGetterByClassName().GetAllByClassName(searchIn_str);
 
     }
 }
