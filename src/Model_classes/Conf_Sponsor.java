@@ -49,8 +49,7 @@ public class Conf_Sponsor {
     }
 
     public String toSQLrow() {
-        String ret = this.sponsor.toPK() +", "+ this.conferenza.toPK() +" AND " +
-                "importo = "+ importo +";";
+        String ret = this.sponsor.toPK() +", "+ this.conferenza.toPK() +", " + importo ;
         return ret;
     }
 }

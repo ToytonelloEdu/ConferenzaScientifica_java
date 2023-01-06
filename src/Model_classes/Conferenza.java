@@ -85,7 +85,7 @@ public class Conferenza {
         return "nomeconf = '"+ this.nome +"' AND " +
                      "datainizio = '"+ DataInizioTimestamp +"' AND " +
                      "datafine = '"+ DataFineTimestamp+ "' AND " +
-                     "collocazione = "+ this.collocazione.toPK()+";";
+                     "collocazione = "+ this.collocazione.toPK();
     }
 
     private Timestamp convertToTimestamp(Date data) {
