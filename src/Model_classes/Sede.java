@@ -62,4 +62,8 @@ public class Sede {
         return DAO_temp.getPK(this);
     }
 
+    @Override
+    public String toString() {
+        return this.nome + " | " + this.indirizzo + " | " + " | " + this.citta;
+    }
 }
