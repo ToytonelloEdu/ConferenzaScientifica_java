@@ -46,4 +46,9 @@ public class Sponsor {
                      "' AND partitaiva = '"+ this.PartitaIVA + "'";
         return ret;
     }
+
+    public int toPK(){
+        return this.getDao().getPK(this);
+    }
+
 }

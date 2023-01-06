@@ -5,11 +5,8 @@ import Model_classes.Ente_organizzatore;
 import Model_classes.Istituzione;
 import Model_classes.Sede;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 
 public class Ente_Organizzatore_DAO {
 
