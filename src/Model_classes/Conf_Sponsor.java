@@ -3,21 +3,23 @@ package Model_classes;
 import DAO_classes.Conf_Sponsor_DAO;
 import DAO_classes.Ente_Organizzatore_DAO;
 
+import java.math.BigDecimal;
+
 public class Conf_Sponsor {
 
     private Conferenza conferenza;
     private Sponsor sponsor;
-    private Double importo;
+    private BigDecimal importo;
     private Conf_Sponsor_DAO Dao = new Conf_Sponsor_DAO();
 
     public Conf_Sponsor(){
 
     }
 
-    public Conf_Sponsor(Sponsor sponsor, Conferenza conferenza, Double importo){
+    public Conf_Sponsor(Sponsor sponsor, Conferenza conferenza, String importo){
         this.conferenza = conferenza;
         this.sponsor = sponsor;
-        this.importo = importo;
+        this.importo = new BigDecimal(importo);
     }
 
     public Conferenza getConferenza() {
@@ -36,11 +38,11 @@ public class Conf_Sponsor {
         this.sponsor = sponsor;
     }
 
-    public Double getImporto() {
+    public BigDecimal getImporto() {
         return importo;
     }
 
-    public void setImporto(Double importo) {
+    public void setImporto(BigDecimal importo) {
         this.importo = importo;
     }
 
@@ -51,5 +53,12 @@ public class Conf_Sponsor {
     public String toSQLrow() {
         String ret = this.sponsor.toPK() +", "+ this.conferenza.toPK() +", " + importo ;
         return ret;
+    }
+
+    public String toSQLctrl() {
+
+
+        return  "sponsor = "+ this.sponsor.toPK() +" AND " +
+                "conferenza = "+ this.conferenza.toPK();
     }
 }
