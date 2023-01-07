@@ -31,7 +31,6 @@ public class CF_MainFrame extends JFrame {
         Search_textField.setText("");
         setVisible(true);
 
-
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
