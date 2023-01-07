@@ -66,4 +66,8 @@ public class Sede {
     public String toString() {
         return this.nome + " | " + this.indirizzo + " | " + " | " + this.citta;
     }
+
+    public String toDetailString() {
+        return this.nome + ", \n" + this.indirizzo + " (" +this.citta + ")";
+    }
 }
