@@ -61,7 +61,11 @@
               </grid>
             </constraints>
             <properties>
+              <editable value="false"/>
+              <enabled value="true"/>
               <font name="Arial Black" size="12"/>
+              <lineWrap value="false"/>
+              <text value="Esegui una ricerca..."/>
             </properties>
           </component>
           <component id="47d7c" class="javax.swing.JButton" binding="searchButton" default-binding="true">

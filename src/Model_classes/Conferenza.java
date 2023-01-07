@@ -97,6 +97,6 @@ public class Conferenza {
     }
 
     public String toString(){
-        return this.nome + " | " + this.dataInizio + " | " + this.dataFine +" |";
+        return this.nome + " (a " + this.collocazione.getNome() +") || " + this.dataInizio + " | " + this.dataFine +" || ";
     }
 }
