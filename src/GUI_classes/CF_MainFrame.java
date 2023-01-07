@@ -17,6 +17,7 @@ public class CF_MainFrame extends JFrame {
     private JComboBox<String> Attribute_comboBox;
     private JPanel Details_panel;
     private JButton clearButton;
+    private JPanel Interchange_Detail_panel;
 
     public CF_MainFrame(Controller c) {
         business_logic = c;
@@ -26,6 +27,7 @@ public class CF_MainFrame extends JFrame {
         setBounds(50, 50, 1280, 720);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
+        business_logic.setDetailPanel(MainFrame_holder);
         Search_textField.setText("");
         setVisible(true);
 
@@ -47,6 +49,12 @@ public class CF_MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Search_textField.setText("");
+            }
+        });
+        Attribute_comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.Attribute_comboBox_ItemChanged(MainFrame_holder);
             }
         });
     }
@@ -85,5 +93,14 @@ public class CF_MainFrame extends JFrame {
 
     public JButton getClearButton() {
         return clearButton;
+    }
+
+    public JPanel getInterchange_Detail_panel() {
+        return Interchange_Detail_panel;
+    }
+
+    public void setInterchange_Detail_panel(JPanel interchange_Detail_panel) {
+        //set layout
+        Interchange_Detail_panel = interchange_Detail_panel;
     }
 }

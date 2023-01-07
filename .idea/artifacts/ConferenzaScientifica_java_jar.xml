@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/ConferenzaScientifica_java_jar</output-path>
     <root id="archive" name="ConferenzaScientifica_java.jar">
       <element id="module-output" name="ConferenzaScientifica_java" />
+      <element id="library" level="application" name="postgresql-42.5.1" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/postgresql-42.5.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
