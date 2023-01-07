@@ -39,17 +39,7 @@ public class CF_MainFrame extends JFrame {
 
     public CF_MainFrame(Controller c) {
         business_logic = c;
-        Details_panel.setVisible(false);
-        for(Component comp : Details_panel.getComponents()){
-            DetailsComp_list.add((JComponent) comp);
-        }
-        CF_MainFrame MainFrame_holder = this;
-        setContentPane(HomePanel);
-        setTitle("Conferencer");
-        setBounds(50, 50, 1280, 720);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
-        Search_textField.setText("");
+        CF_MainFrame MainFrame_holder = MainFrame_setUp();
         setVisible(true);
 
         searchButton.addActionListener(new ActionListener() {
@@ -82,6 +72,25 @@ public class CF_MainFrame extends JFrame {
                 business_logic.Selection_spinner_ItemChanged();
             }
         });
+    }
+
+    private CF_MainFrame MainFrame_setUp() {
+        Details_panel.setVisible(false);
+        FillDetailsComp_list();
+        CF_MainFrame MainFrame_holder = this;
+        setContentPane(HomePanel);
+        setTitle("Conferencer");
+        setBounds(50, 50, 1280, 720);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
+        Search_textField.setText("");
+        return MainFrame_holder;
+    }
+
+    private void FillDetailsComp_list() {
+        for(Component comp : Details_panel.getComponents()){
+            DetailsComp_list.add((JComponent) comp);
+        }
     }
 
     public Controller getBusiness_logic() {
