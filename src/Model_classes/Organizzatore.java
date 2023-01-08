@@ -5,6 +5,7 @@ import DAO_classes.Partecipante_DAO;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class Organizzatore extends Utente{
 
@@ -40,6 +41,11 @@ public class Organizzatore extends Utente{
                 "email = '"+ this.getEmail()+ "' AND " +
                 "tipo_utente = 'Organizzatore' AND " +
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 
 

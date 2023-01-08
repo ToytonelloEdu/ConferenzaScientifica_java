@@ -4,6 +4,7 @@ import DAO_classes.Partecipante_DAO;
 import DAO_classes.Utente_DAO;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Partecipante extends Utente{
 
@@ -39,6 +40,11 @@ public class Partecipante extends Utente{
                 "email = '"+ this.getEmail()+ "' AND " +
                 "tipo_utente = 'Partecipante' AND " +
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 
 }

@@ -71,7 +71,9 @@ public abstract class Utente implements ModelClass {
     public abstract String toSQLrow();
     public abstract String toSQLctrl();
     @Override
-    public abstract int toPK();
+    public int toPK(){
+        return this.getDao().getPK(this);
+    }
     @Override
     public abstract String toGUI_Output(List<ModelClass> outputList);
 
