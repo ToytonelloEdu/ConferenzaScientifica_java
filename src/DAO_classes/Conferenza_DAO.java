@@ -7,7 +7,7 @@ import Model_classes.Sede;
 import java.sql.*;
 import java.util.*;
 
-public class Conferenza_DAO {
+public class Conferenza_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try{

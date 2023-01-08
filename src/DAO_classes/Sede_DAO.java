@@ -6,7 +6,7 @@ import Model_classes.Sede;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Sede_DAO {
+public class Sede_DAO implements DaoClass{
 
             public Sede_DAO(){}
 
