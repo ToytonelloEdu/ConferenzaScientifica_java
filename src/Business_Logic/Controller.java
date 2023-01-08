@@ -37,7 +37,7 @@ public class Controller {
     }
 
     public void MainFrame_searchButton_clicked(CF_MainFrame Frame) {
-        List Output_list;
+        List<ModelClass> Output_list;
         Frame.getOutput_TextArea().setText("");
         String Class_SearchIn_str = (String) Frame.getClass_comboBox().getSelectedItem();
         if(isEmpty(Frame.getSearch_textField())){
@@ -51,10 +51,10 @@ public class Controller {
     }
 
 
-    private List setOutput_textArea_noFilter(CF_MainFrame Frame, String Class_SearchIn_str) {
-        List Output_ObjList = getValues_forOutputTextArea(Class_SearchIn_str);
+    private List<ModelClass> setOutput_textArea_noFilter(CF_MainFrame Frame, String Class_SearchIn_str) {
+        List<ModelClass> Output_ObjList = getValues_forOutputTextArea(Class_SearchIn_str);
         try {
-            for (Object o : Output_ObjList) {
+            for (ModelClass o : Output_ObjList) {
                 printOutput_Indexes(Frame, Output_ObjList, o);
                 Frame.getOutput_TextArea().append(o.toString() + "\n");
             }
@@ -66,22 +66,22 @@ public class Controller {
     }
 
 
-    private List getValues_forOutputTextArea(String searchIn_str) {
+    private List<ModelClass> getValues_forOutputTextArea(String searchIn_str) {
         return new DBGetterByClassName().GetAllByClassName(searchIn_str);
 
     }
 
 
-    private List setOutput_textArea_Filtered(CF_MainFrame Frame, String Class_SearchIn_str) {
+    private List<ModelClass> setOutput_textArea_Filtered(CF_MainFrame Frame, String Class_SearchIn_str) {
         String Attr_SearchIn_str = (String) Frame.getAttribute_comboBox().getSelectedItem();
         String Value_Search_str = Frame.getSearch_textField().getText();
-        List Output_ObjList = getValues_forOutputTextArea(Class_SearchIn_str, Attr_SearchIn_str, Value_Search_str);
+        List<ModelClass> Output_ObjList = getValues_forOutputTextArea(Class_SearchIn_str, Attr_SearchIn_str, Value_Search_str);
 
         if(Output_ObjList.isEmpty()){
             Frame.getOutput_TextArea().setText("Nessun risultato per la ricerca eseguita...");
         }
         else {
-            for (Object o : Output_ObjList) {
+            for (ModelClass o : Output_ObjList) {
                 printOutput_Indexes(Frame, Output_ObjList, o);
                 Frame.getOutput_TextArea().append(o.toString() + "\n");
             }
@@ -90,20 +90,21 @@ public class Controller {
         return null;
     }
 
-    public List getValues_forOutputTextArea(String Class, String Attribute, String Value) {
+    public List<ModelClass> getValues_forOutputTextArea(String Class, String Attribute, String Value) {
         return new DBGetterByClassName().GetByClass_and_Attribute(Class, Attribute, Value);
 
     }
 
-    private void printOutput_Indexes(CF_MainFrame Frame, List Output_ObjList, Object o){
-        if(Output_ObjList.indexOf(o)+1 < 10)
-            Frame.getOutput_TextArea().append(" "+ String.valueOf(Output_ObjList.indexOf(o)+1) + " | ");
-        else if (Output_ObjList.indexOf(o)+1 < 100)
-            Frame.getOutput_TextArea().append(Output_ObjList.indexOf(o)+1 + "| ");
+    private void printOutput_Indexes(CF_MainFrame Frame, List<ModelClass> Output_ObjList, ModelClass currentModelClass){
+        if(Output_ObjList.indexOf(currentModelClass)+1 < 10)
+            Frame.getOutput_TextArea().append(" "+ String.valueOf(Output_ObjList.indexOf(currentModelClass)+1) + " | ");
+        else if (Output_ObjList.indexOf(currentModelClass)+1 < 100)
+            Frame.getOutput_TextArea().append(Output_ObjList.indexOf(currentModelClass)+1 + "| ");
     }
 
     public void Class_comboBox_ItemChanged(CF_MainFrame Frame) {
         MainFrame.getDetails_panel().setVisible(false);
+        MainFrame.getSearch_textField().setText("");
         detailsPanel_setter.setAllDetailsComp_visible(MainFrame.getDetailsComp_list());
         Frame.getOutput_TextArea().setText("Esegui una ricerca...");
         clear_Attribute_comboBox(Frame);
@@ -118,7 +119,7 @@ public class Controller {
 
     public void setValues_in_Attribute_comboBox(CF_MainFrame Frame) {
         String Class_selected = (String) Frame.getClass_comboBox().getSelectedItem();
-        Frame.getAttribute_comboBox().addItem("None"); //remove when select other
+        Frame.getAttribute_comboBox().addItem("No Filter"); //remove when select other
         for(String o: getValues_for_Attribute_comboBox(Class_selected)){
             Frame.getAttribute_comboBox().addItem(o);
         }
@@ -131,10 +132,9 @@ public class Controller {
     }
 
     public void Attribute_comboBox_ItemChanged(CF_MainFrame Frame) {
-        if(Objects.equals(Frame.getAttribute_comboBox().getSelectedItem(), "None"))
+        if(Objects.equals(Frame.getAttribute_comboBox().getSelectedItem(), "No Filter"))
             return;
-        if(Objects.equals(Frame.getAttribute_comboBox().getItemAt(0), "None"))
-            Frame.getAttribute_comboBox().removeItemAt(0);
+        //inserire caso per Ricerca Avanzata;
     }
 
     public void Selection_spinner_ItemChanged() {

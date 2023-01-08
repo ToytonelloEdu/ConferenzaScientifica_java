@@ -2,7 +2,9 @@ package Model_classes;
 
 import DAO_classes.Sede_DAO;
 
-public class Sede {
+import java.util.List;
+
+public class Sede implements ModelClass{
     private String nome;
     private String indirizzo;
     private String citta;
@@ -60,6 +62,11 @@ public class Sede {
     public int toPK(){
         Sede_DAO DAO_temp = this.getDao();
         return DAO_temp.getPK(this);
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 
     @Override

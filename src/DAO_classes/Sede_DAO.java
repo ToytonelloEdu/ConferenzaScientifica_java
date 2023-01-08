@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Model_classes.ModelClass;
 import Model_classes.Sede;
 
 import java.sql.*;
@@ -28,8 +29,8 @@ public class Sede_DAO {
                 return null;
             }
 
-            public ArrayList<Sede> getAllSede(){
-                ArrayList<Sede> AllSede = new ArrayList<>();
+            public ArrayList<ModelClass> getAllSede(){
+                ArrayList<ModelClass> AllSede = new ArrayList<>();
 
                 try{
                     Statement LocalStatement = this.getStatement();

@@ -29,16 +29,16 @@ public class DBGetterByClassName {
         return null;
     }
 
-    public List GetAllByClassName(String SearchIn){
+    public List<ModelClass> GetAllByClassName(String SearchIn){
         switch (SearchIn) {
             case "Conferenza":
                 Conferenza_DAO DAO = new Conferenza_DAO();
                 return DAO.getAllConferenza();
             case "Sede":
                 return new Sede_DAO().getAllSede();
-//            case "Utente":
-//                return new Utente_DAO().getAllUtente();
-//            case "Sponsor":
+/*            case "Utente":
+                return new Utente_DAO().getAllUtente();
+            case "Sponsor": */
         }
 
         return null;
@@ -48,19 +48,49 @@ public class DBGetterByClassName {
         List<String> Lista_temp = new ArrayList<>();
         try {
             Statement localStmt = this.getStatement();
+            if(Class.equals("Partecipante") || Class.equals("Organizzatore")){Class = "Utente";}
             String command = "SELECT attname FROM pg_catalog.pg_attribute " +
                     "WHERE attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname = '"+ Class.toLowerCase() +"') " +
                     "AND attnum > 1;";
 
             ResultSet localRS = localStmt.executeQuery(command);
             while (localRS.next()){
-                Lista_temp.add(localRS.getString("attname"));
+                try {
+                    String adjusted_ColumnName = AdjustColumnName(localRS.getString("attname"));
+                    Lista_temp.add(adjusted_ColumnName);
+                }
+                catch (Exception ignored){}
             }
             return Lista_temp;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private String AdjustColumnName(String attributeName) throws Exception {
+        //inserisci controlli per nomi
+        if (attributeName.contains("cognome"))
+            return "Cognome";
+        else if (attributeName.contains("inizio"))
+            return "Inizio";
+        else if (attributeName.contains("fine"))
+            return "Fine";
+        else if(attributeName.contains("nome"))
+            return "Nome";
+        else if (attributeName.contains("titolo"))
+            return "Titolo";
+        else if(attributeName.contains("collocazione"))
+            return "Collocazione";
+        else if (attributeName.contains("afferenza"))
+            return "Istituzione";
+        else if (attributeName.contains("indirizzo"))
+            return "Indirizzo";
+        else if (attributeName.contains("città"))
+            return "Città";
+        else if (attributeName.contains("descrizione") || attributeName.contains("tipo_utente"))
+            throw new Exception();
+        return attributeName;
     }
 
     public List GetByClass_and_Attribute(String Class, String Attribute, String Value){

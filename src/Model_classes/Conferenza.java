@@ -4,8 +4,9 @@ import DAO_classes.Conferenza_DAO;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
-public class Conferenza {
+public class Conferenza implements ModelClass {
     private String nome;
     private Date dataInizio;
     private Date dataFine;
@@ -96,7 +97,14 @@ public class Conferenza {
         return this.getDao().getPK(this);
     }
 
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
+    }
+
     public String toString(){
         return this.nome + " (a " + this.collocazione.getNome() +") || " + this.dataInizio + " | " + this.dataFine +" || ";
     }
+
+
 }

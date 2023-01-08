@@ -1,6 +1,7 @@
 package DAO_classes;
 
 import Model_classes.Conferenza;
+import Model_classes.ModelClass;
 import Model_classes.Sede;
 
 import java.sql.*;
@@ -27,8 +28,8 @@ public class Conferenza_DAO {
         return null;
     }
 
-    public ArrayList<Conferenza> getAllConferenza(){
-        ArrayList<Conferenza> AllConferenza = new ArrayList<>();
+    public ArrayList<ModelClass> getAllConferenza(){
+        ArrayList<ModelClass> AllConferenza = new ArrayList<>();
         Sede Sede_temp = new Sede();
 
 
