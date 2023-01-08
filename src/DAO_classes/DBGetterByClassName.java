@@ -2,6 +2,7 @@ package DAO_classes;
 
 import Model_classes.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,19 +30,19 @@ public class DBGetterByClassName {
         return null;
     }
 
-    public List<ModelClass> GetAllByClassName(String SearchIn){
-        switch (SearchIn) {
-            case "Conferenza":
-                Conferenza_DAO DAO = new Conferenza_DAO();
-                return DAO.getAllConferenza();
-            case "Sede":
-                return new Sede_DAO().getAllSede();
-/*            case "Utente":
-                return new Utente_DAO().getAllUtente();
-            case "Sponsor": */
+    public List<ModelClass> GetAllByClassName(String SearchIn) throws ClassNotFoundException, NoSuchMethodException {
+        Class<?> foundClass = Class.forName("DAO_classes." + SearchIn + "_DAO");
+        Object DAO = null;
+        try {
+            DAO = foundClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            return new ArrayList<>();
         }
+        return castOfDAO(DAO).getAll();
+    }
 
-        return null;
+    private DaoClass castOfDAO(Object DAO){
+        return (DaoClass) DAO;
     }
 
     public List<String> getColumns_Names(String Class){

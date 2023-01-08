@@ -28,7 +28,7 @@ public class Conferenza_DAO implements DaoClass{
         return null;
     }
 
-    public ArrayList<ModelClass> getAllConferenza(){
+    public ArrayList<ModelClass> getAll(){
         ArrayList<ModelClass> AllConferenza = new ArrayList<>();
         Sede Sede_temp = new Sede();
 

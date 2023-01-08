@@ -8,6 +8,7 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,8 +68,13 @@ public class Controller {
 
 
     private List<ModelClass> getValues_forOutputTextArea(String searchIn_str) {
-        return new DBGetterByClassName().GetAllByClassName(searchIn_str);
-
+        try {
+            return new DBGetterByClassName().GetAllByClassName(searchIn_str);
+        }
+        catch (ClassNotFoundException | NoSuchMethodException a){
+            System.out.println(Conferenza_DAO.class.getName());
+        }
+        return new ArrayList<>();
     }
 
 

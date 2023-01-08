@@ -29,7 +29,7 @@ public class Sede_DAO implements DaoClass{
                 return null;
             }
 
-            public ArrayList<ModelClass> getAllSede(){
+            public ArrayList<ModelClass> getAll(){
                 ArrayList<ModelClass> AllSede = new ArrayList<>();
 
                 try{
