@@ -50,7 +50,7 @@ public class Sede_DAO implements DaoClass{
                 return AllSede;
             }
 
-            public void InsertSede(Sede Sede_temp){
+            public void Insert(ModelClass Sede_temp){
                 try {
                     Statement LocalStatement = this.getStatement();
                     String command = "INSERT INTO Main.Sede VALUES (DEFAULT, "+ Sede_temp.toSQLrow() +");";
@@ -62,7 +62,7 @@ public class Sede_DAO implements DaoClass{
                 }
             }
 
-            public void DeleteSede(Sede Sede_temp){
+            public void Delete(ModelClass Sede_temp){
                 try {
                     Statement LocalStatement = this.getStatement();
                     String command = "DELETE FROM Main.Sede WHERE " + Sede_temp.toSQLctrl() +";";
@@ -75,7 +75,7 @@ public class Sede_DAO implements DaoClass{
             }
 
 
-            public void UpdateSede(Sede OldSede, Sede NewSede){
+            public void Update(ModelClass OldSede, ModelClass NewSede){
                 try {
                     Statement LocalStatement = this.getStatement();
                     String command = "UPDATE Main.Sede SET (Nome, Indirizzo, Città) = " +

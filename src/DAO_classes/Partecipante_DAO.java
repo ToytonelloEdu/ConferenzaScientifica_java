@@ -7,8 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Partecipante_DAO extends Utente_DAO{
+public class Partecipante_DAO extends Utente_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try{
@@ -29,8 +30,8 @@ public class Partecipante_DAO extends Utente_DAO{
         return null;
     }
 
-    public ArrayList<Utente> getAllPartecipanti(){
-        ArrayList<Utente> AllPartecipanti = new ArrayList<>();
+    public List<ModelClass> getAll(){
+        ArrayList<ModelClass> AllPartecipanti = new ArrayList<>();
         Istituzione Istituzione_temp = new Istituzione();
 
         try{
@@ -53,10 +54,10 @@ public class Partecipante_DAO extends Utente_DAO{
         return null;
     }
 
-    public void InsertUtente_Partecipante(Utente Utente_Partecipante_temp){
+    public void Insert(ModelClass Partecip_temp){
         try{
             Statement localStmt = this.getStatement();
-            String command = "INSERT INTO Main.Utente VALUES (DEFAULT, "+ Utente_Partecipante_temp.toSQLrow() +");";
+            String command = "INSERT INTO Main.Utente VALUES (DEFAULT, "+ Partecip_temp.toSQLrow() +");";
 
             localStmt.execute(command);
         }
@@ -65,10 +66,10 @@ public class Partecipante_DAO extends Utente_DAO{
         }
     }
 
-    public void DeleteUtente_Partecipante(Utente Utente_Partecipante_temp){
+    public void Delete(ModelClass Part_temp){
         try{
             Statement localStmt = this.getStatement();
-            String command = "DELETE FROM Main.Utente WHERE "+ Utente_Partecipante_temp.toSQLctrl()+ ";";
+            String command = "DELETE FROM Main.Utente WHERE "+ Part_temp.toSQLctrl()+ ";";
 
             localStmt.execute(command);
         }
@@ -77,11 +78,11 @@ public class Partecipante_DAO extends Utente_DAO{
         }
     }
 
-    public void UpdateUtente_Partecipante(Utente OldUtente_Partecipante, Utente NewUtente_Partecipante){
+    public void Update(ModelClass OldPart, ModelClass NewPart){
         try{
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Utente SET (titolo, nome, cognome, email, tipo_utente, istit_afferenza) = " +
-                    "("+ NewUtente_Partecipante.toSQLrow() +") "+ "WHERE "+ OldUtente_Partecipante.toSQLctrl();
+                    "("+ NewPart.toSQLrow() +") "+ "WHERE "+ OldPart.toSQLctrl();
 
 
             localStmt.execute(command);

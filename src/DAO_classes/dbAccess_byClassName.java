@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class dbUse_byClassName {
+public class dbAccess_byClassName {
     private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();

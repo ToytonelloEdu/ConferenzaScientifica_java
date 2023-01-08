@@ -64,7 +64,7 @@ public class Conferenza_DAO implements DaoClass{
         return Conferenza_temp;
     }
 
-    public void InsertConferenza(Conferenza Conf_temp){
+    public void Insert(ModelClass Conf_temp){
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Conferenza VALUES (DEFAULT, "+ Conf_temp.toSQLrow() +");";
@@ -76,7 +76,7 @@ public class Conferenza_DAO implements DaoClass{
         }
     }
 
-    public void DeleteConferenza(Conferenza Conf_temp){
+    public void Delete(ModelClass Conf_temp){
         try{
             Statement localStmt = this.getStatement();
             String command = "DELETE FROM Main.Conferenza WHERE "+ Conf_temp.toSQLctrl()+ ";";
@@ -88,7 +88,7 @@ public class Conferenza_DAO implements DaoClass{
         }
     }
 
-    public void UpdateConferenza(Conferenza OldConf, Conferenza NewConf){
+    public void Update(ModelClass OldConf, ModelClass NewConf){
         try{
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Conferenza SET (nomeconf, datainizio, datafine, descrizione, collocazione) = " +

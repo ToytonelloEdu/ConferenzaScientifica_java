@@ -1,12 +1,14 @@
 package DAO_classes;
 
+import Model_classes.ModelClass;
 import Model_classes.Utente;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
-public class Organizzatore_DAO extends Utente_DAO {
+public class Organizzatore_DAO extends Utente_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try{
@@ -27,10 +29,15 @@ public class Organizzatore_DAO extends Utente_DAO {
         return null;
     }
 
-    public void InsertUtente_Organizzatore(Utente Utente_Organizzatore_temp){
+    @Override
+    public List<ModelClass> getAll() {
+        return null;
+    }
+
+    public void Insert(ModelClass Organizzatore){
         try{
             Statement localStmt = this.getStatement();
-            String command = "INSERT INTO Main.Utente VALUES (DEFAULT, "+ Utente_Organizzatore_temp.toSQLrow() +");";
+            String command = "INSERT INTO Main.Utente VALUES (DEFAULT, "+ Organizzatore.toSQLrow() +");";
 
             localStmt.execute(command);
         }
@@ -39,10 +46,10 @@ public class Organizzatore_DAO extends Utente_DAO {
         }
     }
 
-    public void DeleteUtente_Organizzatore(Utente Utente_Organizzatore_temp){
+    public void Delete(ModelClass Organizzatore){
         try{
             Statement localStmt = this.getStatement();
-            String command = "DELETE FROM Main.Utente WHERE "+ Utente_Organizzatore_temp.toSQLctrl()+ ";";
+            String command = "DELETE FROM Main.Utente WHERE "+ Organizzatore.toSQLctrl()+ ";";
 
             localStmt.execute(command);
         }
@@ -51,11 +58,11 @@ public class Organizzatore_DAO extends Utente_DAO {
         }
     }
 
-    public void UpdateUtente_Organizzatore(Utente OldUtente_Organizzatore, Utente NewUtente_Organizzatore){
+    public void Update(ModelClass oldOrg, ModelClass newOrg){
         try{
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Utente SET (titolo, nome, cognome, email, tipo_utente, istit_afferenza) = " +
-                    "("+ NewUtente_Organizzatore.toSQLrow() +") "+ "WHERE "+ OldUtente_Organizzatore.toSQLctrl();
+                    "("+ newOrg.toSQLrow() +") "+ "WHERE "+ oldOrg.toSQLctrl();
 
 
             localStmt.execute(command);

@@ -1,9 +1,12 @@
 package Model_classes;
 
 import DAO_classes.Conferenza_DAO;
+import DAO_classes.DaoClass;
 import DAO_classes.Utente_DAO;
 
-public abstract class Utente {
+import java.util.List;
+
+public abstract class Utente implements ModelClass {
 
     private String Titolo;
     private String Nome;
@@ -63,8 +66,13 @@ public abstract class Utente {
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
     }
 
+    @Override
+    public abstract DaoClass getDao();
     public abstract String toSQLrow();
-
     public abstract String toSQLctrl();
+    @Override
+    public abstract int toPK();
+    @Override
+    public abstract String toGUI_Output(List<ModelClass> outputList);
 
 }

@@ -66,7 +66,7 @@ public class Controller {
 
 
     private List<ModelClass> getValues_forOutputTextArea(String searchIn_str) {
-        return new dbUse_byClassName().GetAll_byClassName(searchIn_str);
+        return new dbAccess_byClassName().GetAll_byClassName(searchIn_str);
     }
 
 
@@ -89,7 +89,7 @@ public class Controller {
     }
 
     public List<ModelClass> getValues_forOutputTextArea(String Class, String Attribute, String Value) {
-        return new dbUse_byClassName().GetByClass_and_Attribute(Class, Attribute, Value);
+        return new dbAccess_byClassName().GetByClass_and_Attribute(Class, Attribute, Value);
 
     }
 
@@ -126,7 +126,7 @@ public class Controller {
     }
 
     private List<String> getValues_for_Attribute_comboBox(String class_selected) {
-        return new dbUse_byClassName().getColumns_Names(class_selected);
+        return new dbAccess_byClassName().getColumns_Names(class_selected);
     }
 
     public void Attribute_comboBox_ItemChanged(CF_MainFrame Frame) {

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class Utente_DAO implements DaoClass{
+public abstract class Utente_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try{
@@ -30,10 +30,14 @@ public class Utente_DAO implements DaoClass{
         return null;
     }
 
-    public Integer getPK(Utente Utente_temp){
+    public List<Utente> getAllUtenti(){
+        return null;
+    }
+
+    public Integer getPK(ModelClass Utente_temp){
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT utente_id FROM Main.Utente WHERE " + Utente_temp.toSQLctrlU() + ";";
+            String command = "SELECT utente_id FROM Main.Utente WHERE " + Utente_temp.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next())
@@ -81,14 +85,12 @@ public class Utente_DAO implements DaoClass{
         return Utente_temp;
     }
 
-
     @Override
-    public List<ModelClass> getAll() {
-        return null;
-    }
+    public abstract void Insert(ModelClass temp);
 
+    public abstract void Delete(ModelClass temp);
+
+    public abstract void Update(ModelClass oldTemp, ModelClass newTemp);
     @Override
-    public Integer getPK(ModelClass Object) {
-        return null;
-    }
+    public abstract List<ModelClass> getAll();
 }
