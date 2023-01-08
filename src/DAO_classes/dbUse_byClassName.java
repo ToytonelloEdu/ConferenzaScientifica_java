@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBGetterByClassName {
+public class dbUse_byClassName {
     private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -30,15 +30,24 @@ public class DBGetterByClassName {
         return null;
     }
 
-    public List<ModelClass> GetAllByClassName(String SearchIn) throws ClassNotFoundException, NoSuchMethodException {
-        Class<?> foundClass = Class.forName("DAO_classes." + SearchIn + "_DAO");
-        Object DAO = null;
+    public List<ModelClass> GetAll_byClassName(String SearchIn) {
         try {
-            DAO = foundClass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            DaoClass DAO = getDAObyClassName(SearchIn);
+            return DAO.getAll();
+        } catch (ClassNotFoundException | NullPointerException e) {
             return new ArrayList<>();
         }
-        return castOfDAO(DAO).getAll();
+    }
+
+    private DaoClass getDAObyClassName(String SearchIn) throws ClassNotFoundException {
+        try {
+            Class<?> foundClass = Class.forName("DAO_classes." + SearchIn + "_DAO");
+            Object DAO = foundClass.getDeclaredConstructor().newInstance();
+            return castOfDAO(DAO);
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+            return null;
+        }
     }
 
     private DaoClass castOfDAO(Object DAO){
@@ -122,7 +131,7 @@ public class DBGetterByClassName {
         List<Sede> Lista_temp = new ArrayList<>();
         Sede_DAO DAO = new Sede_DAO();
         while (localRS.next()) {
-            Lista_temp.add(DAO.getByPK(localRS.getInt("sede_id")));
+            Lista_temp.add((Sede) DAO.getByPK(localRS.getInt("sede_id")));
         }
         return Lista_temp;
     }

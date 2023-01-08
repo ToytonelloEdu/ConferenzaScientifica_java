@@ -90,10 +90,10 @@ public class Sede_DAO implements DaoClass{
 
             }
 
-            public Integer getPK(Sede temp){
+            public Integer getPK(ModelClass Sede_temp){
                 try{
                     Statement localStmt = this.getStatement();
-                    String command = "SELECT Sede_ID FROM Main.Sede WHERE " + temp.toSQLctrl() + ";";
+                    String command = "SELECT Sede_ID FROM Main.Sede WHERE " + Sede_temp.toSQLctrl() + ";";
 
                     ResultSet localRS = localStmt.executeQuery(command);
                     if(localRS.next())
@@ -105,7 +105,7 @@ public class Sede_DAO implements DaoClass{
                 return null;
             }
 
-            public Sede getByPK(int PK) {
+            public ModelClass getByPK(int PK) {
                 Sede Sede_temp = new Sede();
                 try{
                     Statement localStmt = this.getStatement();

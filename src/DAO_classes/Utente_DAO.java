@@ -7,8 +7,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
-public class Utente_DAO {
+public class Utente_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try{
@@ -81,4 +82,13 @@ public class Utente_DAO {
     }
 
 
+    @Override
+    public List<ModelClass> getAll() {
+        return null;
+    }
+
+    @Override
+    public Integer getPK(ModelClass Object) {
+        return null;
+    }
 }

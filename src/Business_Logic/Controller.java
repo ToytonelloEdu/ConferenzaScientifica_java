@@ -4,11 +4,9 @@ package Business_Logic;
 import DAO_classes.*;
 import GUI_classes.*;
 import Model_classes.*;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,13 +66,7 @@ public class Controller {
 
 
     private List<ModelClass> getValues_forOutputTextArea(String searchIn_str) {
-        try {
-            return new DBGetterByClassName().GetAllByClassName(searchIn_str);
-        }
-        catch (ClassNotFoundException | NoSuchMethodException a){
-            System.out.println(Conferenza_DAO.class.getName());
-        }
-        return new ArrayList<>();
+        return new dbUse_byClassName().GetAll_byClassName(searchIn_str);
     }
 
 
@@ -97,7 +89,7 @@ public class Controller {
     }
 
     public List<ModelClass> getValues_forOutputTextArea(String Class, String Attribute, String Value) {
-        return new DBGetterByClassName().GetByClass_and_Attribute(Class, Attribute, Value);
+        return new dbUse_byClassName().GetByClass_and_Attribute(Class, Attribute, Value);
 
     }
 
@@ -134,7 +126,7 @@ public class Controller {
     }
 
     private List<String> getValues_for_Attribute_comboBox(String class_selected) {
-        return new DBGetterByClassName().getColumns_Names(class_selected);
+        return new dbUse_byClassName().getColumns_Names(class_selected);
     }
 
     public void Attribute_comboBox_ItemChanged(CF_MainFrame Frame) {

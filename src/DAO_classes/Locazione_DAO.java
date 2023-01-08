@@ -41,7 +41,7 @@ public class Locazione_DAO {
 
             while(LocalRS.next()){
                 int Sede_PK = LocalRS.getInt("sede_id");
-                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
+                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
 
                 Locazione Locazione_temp = this.setLocazione_tempFields(Sede_temp, LocalRS);
                 AllLocazione.add(Locazione_temp);
@@ -139,7 +139,7 @@ public class Locazione_DAO {
             if (localRS.next()) {
                 int Sede_PK = localRS.getInt("collocazione");
                 Sede Sede_temp = new Sede();
-                Sede_temp = Sede_temp.getDao().getByPK(Sede_PK);
+                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
                 return setLocazione_tempFields(Sede_temp, localRS);
             }
         }
