@@ -91,7 +91,7 @@ public class Sessione_DAO implements DaoClass{
     public void Insert(ModelClass Sessione_temp){
         try{
             Statement localStmt = this.getStatement();
-            String command = "INSERT INTO Main.Sessione " +
+            String command = "INSERT INTO Main.Sessione (sessione_id, nome_sess, inizio, fine, conferenza, sede, locazione, chair, keynote_speaker) " +
                              "VALUES (DEFAULT, "+ Sessione_temp.toSQLrow() +");";
 
             localStmt.execute(command);

@@ -29,12 +29,12 @@ public class Controller {
         Sede sede = new Sede();
         Locazione loc = new Locazione();
         Utente ut = new Partecipante();
-        LocalDateTime datai = LocalDateTime.of(2023, 8, 1, 8, 0, 0);
-        LocalDateTime dataf = LocalDateTime.of(2023, 8, 1, 9, 0, 0);
+        LocalDateTime datai = LocalDateTime.of(2023, 7, 8, 8, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 7, 8, 9, 0, 0);
         Partecipante pt = new Partecipante();
-        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(2), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(2),pt.getDao().getByPK(16));
+        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(2), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(2),null);
         Sessione_DAO ciao = foo.getDao();
-        ciao.Insert(foo);
+        System.out.println(foo.toSQLctrl());
 
     }
 
