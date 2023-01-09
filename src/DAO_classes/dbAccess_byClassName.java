@@ -69,8 +69,9 @@ public class dbAccess_byClassName {
             ResultSet localRS = localStmt.executeQuery(command);
             while (localRS.next()){
                 try {
-                    String adjusted_ColumnName = AdjustColumnName(localRS.getString("attname"));
-                    Lista_temp.add(adjusted_ColumnName);
+//                    String adjusted_ColumnName = AdjustColumnName(localRS.getString("attname"));
+//                    Lista_temp.add(adjusted_ColumnName);
+                    Lista_temp.add(localRS.getString("attname"));
                 }
                 catch (Exception ignored){}
             }
