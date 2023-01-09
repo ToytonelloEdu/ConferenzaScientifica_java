@@ -26,15 +26,23 @@ public class Controller {
         }
 
         Conferenza conf = new Conferenza();
-        Sede sede = new Sede();
         Locazione loc = new Locazione();
         Utente ut = new Partecipante();
-        LocalDateTime datai = LocalDateTime.of(2023, 8, 1, 8, 0, 0);
-        LocalDateTime dataf = LocalDateTime.of(2023, 8, 1, 9, 0, 0);
+        LocalDateTime datai = LocalDateTime.of(2023, 7, 8, 8, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 7, 8, 9, 0, 0);
         Partecipante pt = new Partecipante();
-        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(2), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(2),pt.getDao().getByPK(16));
+        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(2), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(2), pt.getDao().getByPK(16));
+
+        Conferenza conf1 = new Conferenza();
+        Locazione loc1 = new Locazione();
+        Utente ut1 = new Partecipante();
+        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 25, 8, 30, 0);
+        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 25, 10, 0, 0);
+        Partecipante pt1 = new Partecipante();
+        Sessione foo1 = new Sessione("Sessione Vecchia", datai1, dataf1, conf.getDao().getByPK(4), loc.getDao().getByCompositePK(3, "Sala Cinema"), ut.getDao().getByPK(1), null);
+
         Sessione_DAO ciao = foo.getDao();
-        ciao.Insert(foo);
+        ciao.Update(foo, foo1);
 
     }
 

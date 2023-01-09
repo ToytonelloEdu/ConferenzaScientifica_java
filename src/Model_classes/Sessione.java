@@ -92,23 +92,38 @@ public class Sessione implements ModelClass{
 
     @Override
     public String toSQLrow() {
+        Object keynoteSP_PK;
+
+        try{
+            keynoteSP_PK = this.keynote_speaker.toPK();
+        } catch (NullPointerException e){
+            keynoteSP_PK = "null";
+        }
 
         String ret = "'"+ this.nome+"', '"+ this.inizio +"', '"+ this.fine + "', "+ this.conferenza.toPK() +
-                     ", "+ this.locazione.toPK() +", '"+ this.locazione.getNome() +"', "+ this.chair.toPK() +", "+ this.keynote_speaker.toPK();
+                     ", "+ this.locazione.toPK() +", '"+ this.locazione.getNome() +"', "+ this.chair.toPK() +", "+ keynoteSP_PK;
 
         return ret;
     }
 
     @Override
     public String toSQLctrl() {
+        Object keynoteSP_PK;
+
+        try{
+            keynoteSP_PK = this.keynote_speaker.toPK();
+        } catch (NullPointerException e){
+            keynoteSP_PK = "null";
+        }
+
         return "nome_sess = '"+ this.nome +"' AND " +
                 "inizio = '"+ this.inizio +"' AND " +
                 "fine = '"+ this.fine +"' AND " +
-                "conferenza = "+ this.conferenza.toPK() +"' AND " +
-                "sede = '"+ this.locazione.toPK() +"' AND " +
+                "conferenza = "+ this.conferenza.toPK() +" AND " +
+                "sede = "+ this.locazione.toPK() +" AND " +
                 "locazione = '"+ this.locazione.getNome() +"' AND " +
-                "chair = '"+ this.chair.toPK() +"' AND " +
-                "keynote_speaker = '"+ this.keynote_speaker.toPK();
+                "chair = "+ this.chair.toPK() +" AND " +
+                "keynote_speaker = "+ keynoteSP_PK;
     }
 
     @Override

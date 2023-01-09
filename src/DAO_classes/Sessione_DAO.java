@@ -10,7 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
+import java.time.*;
 
 public class Sessione_DAO implements DaoClass{
 
@@ -35,6 +36,27 @@ public class Sessione_DAO implements DaoClass{
 
     @Override
     public List<ModelClass> getAll() {
+//        ArrayList<ModelClass> AllSessione = new ArrayList<>();
+//        Sede Sede_temp = new Sede();
+//
+//
+//        try{
+//            Statement LocalStmt = this.getStatement();
+//
+//            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sessione");
+//
+//            while (LocalRS.next()){
+//                int Sede_PK = LocalRS.getInt("collocazione");
+//                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
+//
+//                Conferenza Conferenza_temp = this.setSessione_tempFields(Sede_temp, LocalRS);
+//                AllSessione.add(Conferenza_temp);
+//            }
+//            return AllSessione;
+//        }
+//        catch (SQLException e){
+//            System.out.println(e.getMessage());
+//        }
         return null;
     }
 
@@ -54,38 +76,46 @@ public class Sessione_DAO implements DaoClass{
         return null;
     }
 
-//    @Override
-    public Sessione getByPK(int PK){
-//        try {
-//            Statement localStmt = this.getStatement();
-//            String command = "SELECT * FROM Main.Sessione WHERE sessione_id = " + PK + ";";
-//
-//            ResultSet localRS = localStmt.executeQuery(command);
-//            if (localRS.next()) {
-//                Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(localRS.getInt("conferenza"));
-//                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(localRS.getInt("locazione"));
-//                Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(localRS.getInt("chair"));
-//                Utente keynote_speaker_temp = (Utente) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
-//
-//                return setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, localRS);
-//            }
-//        }
-//        catch (SQLException e){
-//            System.out.println(e.getMessage());
-//        }
+    @Override
+  public Sessione getByPK(int PK){
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Sessione WHERE sessione_id = " + PK + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next()) {
+                Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(localRS.getInt("conferenza"));
+                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(localRS.getInt("locazione"));
+                Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(localRS.getInt("chair"));
+                Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
+
+                return setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, localRS);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
-//
-//    private Sessione setSessione_tempFields(Conferenza conferenza_temp, Locazione locazione_temp, Utente chair_temp, Utente keynote_speaker_temp,ResultSet localRS) throws SQLException {
-//        Sessione Sessione_temp;
-//        Sessione_temp = new Sessione();
-//        Sessione_temp.setNome(localRS.getString("nome_sess"));
-//        Sessione_temp.setInizio(localRS.getDate("inizio"));
-//        Sessione_temp.setDataFine(LocalRS.getDate("DataFine"));
-//        Sessione_temp.setConferenza(conferenza_temp);
-//        Sessione_temp.setLocazione(conferenza_temp);
-//        return Sessione_temp;
-//    }
+
+    private Sessione setSessione_tempFields(Conferenza conferenza_temp, Locazione locazione_temp, Utente chair_temp, Partecipante keynote_speaker_temp,ResultSet localRS) throws SQLException {
+        Sessione Sessione_temp;
+        Sessione_temp = new Sessione();
+        Sessione_temp.setNome(localRS.getString("nome_sess"));
+        Sessione_temp.setInizio(convertToLocalDateTime(localRS.getDate("inizio")));
+        Sessione_temp.setFine(convertToLocalDateTime(localRS.getDate("fine")));
+        Sessione_temp.setConferenza(conferenza_temp);
+        Sessione_temp.setLocazione(locazione_temp);
+        Sessione_temp.setChair(chair_temp);
+        Sessione_temp.setKeynote_speaker(keynote_speaker_temp);
+        return Sessione_temp;
+    }
+
+    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
 
     @Override
     public void Insert(ModelClass Sessione_temp){
