@@ -1,18 +1,15 @@
 package Model_classes;
 
 import DAO_classes.*;
-
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Sessione implements ModelClass{
 
     private String nome;
-    private Date inizio;
-    private Date fine;
+    private LocalDateTime inizio;
+    private LocalDateTime fine;
     private Conferenza conferenza;
-    private Sede sede;
     private Locazione locazione;
     private Utente chair;
     private Partecipante keynote_speaker;
@@ -22,12 +19,11 @@ public class Sessione implements ModelClass{
     public Sessione(){
     }
 
-    public Sessione(String nome, Date inizio, Date fine, ModelClass conferenza, ModelClass sede, ModelClass locazione, ModelClass chair, ModelClass keynote_speaker){
+    public Sessione(String nome, LocalDateTime inizio, LocalDateTime fine, ModelClass conferenza, ModelClass locazione, ModelClass chair, ModelClass keynote_speaker){
         this.nome = nome;
         this.inizio = inizio;
         this.fine = fine;
         this.conferenza = (Conferenza) conferenza;
-        this.sede = (Sede) sede;
         this.locazione = (Locazione) locazione;
         this.chair = (Utente) chair;
         this.keynote_speaker = (Partecipante) keynote_speaker;
@@ -41,19 +37,19 @@ public class Sessione implements ModelClass{
         this.nome = nome;
     }
 
-    public Date getInizio() {
+    public LocalDateTime getInizio() {
         return inizio;
     }
 
-    public void setInizio(Date inizio) {
+    public void setInizio(LocalDateTime inizio) {
         this.inizio = inizio;
     }
 
-    public Date getFine() {
+    public LocalDateTime getFine() {
         return fine;
     }
 
-    public void setFine(Date fine) {
+    public void setFine(LocalDateTime fine) {
         this.fine = fine;
     }
 
@@ -63,14 +59,6 @@ public class Sessione implements ModelClass{
 
     public void setConferenza(Conferenza conferenza) {
         this.conferenza = conferenza;
-    }
-
-    public Sede getSede() {
-        return sede;
-    }
-
-    public void setSede(Sede sede) {
-        this.sede = sede;
     }
 
     public Locazione getLocazione() {
@@ -104,27 +92,28 @@ public class Sessione implements ModelClass{
 
     @Override
     public String toSQLrow() {
-        Timestamp InizioTimestamp = convertToTimestamp(this.inizio);
-        Timestamp FineTimestamp = convertToTimestamp(this.fine);
 
-        String ret = "'"+ this.nome+"', '"+ InizioTimestamp +"', '"+ FineTimestamp + "', '"+ this.conferenza.toPK() +
-                     "', "+ this.sede.toPK() +"', "+ this.locazione.toPK() +"', "+ this.chair.toPK() +"', "+ this.keynote_speaker.toPK();
+        String ret = "'"+ this.nome+"', '"+ this.inizio +"', '"+ this.fine + "', '"+ this.conferenza.toPK() +
+                     "', "+ this.locazione.toPK() +"', "+ this.locazione.getNome() +"', "+ this.chair.toPK() +"', "+ this.keynote_speaker.toPK();
 
         return ret;
     }
 
-    private Timestamp convertToTimestamp(Date data) {
-        return new Timestamp(data.getTime());
-    }
-
     @Override
     public String toSQLctrl() {
-        return null;
+        return "nome_sess = '"+ this.nome +"' AND " +
+                "inizio = '"+ this.inizio +"' AND " +
+                "fine = '"+ this.fine +"' AND " +
+                "conferenza = "+ this.conferenza.toPK() +"' AND " +
+                "sede = '"+ this.locazione.toPK() +"' AND " +
+                "locazione = '"+ this.locazione.getNome() +"' AND " +
+                "chair = '"+ this.chair.toPK() +"' AND " +
+                "keynote_speaker = '"+ this.keynote_speaker.toPK();
     }
 
     @Override
-    public int toPK() {
-        return 0;
+    public int toPK(){
+        return this.getDao().getPK(this);
     }
 
     @Override

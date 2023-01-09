@@ -1,5 +1,6 @@
 package Business_Logic;
-
+import java.time.LocalDateTime;
+import java.time.*;
 
 import DAO_classes.*;
 import GUI_classes.*;
@@ -24,16 +25,18 @@ public class Controller {
             System.out.println(e.getMessage());
         }
 
-    }
+        Conferenza conf = new Conferenza();
+        Sede sede = new Sede();
+        Locazione loc = new Locazione();
+        Utente ut = new Partecipante();
+        LocalDateTime datai = LocalDateTime.of(2023, 8, 1, 8, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 8, 1, 9, 0, 0);
+        Partecipante pt = new Partecipante();
+        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(17), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(3),pt.getDao().getByPK(16));
+        Sessione_DAO ciao = foo.getDao();
+        ciao.Insert(foo);
 
-    Conferenza conf = new Conferenza();
-    Sede sede = new Sede();
-    Locazione loc = new Locazione();
-    Utente ut;
-    Date datai = new Date();
-    Date dataf = new Date();
-    Partecipante pt = new Partecipante();
-    Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(17), sede.getDao().getByPK(1), loc.getDao().getByPK(1, "Padiglione 1"), ut.getDao().getByPK(3),pt.getDao().getByPK(16));
+    }
 
     public Controller(){
         MainFrame = new CF_MainFrame(this);
@@ -128,7 +131,7 @@ public class Controller {
 
     public void setValues_in_Attribute_comboBox(CF_MainFrame Frame) {
         String Class_selected = (String) Frame.getClass_comboBox().getSelectedItem();
-        Frame.getAttribute_comboBox().addItem("No Filter"); //remove when select other
+        Frame.getAttribute_comboBox().addItem("No Filter");
         for(String o: getValues_for_Attribute_comboBox(Class_selected)){
             Frame.getAttribute_comboBox().addItem(o);
         }
