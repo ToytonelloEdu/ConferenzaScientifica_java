@@ -1,11 +1,14 @@
 package DAO_classes;
 
+import Model_classes.Istituzione;
 import Model_classes.ModelClass;
 import Model_classes.Utente;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Organizzatore_DAO extends Utente_DAO implements DaoClass{
@@ -31,6 +34,26 @@ public class Organizzatore_DAO extends Utente_DAO implements DaoClass{
 
     @Override
     public List<ModelClass> getAll() {
+        ArrayList<ModelClass> AllOrganizzatori = new ArrayList<>();
+        Istituzione Istituzione_temp = new Istituzione();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente WHERE tipo_utente = 'Organizzatore'");
+
+            while (LocalRS.next()){
+                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
+                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+
+                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                AllOrganizzatori.add(Partecipante_temp);
+            }
+            return AllOrganizzatori;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 

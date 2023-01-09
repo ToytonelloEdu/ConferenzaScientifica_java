@@ -3,7 +3,9 @@ package Model_classes;
 import DAO_classes.Istituzione_DAO;
 import DAO_classes.Locazione_DAO;
 
-public class Istituzione {
+import java.util.List;
+
+public class Istituzione implements ModelClass{
 
     private String Nome;
     private String Nazione;
@@ -50,6 +52,11 @@ public class Istituzione {
 
     public int toPK(){
         return this.getDao().getPK(this);
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 
 }

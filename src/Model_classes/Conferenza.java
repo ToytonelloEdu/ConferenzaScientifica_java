@@ -99,10 +99,6 @@ public class Conferenza implements ModelClass {
 
     @Override
     public String toGUI_Output(List<ModelClass> outputList) {
-        return null;
-    }
-
-    public String toString(){
         return this.nome + " (a " + this.collocazione.getNome() +") || " + this.dataInizio + " | " + this.dataFine +" || ";
     }
 

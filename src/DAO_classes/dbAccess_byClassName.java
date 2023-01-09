@@ -31,12 +31,15 @@ public class dbAccess_byClassName {
     }
 
     public List<ModelClass> GetAll_byClassName(String SearchIn) {
-        try {
-            DaoClass DAO = getDAObyClassName(SearchIn);
-            return DAO.getAll();
-        } catch (ClassNotFoundException | NullPointerException e) {
-            return new ArrayList<>();
-        }
+        if(SearchIn.equals("Utente"))
+            return new Partecipante_DAO().getAllUtenti();
+        else
+            try {
+                DaoClass DAO = getDAObyClassName(SearchIn);
+                return DAO.getAll();
+            } catch (ClassNotFoundException | NullPointerException e) {
+                return new ArrayList<>();
+            }
     }
 
     private DaoClass getDAObyClassName(String SearchIn) throws ClassNotFoundException {

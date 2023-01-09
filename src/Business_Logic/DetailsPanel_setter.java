@@ -42,6 +42,8 @@ public class DetailsPanel_setter {
         else if(Class_selected.equals("Sede")){
             setFields_inDetPanel_forSede(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
         }
+        else
+            MainFrame.getDetails_panel().setVisible(false);
     }
 
     private void setFields_inDetPanel_forConferenza(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {

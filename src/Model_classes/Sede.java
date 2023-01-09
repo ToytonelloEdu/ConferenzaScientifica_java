@@ -66,11 +66,6 @@ public class Sede implements ModelClass{
 
     @Override
     public String toGUI_Output(List<ModelClass> outputList) {
-        return null;
-    }
-
-    @Override
-    public String toString() {
         return this.nome + " | " + this.indirizzo + " | " + " | " + this.citta;
     }
 

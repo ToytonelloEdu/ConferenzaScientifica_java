@@ -1,12 +1,12 @@
 package DAO_classes;
 
-import Model_classes.Conferenza;
 import Model_classes.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Utente_DAO implements DaoClass{
@@ -30,7 +30,27 @@ public abstract class Utente_DAO implements DaoClass{
         return null;
     }
 
-    public List<Utente> getAllUtenti(){
+    public List<ModelClass> getAllUtenti(){
+        ArrayList<ModelClass> AllUtenti = new ArrayList<>();
+        Istituzione Istituzione_temp = new Istituzione();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente");
+
+            while (LocalRS.next()){
+                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
+                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+
+                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                AllUtenti.add(Partecipante_temp);
+            }
+            return AllUtenti;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 

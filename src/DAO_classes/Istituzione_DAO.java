@@ -2,10 +2,9 @@ package DAO_classes;
 import java.sql.*;
 import java.util.*;
 import Model_classes.Istituzione;
-import Model_classes.Locazione;
-import Model_classes.Sede;
+import Model_classes.ModelClass;
 
-public class Istituzione_DAO {
+public class Istituzione_DAO implements DaoClass{
 
     public Istituzione_DAO(){
 
@@ -30,8 +29,8 @@ public class Istituzione_DAO {
         return null;
     }
 
-    public ArrayList<Istituzione> getAllIstituzione(){
-        ArrayList<Istituzione> AllIstituzione = new ArrayList<>();
+    public List<ModelClass> getAll(){
+        ArrayList<ModelClass> AllIstituzione = new ArrayList<>();
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -51,10 +50,10 @@ public class Istituzione_DAO {
         return AllIstituzione;
     }
 
-    public void InsertIstituzione(Istituzione Istituzione_temp){
+    public void Insert(ModelClass Istituzione){
         try {
             Statement LocalStatement = this.getStatement();
-            String command = "INSERT INTO Main.Istituzione VALUES (DEFAULT, "+ Istituzione_temp.toSQLrow() +");";
+            String command = "INSERT INTO Main.Istituzione VALUES (DEFAULT, "+ Istituzione.toSQLrow() +");";
 
             LocalStatement.execute(command);
         }
@@ -63,10 +62,10 @@ public class Istituzione_DAO {
         }
     }
 
-    public void DeleteIstituzione(Istituzione Istituzione_temp){
+    public void Delete(ModelClass Istituzione){
         try {
             Statement LocalStatement = this.getStatement();
-            String command = "DELETE FROM Main.Istituzione WHERE " + Istituzione_temp.toSQLctrl() +";";
+            String command = "DELETE FROM Main.Istituzione WHERE " + Istituzione.toSQLctrl() +";";
 
             LocalStatement.execute(command);
         }
@@ -75,12 +74,12 @@ public class Istituzione_DAO {
         }
     }
 
-    public void UpdateIstituzione(Istituzione OldIstituzione, Istituzione NewIstituzione){
+    public void Update(ModelClass OldIstit, ModelClass NewIstit){
         try {
             Statement LocalStatement = this.getStatement();
             String command = "UPDATE Main.Istituzione SET (Nome, Nazione) = " +
-                    "("+ NewIstituzione.toSQLrow() +") " +
-                    "WHERE " + OldIstituzione.toSQLctrl() + ";";
+                    "("+ NewIstit.toSQLrow() +") " +
+                    "WHERE " + OldIstit.toSQLctrl() + ";";
 
             LocalStatement.execute(command);
         }
@@ -90,10 +89,10 @@ public class Istituzione_DAO {
 
     }
 
-    public Integer getPK(Istituzione temp){
+    public Integer getPK(ModelClass Istituzione){
         try{
             Statement localStmt = this.getStatement();
-            String command = "SELECT Istit_ID FROM Main.Istituzione WHERE " + temp.toSQLctrl() + ";";
+            String command = "SELECT Istit_ID FROM Main.Istituzione WHERE " + Istituzione.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next())

@@ -42,9 +42,4 @@ public class Partecipante extends Utente{
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
     }
 
-    @Override
-    public String toGUI_Output(List<ModelClass> outputList) {
-        return null;
-    }
-
 }
