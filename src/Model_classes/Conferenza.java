@@ -101,10 +101,10 @@ public class Conferenza implements ModelClass {
     public String toGUI_Output(List<ModelClass> outputList) {
         String ret = this.nome;
         int i;
-        for (i = 0; i < getMaxNome_size(outputList) - this.nome.length() + 1; i++)
+        for (i = 0; i < (getMaxNome_size(outputList) - this.nome.length() +1)*1.62; i++)
             ret = ret.concat(" ");
         ret = ret.concat("| " + this.collocazione.getNome());
-        for (i = 0; i < getMaxSede_size(outputList) - this.collocazione.getNome().length() + 1; i++)
+        for (i = 0; i < (getMaxSede_size(outputList) - this.collocazione.getNome().length() +1)*1.62; i++)
             ret = ret.concat(" ");
         ret = ret.concat("|| "+ this.dataInizio + " a "+ this.dataFine);
         return ret;
