@@ -34,6 +34,7 @@ public class CF_MainFrame extends JFrame {
     private JTextArea SecondField_outputArea;
     private JTextArea ThirdField_outputArea;
     private JTextArea FourthField_outputArea;
+    private JScrollPane OutputScrollPanel;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -171,5 +172,9 @@ public class CF_MainFrame extends JFrame {
 
     public List<JComponent> getDetailsComp_list() {
         return DetailsComp_list;
+    }
+
+    public JScrollPane getOutputScrollPanel() {
+        return OutputScrollPanel;
     }
 }

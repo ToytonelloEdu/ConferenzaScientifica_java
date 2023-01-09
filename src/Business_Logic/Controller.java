@@ -55,7 +55,8 @@ public class Controller {
         try {
             for (ModelClass o : Output_ObjList) {
                 printOutput_Indexes(Frame, Output_ObjList, o);
-                Frame.getOutput_TextArea().append(o.toGUI_Output(Output_ObjList) + "\n");
+                MainFrame.getOutput_TextArea().append(o.toGUI_Output(Output_ObjList) + "\n");
+                MainFrame.getOutput_TextArea().setCaretPosition(0);
             }
         }
         catch (NullPointerException throwable){
@@ -82,6 +83,7 @@ public class Controller {
             for (ModelClass o : Output_ObjList) {
                 printOutput_Indexes(Frame, Output_ObjList, o);
                 Frame.getOutput_TextArea().append(o.toGUI_Output(Output_ObjList) + "\n");
+                MainFrame.getOutput_TextArea().setCaretPosition(0);
             }
             return Output_ObjList;
         }
