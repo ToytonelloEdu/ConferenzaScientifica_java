@@ -7,7 +7,7 @@ import Model_classes.Locazione;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
 
-public class Locazione_DAO implements DaoClass{
+public class Locazione_DAO implements CompPK_DaoClass{
 
     public Locazione_DAO(){
 
@@ -32,7 +32,7 @@ public class Locazione_DAO implements DaoClass{
     }
 
     public ArrayList<ModelClass> getAll(){
-        ArrayList<Locazione> AllLocazione = new ArrayList<>();
+        ArrayList<ModelClass> AllLocazione = new ArrayList<>();
         Sede Sede_temp = new Sede();
 
         try{
@@ -63,12 +63,10 @@ public class Locazione_DAO implements DaoClass{
         return Locazione_temp;
     }
 
-    public void InsertLocazione(Locazione Locazione_temp){
+    public void Insert(ModelClass Locazione_temp){
         try {
-            Integer Pk_Sede_Locazione = getSede_ID(Locazione_temp);
-
             Statement LocalStatement = this.getStatement();
-            String command = "INSERT INTO Main.Locazione VALUES ('"+ Pk_Sede_Locazione.toString() + "', " +Locazione_temp.toSQLrow() +");";
+            String command = "INSERT INTO Main.Locazione VALUES ("+ Locazione_temp.toSQLrow() +");";
 
             LocalStatement.execute(command);
         }
@@ -77,7 +75,7 @@ public class Locazione_DAO implements DaoClass{
         }
     }
 
-    public void DeleteLocazione(Locazione Locazione_temp){
+    public void Delete(ModelClass Locazione_temp){
         try {
             Statement LocalStatement = this.getStatement();
             String command = "DELETE FROM Main.Locazione WHERE " + Locazione_temp.toSQLctrl() +";";
@@ -89,15 +87,12 @@ public class Locazione_DAO implements DaoClass{
         }
     }
 
-    public void UpdateLocazione(Locazione OldLocazione, Locazione NewLocazione){
+    public void Update(ModelClass OldLocazione, ModelClass NewLocazione){
         try {
-            Integer Pk_OldSede_Locazione = getSede_ID(OldLocazione);
-            Integer Pk_NewSede_Locazione = getSede_ID(NewLocazione);
 
             Statement LocalStatement = this.getStatement();
             String command = "UPDATE Main.Locazione SET (Sede_ID, Nome_loc, PostiDisp) = " +
-                    "('"+ Pk_NewSede_Locazione.toString() +"', " + NewLocazione.toSQLrow() +") " +
-                    "WHERE " + OldLocazione.toSQLctrl() + ";";
+                    "("+ NewLocazione.toSQLrow() +") WHERE " + OldLocazione.toSQLctrl() + ";";
 
             LocalStatement.execute(command);
         }
@@ -114,11 +109,19 @@ public class Locazione_DAO implements DaoClass{
         return Pk_Sede_Locazione;
     }
 
-    public Integer getPK(Locazione Locazione_temp){
-        return Locazione_temp.getCollocazione().toPK();
+    public Integer getPK(ModelClass Locazione_temp){
+        return castToLoc(Locazione_temp).getCollocazione().toPK();
     }
 
-    public Locazione getByPK(int sede_id, String nome_loc){
+    private Locazione castToLoc(ModelClass locazione){
+        return (Locazione) locazione;
+    }
+
+    public ModelClass getByPK(int Sede){
+        return null;
+    }
+
+    public ModelClass getByCompositePK(Object sede_id, Object nome_loc){
         try {
             Statement localStmt = this.getStatement();
             String command = "SELECT * FROM Main.Locazione WHERE Sede_ID = " + sede_id + " AND Nome_loc = "+ nome_loc + ";";
@@ -136,5 +139,4 @@ public class Locazione_DAO implements DaoClass{
         }
         return null;
     }
-
 }

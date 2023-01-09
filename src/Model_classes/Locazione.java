@@ -1,13 +1,13 @@
 package Model_classes;
 
-import DAO_classes.DaoClass;
 import DAO_classes.Locazione_DAO;
-import DAO_classes.Sede_DAO;
+
+import java.util.List;
 
 public class Locazione implements ModelClass{
-    private Sede Collocazione;
-    private String Nome;
-    private int PostiDisponibili;
+    private Sede collocazione;
+    private String nome;
+    private int postiDisponibili;
     private Locazione_DAO dao = new Locazione_DAO();
 
     public Locazione(){
@@ -15,33 +15,33 @@ public class Locazione implements ModelClass{
     }
 
     public Locazione(Sede Collocazione, String Nome, int PostiDisponibili){
-        this.Collocazione = Collocazione;
-        this.Nome = Nome;
-        this.PostiDisponibili = PostiDisponibili;
+        this.collocazione = Collocazione;
+        this.nome = Nome;
+        this.postiDisponibili = PostiDisponibili;
     }
 
     public Sede getCollocazione() {
-        return Collocazione;
+        return collocazione;
     }
 
     public void setCollocazione(Sede collocazione) {
-        Collocazione = collocazione;
+        this.collocazione = collocazione;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public int getPostiDisponibili() {
-        return PostiDisponibili;
+        return postiDisponibili;
     }
 
     public void setPostiDisponibili(int postiDisponibili) {
-        PostiDisponibili = postiDisponibili;
+        this.postiDisponibili = postiDisponibili;
     }
 
     public Locazione_DAO getDao() {
@@ -49,19 +49,24 @@ public class Locazione implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = "'"+ this.Nome +"', '"+ this.PostiDisponibili + "'";
+        String ret = this.collocazione.toPK() + ", '"+ this.nome +"', '"+ this.postiDisponibili + "'";
         return ret;
     }
 
     public String toSQLctrl() {
-        String ret = "Sede_ID = '"+ Collocazione.toPK() +
-                "' AND Nome_loc = '"+ this.Nome +
-                "' AND PostiDisp = '"+ this.PostiDisponibili + "'";
+        String ret = "Sede_ID = '"+ collocazione.toPK() +
+                "' AND Nome_loc = '"+ this.nome +
+                "' AND PostiDisp = '"+ this.postiDisponibili + "'";
         return ret;
     }
 
     public int toPK(){
         return this.getDao().getPK(this);
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 
 }
