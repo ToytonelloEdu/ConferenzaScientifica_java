@@ -4,9 +4,10 @@ import java.util.*;
 
 import Model_classes.Conferenza;
 import Model_classes.Locazione;
+import Model_classes.ModelClass;
 import Model_classes.Sede;
 
-public class Locazione_DAO {
+public class Locazione_DAO implements DaoClass{
 
     public Locazione_DAO(){
 
@@ -30,7 +31,7 @@ public class Locazione_DAO {
         return null;
     }
 
-    public ArrayList<Locazione> getAllLocazione(){
+    public ArrayList<ModelClass> getAll(){
         ArrayList<Locazione> AllLocazione = new ArrayList<>();
         Sede Sede_temp = new Sede();
 
@@ -78,10 +79,8 @@ public class Locazione_DAO {
 
     public void DeleteLocazione(Locazione Locazione_temp){
         try {
-            Integer Pk_Sede_Locazione = getSede_ID(Locazione_temp);
-
             Statement LocalStatement = this.getStatement();
-            String command = "DELETE FROM Main.Locazione WHERE " + Locazione_temp.toSQLctrl(Pk_Sede_Locazione) +";";
+            String command = "DELETE FROM Main.Locazione WHERE " + Locazione_temp.toSQLctrl() +";";
 
             LocalStatement.execute(command);
         }
@@ -98,7 +97,7 @@ public class Locazione_DAO {
             Statement LocalStatement = this.getStatement();
             String command = "UPDATE Main.Locazione SET (Sede_ID, Nome_loc, PostiDisp) = " +
                     "('"+ Pk_NewSede_Locazione.toString() +"', " + NewLocazione.toSQLrow() +") " +
-                    "WHERE " + OldLocazione.toSQLctrl(Pk_OldSede_Locazione) + ";";
+                    "WHERE " + OldLocazione.toSQLctrl() + ";";
 
             LocalStatement.execute(command);
         }
@@ -116,18 +115,7 @@ public class Locazione_DAO {
     }
 
     public Integer getPK(Locazione Locazione_temp){
-        try {
-            Statement localStmt = this.getStatement();
-            String command = "SELECT Sede_ID, Nome_loc FROM Main.Locazione WHERE PostiDisponibili = " + Locazione_temp.getPostiDisponibili() + " AND Nome_loc = "+ Locazione_temp.getNome() + ";";
-
-            ResultSet localRS = localStmt.executeQuery(command);
-            if (localRS.next())
-                return localRS.getInt("sede_id");
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
+        return Locazione_temp.getCollocazione().toPK();
     }
 
     public Locazione getByPK(int sede_id, String nome_loc){

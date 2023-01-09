@@ -1,9 +1,10 @@
 package Model_classes;
 
+import DAO_classes.DaoClass;
 import DAO_classes.Locazione_DAO;
 import DAO_classes.Sede_DAO;
 
-public class Locazione {
+public class Locazione implements ModelClass{
     private Sede Collocazione;
     private String Nome;
     private int PostiDisponibili;
@@ -52,10 +53,15 @@ public class Locazione {
         return ret;
     }
 
-    public String toSQLctrl(Integer Sede_ID) {
-        String ret = "Sede_ID = '"+ Sede_ID +
+    public String toSQLctrl() {
+        String ret = "Sede_ID = '"+ Collocazione.toPK() +
                 "' AND Nome_loc = '"+ this.Nome +
                 "' AND PostiDisp = '"+ this.PostiDisponibili + "'";
         return ret;
     }
+
+    public int toPK(){
+        return this.getDao().getPK(this);
+    }
+
 }

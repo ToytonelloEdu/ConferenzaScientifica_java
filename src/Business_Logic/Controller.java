@@ -7,7 +7,7 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.util.List;
+import java.util.*;
 import java.util.Objects;
 
 public class Controller {
@@ -25,6 +25,15 @@ public class Controller {
         }
 
     }
+
+    Conferenza conf = new Conferenza();
+    Sede sede = new Sede();
+    Locazione loc = new Locazione();
+    Utente ut;
+    Date datai = new Date();
+    Date dataf = new Date();
+    Partecipante pt = new Partecipante();
+    Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(17), sede.getDao().getByPK(1), loc.getDao().getByPK(1, "Padiglione 1"), ut.getDao().getByPK(3),pt.getDao().getByPK(16));
 
     public Controller(){
         MainFrame = new CF_MainFrame(this);
