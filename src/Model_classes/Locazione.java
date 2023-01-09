@@ -49,7 +49,7 @@ public class Locazione implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = this.collocazione.toPK() + ", '"+ this.nome +"', '"+ this.postiDisponibili + "'";
+        String ret = this.collocazione.toPK() + ", '"+ this.nome +"', "+ this.postiDisponibili;
         return ret;
     }
 

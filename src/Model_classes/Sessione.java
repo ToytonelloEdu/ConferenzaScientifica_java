@@ -93,8 +93,8 @@ public class Sessione implements ModelClass{
     @Override
     public String toSQLrow() {
 
-        String ret = "'"+ this.nome+"', '"+ this.inizio +"', '"+ this.fine + "', '"+ this.conferenza.toPK() +
-                     "', "+ this.locazione.toPK() +"', "+ this.locazione.getNome() +"', "+ this.chair.toPK() +"', "+ this.keynote_speaker.toPK();
+        String ret = "'"+ this.nome+"', '"+ this.inizio +"', '"+ this.fine + "', "+ this.conferenza.toPK() +
+                     ", "+ this.locazione.toPK() +", '"+ this.locazione.getNome() +"', "+ this.chair.toPK() +", "+ this.keynote_speaker.toPK();
 
         return ret;
     }
