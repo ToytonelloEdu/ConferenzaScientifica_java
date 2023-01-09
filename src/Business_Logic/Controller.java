@@ -1,6 +1,5 @@
 package Business_Logic;
-import java.time.LocalDateTime;
-import java.time.*;
+
 
 import DAO_classes.*;
 import GUI_classes.*;
@@ -8,6 +7,7 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class Controller {
         LocalDateTime datai = LocalDateTime.of(2023, 8, 1, 8, 0, 0);
         LocalDateTime dataf = LocalDateTime.of(2023, 8, 1, 9, 0, 0);
         Partecipante pt = new Partecipante();
-        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(17), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(3),pt.getDao().getByPK(16));
+        Sessione foo = new Sessione("Sessione Nuova", datai, dataf, conf.getDao().getByPK(2), loc.getDao().getByCompositePK(2, "Sala Centrale"), ut.getDao().getByPK(2),pt.getDao().getByPK(16));
         Sessione_DAO ciao = foo.getDao();
         ciao.Insert(foo);
 
@@ -131,7 +131,7 @@ public class Controller {
 
     public void setValues_in_Attribute_comboBox(CF_MainFrame Frame) {
         String Class_selected = (String) Frame.getClass_comboBox().getSelectedItem();
-        Frame.getAttribute_comboBox().addItem("No Filter");
+        Frame.getAttribute_comboBox().addItem("No Filter"); //remove when select other
         for(String o: getValues_for_Attribute_comboBox(Class_selected)){
             Frame.getAttribute_comboBox().addItem(o);
         }

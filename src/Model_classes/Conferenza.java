@@ -99,51 +99,9 @@ public class Conferenza implements ModelClass {
 
     @Override
     public String toGUI_Output(List<ModelClass> outputList) {
-        String ret = this.nome;
-        int i;
-        for (i = 0; i < (getMaxNome_size(outputList) - this.nome.length() +1)*1.62; i++)
-            ret = ret.concat(" ");
-        ret = ret.concat("| " + this.collocazione.getNome());
-        for (i = 0; i < (getMaxSede_size(outputList) - this.collocazione.getNome().length() +1)*1.62; i++)
-            ret = ret.concat(" ");
-        ret = ret.concat("|| "+ this.dataInizio + " a "+ this.dataFine);
+        String ret = this.nome.toUpperCase();
+        ret = ret.concat(" || " + this.collocazione.getNome());
         return ret;
-    }
-
-    private int getMaxNome_size(List<ModelClass> outputList) {
-        int Max = 0;
-        int currentSize;
-
-        for(ModelClass o : outputList){
-            currentSize = castToConf(o).getNome().length();
-            if(currentSize > Max)
-                Max = currentSize;
-        }
-        return Max;
-    }
-
-    private int getMaxSede_size(List<ModelClass> outputList) {
-        int Max = 0;
-        int currentSize;
-
-        for(ModelClass o : outputList){
-            currentSize = castToConf(o).getCollocazione().getNome().length();
-            if(currentSize > Max)
-                Max = currentSize;
-        }
-        return Max;
-    }
-
-    private int getMaxDate_size(List<ModelClass> outputList) {
-        int Max = 0;
-        int currentSize;
-
-        for(ModelClass o : outputList){
-            currentSize = castToConf(o).getDataInizio().toString().length() + castToConf(o).getDataFine().toString().length();
-            if(currentSize > Max)
-                Max = currentSize;
-        }
-        return Max;
     }
 
     private Conferenza castToConf(ModelClass o){

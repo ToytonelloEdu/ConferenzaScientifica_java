@@ -91,7 +91,8 @@ public class Sessione_DAO implements DaoClass{
     public void Insert(ModelClass Sessione_temp){
         try{
             Statement localStmt = this.getStatement();
-            String command = "INSERT INTO Main.Sessione VALUES (DEFAULT, "+ Sessione_temp.toSQLrow() +");";
+            String command = "INSERT INTO Main.Sessione " +
+                             "VALUES (DEFAULT, "+ Sessione_temp.toSQLrow() +");";
 
             localStmt.execute(command);
         }

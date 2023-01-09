@@ -39,7 +39,7 @@ public class Conferenza_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Conferenza");
 
             while (LocalRS.next()){
-                int Sede_PK = LocalRS.getInt("Collocazione");
+                int Sede_PK = LocalRS.getInt("collocazione");
                 Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
 
                 Conferenza Conferenza_temp = this.setConferenza_tempFields(Sede_temp, LocalRS);
@@ -124,9 +124,7 @@ public class Conferenza_DAO implements DaoClass{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                int Sede_PK = localRS.getInt("collocazione");
-                Sede Sede_temp = new Sede();
-                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
+                Sede Sede_temp = (Sede)  new Sede_DAO().getByPK(localRS.getInt("collocazione"));
                 return setConferenza_tempFields(Sede_temp, localRS);
             }
         }

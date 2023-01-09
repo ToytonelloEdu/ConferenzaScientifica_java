@@ -2,10 +2,8 @@ package Business_Logic;
 
 import GUI_classes.*;
 import Model_classes.*;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,13 +44,14 @@ public class DetailsPanel_setter {
             MainFrame.getDetails_panel().setVisible(false);
     }
 
+    //Conferenza's details setting methods
     private void setFields_inDetPanel_forConferenza(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         Conferenza SelectedConferenza = (Conferenza) Current_Main_outputList.get(CurrentSpinnerValue);
         SetConf_DetailTitle(MainFrame.getDetail_ObjectName_label(), (SelectedConferenza.getNome()));
         SetConf_FirstField(MainFrame, SelectedConferenza);
         SetConf_SecondField(MainFrame, SelectedConferenza);
         SetConf_ThirdField(MainFrame, SelectedConferenza);
-        Hide_Conf_UnusedComp(MainFrame);
+        Hide_Conferenza_UnusedComp(MainFrame);
     }
 
     private void SetConf_DetailTitle(JLabel MainFrame, String SelectedConferenza) {
@@ -74,11 +73,13 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setText(SelectedConferenza.getDescrizione());
     }
 
-    private void Hide_Conf_UnusedComp(CF_MainFrame MainFrame) {
+    private void Hide_Conferenza_UnusedComp(CF_MainFrame MainFrame) {
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
     }
 
+
+    //Sede's details setting methods
     private void setFields_inDetPanel_forSede(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         Sede SelectedSede = (Sede) Current_Main_outputList.get(CurrentSpinnerValue);
         MainFrame.getDetail_ObjectName_label().setText((SelectedSede.getNome()));

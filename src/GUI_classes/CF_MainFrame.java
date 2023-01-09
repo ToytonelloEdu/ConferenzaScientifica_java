@@ -8,7 +8,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CF_MainFrame extends JFrame {
@@ -35,6 +34,8 @@ public class CF_MainFrame extends JFrame {
     private JTextArea ThirdField_outputArea;
     private JTextArea FourthField_outputArea;
     private JScrollPane OutputScrollPanel;
+    private JPanel MainPanel;
+    private JList DetailP_sessionList;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -176,5 +177,9 @@ public class CF_MainFrame extends JFrame {
 
     public JScrollPane getOutputScrollPanel() {
         return OutputScrollPanel;
+    }
+
+    public JList getDetailP_sessionList() {
+        return DetailP_sessionList;
     }
 }
