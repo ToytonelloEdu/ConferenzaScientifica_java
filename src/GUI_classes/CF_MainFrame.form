@@ -44,7 +44,7 @@
         <children>
           <component id="76daf" class="javax.swing.JTextField" binding="Search_textField">
             <constraints>
-              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
@@ -76,7 +76,7 @@
           </component>
           <hspacer id="d6058">
             <constraints>
-              <grid row="1" column="6" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+              <grid row="1" column="6" row-span="1" col-span="2" vsize-policy="1" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="50" height="-1"/>
                 <preferred-size width="150" height="-1"/>
                 <maximum-size width="200" height="-1"/>
@@ -85,7 +85,7 @@
           </hspacer>
           <hspacer id="cc3a9">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="1" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <component id="a3dbc" class="javax.swing.JComboBox" binding="Attribute_comboBox">
@@ -123,7 +123,10 @@
               </vspacer>
               <hspacer id="b96d">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="400" height="-1"/>
+                    <maximum-size width="600" height="-1"/>
+                  </grid>
                 </constraints>
               </hspacer>
               <component id="c89a6" class="javax.swing.JSpinner" binding="Selection_spinner">
@@ -213,8 +216,8 @@
               </vspacer>
               <component id="ef176" class="javax.swing.JTextArea" binding="FirstField_outputArea">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="4" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="120" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -226,8 +229,8 @@
               </component>
               <component id="4e960" class="javax.swing.JTextArea" binding="SecondField_outputArea">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="4" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="120" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -239,8 +242,8 @@
               </component>
               <component id="b578f" class="javax.swing.JTextArea" binding="ThirdField_outputArea">
                 <constraints>
-                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="4" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="120" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -252,8 +255,8 @@
               </component>
               <component id="e5690" class="javax.swing.JTextArea" binding="FourthField_outputArea">
                 <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="4" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="120" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -265,12 +268,15 @@
               </component>
               <hspacer id="d2859">
                 <constraints>
-                  <grid row="9" column="2" row-span="1" col-span="2" vsize-policy="1" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="9" column="2" row-span="1" col-span="2" vsize-policy="1" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="300" height="-1"/>
+                    <maximum-size width="500" height="-1"/>
+                  </grid>
                 </constraints>
               </hspacer>
               <component id="3c316" class="javax.swing.JList" binding="DetailP_sessionList">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="6" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
@@ -320,14 +326,15 @@
           </component>
           <hspacer id="2a595">
             <constraints>
-              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <hspacer id="8cd68">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="800" height="-1"/>
-                <maximum-size width="800" height="-1"/>
+                <preferred-size width="800" height="-1"/>
+                <maximum-size width="750" height="-1"/>
               </grid>
             </constraints>
           </hspacer>
@@ -352,6 +359,28 @@
               </component>
             </children>
           </scrollpane>
+          <hspacer id="6cf6">
+            <constraints>
+              <grid row="5" column="5" row-span="1" col-span="3" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="400" height="0"/>
+                <preferred-size width="400" height="0"/>
+                <maximum-size width="600" height="0"/>
+              </grid>
+            </constraints>
+          </hspacer>
+          <hspacer id="121e8">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="1d098">
+            <constraints>
+              <grid row="0" column="5" row-span="1" col-span="3" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="400" height="-1"/>
+                <maximum-size width="600" height="-1"/>
+              </grid>
+            </constraints>
+          </hspacer>
         </children>
       </grid>
       <hspacer id="5d355">
@@ -375,6 +404,11 @@
             <preferred-size width="10" height="10"/>
             <maximum-size width="10" height="10"/>
           </grid>
+        </constraints>
+      </vspacer>
+      <vspacer id="9723e">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
     </children>

@@ -59,4 +59,7 @@ public class Istituzione implements ModelClass{
         return null;
     }
 
+    public String toDetailString() {
+        return getNome() + ", "+ getNazione();
+    }
 }
