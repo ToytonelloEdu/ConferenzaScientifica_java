@@ -61,7 +61,7 @@ public class Locazione implements ModelClass{
     }
 
     public int toPK(){
-        return this.getDao().getPK(this);
+        return this.collocazione.toPK();
     }
 
     @Override

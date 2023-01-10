@@ -41,8 +41,8 @@ public class Pausa extends Evento implements ModelClass {
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.getInizio() + "', '"+ this.getFine() +"', '" + this.tipo_pausa +"',' "
-                     + this.getSessione().toPK() +"'";
+        String ret = "'" + this.getInizio() + "', '"+ this.getFine() +"', '" + this.tipo_pausa +"', "
+                     + this.getSessione().toPK() +"";
         return ret;
     }
 

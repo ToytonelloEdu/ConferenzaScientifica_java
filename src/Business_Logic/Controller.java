@@ -18,7 +18,7 @@ public class Controller {
 
     public static void main(String[] args) {
         try {
-            Controller business_logic = new Controller();
+//            Controller business_logic = new Controller();
         }
         catch (Exception e)
         {
@@ -29,7 +29,7 @@ public class Controller {
         LocalDateTime datai = LocalDateTime.of(2023, 2, 25, 9, 0, 0);
         LocalDateTime dataf = LocalDateTime.of(2023, 2, 25, 9, 15, 0);
         Sessione_DAO sess = new Sessione_DAO();
-        Pausa foo = new Pausa(datai, dataf, "Bagno", sess.getByPK(48));
+        Pausa foo = new Pausa(datai, dataf, "Bagno", sess.getByPK(44));
 
 
 

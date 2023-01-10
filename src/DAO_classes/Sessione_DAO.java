@@ -61,6 +61,11 @@ public class Sessione_DAO implements DaoClass{
     }
 
     @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        return null;
+    }
+
+    @Override
     public Integer getPK(ModelClass Sessione_temp) {
         try {
             Statement localStmt = this.getStatement();
@@ -85,7 +90,7 @@ public class Sessione_DAO implements DaoClass{
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
                 Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(localRS.getInt("conferenza"));
-                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(localRS.getInt("locazione"));
+                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByCompositePK(localRS.getInt("sede"), localRS.getString("locazione"));
                 Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(localRS.getInt("chair"));
                 Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
 
