@@ -122,8 +122,8 @@ public class Sessione_DAO implements DaoClass{
         Sessione Sessione_temp;
         Sessione_temp = new Sessione();
         Sessione_temp.setNome(localRS.getString("nome_sess"));
-        Sessione_temp.setInizio(convertToLocalDateTime(localRS.getDate("inizio")));
-        Sessione_temp.setFine(convertToLocalDateTime(localRS.getDate("fine")));
+        Sessione_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
+        Sessione_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
         Sessione_temp.setConferenza(conferenza_temp);
         Sessione_temp.setLocazione(locazione_temp);
         Sessione_temp.setChair(chair_temp);

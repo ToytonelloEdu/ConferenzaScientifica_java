@@ -26,9 +26,10 @@ public class Controller {
         }
 
 
-        LocalDateTime datai = LocalDateTime.of(2023, 2, 25, 9, 0, 0);
-        LocalDateTime dataf = LocalDateTime.of(2023, 2, 25, 9, 15, 0);
+        LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 15, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 15, 30, 0);
         Sessione_DAO sess = new Sessione_DAO();
+//        System.out.println(sess.getByPK(44).toSQLctrl());
         Pausa foo = new Pausa(datai, dataf, "Bagno", sess.getByPK(44));
 
 
@@ -39,10 +40,10 @@ public class Controller {
 //        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 25, 8, 30, 0);
 //        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 25, 10, 0, 0);
 //        Partecipante pt1 = new Partecipante();
-//        Sessione foo1 = new Sessione("Sessione Vecchia", datai1, dataf1, conf.getDao().getByPK(4), loc.getDao().getByCompositePK(3, "Sala Cinema"), ut.getDao().getByPK(1), null);
+//        Sessione foo1 = new Sessione("Sessione Vecchia", datai1, dataf1, conf1.getDao().getByPK(4), loc1.getDao().getByCompositePK(3, "Sala Cinema"), ut1.getDao().getByPK(1), null);
 //
         Pausa_DAO prova = foo.getDao();
-        prova. Insert(foo);
+        prova.Insert(foo);
 
     }
 
