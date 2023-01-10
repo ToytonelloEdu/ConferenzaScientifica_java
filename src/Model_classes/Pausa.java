@@ -2,6 +2,7 @@ package Model_classes;
 
 import DAO_classes.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Pausa extends Evento implements ModelClass {
@@ -41,15 +42,15 @@ public class Pausa extends Evento implements ModelClass {
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.getInizio() + "', '"+ this.getFine() +"', '" + this.tipo_pausa +"', "
+        String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + this.tipo_pausa +"', "
                      + this.getSessione().toPK() +"";
         return ret;
     }
 
     public String toSQLctrl(){
 
-        return "inizio = '"+ this.getInizio() +"' AND " +
-                "fine = '"+ this.getFine() +"' AND " +
+        return "inizio = '"+ Timestamp.valueOf(getInizio()) +"' AND " +
+                "fine = '"+ Timestamp.valueOf(getFine()) +"' AND " +
                 "tipo_pausa = '"+ this.tipo_pausa+ "' AND " +
                 "sessione = "+ this.getSessione().toPK();
     }

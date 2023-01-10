@@ -131,12 +131,6 @@ public class Sessione_DAO implements DaoClass{
         return Sessione_temp;
     }
 
-//    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-//        return dateToConvert.toInstant()
-//                .atZone(ZoneId.systemDefault())
-//                .toLocalDateTime();
-//    }
-
     public LocalDateTime convertToLocalDateTime(Date date) {
         Timestamp timestamp = new Timestamp(date.getTime());
         return timestamp.toLocalDateTime();

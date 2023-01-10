@@ -3,7 +3,9 @@ package DAO_classes;
 import Model_classes.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Pausa_DAO extends Evento_DAO {
@@ -27,30 +29,68 @@ public class Pausa_DAO extends Evento_DAO {
     }
 
     public List<ModelClass> getAll() {
-        ArrayList<ModelClass> AllPartecipanti = new ArrayList<>();
-        Istituzione Istituzione_temp = new Istituzione();
+        ArrayList<ModelClass> AllPause = new ArrayList<>();
+        Sessione Sessione_temp = new Sessione();
 
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente WHERE tipo_utente = 'Partecipante'");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Pausa WHERE ");
 
             while (LocalRS.next()) {
-                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
-                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+                int Sessione_PK = LocalRS.getInt("sessione");
+                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
 
-//                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
-//                AllPartecipanti.add(Partecipante_temp);
+                Pausa Pausa_temp = this.setPausa_tempFields(Sessione_temp, LocalRS);
+                AllPause.add(Pausa_temp);
             }
-            return AllPartecipanti;
+            return AllPause;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
+    private Pausa setPausa_tempFields(Sessione sessione_temp, ResultSet localRS) throws SQLException {
+        Pausa Pausa_temp;
+        Pausa_temp = new Pausa();
+        Pausa_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
+        Pausa_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
+        Pausa_temp.setTipo_pausa(localRS.getString("tipo_pausa"));
+        Pausa_temp.setSessione(sessione_temp);
+        return Pausa_temp;
+    }
+
+    public LocalDateTime convertToLocalDateTime(Date date) {
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp.toLocalDateTime();
+    }
+
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        List<ModelClass> AllPausa = new ArrayList<>();
+        Sessione Sessione_temp = new Sessione();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Pausa " +
+                    "WHERE "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStmt.executeQuery(command);
+
+            while (LocalRS.next()){
+                int Sessione_PK = LocalRS.getInt("sessione");
+                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+
+                Pausa Pausa_temp = setPausa_tempFields(Sessione_temp, LocalRS);
+                AllPausa.add(Pausa_temp);
+            }
+            return AllPausa;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
         return null;
     }
 
@@ -80,7 +120,7 @@ public class Pausa_DAO extends Evento_DAO {
         try {
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Pausa SET (inizio, fine, tipo_pausa, sessione) = " +
-                    "(" + NewPausa.toSQLrow() + ") " + "WHERE " + OldPausa.toSQLctrl();
+                    "(" + NewPausa.toSQLrow() + ") " + "WHERE pausa_id = " + OldPausa.toPK();
 
 
             localStmt.execute(command);
@@ -104,23 +144,20 @@ public class Pausa_DAO extends Evento_DAO {
     }
 
     public Pausa getByPK(int PK){
-//        try {
-//            Statement localStmt = this.getStatement();
-//            String command = "SELECT * FROM Main.Pausa WHERE pausa_id = " + PK + ";";
-//
-//            ResultSet localRS = localStmt.executeQuery(command);
-//            if (localRS.next()) {
-//                Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(localRS.getInt("conferenza"));
-//                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(localRS.getInt("locazione"));
-//                Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(localRS.getInt("chair"));
-//                Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
-//
-//                return setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, localRS);
-//            }
-//        }
-//        catch (SQLException e){
-//            System.out.println(e.getMessage());
-//        }
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Pausa WHERE pausa_id = " + PK + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next()) {
+                Sessione sessione_temp = (Sessione) new Sessione_DAO().getByPK(localRS.getInt("sessione"));
+
+                return setPausa_tempFields(sessione_temp, localRS);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 

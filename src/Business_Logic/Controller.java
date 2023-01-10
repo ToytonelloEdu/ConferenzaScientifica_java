@@ -29,10 +29,15 @@ public class Controller {
         LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 15, 0, 0);
         LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 15, 30, 0);
         Sessione_DAO sess = new Sessione_DAO();
-//        System.out.println(sess.getByPK(44).toSQLctrl());
         Pausa foo = new Pausa(datai, dataf, "Bagno", sess.getByPK(44));
 
+        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 11, 16, 0, 0);
+        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 11, 16, 33, 0);
+        Sessione_DAO sess1 = new Sessione_DAO();
+        Pausa foo1 = new Pausa(datai1, dataf1, "Coffee Break", sess1.getByPK(44));
 
+        System.out.println("UPDATE Main.Pausa SET (inizio, fine, tipo_pausa, sessione) = " +
+                "(" + foo1.toSQLrow() + ") " + "WHERE " + foo.toSQLctrl());
 
 //        Conferenza conf1 = new Conferenza();
 //        Locazione loc1 = new Locazione();
@@ -42,8 +47,8 @@ public class Controller {
 //        Partecipante pt1 = new Partecipante();
 //        Sessione foo1 = new Sessione("Sessione Vecchia", datai1, dataf1, conf1.getDao().getByPK(4), loc1.getDao().getByCompositePK(3, "Sala Cinema"), ut1.getDao().getByPK(1), null);
 //
-        Pausa_DAO prova = foo.getDao();
-        prova.Insert(foo);
+        Pausa_DAO prova = foo1.getDao();
+        prova.Update(foo1, foo);
 
     }
 

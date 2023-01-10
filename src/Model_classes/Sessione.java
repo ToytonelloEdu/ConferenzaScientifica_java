@@ -102,7 +102,7 @@ public class Sessione implements ModelClass{
             keynoteSP_PK = "null";
         }
 
-        String ret = "'"+ this.nome+"', '"+ this.inizio +"', '"+ this.fine + "', "+ this.conferenza.toPK() +
+        String ret = "'"+ this.nome+"', '"+ Timestamp.valueOf(inizio) +"', '"+ Timestamp.valueOf(fine) + "', "+ this.conferenza.toPK() +
                      ", "+ this.locazione.toPK() +", '"+ this.locazione.getNome() +"', "+ this.chair.toPK() +", "+ keynoteSP_PK;
 
         return ret;
@@ -119,8 +119,8 @@ public class Sessione implements ModelClass{
         }
 
         return "nome_sess = '"+ this.nome +"' AND " +
-                "inizio = '"+ this.inizio +"' AND " +
-                "fine = '"+ this.fine +"' AND " +
+                "inizio = '"+ Timestamp.valueOf(inizio) +"' AND " +
+                "fine = '"+ Timestamp.valueOf(fine) +"' AND " +
                 "conferenza = "+ this.conferenza.toPK() +" AND " +
                 "sede = "+ this.locazione.toPK() +" AND " +
                 "locazione = '"+ this.locazione.getNome() +"' AND " +
