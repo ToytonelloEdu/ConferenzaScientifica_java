@@ -4,8 +4,9 @@ import DAO_classes.Conf_Sponsor_DAO;
 import DAO_classes.Ente_Organizzatore_DAO;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-public class Conf_Sponsor {
+public class Conf_Sponsor implements ModelClass{
 
     private Conferenza conferenza;
     private Sponsor sponsor;
@@ -60,5 +61,15 @@ public class Conf_Sponsor {
 
         return  "sponsor = "+ this.sponsor.toPK() +" AND " +
                 "conferenza = "+ this.conferenza.toPK();
+    }
+
+    @Override
+    public int toPK() {
+        return 0;
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 }
