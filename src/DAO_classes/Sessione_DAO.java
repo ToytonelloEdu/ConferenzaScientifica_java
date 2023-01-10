@@ -5,13 +5,10 @@ import Model_classes.ModelClass;
 import Model_classes.*;
 import Model_classes.Sessione;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
+import java.sql.*;
 import java.util.*;
 import java.time.*;
+import java.util.Date;
 
 public class Sessione_DAO implements DaoClass{
 
@@ -134,10 +131,15 @@ public class Sessione_DAO implements DaoClass{
         return Sessione_temp;
     }
 
-    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+//    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+//        return dateToConvert.toInstant()
+//                .atZone(ZoneId.systemDefault())
+//                .toLocalDateTime();
+//    }
+
+    public LocalDateTime convertToLocalDateTime(Date date) {
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp.toLocalDateTime();
     }
 
     @Override
