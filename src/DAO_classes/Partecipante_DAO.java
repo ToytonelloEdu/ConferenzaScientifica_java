@@ -51,12 +51,34 @@ public class Partecipante_DAO extends Utente_DAO implements DaoClass{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return AllPartecipanti;
     }
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
-        return null;
+        ArrayList<ModelClass> AllPartecipanti = new ArrayList<>();
+        Istituzione Istituzione_temp = new Istituzione();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Utente WHERE tipo_utente = 'Partecipante' " +
+                             "AND "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStmt.executeQuery(command);
+
+            while (LocalRS.next()){
+                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
+                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+
+                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                AllPartecipanti.add(Partecipante_temp);
+            }
+            return AllPartecipanti;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return AllPartecipanti;
     }
 
     public void Insert(ModelClass Partecip_temp){

@@ -60,8 +60,7 @@ public class Sede implements ModelClass{
     }
 
     public int toPK(){
-        Sede_DAO DAO_temp = this.getDao();
-        return DAO_temp.getPK(this);
+        return dao.getPK(this);
     }
 
     @Override

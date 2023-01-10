@@ -39,8 +39,7 @@ public class Sede_DAO implements DaoClass{
                     ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Sede");
 
                     while(LocalRS.next()){
-                        Sede Sede_temp = new Sede();
-                        setSede_tempFields(LocalRS);
+                        Sede Sede_temp = setSede_tempFields(LocalRS);
                         AllSede.add(Sede_temp);
                     }
                     return AllSede;
@@ -138,7 +137,7 @@ public class Sede_DAO implements DaoClass{
 
                     ResultSet localRS = localStmt.executeQuery(command);
                     if(localRS.next()) {
-                        setSede_tempFields(localRS);
+                        Sede_temp = setSede_tempFields(localRS);
                     }
 
                     return Sede_temp;

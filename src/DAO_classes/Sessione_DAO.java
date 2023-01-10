@@ -36,33 +36,51 @@ public class Sessione_DAO implements DaoClass{
 
     @Override
     public List<ModelClass> getAll() {
-        ArrayList<ModelClass> AllSessione = new ArrayList<>();
+        List<ModelClass> AllSessione = new ArrayList<>();
 
         try{
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sessione");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sessione ");
 
-            while (LocalRS.next()){
-                Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(LocalRS.getInt("conferenza"));
-                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(LocalRS.getInt("locazione"));
-                Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(LocalRS.getInt("chair"));
-                Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(LocalRS.getInt("Keynote_speaker"));
-
-                Sessione Sessione_temp = this.setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, LocalRS);
-                AllSessione.add(Sessione_temp);
-            }
-            return AllSessione;
+            return addModelClassesToList(AllSessione, LocalRS);
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return AllSessione;
     }
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
-        return null;
+        List<ModelClass> AllSessione = new ArrayList<>();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Sessione " +
+                             "WHERE "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStmt.executeQuery(command);
+
+            return addModelClassesToList(AllSessione, LocalRS);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return AllSessione;
+    }
+
+    private List<ModelClass> addModelClassesToList(List<ModelClass> list, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(resultSet.getInt("conferenza"));
+            Locazione locazione_temp = (Locazione) new Locazione_DAO().getByCompositePK(resultSet.getInt("sede"), resultSet.getString("locazione"));
+            Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(resultSet.getInt("chair"));
+            Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(resultSet.getInt("Keynote_speaker"));
+
+            Sessione Sessione_temp = this.setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, resultSet);
+            list.add(Sessione_temp);
+        }
+        return list;
     }
 
     @Override

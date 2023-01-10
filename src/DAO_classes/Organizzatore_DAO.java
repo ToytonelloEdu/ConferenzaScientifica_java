@@ -34,7 +34,7 @@ public class Organizzatore_DAO extends Utente_DAO{
 
     @Override
     public List<ModelClass> getAll() {
-        ArrayList<ModelClass> AllOrganizzatori = new ArrayList<>();
+        List<ModelClass> AllOrganizzatori = new ArrayList<>();
         Istituzione Istituzione_temp = new Istituzione();
 
         try{
@@ -54,12 +54,34 @@ public class Organizzatore_DAO extends Utente_DAO{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return AllOrganizzatori;
     }
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
-        return null;
+        List<ModelClass> AllOrganizzatori = new ArrayList<>();
+        Istituzione Istituzione_temp = new Istituzione();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Utente WHERE tipo_utente = 'Organizzatore' " +
+                             "AND "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStmt.executeQuery(command);
+
+            while (LocalRS.next()){
+                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
+                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+
+                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                AllOrganizzatori.add(Partecipante_temp);
+            }
+            return AllOrganizzatori;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return AllOrganizzatori;
     }
 
     public void Insert(ModelClass Organizzatore){

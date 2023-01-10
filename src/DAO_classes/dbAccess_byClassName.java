@@ -108,57 +108,13 @@ public class dbAccess_byClassName {
     }
 
     public List GetByClass_and_Attribute(String Class, String Attribute, String Value){
-        if(Class.equals("Organizzatore") || Class.equals("Partecipante"))
-            Class = "Utente";
+        if(Class.equals("Utente"))
+            return new Partecipante_DAO().getAllUtenti_byAttribute(Attribute, Value);
         try{
-            Statement localStmt = this.getStatement();
-            String command = "SELECT * FROM Main."+Class.toLowerCase()+" WHERE " +
-                             Attribute.toLowerCase()+ " = '"+ Value +"';";
-
-            ResultSet localRS = localStmt.executeQuery(command);
-            switch (Class) {
-                case "Conferenza":
-                    return getConferenzeByResultSet(localRS);
-                case "Sede":
-                    return getSediByResultSet(localRS);
-                case "Utente":
-                    return  getUtentibyResultSet(localRS);
-            }
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage());
+            DaoClass DAO = getDAObyClassName(Class);
+            return DAO.getAll_byAttribute(Attribute, Value);
+        } catch (NullPointerException | ClassNotFoundException e) {
             return new ArrayList<>();
         }
-        catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private List<Utente> getUtentibyResultSet(ResultSet localRS) throws SQLException {
-        List<Utente> Lista_temp = new ArrayList<>();
-        Utente_DAO DAO = new Partecipante_DAO();
-        while (localRS.next()) {
-            Lista_temp.add(DAO.getByPK(localRS.getInt("utente_id")));
-        }
-        return Lista_temp;
-    }
-
-    private List<Sede> getSediByResultSet(ResultSet localRS) throws SQLException {
-        List<Sede> Lista_temp = new ArrayList<>();
-        Sede_DAO DAO = new Sede_DAO();
-        while (localRS.next()) {
-            Lista_temp.add(DAO.getByPK(localRS.getInt("sede_id")));
-        }
-        return Lista_temp;
-    }
-
-    private List<Conferenza> getConferenzeByResultSet(ResultSet localRS) throws SQLException {
-        List<Conferenza> Lista_temp = new ArrayList<>();
-        Conferenza_DAO DAO = new Conferenza_DAO();
-        while (localRS.next()) {
-            Lista_temp.add(DAO.getByPK(localRS.getInt("conf_id")));
-        }
-        return Lista_temp;
     }
 }
