@@ -54,6 +54,11 @@ public class Partecipante_DAO extends Utente_DAO implements DaoClass{
         return null;
     }
 
+    @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        return null;
+    }
+
     public void Insert(ModelClass Partecip_temp){
         try{
             Statement localStmt = this.getStatement();

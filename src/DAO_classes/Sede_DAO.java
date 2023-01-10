@@ -5,6 +5,7 @@ import Model_classes.Sede;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sede_DAO implements DaoClass{
 
@@ -39,7 +40,7 @@ public class Sede_DAO implements DaoClass{
 
                     while(LocalRS.next()){
                         Sede Sede_temp = new Sede();
-                        setSede_tempFields(Sede_temp, LocalRS);
+                        setSede_tempFields(LocalRS);
                         AllSede.add(Sede_temp);
                     }
                     return AllSede;
@@ -50,17 +51,41 @@ public class Sede_DAO implements DaoClass{
                 return AllSede;
             }
 
-            public void Insert(ModelClass Sede_temp){
-                try {
-                    Statement LocalStatement = this.getStatement();
-                    String command = "INSERT INTO Main.Sede VALUES (DEFAULT, "+ Sede_temp.toSQLrow() +");";
+            @Override
+            public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+                ArrayList<ModelClass> AllSede = new ArrayList<>();
 
-                    LocalStatement.execute(command);
+                try{
+                    Statement LocalStatement = this.getStatement();
+                    String command = "SELECT * FROM Main.Sede " +
+                                     "WHERE "+Attr_in+" = '"+Value_in+"';";
+
+                    ResultSet LocalRS = LocalStatement.executeQuery(command);
+
+                    while(LocalRS.next()){
+                        Sede Sede_temp = setSede_tempFields(LocalRS);
+                        AllSede.add(Sede_temp);
+                    }
+                    return AllSede;
                 }
-                catch (SQLException e){
+                catch(SQLException e){
                     System.out.println(e.getMessage());
                 }
+
+                return null;
             }
+
+            public void Insert(ModelClass Sede_temp){
+                        try {
+                            Statement LocalStatement = this.getStatement();
+                            String command = "INSERT INTO Main.Sede VALUES (DEFAULT, "+ Sede_temp.toSQLrow() +");";
+
+                            LocalStatement.execute(command);
+                        }
+                        catch (SQLException e){
+                            System.out.println(e.getMessage());
+                        }
+                    }
 
             public void Delete(ModelClass Sede_temp){
                 try {
@@ -105,7 +130,7 @@ public class Sede_DAO implements DaoClass{
                 return null;
             }
 
-            public ModelClass getByPK(int PK) {
+            public Sede getByPK(int PK) {
                 Sede Sede_temp = new Sede();
                 try{
                     Statement localStmt = this.getStatement();
@@ -113,7 +138,7 @@ public class Sede_DAO implements DaoClass{
 
                     ResultSet localRS = localStmt.executeQuery(command);
                     if(localRS.next()) {
-                        setSede_tempFields(Sede_temp, localRS);
+                        setSede_tempFields(localRS);
                     }
 
                     return Sede_temp;
@@ -124,10 +149,12 @@ public class Sede_DAO implements DaoClass{
                 return null;
             }
 
-            private void setSede_tempFields(Sede Sede_temp, ResultSet localRS) throws SQLException {
+            private Sede setSede_tempFields(ResultSet localRS) throws SQLException {
+                Sede Sede_temp = new Sede();
                 Sede_temp.setNome(localRS.getString("nome"));
                 Sede_temp.setIndirizzo(localRS.getString("indirizzo"));
                 Sede_temp.setCitta(localRS.getString("città"));
+                return Sede_temp;
     }
 }
 

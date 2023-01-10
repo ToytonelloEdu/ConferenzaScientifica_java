@@ -1,14 +1,11 @@
 package DAO_classes;
 
-import Model_classes.Conferenza;
-import Model_classes.Ente_organizzatore;
-import Model_classes.Istituzione;
-import Model_classes.Sede;
+import Model_classes.*;
 
 import java.sql.*;
 import java.util.*;
 
-public class Ente_Organizzatore_DAO {
+public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
 
     public Ente_Organizzatore_DAO(){
 
@@ -32,8 +29,8 @@ public class Ente_Organizzatore_DAO {
         return null;
     }
 
-    public ArrayList<Ente_organizzatore> getAllEnte_organizzatore(){
-        ArrayList<Ente_organizzatore> AllEnte_organizzatore = new ArrayList<>();
+    public List<ModelClass> getAll(){
+        List<ModelClass> AllEnte_organizzatore = new ArrayList<>();
         Conferenza conferenza_temp = new Conferenza();
         Istituzione istituzione_temp = new Istituzione();
 
@@ -41,7 +38,7 @@ public class Ente_Organizzatore_DAO {
         try{
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_organizzatore");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_org");
 
             while (LocalRS.next()){
                 int Conferenza_PK = LocalRS.getInt("Conferenza");
@@ -60,6 +57,11 @@ public class Ente_Organizzatore_DAO {
         return null;
     }
 
+    @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        return null;
+    }
+
     private Ente_organizzatore setEnteorg_tempFields(Conferenza conferenza_temp, Istituzione istituzione_temp)throws SQLException {
         Ente_organizzatore enteorg_temp;
         enteorg_temp = new Ente_organizzatore();
@@ -69,7 +71,7 @@ public class Ente_Organizzatore_DAO {
     }
 
 
-    public void InsertEnteOrganizzatore(Ente_organizzatore Ente_Organizzatore_temp){
+    public void Insert(ModelClass Ente_Organizzatore_temp){
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Ente_Org VALUES ("+ Ente_Organizzatore_temp.toSQLrow() +");";
@@ -81,7 +83,7 @@ public class Ente_Organizzatore_DAO {
         }
     }
 
-    public void DeleteEnteOrganizzatore(Ente_organizzatore Ente_Organizzatore_temp){
+    public void Delete(ModelClass Ente_Organizzatore_temp){
         try{
             Statement localStmt = this.getStatement();
             String command = "DELETE FROM Main.Ente_Org WHERE "+ Ente_Organizzatore_temp.toSQLctrl()+ ";";
@@ -93,7 +95,7 @@ public class Ente_Organizzatore_DAO {
         }
     }
 
-    public void UpdateEnteOrganizzatore(Ente_organizzatore OldEnteOrg, Ente_organizzatore NewEnteOrg){
+    public void Update(ModelClass OldEnteOrg, ModelClass NewEnteOrg){
         try{
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Ente_Org SET (conferenza, istituzione) = " +
@@ -107,7 +109,12 @@ public class Ente_Organizzatore_DAO {
         }
     }
 
-    public Integer getPK_conferenza(Ente_organizzatore enteorg_temp){
+    @Override
+    public Integer getPK(ModelClass Object) {
+        return null;
+    }
+
+    public Integer getPK1(ModelClass enteorg_temp){
         try {
             Statement localStmt = this.getStatement();
             String command = "SELECT Conferenza FROM Main.Ente_org WHERE " + enteorg_temp.toSQLctrl() + ";";
@@ -122,7 +129,7 @@ public class Ente_Organizzatore_DAO {
         return null;
     }
 
-    public Integer getPK_istituzione(Ente_organizzatore enteorg_temp){
+    public Integer getPK2(ModelClass enteorg_temp){
         try {
             Statement localStmt = this.getStatement();
             String command = "SELECT Istituzione FROM Main.Ente_org WHERE " + enteorg_temp.toSQLctrl() + ";";
@@ -137,9 +144,12 @@ public class Ente_Organizzatore_DAO {
         return null;
     }
 
-    public Ente_organizzatore getByPK(Conferenza conferenza, Istituzione istituzione){
-        Conferenza conferenza_temp = new Conferenza();
-        Istituzione istituzione_temp = new Istituzione();
+    @Override
+    public ModelClass getByPK(int PK) {
+        return null;
+    }
+
+    public ModelClass getByCompositePK(Object conferenza, Object istituzione){
 
         try {
             Statement localStmt = this.getStatement();
@@ -148,9 +158,9 @@ public class Ente_Organizzatore_DAO {
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
                 int Conferenza_PK = localRS.getInt("Conferenza");
-                conferenza_temp = conferenza_temp.getDao().getByPK(Conferenza_PK);
+                Conferenza conferenza_temp = new Conferenza_DAO().getByPK(Conferenza_PK);
                 int Istituzione_PK = localRS.getInt("Istituzione");
-                istituzione_temp = istituzione_temp.getDao().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(Istituzione_PK);
 
                 return setEnteorg_tempFields(conferenza_temp, istituzione_temp);
             }
@@ -160,5 +170,7 @@ public class Ente_Organizzatore_DAO {
         }
         return null;
     }
+
+
 
 }

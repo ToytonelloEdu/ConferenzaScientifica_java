@@ -51,12 +51,37 @@ public class Locazione_DAO implements CompPK_DaoClass{
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return AllLocazione;
+    }
+
+    @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        ArrayList<ModelClass> AllLocazione = new ArrayList<>();
+        Sede Sede_temp = new Sede();
+
+        try{
+            Statement LocalStatement = this.getStatement();
+            String command = "SELECT * FROM Main.Locazione " +
+                             "WHERE "+Attr_in+" = '"+Value_in+"'";
+
+            ResultSet LocalRS = LocalStatement.executeQuery(command);
+
+            while(LocalRS.next()){
+                int Sede_PK = LocalRS.getInt("sede_id");
+                Sede_temp = new Sede_DAO().getByPK(Sede_PK);
+
+                Locazione Locazione_temp = this.setLocazione_tempFields(Sede_temp, LocalRS);
+                AllLocazione.add(Locazione_temp);
+            }
+            return AllLocazione;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return AllLocazione;
     }
 
     private Locazione setLocazione_tempFields(Sede Sede_temp, ResultSet LocalRS) throws SQLException {
-        Locazione Locazione_temp;
-        Locazione_temp = new Locazione();
+        Locazione Locazione_temp = new Locazione();
         Locazione_temp.setCollocazione(Sede_temp);
         Locazione_temp.setNome(LocalRS.getString("nome_loc"));
         Locazione_temp.setPostiDisponibili(LocalRS.getInt("postidisp"));
@@ -103,7 +128,18 @@ public class Locazione_DAO implements CompPK_DaoClass{
     }
 
     public Integer getPK(ModelClass Locazione_temp){
+        return null;
+    }
+
+    /** Locazione_DAO.getPK1 restituisce la PK intera della Sede a cui la Locazione fa riferimento */
+    public Object getPK1(ModelClass Locazione_temp){
         return castToLoc(Locazione_temp).getCollocazione().toPK();
+    }
+
+    /** Locazione_DAO.getPK2 resituisce  il Nome della Locazione*/
+    @Override
+    public Object getPK2(ModelClass Locazione_temp) {
+        return castToLoc(Locazione_temp).getNome();
     }
 
     private Locazione castToLoc(ModelClass locazione){

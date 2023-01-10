@@ -108,6 +108,8 @@ public class dbAccess_byClassName {
     }
 
     public List GetByClass_and_Attribute(String Class, String Attribute, String Value){
+        if(Class.equals("Organizzatore") || Class.equals("Partecipante"))
+            Class = "Utente";
         try{
             Statement localStmt = this.getStatement();
             String command = "SELECT * FROM Main."+Class.toLowerCase()+" WHERE " +
@@ -119,6 +121,8 @@ public class dbAccess_byClassName {
                     return getConferenzeByResultSet(localRS);
                 case "Sede":
                     return getSediByResultSet(localRS);
+                case "Utente":
+                    return  getUtentibyResultSet(localRS);
             }
         }
         catch (SQLException e){
@@ -131,11 +135,20 @@ public class dbAccess_byClassName {
         return null;
     }
 
+    private List<Utente> getUtentibyResultSet(ResultSet localRS) throws SQLException {
+        List<Utente> Lista_temp = new ArrayList<>();
+        Utente_DAO DAO = new Partecipante_DAO();
+        while (localRS.next()) {
+            Lista_temp.add(DAO.getByPK(localRS.getInt("utente_id")));
+        }
+        return Lista_temp;
+    }
+
     private List<Sede> getSediByResultSet(ResultSet localRS) throws SQLException {
         List<Sede> Lista_temp = new ArrayList<>();
         Sede_DAO DAO = new Sede_DAO();
         while (localRS.next()) {
-            Lista_temp.add((Sede) DAO.getByPK(localRS.getInt("sede_id")));
+            Lista_temp.add(DAO.getByPK(localRS.getInt("sede_id")));
         }
         return Lista_temp;
     }

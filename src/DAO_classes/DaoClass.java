@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface DaoClass {
     List<ModelClass> getAll();
+    List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in);
     Integer getPK(ModelClass Object);
     ModelClass getByPK(int PK);
     void Insert(ModelClass obj);

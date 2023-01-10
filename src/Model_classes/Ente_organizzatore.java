@@ -3,7 +3,9 @@ package Model_classes;
 import DAO_classes.Ente_Organizzatore_DAO;
 import DAO_classes.Locazione_DAO;
 
-public class Ente_organizzatore {
+import java.util.List;
+
+public class Ente_organizzatore implements ModelClass{
 
     private Conferenza conferenza;
     private Istituzione istituzione;
@@ -46,5 +48,15 @@ public class Ente_organizzatore {
     public String toSQLctrl() {
         return  "conferenza = "+ this.conferenza.toPK() +" AND " +
                 "istituzione = "+ this.istituzione.toPK()+";";
+    }
+
+    @Override
+    public int toPK() {
+        return 0;
+    }
+
+    @Override
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return null;
     }
 }

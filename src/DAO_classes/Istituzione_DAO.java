@@ -50,6 +50,30 @@ public class Istituzione_DAO implements DaoClass{
         return AllIstituzione;
     }
 
+    @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        ArrayList<ModelClass> AllIstituzione = new ArrayList<>();
+
+        try{
+            Statement LocalStatement = this.getStatement();
+            String command = "SELECT * FROM Main.Istituzione " +
+                             "WHERE "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStatement.executeQuery(command);
+
+            while(LocalRS.next()){
+                Istituzione Istituzione_temp = new Istituzione();
+                setIstituzione_tempFields(Istituzione_temp, LocalRS);
+                AllIstituzione.add(Istituzione_temp);
+            }
+            return AllIstituzione;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return AllIstituzione;
+    }
+
     public void Insert(ModelClass Istituzione){
         try {
             Statement LocalStatement = this.getStatement();

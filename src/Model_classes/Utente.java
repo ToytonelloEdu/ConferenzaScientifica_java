@@ -75,8 +75,7 @@ public abstract class Utente implements ModelClass {
         return this.getDao().getPK(this);
     }
     @Override
-    public String toGUI_Output(List<ModelClass> outputList){
-     return null;
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return this.Titolo + ", " + this.Nome + " " + this.Cognome + " (" + this.getClass().getSimpleName() + ") || " + this.Istit_afferenza.getNome();
     }
-
 }

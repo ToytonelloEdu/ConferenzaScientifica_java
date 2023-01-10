@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class Organizzatore extends Utente{
+public class Organizzatore extends Utente implements ModelClass{
 
     private Organizzatore_DAO dao = new Organizzatore_DAO();
 

@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organizzatore_DAO extends Utente_DAO implements DaoClass{
+public class Organizzatore_DAO extends Utente_DAO{
 
     private Statement getStatement() throws SQLException {
         try{
@@ -54,6 +54,11 @@ public class Organizzatore_DAO extends Utente_DAO implements DaoClass{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    @Override
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         return null;
     }
 

@@ -13,9 +13,7 @@ public class Conf_Sponsor implements ModelClass{
     private BigDecimal importo;
     private Conf_Sponsor_DAO Dao = new Conf_Sponsor_DAO();
 
-    public Conf_Sponsor(){
-
-    }
+    public Conf_Sponsor(){}
 
     public Conf_Sponsor(Sponsor sponsor, Conferenza conferenza, String importo){
         this.conferenza = conferenza;

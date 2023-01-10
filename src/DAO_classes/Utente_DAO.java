@@ -54,6 +54,31 @@ public abstract class Utente_DAO implements DaoClass{
         return null;
     }
 
+    public List<ModelClass> getAllUtenti_byAttribute(String Attr_in, String Value_in){
+        ArrayList<ModelClass> AllUtenti = new ArrayList<>();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Utente " +
+                             "WHERE "+Attr_in+" = '"+Value_in+"';" ;
+
+            ResultSet LocalRS = LocalStmt.executeQuery(command);
+
+            while (LocalRS.next()){
+                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
+                Istituzione Istituzione_temp = new Istituzione().getDao().getByPK(Istituzione_PK);
+
+                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                AllUtenti.add(Partecipante_temp);
+            }
+            return AllUtenti;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    };
+
     public Integer getPK(ModelClass Utente_temp){
         try {
             Statement localStmt = this.getStatement();
@@ -107,10 +132,12 @@ public abstract class Utente_DAO implements DaoClass{
 
     @Override
     public abstract void Insert(ModelClass temp);
-
+    @Override
     public abstract void Delete(ModelClass temp);
-
+    @Override
     public abstract void Update(ModelClass oldTemp, ModelClass newTemp);
     @Override
     public abstract List<ModelClass> getAll();
+    @Override
+    public abstract List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in);
 }
