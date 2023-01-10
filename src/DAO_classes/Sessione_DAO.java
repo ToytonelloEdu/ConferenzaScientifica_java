@@ -82,17 +82,13 @@ public class Sessione_DAO implements DaoClass{
 
     @Override
     public Integer getPK(ModelClass Sessione_temp) {
-        Integer pk = null;
-
         try {
             Statement localStmt = this.getStatement();
             String command = "SELECT sessione_id FROM Main.Sessione WHERE " + Sessione_temp.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next())
-                pk = localRS.getInt("sessione_id");
-
-            return pk;
+                return localRS.getInt("sessione_id");
         }
         catch (SQLException e){
             System.out.println(e.getMessage());

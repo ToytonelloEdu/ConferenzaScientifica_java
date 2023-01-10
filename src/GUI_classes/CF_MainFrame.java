@@ -77,7 +77,8 @@ public class CF_MainFrame extends JFrame {
     }
 
     private CF_MainFrame MainFrame_setUp() {
-        DetailsPanel_setup();
+        Details_panel.setVisible(false);
+        FillDetailsComp_list();
         CF_MainFrame MainFrame_holder = this;
         setContentPane(HomePanel);
         setTitle("Conferencer");
@@ -86,19 +87,6 @@ public class CF_MainFrame extends JFrame {
         business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
         Search_textField.setText("");
         return MainFrame_holder;
-    }
-
-    private void DetailsPanel_setup() {
-        Details_panel.setVisible(false);
-        FillDetailsComp_list();
-        FirstField_outputArea.setLineWrap(true);
-        FirstField_outputArea.setWrapStyleWord(true);
-        SecondField_outputArea.setLineWrap(true);
-        SecondField_outputArea.setWrapStyleWord(true);
-        ThirdField_outputArea.setLineWrap(true);
-        ThirdField_outputArea.setWrapStyleWord(true);
-        FourthField_outputArea.setLineWrap(true);
-        FourthField_outputArea.setWrapStyleWord(true);
     }
 
     private void FillDetailsComp_list() {

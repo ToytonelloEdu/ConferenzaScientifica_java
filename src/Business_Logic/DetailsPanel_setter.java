@@ -40,49 +40,8 @@ public class DetailsPanel_setter {
         else if(Class_selected.equals("Sede")){
             setFields_inDetPanel_forSede(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
         }
-        else if(Class_selected.equals("Utente") || Class_selected.equals("Partecipante") || Class_selected.equals("Organizzatore")){
-            setFields_inDetPanel_forUtenti(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
-        }
         else
             MainFrame.getDetails_panel().setVisible(false);
-    }
-
-    private void setFields_inDetPanel_forUtenti(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
-        Utente SelectedUtente = (Utente) Current_Main_outputList.get(CurrentSpinnerValue);
-        SetUtenti_DetailTitle(MainFrame.getDetail_ObjectName_label(), SelectedUtente);
-        SetUtenti_FirstField(MainFrame, SelectedUtente);
-        SetUtenti_SecondField(MainFrame, SelectedUtente);
-        SetUtenti_ThirdField(MainFrame, SelectedUtente);
-        SetUtenti_FourthField(MainFrame, SelectedUtente);
-        Hide_Utenti_UnusedComp(MainFrame);
-    }
-
-    private void SetUtenti_DetailTitle(JLabel detail_objectName_label, Utente selectedUtente) {
-        detail_objectName_label.setText(selectedUtente.getNome() + " "+ selectedUtente.getCognome());
-    }
-
-    private void SetUtenti_FirstField(CF_MainFrame mainFrame, Utente selectedUtente) {
-        mainFrame.getFirstField_label().setText("Titolo");
-        mainFrame.getFirstField_outputArea().setText(selectedUtente.getTitolo());
-    }
-
-    private void SetUtenti_SecondField(CF_MainFrame mainFrame, Utente selectedUtente) {
-        mainFrame.getSecondField_label().setText("Istituzione");
-        mainFrame.getSecondField_outputArea().setText(selectedUtente.getIstit_afferenza().toDetailString());
-    }
-
-    private void SetUtenti_ThirdField(CF_MainFrame mainFrame, Utente selectedUtente) {
-        mainFrame.getThirdField_label().setText("Ruolo");
-        mainFrame.getThirdField_outputArea().setText(selectedUtente.getClass().getSimpleName());
-    }
-
-    private void SetUtenti_FourthField(CF_MainFrame mainFrame, Utente selectedUtente) {
-        mainFrame.getFourthField_label().setText("email");
-        mainFrame.getFourthField_outputArea().setText(selectedUtente.getEmail());
-    }
-
-    private void Hide_Utenti_UnusedComp(CF_MainFrame mainFrame) {
-        mainFrame.getDetailP_sessionList().setVisible(false);
     }
 
     //Conferenza's details setting methods
@@ -117,7 +76,6 @@ public class DetailsPanel_setter {
     private void Hide_Conferenza_UnusedComp(CF_MainFrame MainFrame) {
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getDetailP_sessionList().setVisible(false);
     }
 
 
@@ -135,7 +93,6 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getDetailP_sessionList().setVisible(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {
