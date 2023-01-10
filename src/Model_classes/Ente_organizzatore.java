@@ -16,8 +16,8 @@ public class Ente_organizzatore implements ModelClass{
     }
 
     public Ente_organizzatore(Conferenza conferenza, Istituzione istituzione){
-            this.conferenza = conferenza;
-            this.istituzione = istituzione;
+        this.conferenza = conferenza;
+        this.istituzione = istituzione;
     }
 
     public Conferenza getConferenza() {

@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class Controller {
     CF_MainFrame MainFrame;
-    List<ModelClass> Current_Main_outputList;
+    List Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
 
     public static void main(String[] args) {
@@ -24,6 +24,26 @@ public class Controller {
         {
             System.out.println(e.getMessage());
         }
+
+
+        LocalDateTime datai = LocalDateTime.of(2023, 2, 25, 9, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 2, 25, 9, 15, 0);
+        Sessione_DAO sess = new Sessione_DAO();
+        Pausa foo = new Pausa(datai, dataf, "Bagno", sess.getByPK(48));
+
+
+
+//        Conferenza conf1 = new Conferenza();
+//        Locazione loc1 = new Locazione();
+//        Utente ut1 = new Partecipante();
+//        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 25, 8, 30, 0);
+//        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 25, 10, 0, 0);
+//        Partecipante pt1 = new Partecipante();
+//        Sessione foo1 = new Sessione("Sessione Vecchia", datai1, dataf1, conf.getDao().getByPK(4), loc.getDao().getByCompositePK(3, "Sala Cinema"), ut.getDao().getByPK(1), null);
+//
+        Pausa_DAO prova = foo.getDao();
+        prova.Insert(foo);
+
     }
 
     public Controller(){

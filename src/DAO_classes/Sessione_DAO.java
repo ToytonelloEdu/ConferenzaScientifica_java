@@ -36,27 +36,27 @@ public class Sessione_DAO implements DaoClass{
 
     @Override
     public List<ModelClass> getAll() {
-//        ArrayList<ModelClass> AllSessione = new ArrayList<>();
-//        Sede Sede_temp = new Sede();
-//
-//
-//        try{
-//            Statement LocalStmt = this.getStatement();
-//
-//            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sessione");
-//
-//            while (LocalRS.next()){
-//                int Sede_PK = LocalRS.getInt("collocazione");
-//                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
-//
-//                Conferenza Conferenza_temp = this.setSessione_tempFields(Sede_temp, LocalRS);
-//                AllSessione.add(Conferenza_temp);
-//            }
-//            return AllSessione;
-//        }
-//        catch (SQLException e){
-//            System.out.println(e.getMessage());
-//        }
+        ArrayList<ModelClass> AllSessione = new ArrayList<>();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sessione");
+
+            while (LocalRS.next()){
+                Conferenza conferenza_temp = (Conferenza) new Conferenza_DAO().getByPK(LocalRS.getInt("conferenza"));
+                Locazione locazione_temp = (Locazione) new Locazione_DAO().getByPK(LocalRS.getInt("locazione"));
+                Utente chair_temp = (Utente) new Partecipante_DAO().getByPK(LocalRS.getInt("chair"));
+                Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(LocalRS.getInt("Keynote_speaker"));
+
+                Sessione Sessione_temp = this.setSessione_tempFields(conferenza_temp, locazione_temp, chair_temp, keynote_speaker_temp, LocalRS);
+                AllSessione.add(Sessione_temp);
+            }
+            return AllSessione;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
