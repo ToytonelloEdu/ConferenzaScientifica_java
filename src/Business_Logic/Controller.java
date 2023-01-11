@@ -26,18 +26,20 @@ public class Controller {
         }
 
 
-//        LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 18, 0, 0);
-//        LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 19, 0, 0);
-//        Sessione_DAO foo1 = new Sessione_DAO();
-//        Evento_Sociale foo = new Evento_Sociale(datai, dataf, "Cena", "Una bella cena insieme", foo1.getByPK(44));
+        LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 18, 0, 0);
+        LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 19, 0, 0);
+        Sessione_DAO foo1 = new Sessione_DAO();
+        Partecipante_DAO pt1 = new Partecipante_DAO();
+        Intervento foo = new Intervento(datai, dataf, "Intervento di Antonio", foo1.getByPK(44), pt1.getByPK(1));
 
-        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 11, 16, 0, 0);
-        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 11, 17, 0, 0);
-        Sessione_DAO foo2 = new Sessione_DAO();
-        Evento_Sociale foo3 = new Evento_Sociale(datai1, dataf1, "Gita", "Una gita rilassante", foo2.getByPK(44));
+//        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 11, 16, 0, 0);
+//        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 11, 17, 0, 0);
+//        Sessione_DAO foo2 = new Sessione_DAO();
+//        Partecipante_DAO pt = new Partecipante_DAO();
+//        Intervento foo3 = new Intervento(datai1, dataf1, "Intervento molto sensato", foo2.getByPK(44), pt.getByPK(2));
 
-        Evento_Sociale_DAO prova = foo3.getDao();
-        prova.Delete(foo3);
+        Intervento_DAO prova = foo.getDao();
+        prova.Insert(foo);
 
     }
 
