@@ -9,15 +9,21 @@ import java.util.Objects;
 
 public class DetailsPanel_setter {
     Controller business_logic;
+    DefaultListModel<String> dListModel = new DefaultListModel<>();
     public DetailsPanel_setter(Controller controller) {
         business_logic = controller;
 
+    }
+
+    public DefaultListModel<String> getdListModel() {
+        return dListModel;
     }
 
     public void setAllDetailsComp_visible(List<JComponent> detailsComp_list) {
         for(JComponent comp : detailsComp_list){
             comp.setVisible(true);
         }
+        dListModel.clear();
     }
 
     public void setDetailPanel_onSearch(CF_MainFrame MainFrame, List Current_Main_outputList) {
@@ -34,17 +40,14 @@ public class DetailsPanel_setter {
     public void setData_onDPanel_byClass(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         JComboBox<String> Class_Cbox = MainFrame.getClass_comboBox();
         String Class_selected = Objects.requireNonNull((String) Class_Cbox.getSelectedItem());
-        if(Class_selected.equals("Conferenza")) {
-            setFields_inDetPanel_forConferenza(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
+        switch (Class_selected) {
+            case "Conferenza" ->
+                    setFields_inDetPanel_forConferenza(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
+            case "Sede" -> setFields_inDetPanel_forSede(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
+            case "Utente", "Partecipante", "Organizzatore" ->
+                    setFields_inDetPanel_forUtenti(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
+            default -> MainFrame.getDetails_panel().setVisible(false);
         }
-        else if(Class_selected.equals("Sede")){
-            setFields_inDetPanel_forSede(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
-        }
-        else if(Class_selected.equals("Utente") || Class_selected.equals("Partecipante") || Class_selected.equals("Organizzatore")){
-            setFields_inDetPanel_forUtenti(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
-        }
-        else
-            MainFrame.getDetails_panel().setVisible(false);
     }
 
     private void setFields_inDetPanel_forUtenti(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
@@ -92,6 +95,8 @@ public class DetailsPanel_setter {
         SetConf_FirstField(MainFrame, SelectedConferenza);
         SetConf_SecondField(MainFrame, SelectedConferenza);
         SetConf_ThirdField(MainFrame, SelectedConferenza);
+        for(Sessione s : SelectedConferenza.getSessioneList())
+            dListModel.addElement(s.toDetailString());
         Hide_Conferenza_UnusedComp(MainFrame);
     }
 
@@ -109,7 +114,7 @@ public class DetailsPanel_setter {
         MainFrame.getSecondField_outputArea().setText(SelectedConferenza.getCollocazione().toDetailString());
     }
 
-    private static void SetConf_ThirdField(CF_MainFrame MainFrame, Conferenza SelectedConferenza) {
+    private void SetConf_ThirdField(CF_MainFrame MainFrame, Conferenza SelectedConferenza) {
         MainFrame.getThirdField_label().setText("Descrizione");
         MainFrame.getThirdField_outputArea().setText(SelectedConferenza.getDescrizione());
     }
@@ -117,7 +122,6 @@ public class DetailsPanel_setter {
     private void Hide_Conferenza_UnusedComp(CF_MainFrame MainFrame) {
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getDetailP_sessionList().setVisible(false);
     }
 
 

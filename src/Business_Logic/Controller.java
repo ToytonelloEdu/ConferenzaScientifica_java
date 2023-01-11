@@ -7,45 +7,28 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Objects;
 
 public class Controller {
     CF_MainFrame MainFrame;
-    List Current_Main_outputList;
+    List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
 
     public static void main(String[] args) {
         try {
-//            Controller business_logic = new Controller();
+           Controller business_logic = new Controller();
         }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
-
-
-        LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 18, 0, 0);
-        LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 19, 0, 0);
-        Sessione_DAO foo1 = new Sessione_DAO();
-        Partecipante_DAO pt1 = new Partecipante_DAO();
-        Intervento foo = new Intervento(datai, dataf, "Intervento di Antonio", foo1.getByPK(44), pt1.getByPK(1));
-
-//        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 11, 16, 0, 0);
-//        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 11, 17, 0, 0);
-//        Sessione_DAO foo2 = new Sessione_DAO();
-//        Partecipante_DAO pt = new Partecipante_DAO();
-//        Intervento foo3 = new Intervento(datai1, dataf1, "Intervento molto sensato", foo2.getByPK(44), pt.getByPK(2));
-
-        Intervento_DAO prova = foo.getDao();
-        prova.Insert(foo);
-
     }
 
     public Controller(){
         MainFrame = new CF_MainFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
+        MainFrame.getDetailP_sessionList().setModel(detailsPanel_setter.getdListModel());
     }
 
     private boolean isEmpty(JTextComponent text_Comp) {
@@ -161,6 +144,7 @@ public class Controller {
     public void Selection_spinner_ItemChanged() {
         JSpinner Spinner = MainFrame.getSelection_spinner();
         int CurrentSpinnerValue = (Integer) Spinner.getValue() - 1;
+        detailsPanel_setter.getdListModel().clear();
         detailsPanel_setter.setData_onDPanel_byClass(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
     }
 }

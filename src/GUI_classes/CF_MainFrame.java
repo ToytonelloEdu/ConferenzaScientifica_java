@@ -35,7 +35,11 @@ public class CF_MainFrame extends JFrame {
     private JTextArea FourthField_outputArea;
     private JScrollPane OutputScrollPanel;
     private JPanel MainPanel;
-    private JList DetailP_sessionList;
+    private JList DetPanel_FirstList;
+    private JScrollPane Details_JScrollPanel;
+    private JScrollPane FirstList_ScrollPanel;
+    private JButton detailsButton;
+    private JPanel FirstList_Panel;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -192,6 +196,18 @@ public class CF_MainFrame extends JFrame {
     }
 
     public JList getDetailP_sessionList() {
-        return DetailP_sessionList;
+        return DetPanel_FirstList;
+    }
+
+    public JList getDetPanel_FirstList() {
+        return DetPanel_FirstList;
+    }
+
+    public JScrollPane getFirstList_ScrollPanel() {
+        return FirstList_ScrollPanel;
+    }
+
+    public JPanel getFirstList_Panel() {
+        return FirstList_Panel;
     }
 }

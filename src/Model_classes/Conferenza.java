@@ -13,6 +13,8 @@ public class Conferenza implements ModelClass {
     private String descrizione;
     private Sede collocazione;
 
+    private List<Sessione> sessioneList;
+
     private Conferenza_DAO dao = new Conferenza_DAO();
 
     public Conferenza(){
@@ -64,6 +66,14 @@ public class Conferenza implements ModelClass {
 
     public void setCollocazione(Sede collocazione) {
         this.collocazione = collocazione;
+    }
+
+    public List<Sessione> getSessioneList() {
+        return sessioneList;
+    }
+
+    public void setSessioneList(List<Sessione> sessioneList) {
+        this.sessioneList = sessioneList;
     }
 
     public Conferenza_DAO getDao() {

@@ -138,4 +138,7 @@ public class Sessione implements ModelClass{
         return null;
     }
 
+    public String toDetailString() {
+        return nome + " || " + locazione.getNome();
+    }
 }

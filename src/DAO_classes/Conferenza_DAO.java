@@ -3,11 +3,13 @@ package DAO_classes;
 import Model_classes.Conferenza;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
+import Model_classes.Sessione;
 
 import java.sql.*;
 import java.util.*;
 
 public class Conferenza_DAO implements DaoClass{
+
 
     private Statement getStatement() throws SQLException {
         try{
@@ -38,8 +40,7 @@ public class Conferenza_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Conferenza");
 
             while (LocalRS.next()){
-
-                Conferenza Conferenza_temp = this.setConferenza_tempFields(LocalRS);
+                Conferenza Conferenza_temp = setConferenza_tempFields(LocalRS);
                 AllConferenza.add(Conferenza_temp);
             }
             return AllConferenza;
@@ -76,17 +77,24 @@ public class Conferenza_DAO implements DaoClass{
 
     private Conferenza setConferenza_tempFields(ResultSet LocalRS) throws SQLException {
         Conferenza Conferenza_temp = new Conferenza();
+        int Conf_PK = LocalRS.getInt("conf_id");
         Sede Sede_temp = getSede_temp(LocalRS);
+        List<Sessione> sessList_temp = getSessList_temp(Conf_PK, Conferenza_temp);
 
         Conferenza_temp.setNome(LocalRS.getString("nomeconf"));
         Conferenza_temp.setDataInizio(LocalRS.getDate("DataInizio"));
         Conferenza_temp.setDataFine(LocalRS.getDate("DataFine"));
         Conferenza_temp.setDescrizione(LocalRS.getString("descrizione"));
         Conferenza_temp.setCollocazione(Sede_temp);
+        Conferenza_temp.setSessioneList(sessList_temp);
         return Conferenza_temp;
     }
 
-    private static Sede getSede_temp(ResultSet LocalRS) throws SQLException {
+    private List<Sessione> getSessList_temp(int conf_pk, Conferenza conferenza_temp) {
+        return new Sessione_DAO().getAllbyConference(conf_pk, conferenza_temp);
+    }
+
+    private Sede getSede_temp(ResultSet LocalRS) throws SQLException {
         int Sede_PK = LocalRS.getInt("collocazione");
         return new Sede_DAO().getByPK(Sede_PK);
     }
