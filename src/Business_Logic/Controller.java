@@ -18,12 +18,27 @@ public class Controller {
 
     public static void main(String[] args) {
         try {
-            Controller business_logic = new Controller();
+//            Controller business_logic = new Controller();
         }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
+
+
+//        LocalDateTime datai = LocalDateTime.of(2023, 2, 11, 18, 0, 0);
+//        LocalDateTime dataf = LocalDateTime.of(2023, 2, 11, 19, 0, 0);
+//        Sessione_DAO foo1 = new Sessione_DAO();
+//        Evento_Sociale foo = new Evento_Sociale(datai, dataf, "Cena", "Una bella cena insieme", foo1.getByPK(44));
+
+        LocalDateTime datai1 = LocalDateTime.of(2023, 2, 11, 16, 0, 0);
+        LocalDateTime dataf1 = LocalDateTime.of(2023, 2, 11, 17, 0, 0);
+        Sessione_DAO foo2 = new Sessione_DAO();
+        Evento_Sociale foo3 = new Evento_Sociale(datai1, dataf1, "Gita", "Una gita rilassante", foo2.getByPK(44));
+
+        Evento_Sociale_DAO prova = foo3.getDao();
+        prova.Delete(foo3);
+
     }
 
     public Controller(){
