@@ -1,8 +1,8 @@
 package DAO_classes;
 
-import Model_classes.Evento_Sociale;
-import Model_classes.ModelClass;
-import Model_classes.Sessione;
+
+import Model_classes.*;
+
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -31,36 +31,35 @@ public class Intervento_DAO implements DaoClass{
     }
 
     public List<ModelClass> getAll() {
-        ArrayList<ModelClass> AllEv_sociali = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
+        ArrayList<ModelClass> AllInterventi = new ArrayList<>();
 
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ev_sociale WHERE ");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento WHERE ");
 
             while (LocalRS.next()) {
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Utente partecipante_temp = new Partecipante_DAO().getByPK(LocalRS.getInt("partecipante"));
 
-                Evento_Sociale Ev_sociale_temp = this.setEv_sociale_tempFields(Sessione_temp, LocalRS);
-                AllEv_sociali.add(Ev_sociale_temp);
+                Intervento Intervento_temp = this.setIntervento_tempFields(partecipante_temp, sessione_temp, LocalRS);
+                AllInterventi.add(Intervento_temp);
             }
-            return AllEv_sociali;
+            return AllInterventi;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
-    private Evento_Sociale setEv_sociale_tempFields(Sessione sessione_temp, ResultSet localRS) throws SQLException {
-        Evento_Sociale Ev_sociale_temp = new Evento_Sociale();
-        Ev_sociale_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
-        Ev_sociale_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
-        Ev_sociale_temp.setTipo_evsociale(localRS.getString("tipo_evsociale"));
-        Ev_sociale_temp.setDescrizione(localRS.getString("descrizione"));
-        Ev_sociale_temp.setSessione(sessione_temp);
-        return Ev_sociale_temp;
+    private Intervento setIntervento_tempFields(Utente partecipante_temp, Sessione sessione_temp, ResultSet localRS) throws SQLException {
+        Intervento Intervento_temp = new Intervento();
+        Intervento_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
+        Intervento_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
+        Intervento_temp.setAbstract(localRS.getString("abstract"));
+        Intervento_temp.setSessione(sessione_temp);
+        Intervento_temp.setPartecipante(partecipante_temp);
+        return Intervento_temp;
     }
 
     public LocalDateTime convertToLocalDateTime(Date date) {
@@ -70,24 +69,23 @@ public class Intervento_DAO implements DaoClass{
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
-        List<ModelClass> AllEv_sociale = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
+        List<ModelClass> AllIntervento = new ArrayList<>();
 
         try{
             Statement LocalStmt = this.getStatement();
-            String command = "SELECT * FROM Main.Ev_sociale " +
+            String command = "SELECT * FROM Main.Intervento " +
                     "WHERE "+Attr_in+" = '"+Value_in+"';";
 
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Utente partecipante_temp = new Partecipante_DAO().getByPK(LocalRS.getInt("partecipante"));
 
-                Evento_Sociale Ev_sociale_temp = setEv_sociale_tempFields(Sessione_temp, LocalRS);
-                AllEv_sociale.add(Ev_sociale_temp);
+                Intervento Intervento_temp = setIntervento_tempFields(partecipante_temp, sessione_temp, LocalRS);
+                AllIntervento.add(Intervento_temp);
             }
-            return AllEv_sociale;
+            return AllIntervento;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
@@ -131,30 +129,31 @@ public class Intervento_DAO implements DaoClass{
         }
     }
 
-    public Integer getPK(ModelClass Ev_sociale_temp) {
+    public Integer getPK(ModelClass Intervento_temp) {
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT evsociale_id FROM Main.Ev_sociale WHERE " + Ev_sociale_temp.toSQLctrl() + ";";
+            String command = "SELECT Intervento_id FROM Main.Intervento WHERE " + Intervento_temp.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next())
-                return localRS.getInt("evsociale_id");
+                return localRS.getInt("Intervento_id");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
-    public Evento_Sociale getByPK(int PK){
+    public Intervento getByPK(int PK){
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT * FROM Main.Ev_sociale WHERE evsociale_id = " + PK + ";";
+            String command = "SELECT * FROM Main.Intervento WHERE intervento_id = " + PK + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Sessione sessione_temp = (Sessione) new Sessione_DAO().getByPK(localRS.getInt("sessione"));
+                Sessione sessione_temp = new Sessione_DAO().getByPK(localRS.getInt("sessione"));
+                Utente partecipante_temp = new Partecipante_DAO().getByPK(localRS.getInt("partecipante"));
 
-                return setEv_sociale_tempFields(sessione_temp, localRS);
+                return setIntervento_tempFields(partecipante_temp, sessione_temp, localRS);
             }
         }
         catch (SQLException e){
