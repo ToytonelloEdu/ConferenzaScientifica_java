@@ -69,8 +69,6 @@ public class dbAccess_byClassName {
             ResultSet localRS = localStmt.executeQuery(command);
             while (localRS.next()){
                 try {
-//                    String adjusted_ColumnName = AdjustColumnName(localRS.getString("attname"));
-//                    Lista_temp.add(adjusted_ColumnName);
                     Lista_temp.add(localRS.getString("attname"));
                 }
                 catch (Exception ignored){}
@@ -82,7 +80,7 @@ public class dbAccess_byClassName {
         return null;
     }
 
-    private String AdjustColumnName(String attributeName) throws Exception {
+    public String AdjustColumnName(String attributeName) throws Exception {
         //inserisci controlli per nomi
         if (attributeName.contains("cognome"))
             return "Cognome";
@@ -107,7 +105,13 @@ public class dbAccess_byClassName {
         return attributeName;
     }
 
-    public List GetByClass_and_Attribute(String Class, String Attribute, String Value){
+    public String DiscardColumnName(String attrName) throws Exception{
+        if (attrName.contains("descrizione") || attrName.contains("tipo_utente"))
+            throw new Exception();
+        return attrName;
+    }
+
+    public List<ModelClass> GetByClass_and_Attribute(String Class, String Attribute, String Value){
         if(Class.equals("Utente"))
             return new Partecipante_DAO().getAllUtenti_byAttribute(Attribute, Value);
         try{

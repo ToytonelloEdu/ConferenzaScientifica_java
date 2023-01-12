@@ -55,4 +55,17 @@ public class Pausa extends Evento implements ModelClass {
                 "sessione = "+ this.getSessione().toPK();
     }
 
+    public String toDetailsString(){
+        String pausa = "";
+        switch (tipo_pausa){
+            case "Bagno", "Pranzo" ->
+                pausa = "Pausa " + tipo_pausa;
+            case "Coffee Break" ->
+                pausa = tipo_pausa;
+            default ->
+                pausa = "O pesc";
+        }
+        return pausa + " || "+ getInizio() + " | " +  getFine() + " || ";
+    }
+
 }

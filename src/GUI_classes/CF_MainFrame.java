@@ -5,6 +5,8 @@ import Business_Logic.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -35,11 +37,12 @@ public class CF_MainFrame extends JFrame {
     private JTextArea FourthField_outputArea;
     private JScrollPane OutputScrollPanel;
     private JPanel MainPanel;
-    private JList DetPanel_FirstList;
+    private JList<String> DetPanel_FirstList;
     private JScrollPane Details_JScrollPanel;
     private JScrollPane FirstList_ScrollPanel;
     private JButton detailsButton;
     private JPanel FirstList_Panel;
+    private JComboBox<String> dbAttr_comboBox;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -64,7 +67,7 @@ public class CF_MainFrame extends JFrame {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Search_textField.setText("");
+                business_logic.ClearButton_clicked();
             }
         });
         Attribute_comboBox.addActionListener(new ActionListener() {
@@ -78,6 +81,18 @@ public class CF_MainFrame extends JFrame {
                 business_logic.Selection_spinner_ItemChanged();
             }
         });
+        detailsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.DetailsButton_clicked();
+            }
+        });
+        DetPanel_FirstList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                business_logic.FirstList_SelectedItem_changed();
+            }
+        });
     }
 
     private CF_MainFrame MainFrame_setUp() {
@@ -89,6 +104,7 @@ public class CF_MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
         Search_textField.setText("");
+        dbAttr_comboBox.setVisible(false);
         return MainFrame_holder;
     }
 
@@ -195,11 +211,7 @@ public class CF_MainFrame extends JFrame {
         return OutputScrollPanel;
     }
 
-    public JList getDetailP_sessionList() {
-        return DetPanel_FirstList;
-    }
-
-    public JList getDetPanel_FirstList() {
+    public JList<String> getDetPanel_FirstList() {
         return DetPanel_FirstList;
     }
 
@@ -209,5 +221,13 @@ public class CF_MainFrame extends JFrame {
 
     public JPanel getFirstList_Panel() {
         return FirstList_Panel;
+    }
+
+    public JComboBox<String> getDbAttr_comboBox() {
+        return dbAttr_comboBox;
+    }
+
+    public JButton getDetailsButton() {
+        return detailsButton;
     }
 }

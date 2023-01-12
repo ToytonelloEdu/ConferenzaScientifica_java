@@ -35,7 +35,7 @@ public class Pausa_DAO extends Evento_DAO {
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Pausa WHERE ");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Pausa");
 
             while (LocalRS.next()) {
                 int Sessione_PK = LocalRS.getInt("sessione");
@@ -159,6 +159,29 @@ public class Pausa_DAO extends Evento_DAO {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public List<Pausa> getAll_bySessione(int sessPK, Sessione sess) {
+        ArrayList<Pausa> AllPausa = new ArrayList<>();
+
+        try {
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.pausa WHERE sessione = "+ sessPK);
+
+            while (LocalRS.next()) {
+
+
+                Pausa pausaTemp = this.setPausa_tempFields(sess, LocalRS);
+                AllPausa.add(pausaTemp);
+
+            }
+            return AllPausa;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return AllPausa;
     }
 
 }

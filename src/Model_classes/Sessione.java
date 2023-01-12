@@ -15,6 +15,7 @@ public class Sessione implements ModelClass{
     private Locazione locazione;
     private Utente chair;
     private Partecipante keynote_speaker;
+    private List<? extends Evento> eventoList;
 
     private Sessione_DAO dao = new Sessione_DAO();
 
@@ -85,6 +86,14 @@ public class Sessione implements ModelClass{
 
     public void setKeynote_speaker(Partecipante keynote_speaker) {
         this.keynote_speaker = keynote_speaker;
+    }
+
+    public List<? extends Evento> getEventoList() {
+        return eventoList;
+    }
+
+    public void setEventoList(List<? extends Evento> eventoList) {
+        this.eventoList = eventoList;
     }
 
     @Override

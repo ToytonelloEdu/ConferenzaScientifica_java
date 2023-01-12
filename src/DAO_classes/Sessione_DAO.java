@@ -104,7 +104,7 @@ public class Sessione_DAO implements DaoClass{
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
 
-                return setSessione_tempFields(localRS, null);
+                return setSessione_tempFields(localRS);
             }
         }
         catch (SQLException e){
@@ -113,14 +113,15 @@ public class Sessione_DAO implements DaoClass{
         return null;
     }
 
-    private Sessione setSessione_tempFields(ResultSet localRS, Conferenza conf) throws SQLException {
+    private Sessione setSessione_tempFields(ResultSet localRS) throws SQLException {
         Sessione Sessione_temp = new Sessione();
         Sessione_temp.setNome(localRS.getString("nome_sess"));
 
         Sessione_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
         Sessione_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
 
-        Sessione_temp.setConferenza(conf);
+        Conferenza conf_temp = new Conferenza_DAO().getByPK(localRS.getInt("conferenza"));
+        Sessione_temp.setConferenza(conf_temp);
 
         Locazione locazione_temp = (Locazione) new Locazione_DAO().getByCompositePK(localRS.getInt("sede"), localRS.getString("locazione"));
         Sessione_temp.setLocazione(locazione_temp);
@@ -130,6 +131,7 @@ public class Sessione_DAO implements DaoClass{
         //set Keynote Speaker
         Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
         Sessione_temp.setKeynote_speaker(keynote_speaker_temp);
+        setEventoList_byRS_and_Sessione(localRS, Sessione_temp);
         return Sessione_temp;
     }
 
@@ -194,5 +196,32 @@ public class Sessione_DAO implements DaoClass{
             System.out.println(e.getMessage());
         }
         return tempList;
+    }
+
+    private Sessione setSessione_tempFields(ResultSet localRS, Conferenza conf) throws SQLException {
+        Sessione Sessione_temp = new Sessione();
+        Sessione_temp.setNome(localRS.getString("nome_sess"));
+
+        Sessione_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
+        Sessione_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
+
+        Sessione_temp.setConferenza(conf);
+        //set Locazione
+        Locazione locazione_temp = (Locazione) new Locazione_DAO().getByCompositePK(localRS.getInt("sede"), localRS.getString("locazione"));
+        Sessione_temp.setLocazione(locazione_temp);
+        //set Chair
+        Utente chair_temp = new Partecipante_DAO().getByPK(localRS.getInt("chair"));
+        Sessione_temp.setChair(chair_temp);
+        //set Keynote Speaker
+        Partecipante keynote_speaker_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("Keynote_speaker"));
+        Sessione_temp.setKeynote_speaker(keynote_speaker_temp);
+
+        setEventoList_byRS_and_Sessione(localRS, Sessione_temp);
+        return Sessione_temp;
+    }
+
+    private void setEventoList_byRS_and_Sessione(ResultSet localRS, Sessione Sessione_temp) throws SQLException {
+        List<? extends Evento> tempList = new Intervento_DAO().getAllEventi_bySessione(localRS.getInt("sessione_id"), Sessione_temp);
+        Sessione_temp.setEventoList(tempList);
     }
 }

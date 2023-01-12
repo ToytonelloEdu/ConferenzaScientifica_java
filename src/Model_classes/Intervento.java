@@ -77,4 +77,8 @@ public class Intervento extends Evento{
         return super.toGUI_Output(outputList);
     }
 
+    @Override
+    public String toDetailsString() {
+        return "Intervento |" + getPartecipante().getNome() + " " + getPartecipante().getCognome() + " || "+ getInizio() + " | " +  getFine() + " ||";
+    }
 }

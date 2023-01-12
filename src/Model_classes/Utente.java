@@ -78,4 +78,8 @@ public abstract class Utente implements ModelClass {
     public String toGUI_Output(List<ModelClass> outputList) {
         return this.Titolo + ", " + this.Nome + " " + this.Cognome + " (" + this.getClass().getSimpleName() + ") || " + this.Istit_afferenza.getNome();
     }
+
+    public String toDetailString() {
+        return Titolo +", "+ Nome + " " + Cognome + " ("+getClass().getSimpleName()+")";
+    }
 }

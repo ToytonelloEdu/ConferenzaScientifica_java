@@ -68,4 +68,9 @@ public class Evento_Sociale extends Evento implements ModelClass{
                 "sessione = "+ this.getSessione().toPK();
     }
 
+
+    @Override
+    public String toDetailsString() {
+        return tipo_evsociale + " || "+ getInizio() + " | " +  getFine() + " || ";
+    }
 }

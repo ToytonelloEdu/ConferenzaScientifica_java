@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Intervento_DAO implements DaoClass{
+public class Intervento_DAO extends  Evento_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try {
@@ -36,7 +36,7 @@ public class Intervento_DAO implements DaoClass{
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento WHERE ");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento");
 
             while (LocalRS.next()) {
                 Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
@@ -162,6 +162,39 @@ public class Intervento_DAO implements DaoClass{
         return null;
     }
 
+    @Override
+    public List<Intervento> getAll_bySessione(int sessPK, Sessione sess) {
+        ArrayList<Intervento> AllInterventi = new ArrayList<>();
+
+        try {
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento WHERE sessione = "+ sessPK);
+
+            while (LocalRS.next()) {
+
+
+                Intervento Intervento_temp = this.setIntervento_tempFields(sess, LocalRS);
+                AllInterventi.add(Intervento_temp);
+            }
+            return AllInterventi;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return AllInterventi;
+    }
+
+    private Intervento setIntervento_tempFields(Sessione sessione_temp, ResultSet localRS) throws SQLException {
+        Intervento Intervento_temp = new Intervento();
+        Intervento_temp.setInizio(convertToLocalDateTime(localRS.getTimestamp("inizio")));
+        Intervento_temp.setFine(convertToLocalDateTime(localRS.getTimestamp("fine")));
+        Intervento_temp.setAbstract(localRS.getString("abstract"));
+        Intervento_temp.setSessione(sessione_temp);
+
+        Utente partecipante_temp = new Partecipante_DAO().getByPK(localRS.getInt("partecipante"));
+        Intervento_temp.setPartecipante(partecipante_temp);
+        return Intervento_temp;
+    }
 
 }
 

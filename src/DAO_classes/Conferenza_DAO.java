@@ -48,7 +48,7 @@ public class Conferenza_DAO implements DaoClass{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return AllConferenza;
     }
 
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in){
@@ -72,7 +72,7 @@ public class Conferenza_DAO implements DaoClass{
             System.out.println(e.getMessage());
         }
 
-        return null;
+        return AllConferenza;
     }
 
     private Conferenza setConferenza_tempFields(ResultSet LocalRS) throws SQLException {

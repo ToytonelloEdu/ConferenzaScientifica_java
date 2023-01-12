@@ -85,9 +85,8 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Utenti_UnusedComp(CF_MainFrame mainFrame) {
-        mainFrame.getDetailP_sessionList().setVisible(false);
+        mainFrame.getDetPanel_FirstList().setVisible(false);
     }
-
     //Conferenza's details setting methods
     private void setFields_inDetPanel_forConferenza(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         Conferenza SelectedConferenza = (Conferenza) Current_Main_outputList.get(CurrentSpinnerValue);
@@ -106,7 +105,7 @@ public class DetailsPanel_setter {
 
     private void SetConf_FirstField(CF_MainFrame MainFrame, Conferenza SelectedConferenza) {
         MainFrame.getFirstField_label().setText("Date");
-        MainFrame.getFirstField_outputArea().setText("da " + SelectedConferenza.getDataFine() + " a " + SelectedConferenza.getDataFine());
+        MainFrame.getFirstField_outputArea().setText("da " + SelectedConferenza.getDataInizio() + " a " + SelectedConferenza.getDataFine());
     }
 
     private void SetConf_SecondField(CF_MainFrame MainFrame, Conferenza SelectedConferenza) {
@@ -139,7 +138,7 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getDetailP_sessionList().setVisible(false);
+        MainFrame.getDetPanel_FirstList().setVisible(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {

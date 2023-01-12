@@ -41,4 +41,5 @@ public abstract class Evento implements ModelClass{
         return null;
     }
 
+    public abstract String toDetailsString();
 }

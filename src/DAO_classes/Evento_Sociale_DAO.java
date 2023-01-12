@@ -1,9 +1,6 @@
 package DAO_classes;
 
-import Model_classes.Evento_Sociale;
-import Model_classes.ModelClass;
-import Model_classes.Pausa;
-import Model_classes.Sessione;
+import Model_classes.*;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -11,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Evento_Sociale_DAO implements DaoClass{
+public class Evento_Sociale_DAO extends Evento_DAO implements DaoClass{
 
     private Statement getStatement() throws SQLException {
         try {
@@ -38,7 +35,7 @@ public class Evento_Sociale_DAO implements DaoClass{
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ev_sociale WHERE ");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ev_sociale");
 
             while (LocalRS.next()) {
                 int Sessione_PK = LocalRS.getInt("sessione");
@@ -164,5 +161,27 @@ public class Evento_Sociale_DAO implements DaoClass{
         return null;
     }
 
+    @Override
+    public List<Evento_Sociale> getAll_bySessione(int sessPK, Sessione sess) {
+        ArrayList<Evento_Sociale> AllEventoSociale = new ArrayList<>();
+
+        try {
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.ev_sociale WHERE sessione = "+ sessPK);
+
+            while (LocalRS.next()) {
+
+
+                Evento_Sociale evento_sociale = this.setEv_sociale_tempFields(sess, LocalRS);
+                AllEventoSociale.add(evento_sociale);
+
+            }
+            return AllEventoSociale;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return AllEventoSociale;
+    }
 
 }
