@@ -31,9 +31,6 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
 
     public List<ModelClass> getAll(){
         List<ModelClass> AllEnte_organizzatore = new ArrayList<>();
-        Conferenza conferenza_temp = new Conferenza();
-        Istituzione istituzione_temp = new Istituzione();
-
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -41,10 +38,8 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_org");
 
             while (LocalRS.next()){
-                int Conferenza_PK = LocalRS.getInt("Conferenza");
-                conferenza_temp = conferenza_temp.getDao().getByPK(Conferenza_PK);
-                int Istituzione_PK = LocalRS.getInt("Istituzione");
-                istituzione_temp = istituzione_temp.getDao().getByPK(Istituzione_PK);
+                Conferenza conferenza_temp = new Conferenza_DAO().getByPK(LocalRS.getInt("conferenza"));
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istituzione"));
 
                 Ente_organizzatore Enteorg_temp = this.setEnteorg_tempFields(conferenza_temp, istituzione_temp);
                 AllEnte_organizzatore.add(Enteorg_temp);

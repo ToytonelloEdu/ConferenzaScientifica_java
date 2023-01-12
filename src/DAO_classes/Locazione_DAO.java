@@ -33,7 +33,6 @@ public class Locazione_DAO implements CompPK_DaoClass{
 
     public ArrayList<ModelClass> getAll(){
         ArrayList<ModelClass> AllLocazione = new ArrayList<>();
-        Sede Sede_temp = new Sede();
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -41,10 +40,9 @@ public class Locazione_DAO implements CompPK_DaoClass{
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Locazione");
 
             while(LocalRS.next()){
-                int Sede_PK = LocalRS.getInt("sede_id");
-                Sede_temp = (Sede) Sede_temp.getDao().getByPK(Sede_PK);
+                Sede sede_temp = new Sede_DAO().getByPK(LocalRS.getInt("sede_id"));
 
-                Locazione Locazione_temp = this.setLocazione_tempFields(Sede_temp, LocalRS);
+                Locazione Locazione_temp = this.setLocazione_tempFields(sede_temp, LocalRS);
                 AllLocazione.add(Locazione_temp);
             }
             return AllLocazione;
@@ -57,7 +55,6 @@ public class Locazione_DAO implements CompPK_DaoClass{
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         ArrayList<ModelClass> AllLocazione = new ArrayList<>();
-        Sede Sede_temp = new Sede();
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -67,10 +64,9 @@ public class Locazione_DAO implements CompPK_DaoClass{
             ResultSet LocalRS = LocalStatement.executeQuery(command);
 
             while(LocalRS.next()){
-                int Sede_PK = LocalRS.getInt("sede_id");
-                Sede_temp = new Sede_DAO().getByPK(Sede_PK);
+                Sede sede_temp = new Sede_DAO().getByPK(LocalRS.getInt("sede_id"));
 
-                Locazione Locazione_temp = this.setLocazione_tempFields(Sede_temp, LocalRS);
+                Locazione Locazione_temp = this.setLocazione_tempFields(sede_temp, LocalRS);
                 AllLocazione.add(Locazione_temp);
             }
             return AllLocazione;

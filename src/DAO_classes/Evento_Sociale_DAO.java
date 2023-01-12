@@ -33,7 +33,6 @@ public class Evento_Sociale_DAO implements DaoClass{
 
     public List<ModelClass> getAll() {
         ArrayList<ModelClass> AllEv_sociali = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
 
         try {
             Statement LocalStmt = this.getStatement();
@@ -41,10 +40,9 @@ public class Evento_Sociale_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ev_sociale WHERE ");
 
             while (LocalRS.next()) {
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
 
-                Evento_Sociale Ev_sociale_temp = this.setEv_sociale_tempFields(Sessione_temp, LocalRS);
+                Evento_Sociale Ev_sociale_temp = this.setEv_sociale_tempFields(sessione_temp, LocalRS);
                 AllEv_sociali.add(Ev_sociale_temp);
             }
             return AllEv_sociali;
@@ -72,7 +70,6 @@ public class Evento_Sociale_DAO implements DaoClass{
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         List<ModelClass> AllEv_sociale = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -82,10 +79,9 @@ public class Evento_Sociale_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
 
-                Evento_Sociale Ev_sociale_temp = setEv_sociale_tempFields(Sessione_temp, LocalRS);
+                Evento_Sociale Ev_sociale_temp = setEv_sociale_tempFields(sessione_temp, LocalRS);
                 AllEv_sociale.add(Ev_sociale_temp);
             }
             return AllEv_sociale;

@@ -30,7 +30,6 @@ public class Pausa_DAO extends Evento_DAO {
 
     public List<ModelClass> getAll() {
         ArrayList<ModelClass> AllPause = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
 
         try {
             Statement LocalStmt = this.getStatement();
@@ -38,10 +37,9 @@ public class Pausa_DAO extends Evento_DAO {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Pausa WHERE ");
 
             while (LocalRS.next()) {
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
 
-                Pausa Pausa_temp = this.setPausa_tempFields(Sessione_temp, LocalRS);
+                Pausa Pausa_temp = this.setPausa_tempFields(sessione_temp, LocalRS);
                 AllPause.add(Pausa_temp);
             }
             return AllPause;
@@ -69,7 +67,6 @@ public class Pausa_DAO extends Evento_DAO {
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         List<ModelClass> AllPausa = new ArrayList<>();
-        Sessione Sessione_temp = new Sessione();
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -79,10 +76,9 @@ public class Pausa_DAO extends Evento_DAO {
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                int Sessione_PK = LocalRS.getInt("sessione");
-                Sessione_temp = Sessione_temp.getDao().getByPK(Sessione_PK);
+                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
 
-                Pausa Pausa_temp = setPausa_tempFields(Sessione_temp, LocalRS);
+                Pausa Pausa_temp = setPausa_tempFields(sessione_temp, LocalRS);
                 AllPausa.add(Pausa_temp);
             }
             return AllPausa;
