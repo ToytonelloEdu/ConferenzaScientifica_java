@@ -55,8 +55,6 @@ public class Conf_Sponsor implements ModelClass{
     }
 
     public String toSQLctrl() {
-
-
         return  "sponsor = "+ this.sponsor.toPK() +" AND " +
                 "conferenza = "+ this.conferenza.toPK();
     }

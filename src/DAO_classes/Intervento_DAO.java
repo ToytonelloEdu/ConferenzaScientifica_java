@@ -36,7 +36,7 @@ public class Intervento_DAO implements DaoClass{
         try {
             Statement LocalStmt = this.getStatement();
 
-            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento WHERE ");
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento");
 
             while (LocalRS.next()) {
                 Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));

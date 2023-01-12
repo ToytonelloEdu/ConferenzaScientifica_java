@@ -105,16 +105,15 @@ public class Partecipante_DAO extends Utente_DAO implements DaoClass{
         }
     }
 
-    public void Update(ModelClass OldPart, ModelClass NewPart){
-        try{
+    public void Update(ModelClass OldPart, ModelClass NewPart) {
+        try {
             Statement localStmt = this.getStatement();
             String command = "UPDATE Main.Utente SET (titolo, nome, cognome, email, tipo_utente, istit_afferenza) = " +
-                    "("+ NewPart.toSQLrow() +") "+ "WHERE "+ OldPart.toSQLctrl();
+                    "(" + NewPart.toSQLrow() + ") " + "WHERE " + OldPart.toSQLctrl();
 
 
             localStmt.execute(command);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }

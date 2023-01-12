@@ -122,5 +122,4 @@ public class Organizzatore_DAO extends Utente_DAO{
         }
     }
 
-
 }

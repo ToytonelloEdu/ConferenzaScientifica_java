@@ -1,13 +1,8 @@
 package Model_classes;
 
 import DAO_classes.Organizzatore_DAO;
-import DAO_classes.Partecipante_DAO;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
-public class Organizzatore extends Utente implements ModelClass{
+public class Organizzatore extends Utente{
 
     private Organizzatore_DAO dao = new Organizzatore_DAO();
 
@@ -42,8 +37,5 @@ public class Organizzatore extends Utente implements ModelClass{
                 "tipo_utente = 'Organizzatore' AND " +
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
     }
-
-
-
 
 }
