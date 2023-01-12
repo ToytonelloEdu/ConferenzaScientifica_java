@@ -2,6 +2,7 @@ package DAO_classes;
 
 import Model_classes.Istituzione;
 import Model_classes.ModelClass;
+import Model_classes.Sede;
 import Model_classes.Utente;
 
 import java.sql.Connection;
@@ -35,7 +36,6 @@ public class Organizzatore_DAO extends Utente_DAO{
     @Override
     public List<ModelClass> getAll() {
         List<ModelClass> AllOrganizzatori = new ArrayList<>();
-        Istituzione Istituzione_temp = new Istituzione();
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -43,10 +43,9 @@ public class Organizzatore_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente WHERE tipo_utente = 'Organizzatore'");
 
             while (LocalRS.next()){
-                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
-                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
-                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllOrganizzatori.add(Partecipante_temp);
             }
             return AllOrganizzatori;
@@ -60,7 +59,6 @@ public class Organizzatore_DAO extends Utente_DAO{
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         List<ModelClass> AllOrganizzatori = new ArrayList<>();
-        Istituzione Istituzione_temp = new Istituzione();
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -70,10 +68,9 @@ public class Organizzatore_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
-                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
-                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllOrganizzatori.add(Partecipante_temp);
             }
             return AllOrganizzatori;
@@ -121,6 +118,5 @@ public class Organizzatore_DAO extends Utente_DAO{
             System.out.println(e.getMessage());
         }
     }
-
 
 }

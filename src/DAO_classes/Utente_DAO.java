@@ -32,7 +32,6 @@ public abstract class Utente_DAO implements DaoClass{
 
     public List<ModelClass> getAllUtenti(){
         ArrayList<ModelClass> AllUtenti = new ArrayList<>();
-        Istituzione Istituzione_temp = new Istituzione();
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -40,10 +39,9 @@ public abstract class Utente_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente");
 
             while (LocalRS.next()){
-                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
-                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
-                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllUtenti.add(Partecipante_temp);
             }
             return AllUtenti;
@@ -65,10 +63,9 @@ public abstract class Utente_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                int Istituzione_PK = LocalRS.getInt("istit_afferenza");
-                Istituzione Istituzione_temp = new Istituzione().getDao().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
-                Utente Partecipante_temp = this.setUtente_tempFields(Istituzione_temp, LocalRS);
+                Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllUtenti.add(Partecipante_temp);
             }
             return AllUtenti;
@@ -101,10 +98,9 @@ public abstract class Utente_DAO implements DaoClass{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                int Istituzione_PK = localRS.getInt("istit_afferenza");
-                Istituzione Istituzione_temp = new Istituzione();
-                Istituzione_temp = Istituzione_temp.getDao().getByPK(Istituzione_PK);
-                return setUtente_tempFields(Istituzione_temp, localRS);
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(localRS.getInt("istit_afferenza"));
+
+                return setUtente_tempFields(istituzione_temp, localRS);
             }
         }
         catch (SQLException e){

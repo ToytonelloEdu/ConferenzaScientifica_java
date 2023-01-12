@@ -12,6 +12,8 @@ import java.util.*;
 
 public class Controller {
     CF_MainFrame MainFrame;
+
+    CF_AddIstanceClassFrame AddIstanceClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
     CF_SessionDetailsFrame SessionDetailsFrame;

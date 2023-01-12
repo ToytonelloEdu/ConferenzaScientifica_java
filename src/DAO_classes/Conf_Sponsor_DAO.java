@@ -37,9 +37,6 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
     public List<ModelClass> getAll(){
         ArrayList<ModelClass> AllConf_Sponsor = new ArrayList<>();
-        Sponsor Sponsor_temp = new Sponsor();
-        Conferenza conferenza_temp = new Conferenza();
-
 
         try{
             Statement LocalStmt = this.getStatement();
@@ -47,11 +44,6 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sponsorizzazioni");
 
             while (LocalRS.next()){
-                int Sponsor_PK = LocalRS.getInt("Sponsor");
-                Sponsor_temp = Sponsor_temp.getDao().getByPK(Sponsor_PK);
-                int Conferenza_PK = LocalRS.getInt("Conferenza");
-                conferenza_temp = conferenza_temp.getDao().getByPK(Conferenza_PK);
-
                 Conf_Sponsor Conf_Sponsor_temp = this.setConf_Sponsor_tempFields(LocalRS);
                 AllConf_Sponsor.add(Conf_Sponsor_temp);
             }
