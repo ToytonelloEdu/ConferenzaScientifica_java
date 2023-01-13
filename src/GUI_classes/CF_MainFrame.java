@@ -93,6 +93,12 @@ public class CF_MainFrame extends JFrame {
                 business_logic.FirstList_SelectedItem_changed();
             }
         });
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.addButton_clicked();
+            }
+        });
     }
 
     private CF_MainFrame MainFrame_setUp() {

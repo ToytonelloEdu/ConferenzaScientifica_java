@@ -7,8 +7,10 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.List;
 
 public class Controller {
     CF_MainFrame MainFrame;
@@ -33,6 +35,7 @@ public class Controller {
         MainFrame = new CF_MainFrame(this);
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
+        AddIstanceClassFrame = new CF_AddIstanceClassFrame(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
     }
 
@@ -238,4 +241,11 @@ public class Controller {
         }catch (IndexOutOfBoundsException ignored){}
         SessionDetailsFrame.getDescrizione_JPanel().setVisible(false);
     }
+
+    public void addButton_clicked(){
+        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        AddIstanceClassFrame.setTitle("Aggiungi "+ Class_Selected);
+        AddIstanceClassFrame.setVisible(true);
+    }
+
 }
