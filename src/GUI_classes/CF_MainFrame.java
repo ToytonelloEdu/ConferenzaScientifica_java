@@ -236,4 +236,8 @@ public class CF_MainFrame extends JFrame {
     public JButton getDetailsButton() {
         return detailsButton;
     }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
 }

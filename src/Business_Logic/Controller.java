@@ -243,9 +243,14 @@ public class Controller {
     }
 
     public void addButton_clicked(){
+        MainFrame.getAddButton().setEnabled(false);
         String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         AddIstanceClassFrame.setTitle("Aggiungi "+ Class_Selected);
         AddIstanceClassFrame.setVisible(true);
     }
 
+    public void AddInstanceFrame_hidden() {
+        AddIstanceClassFrame.setVisible(false);
+        MainFrame.getAddButton().setEnabled(true);
+    }
 }
