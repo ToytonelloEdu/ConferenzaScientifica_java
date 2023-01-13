@@ -59,9 +59,10 @@ public class CF_SessionDetailsFrame extends JFrame {
         setTitle("Session Details");
         CF_SessionDetailsFrame FrameHolder = this;
         setContentPane(MainPanel);
-        setBounds(1400, 50, 500, 600);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setBounds(100, 100, 500, 600);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         Eventi_JList.setModel(dlModel);
+        Descrizione_JPanel.setVisible(false);
         Descrizione_textArea.setLineWrap(true);
         Descrizione_textArea.setWrapStyleWord(true);
 
