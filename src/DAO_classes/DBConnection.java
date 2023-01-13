@@ -1,13 +1,19 @@
 package DAO_classes;
 
+import org.postgresql.util.PSQLException;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
-    public class DBConnection
+public class DBConnection
     {
+        List<String> passwordList = new ArrayList<>();
+        List<String> dbNamesList = new ArrayList<>();
         // istanza statica e privata della istanza di questa classe
         private static DBConnection dbcon = null;
         // istanza privata della connessione ad SQL
@@ -30,7 +36,8 @@ import java.sql.SQLException;
         public Connection getConnection()
         {
             //String pwd = "StaniLobo";
-            String pwd = "sangio";
+            passwordList.add("sangio");
+            passwordList.add("StaniLobo");
             BufferedReader b = null;
             try
             {   // se la connessione non esiste oppure è stata chiusa
@@ -39,8 +46,17 @@ import java.sql.SQLException;
                     // registra il driver
                     Class.forName("org.postgresql.Driver");
                     // chiama il DriverManager e chiedi la connessione
-                    //conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Conferenze2.0?currentSchema=main", "postgres", pwd);
-                    conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Conferencer DB?currentSchema=main", "postgres", pwd);
+
+                    dbNamesList.add("Conferencer DB");
+                    dbNamesList.add("Conferenze2.0");
+                    for(String pwd : passwordList) {
+                        for(String dbName : dbNamesList) {
+                            try {
+                                conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+dbName+"?currentSchema=main", "postgres", pwd);
+                            } catch (PSQLException ignored) {
+                            }
+                        }
+                    }
                 }
             } catch (SQLException | ClassNotFoundException  throwables) {
                 throwables.printStackTrace();
