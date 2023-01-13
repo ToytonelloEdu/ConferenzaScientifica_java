@@ -15,6 +15,10 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     private Controller business_logic;
     private JPanel MainPanel;
+    private JLabel ObjectAdded_label;
+    private JPanel ObjectAdded_JPanel;
+    private JPanel DataInsert_JPanel;
+    private JButton button1;
 
     public CF_AddIstanceClassFrame(Controller c){
         business_logic = c;
@@ -31,11 +35,16 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     private CF_AddIstanceClassFrame AddIstanceClassFrame_setup(){
         setVisible(false);
+        setContentPane(MainPanel);
         CF_AddIstanceClassFrame FrameHolder = this;
+        setTitle("Conferencer: aggiungi oggetto");
         setBounds(50, 50, 500, 500);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         return FrameHolder;
     }
 
+    public JLabel getObjectAdded_label() {
+        return ObjectAdded_label;
+    }
 }

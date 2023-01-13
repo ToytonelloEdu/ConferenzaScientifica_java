@@ -38,7 +38,6 @@ public class DBConnection
             //String pwd = "StaniLobo";
             passwordList.add("sangio");
             passwordList.add("StaniLobo");
-            BufferedReader b = null;
             try
             {   // se la connessione non esiste oppure è stata chiusa
                 if(conn==null || conn.isClosed())
