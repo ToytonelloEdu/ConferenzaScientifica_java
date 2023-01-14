@@ -4,6 +4,7 @@ import javax.swing.*;
 import Business_Logic.*;
 
 import java.awt.*;
+import java.awt.event.ContainerAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -33,10 +34,17 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel Label6;
     private JLabel Label7;
     private JLabel Label8;
+    private JButton leftButton9Button;
+    private JButton rightButton9Button;
+    private JLabel Label9;
+    private JComboBox Select_comboBox10;
+    private JButton addButton10;
+    private JButton newButton10;
+    private JLabel Label10;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
-    public CF_AddIstanceClassFrame(Controller c){
+    public CF_AddIstanceClassFrame(Controller c) {
         business_logic = c;
         CF_AddIstanceClassFrame FrameHolder = AddIstanceClassFrame_setup();
 
@@ -49,11 +57,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
         });
     }
 
-    private CF_AddIstanceClassFrame AddIstanceClassFrame_setup(){
+    private CF_AddIstanceClassFrame AddIstanceClassFrame_setup() {
         setVisible(false);
         setContentPane(MainPanel);
         CF_AddIstanceClassFrame FrameHolder = this;
-        for(Component comp : DataInsert_JPanel.getComponents())
+        for (Component comp : DataInsert_JPanel.getComponents())
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
         setBounds(50, 50, 500, 500);
@@ -196,5 +204,17 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     public List<JComponent> getDataInsertComponentList() {
         return DataInsertComponentList;
+    }
+
+    public JLabel getLabel9() {
+        return Label9;
+    }
+
+    public JButton getLeftButton9Button() {
+        return leftButton9Button;
+    }
+
+    public JButton getRightButton9Button() {
+        return rightButton9Button;
     }
 }

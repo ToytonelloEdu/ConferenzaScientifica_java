@@ -2,6 +2,7 @@ package Business_Logic;
 
 import GUI_classes.*;
 import Model_classes.*;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.util.List;
@@ -85,7 +86,7 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Utenti_UnusedComp(CF_MainFrame mainFrame) {
-        mainFrame.getDetPanel_FirstList().setVisible(false);
+        mainFrame.getFirstList_Panel().setVisible(false);
     }
     //Conferenza's details setting methods
     private void setFields_inDetPanel_forConferenza(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
@@ -138,7 +139,7 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getDetPanel_FirstList().setVisible(false);
+        MainFrame.getFirstList_Panel().setVisible(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {

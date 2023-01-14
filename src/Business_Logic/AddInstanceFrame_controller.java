@@ -104,6 +104,7 @@ public class AddInstanceFrame_controller {
         setUtente_fourthField();
         setUtente_fifthField(Class_Selected);
         setUtente_sixthField();
+        setUtente_tipo();
         Hide_Utente_UnusedComponents();
     }
     public void setUtente_firstField(){
@@ -129,6 +130,12 @@ public class AddInstanceFrame_controller {
     public void setUtente_sixthField(){
         AddIstanceClassFrame.getLabel6().setText("Istituzione di afferenza");
         AddIstanceClassFrame.getTextField6().setText("");
+    }
+
+    private void setUtente_tipo(){
+        AddIstanceClassFrame.getLabel9().setText("Ruolo");
+        AddIstanceClassFrame.getLeftButton9Button().setText("Partecipante");
+        AddIstanceClassFrame.getRightButton9Button().setText("Organizzatore");
     }
     public void Hide_Utente_UnusedComponents(){
         AddIstanceClassFrame.getLabel7().setVisible(false);
