@@ -3,8 +3,11 @@ package GUI_classes;
 import javax.swing.*;
 import Business_Logic.*;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CF_AddIstanceClassFrame extends JFrame {
 
@@ -13,7 +16,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel ObjectAdded_label;
     private JPanel ObjectAdded_JPanel;
     private JPanel DataInsert_JPanel;
-    private JButton aggiungiAlDatabaseButton;
+    private JButton confermaButton;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
@@ -30,6 +33,8 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel Label6;
     private JLabel Label7;
     private JLabel Label8;
+
+    private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
     public CF_AddIstanceClassFrame(Controller c){
         business_logic = c;
@@ -48,6 +53,8 @@ public class CF_AddIstanceClassFrame extends JFrame {
         setVisible(false);
         setContentPane(MainPanel);
         CF_AddIstanceClassFrame FrameHolder = this;
+        for(Component comp : DataInsert_JPanel.getComponents())
+            DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
         setBounds(50, 50, 500, 500);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -185,5 +192,9 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     public void setLabel8(JLabel label8) {
         Label8 = label8;
+    }
+
+    public List<JComponent> getDataInsertComponentList() {
+        return DataInsertComponentList;
     }
 }
