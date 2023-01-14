@@ -19,8 +19,8 @@ public class AddInstanceFrame_controller {
                     setFieldsAdd_forConferenza();
             case "Sede" ->
                     setFieldsAdd_forSede();
-            case "Utente" ->
-                    setFieldsAdd_forUtente();
+            case "Utente", "Organizzatore", "Partecipante" ->
+                    setFieldsAdd_forUtente(Class_Selected);
         }
     }
 
@@ -97,12 +97,12 @@ public class AddInstanceFrame_controller {
         AddIstanceClassFrame.getTextField8().setVisible(false);
     }
 
-    public void setFieldsAdd_forUtente(){
+    public void setFieldsAdd_forUtente(String Class_Selected){
         setUtente_firstField();
         setUtente_secondField();
         setUtente_thirdField();
         setUtente_fourthField();
-        setUtente_fifthField();
+        setUtente_fifthField(Class_Selected);
         setUtente_sixthField();
         Hide_Utente_UnusedComponents();
     }
@@ -122,7 +122,7 @@ public class AddInstanceFrame_controller {
         AddIstanceClassFrame.getLabel4().setText("Email");
         AddIstanceClassFrame.getTextField4().setText("");
     }
-    public void setUtente_fifthField(){
+    public void setUtente_fifthField(String Class_Selected){
         AddIstanceClassFrame.getLabel5().setText("Tipo utente");
         AddIstanceClassFrame.getTextField5().setText("");
     }
