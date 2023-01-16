@@ -2,6 +2,7 @@ package Model_classes;
 
 import DAO_classes.Sede_DAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sede implements ModelClass{
@@ -11,7 +12,11 @@ public class Sede implements ModelClass{
 
     private Sede_DAO dao = new Sede_DAO();
 
-    public Sede(){}
+    private List<Locazione> locazioneList;
+
+    public Sede(){
+        locazioneList = new ArrayList<>();
+    }
 
     public Sede(String nome, String indirizzo, String citta){
         this.nome = nome;
@@ -43,6 +48,14 @@ public class Sede implements ModelClass{
         this.citta = citta;
     }
 
+    public List<Locazione> getLocazioneList() {
+        return locazioneList;
+    }
+
+    public void setLocazioneList(List<Locazione> locazioneList) {
+        this.locazioneList = locazioneList;
+    }
+
     public Sede_DAO getDao() {
         return dao;
     }
@@ -70,5 +83,10 @@ public class Sede implements ModelClass{
 
     public String toDetailString() {
         return this.nome + ", \n" + this.indirizzo + " (" +this.citta + ")";
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }

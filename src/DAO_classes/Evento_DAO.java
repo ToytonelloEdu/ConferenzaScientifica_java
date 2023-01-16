@@ -1,12 +1,12 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public abstract class Evento_DAO implements DaoClass{
         return null;
     }
 
-    public abstract void Insert(ModelClass temp);
+    public abstract void Insert(ModelClass temp) throws InsertFailedException;
 
     public abstract void Delete(ModelClass temp);
 

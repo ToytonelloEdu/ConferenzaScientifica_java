@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.Conferenza;
 import Model_classes.ModelClass;
 import Model_classes.*;
@@ -141,7 +142,7 @@ public class Sessione_DAO implements DaoClass{
     }
 
     @Override
-    public void Insert(ModelClass Sessione_temp){
+    public void Insert(ModelClass Sessione_temp) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Sessione (sessione_id, nome_sess, inizio, fine, conferenza, sede, locazione, chair, keynote_speaker) " +

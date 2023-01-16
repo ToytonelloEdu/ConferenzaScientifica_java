@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.Conferenza;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
@@ -99,7 +100,7 @@ public class Conferenza_DAO implements DaoClass{
         return new Sede_DAO().getByPK(Sede_PK);
     }
 
-    public void Insert(ModelClass Conf_temp){
+    public void Insert(ModelClass Conf_temp) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Conferenza VALUES (DEFAULT, "+ Conf_temp.toSQLrow() +");";

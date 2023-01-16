@@ -1,6 +1,7 @@
 package DAO_classes;
 
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 
@@ -94,7 +95,7 @@ public class Intervento_DAO extends  Evento_DAO implements DaoClass{
         return null;
     }
 
-    public void Insert(ModelClass Intervento_temp) {
+    public void Insert(ModelClass Intervento_temp) throws InsertFailedException {
         try {
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Intervento VALUES (DEFAULT, " + Intervento_temp.toSQLrow() + ");";

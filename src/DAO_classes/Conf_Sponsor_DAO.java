@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.math.BigDecimal;
@@ -60,7 +61,7 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
         return null;
     }
 
-    public void Insert(ModelClass Conf_Sponsor_temp){
+    public void Insert(ModelClass Conf_Sponsor_temp) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Sponsorizzazioni VALUES ("+ Conf_Sponsor_temp.toSQLrow() +");";

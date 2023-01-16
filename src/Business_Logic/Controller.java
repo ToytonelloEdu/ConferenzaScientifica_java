@@ -20,6 +20,7 @@ public class Controller {
     DetailsPanel_setter detailsPanel_setter;
     AddInstanceFrame_controller addInstFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
+    CF_NewLocazioneFrame NewLocazioneFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
     public static void main(String[] args) {
@@ -38,7 +39,12 @@ public class Controller {
         detailsPanel_setter = new DetailsPanel_setter(this);
         AddIstanceClassFrame = new CF_AddIstanceClassFrame(this);
         addInstFrame_controller = new AddInstanceFrame_controller(this, AddIstanceClassFrame);
+        NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
+    }
+
+    public CF_NewLocazioneFrame getNewLocazioneFrame() {
+        return NewLocazioneFrame;
     }
 
     private boolean isEmpty(JTextComponent text_Comp) {
@@ -253,8 +259,12 @@ public class Controller {
     }
 
     public void AddInstanceFrame_hidden() {
-        AddIstanceClassFrame.setVisible(false);
-        MainFrame.getAddButton().setEnabled(true);
+        if(! NewLocazioneFrame.isVisible())
+        {
+            AddIstanceClassFrame.setVisible(false);
+            MainFrame.getAddButton().setEnabled(true);
+
+        }
     }
 
     public void setValues_in_Select_comboBox(CF_AddIstanceClassFrame Frame) {
@@ -267,6 +277,14 @@ public class Controller {
     }
 
     private List<ModelClass> getValues_for_Select_comboBox(String class_selected) {
-        return new dbAccess_byClassName().GetByClass_and_Attribute(class_selected, "nome", "Complesso Zeno");
+        return new dbAccess_byClassName().GetAll_byClassName(class_selected);
+    }
+
+    public void NewButtonClicked() {
+        addInstFrame_controller.NewButtonClicked();
+    }
+
+    public void confermaButtonClicked() {
+        addInstFrame_controller.confermaButtonClicked();
     }
 }

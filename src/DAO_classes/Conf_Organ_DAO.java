@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.Connection;
@@ -63,7 +64,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
         return null;
     }
 
-    public void Insert(ModelClass Conf_Organ_temp){
+    public void Insert(ModelClass Conf_Organ_temp) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Organizzatori VALUES ("+ Conf_Organ_temp.toSQLrow() +");";
@@ -71,7 +72,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
             localStmt.execute(command);
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new InsertFailedException(e.getMessage());
         }
     }
 

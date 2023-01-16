@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.Connection;
@@ -127,7 +128,7 @@ public abstract class Utente_DAO implements DaoClass{
     }
 
     @Override
-    public abstract void Insert(ModelClass temp);
+    public abstract void Insert(ModelClass temp) throws InsertFailedException;
     @Override
     public abstract void Delete(ModelClass temp);
     @Override

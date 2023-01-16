@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.*;
@@ -66,7 +67,7 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
     }
 
 
-    public void Insert(ModelClass Ente_Organizzatore_temp){
+    public void Insert(ModelClass Ente_Organizzatore_temp) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Ente_Org VALUES ("+ Ente_Organizzatore_temp.toSQLrow() +");";

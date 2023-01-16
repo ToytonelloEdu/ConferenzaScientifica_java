@@ -35,10 +35,19 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JButton leftButton9Button;
     private JButton rightButton9Button;
     private JLabel Label9;
-    private JComboBox Select_comboBox10;
+    private JComboBox<String> Select_comboBox10;
     private JButton addButton10;
     private JButton newButton10;
     private JLabel Label10;
+    private JList<String> SelectedItems_list10;
+
+    private JPanel SelectItems_JPanel10;
+    private JButton removeButton11;
+    private JPanel AddOnly_JPanel11;
+    private JList<String> AddOnly_list11;
+    private JLabel label11;
+    private JButton NewButton11;
+    private JButton annullaButton;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -46,23 +55,39 @@ public class CF_AddIstanceClassFrame extends JFrame {
         business_logic = c;
         CF_AddIstanceClassFrame FrameHolder = AddIstanceClassFrame_setup();
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                super.windowDeactivated(e);
-                business_logic.AddInstanceFrame_hidden();
-            }
-        });
+
+
         leftButton9Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rightButton9Button.setEnabled(false);
+                leftButton9Button.setEnabled(false);
+                rightButton9Button.setEnabled(true);
             }
         });
         rightButton9Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                leftButton9Button.setEnabled(false);
+                leftButton9Button.setEnabled(true);
+                rightButton9Button.setEnabled(false);
+            }
+        });
+        NewButton11.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.NewButtonClicked();
+
+            }
+        });
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.confermaButtonClicked();
+            }
+        });
+        annullaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.AddInstanceFrame_hidden();
             }
         });
     }
@@ -75,7 +100,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
         setBounds(50, 50, 500, 500);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         return FrameHolder;
     }
@@ -234,5 +259,25 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     public JComboBox getSelect_comboBox10() {
         return Select_comboBox10;
+    }
+
+    public JList<String> getSelectedItems_list10() {
+        return SelectedItems_list10;
+    }
+
+    public JPanel getSelectItems_JPanel10() {
+        return SelectItems_JPanel10;
+    }
+
+    public JList getAddOnly_list11() {
+        return AddOnly_list11;
+    }
+
+    public JPanel getAddOnly_JPanel11() {
+        return AddOnly_JPanel11;
+    }
+
+    public JLabel getLabel11() {
+        return label11;
     }
 }

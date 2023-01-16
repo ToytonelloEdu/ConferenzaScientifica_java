@@ -1,8 +1,8 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.Istituzione;
 import Model_classes.ModelClass;
-import Model_classes.Sede;
 import Model_classes.Utente;
 
 import java.sql.Connection;
@@ -81,7 +81,7 @@ public class Organizzatore_DAO extends Utente_DAO{
         return AllOrganizzatori;
     }
 
-    public void Insert(ModelClass Organizzatore){
+    public void Insert(ModelClass Organizzatore) throws InsertFailedException {
         try{
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Utente VALUES (DEFAULT, "+ Organizzatore.toSQLrow() +");";

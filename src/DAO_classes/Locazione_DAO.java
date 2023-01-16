@@ -2,7 +2,7 @@ package DAO_classes;
 import java.sql.*;
 import java.util.*;
 
-import Model_classes.Conferenza;
+import Exceptions.InsertFailedException;
 import Model_classes.Locazione;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
@@ -84,7 +84,7 @@ public class Locazione_DAO implements CompPK_DaoClass{
         return Locazione_temp;
     }
 
-    public void Insert(ModelClass Locazione_temp){
+    public void Insert(ModelClass Locazione_temp) throws InsertFailedException {
         try {
             Statement LocalStatement = this.getStatement();
             String command = "INSERT INTO Main.Locazione VALUES ("+ Locazione_temp.toSQLrow() +");";
@@ -162,5 +162,23 @@ public class Locazione_DAO implements CompPK_DaoClass{
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public List<Locazione> getAll_bySede(int sedePK, Sede sede){
+        List<Locazione> tempList = new ArrayList<>();
+        try{
+            Statement localStmt = getStatement();
+            String command = "SELECT * FROM main.locazione " +
+                             "WHERE sede_id = "+sedePK+";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            while(localRS.next()){
+                tempList.add(setLocazione_tempFields(sede, localRS));
+            }
+            return tempList;
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return tempList;
     }
 }

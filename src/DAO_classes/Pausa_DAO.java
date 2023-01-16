@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.*;
@@ -90,7 +91,7 @@ public class Pausa_DAO extends Evento_DAO {
         return null;
     }
 
-    public void Insert(ModelClass Pausa_temp) {
+    public void Insert(ModelClass Pausa_temp) throws InsertFailedException {
         try {
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Pausa VALUES (DEFAULT, " + Pausa_temp.toSQLrow() + ");";

@@ -1,6 +1,8 @@
 package DAO_classes;
 import java.sql.*;
 import java.util.*;
+
+import Exceptions.InsertFailedException;
 import Model_classes.Istituzione;
 import Model_classes.ModelClass;
 
@@ -74,7 +76,7 @@ public class Istituzione_DAO implements DaoClass{
         return AllIstituzione;
     }
 
-    public void Insert(ModelClass Istituzione){
+    public void Insert(ModelClass Istituzione) throws InsertFailedException {
         try {
             Statement LocalStatement = this.getStatement();
             String command = "INSERT INTO Main.Istituzione VALUES (DEFAULT, "+ Istituzione.toSQLrow() +");";

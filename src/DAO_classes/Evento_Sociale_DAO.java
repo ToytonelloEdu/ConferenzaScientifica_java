@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.*;
@@ -90,7 +91,7 @@ public class Evento_Sociale_DAO extends Evento_DAO implements DaoClass{
         return null;
     }
 
-    public void Insert(ModelClass Ev_sociale_temp) {
+    public void Insert(ModelClass Ev_sociale_temp) throws InsertFailedException {
         try {
             Statement localStmt = this.getStatement();
             String command = "INSERT INTO Main.Ev_sociale VALUES (DEFAULT, " + Ev_sociale_temp.toSQLrow() + ");";

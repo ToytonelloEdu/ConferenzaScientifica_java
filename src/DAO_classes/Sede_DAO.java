@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
 
@@ -74,7 +75,7 @@ public class Sede_DAO implements DaoClass{
                 return null;
             }
 
-            public void Insert(ModelClass Sede_temp){
+            public void Insert(ModelClass Sede_temp) throws InsertFailedException {
                         try {
                             Statement LocalStatement = this.getStatement();
                             String command = "INSERT INTO Main.Sede VALUES (DEFAULT, "+ Sede_temp.toSQLrow() +");";
@@ -82,7 +83,7 @@ public class Sede_DAO implements DaoClass{
                             LocalStatement.execute(command);
                         }
                         catch (SQLException e){
-                            System.out.println(e.getMessage());
+                            throw new InsertFailedException(e.getMessage());
                         }
                     }
 
