@@ -257,5 +257,16 @@ public class Controller {
         MainFrame.getAddButton().setEnabled(true);
     }
 
+    public void setValues_in_Select_comboBox(CF_AddIstanceClassFrame Frame) {
+        for(ModelClass o: getValues_for_Select_comboBox("Sede")){
+            try {
+                Frame.getSelect_comboBox10().addItem(o);
+            }
+            catch (Exception ignored){}
+        }
+    }
 
+    private List<ModelClass> getValues_for_Select_comboBox(String class_selected) {
+        return new dbAccess_byClassName().GetByClass_and_Attribute(class_selected, "nome", "Complesso Zeno");
+    }
 }

@@ -4,9 +4,7 @@ import javax.swing.*;
 import Business_Logic.*;
 
 import java.awt.*;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +51,18 @@ public class CF_AddIstanceClassFrame extends JFrame {
             public void windowDeactivated(WindowEvent e) {
                 super.windowDeactivated(e);
                 business_logic.AddInstanceFrame_hidden();
+            }
+        });
+        leftButton9Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rightButton9Button.setEnabled(false);
+            }
+        });
+        rightButton9Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                leftButton9Button.setEnabled(false);
             }
         });
     }
@@ -216,5 +226,13 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     public JButton getRightButton9Button() {
         return rightButton9Button;
+    }
+
+    public JLabel getLabel10() {
+        return Label10;
+    }
+
+    public JComboBox getSelect_comboBox10() {
+        return Select_comboBox10;
     }
 }
