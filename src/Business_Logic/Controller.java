@@ -267,6 +267,15 @@ public class Controller {
     }
 
     private List<ModelClass> getValues_for_Select_comboBox(String class_selected) {
-        return new dbAccess_byClassName().GetByClass_and_Attribute(class_selected, "nome", "Complesso Zeno");
+        return new dbAccess_byClassName().GetAll_byClassName(class_selected);
+    }
+
+    public void leftButton9_clicked(){
+        AddIstanceClassFrame.getLeftButton9Button().setEnabled(false);
+        AddIstanceClassFrame.getRightButton9Button().setEnabled(true);
+    }
+    public void rightButton9_clicked(){
+        AddIstanceClassFrame.getRightButton9Button().setEnabled(false);
+        AddIstanceClassFrame.getLeftButton9Button().setEnabled(true);
     }
 }

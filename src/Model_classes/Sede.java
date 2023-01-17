@@ -71,4 +71,9 @@ public class Sede implements ModelClass{
     public String toDetailString() {
         return this.nome + ", \n" + this.indirizzo + " (" +this.citta + ")";
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
