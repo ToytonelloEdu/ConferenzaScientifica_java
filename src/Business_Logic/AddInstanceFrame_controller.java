@@ -220,8 +220,17 @@ public class AddInstanceFrame_controller {
 
     public void confermaButtonClicked() {
         switch (ClassSelected){
-            case "Sede" -> insertSede();
+            case "Sede" -> {
+                InsertSede_Control();
+            }
         }
+    }
+
+    private void InsertSede_Control() {
+        if(!(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals("")) && !(AddInstanceClassFrame.getTextField3().getText().equals("")))
+            insertSede();
+        else
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
     }
 
     private void insertSede() {
