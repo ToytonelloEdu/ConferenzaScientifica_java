@@ -55,7 +55,7 @@ public class AddInstanceFrame_controller {
             jc.setVisible(true);
     }
 
-    public void setFieldsAdd_forConferenza(){
+    private void setFieldsAdd_forConferenza(){
         setConf_firstField();
         setConf_secondField();
         setConf_thirdField();
@@ -63,38 +63,38 @@ public class AddInstanceFrame_controller {
         setConf_FK();
         Hide_Conferenza_UnusedComponents();
     }
-    public void setConf_firstField(){
+    private void setConf_firstField(){
         AddInstanceClassFrame.getLabel1().setText("Nome");
         AddInstanceClassFrame.getTextField1().setText("");
     }
-    public void setConf_secondField(){
+    private void setConf_secondField(){
         AddInstanceClassFrame.getLabel2().setText("Data Inizio");
         AddInstanceClassFrame.getTextField2().setText("");
     }
-    public void setConf_thirdField(){
+    private void setConf_thirdField(){
         AddInstanceClassFrame.getLabel3().setText("Data Fine");
         AddInstanceClassFrame.getTextField3().setText("");
     }
-    public void setConf_fourthField(){
+    private void setConf_fourthField(){
         AddInstanceClassFrame.getLabel4().setText("Descrizione");
         AddInstanceClassFrame.getTextField4().setText("");
     }
-    public void setConf_FK(){
+    private void setConf_FK(){
         AddInstanceClassFrame.getLabel10().setText("Collocazione");
         business_logic.setValues_in_Select_comboBox(AddInstanceClassFrame);
     }
-    public void Hide_Conferenza_UnusedComponents(){
+    private void Hide_Conferenza_UnusedComponents(){
         Hide_Conferenza_Unusedlabel();
         Hide_Conferenza_UnusedTextField_Button();
     }
-    public void Hide_Conferenza_Unusedlabel(){
+    private void Hide_Conferenza_Unusedlabel(){
         AddInstanceClassFrame.getLabel5().setVisible(false);
         AddInstanceClassFrame.getLabel6().setVisible(false);
         AddInstanceClassFrame.getLabel7().setVisible(false);
         AddInstanceClassFrame.getLabel8().setVisible(false);
         AddInstanceClassFrame.getLabel9().setVisible(false);
     }
-    public void Hide_Conferenza_UnusedTextField_Button(){
+    private void Hide_Conferenza_UnusedTextField_Button(){
         AddInstanceClassFrame.getTextField5().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getTextField7().setVisible(false);
@@ -103,7 +103,7 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getRightButton9Button().setVisible(false);
     }
 
-    public void setFieldsAdd_forSede(){
+    private void setFieldsAdd_forSede(){
         setSede_firstField();
         setSede_secondField();
         setSede_thirdField();
@@ -126,13 +126,13 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getLabel11().setText("Locazioni");
         dlModel11.clear();
     }
-    public void Hide_Sede_UnusedComponents(){
+    private void Hide_Sede_UnusedComponents(){
         Hide_Sede_Unusedlabel();
         Hide_Sede_UnusedTextField_Button();
         AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
     }
 
-    public void Hide_Sede_Unusedlabel(){
+    private void Hide_Sede_Unusedlabel(){
         AddInstanceClassFrame.getLabel4().setVisible(false);
         AddInstanceClassFrame.getLabel5().setVisible(false);
         AddInstanceClassFrame.getLabel6().setVisible(false);
@@ -141,7 +141,7 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getLabel9().setVisible(false);
     }
 
-    public void Hide_Sede_UnusedTextField_Button(){
+    private void Hide_Sede_UnusedTextField_Button(){
         AddInstanceClassFrame.getTextField4().setVisible(false);
         AddInstanceClassFrame.getTextField5().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
@@ -151,7 +151,7 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getRightButton9Button().setVisible(false);
     }
 
-    public void setFieldsAdd_forUtente(){
+    private void setFieldsAdd_forUtente(){
         setUtente_firstField();
         setUtente_secondField();
         setUtente_thirdField();
@@ -160,23 +160,23 @@ public class AddInstanceFrame_controller {
         setUtente_tipo();
         Hide_Utente_UnusedComponents();
     }
-    public void setUtente_firstField(){
+    private void setUtente_firstField(){
         AddInstanceClassFrame.getLabel1().setText("Titolo");
         AddInstanceClassFrame.getTextField1().setText("");
     }
-    public void setUtente_secondField(){
+    private void setUtente_secondField(){
         AddInstanceClassFrame.getLabel2().setText("Nome");
         AddInstanceClassFrame.getTextField2().setText("");
     }
-    public void setUtente_thirdField(){
+    private void setUtente_thirdField(){
         AddInstanceClassFrame.getLabel3().setText("Cognome");
         AddInstanceClassFrame.getTextField3().setText("");
     }
-    public void setUtente_fourthField(){
+    private void setUtente_fourthField(){
         AddInstanceClassFrame.getLabel4().setText("Email");
         AddInstanceClassFrame.getTextField4().setText("");
     }
-    public void setUtente_fifthField(){
+    private void setUtente_fifthField(){
         AddInstanceClassFrame.getLabel5().setText("Istituzione di afferenza");
         AddInstanceClassFrame.getTextField5().setText("");
     }
@@ -186,7 +186,7 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getLeftButton9Button().setText("Partecipante");
         AddInstanceClassFrame.getRightButton9Button().setText("Organizzatore");
     }
-    public void Hide_Utente_UnusedComponents(){
+    private void Hide_Utente_UnusedComponents(){
         AddInstanceClassFrame.getLabel6().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getLabel7().setVisible(false);
