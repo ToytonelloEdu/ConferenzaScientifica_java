@@ -248,4 +248,8 @@ public class AddInstanceFrame_controller {
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
         }
     }
+
+    public void removeButtonClicked(){
+        int currentlistIndex = AddInstanceClassFrame.getAddOnly_list11().getSelectedIndex();
+    }
 }

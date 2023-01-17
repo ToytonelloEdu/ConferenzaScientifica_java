@@ -287,4 +287,8 @@ public class Controller {
     public void confermaButtonClicked() {
         addInstFrame_controller.confermaButtonClicked();
     }
+
+    public void removeButtonClicked(){
+        addInstFrame_controller.removeButtonClicked();
+    }
 }

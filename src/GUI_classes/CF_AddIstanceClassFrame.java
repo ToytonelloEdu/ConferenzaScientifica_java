@@ -90,6 +90,12 @@ public class CF_AddIstanceClassFrame extends JFrame {
                 business_logic.AddInstanceFrame_hidden();
             }
         });
+        removeButton11.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.removeButtonClicked();
+            }
+        });
     }
 
     private CF_AddIstanceClassFrame AddIstanceClassFrame_setup() {
