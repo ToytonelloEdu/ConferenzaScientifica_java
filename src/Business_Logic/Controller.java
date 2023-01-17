@@ -7,9 +7,7 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
 import java.sql.Timestamp;
-import java.util.*;
 import java.util.List;
 
 public class Controller {
@@ -18,7 +16,7 @@ public class Controller {
     CF_AddIstanceClassFrame AddIstanceClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
-    AddInstanceFrame_controller addInstFrame_controller;
+    AddInstance_controller addInstFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
@@ -38,7 +36,7 @@ public class Controller {
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         AddIstanceClassFrame = new CF_AddIstanceClassFrame(this);
-        addInstFrame_controller = new AddInstanceFrame_controller(this, AddIstanceClassFrame);
+        addInstFrame_controller = new AddInstance_controller(this, AddIstanceClassFrame);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
     }
@@ -259,7 +257,7 @@ public class Controller {
     }
 
     public void AddInstanceFrame_hidden() {
-        if(! NewLocazioneFrame.isVisible())
+        if(!NewLocazioneFrame.isVisible())
         {
             AddIstanceClassFrame.setVisible(false);
             MainFrame.getAddButton().setEnabled(true);
@@ -267,21 +265,8 @@ public class Controller {
         }
     }
 
-    public void setValues_in_Select_comboBox(CF_AddIstanceClassFrame Frame) {
-        for(ModelClass o: getValues_for_Select_comboBox("Sede")){
-            try {
-                Frame.getSelect_comboBox10().addItem(o);
-            }
-            catch (Exception ignored){}
-        }
-    }
-
-    private List<ModelClass> getValues_for_Select_comboBox(String class_selected) {
-        return new dbAccess_byClassName().GetAll_byClassName(class_selected);
-    }
-
-    public void NewButtonClicked() {
-        addInstFrame_controller.NewButtonClicked();
+    public void NewButton11Clicked() {
+        addInstFrame_controller.NewButton11Clicked();
     }
 
     public void confermaButtonClicked() {
@@ -290,5 +275,9 @@ public class Controller {
 
     public void removeButtonClicked(){
         addInstFrame_controller.removeButtonClicked();
+    }
+
+    public void addButton10_clicked() {
+        addInstFrame_controller.addButton10Clicked();
     }
 }

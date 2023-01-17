@@ -1,5 +1,6 @@
 package Business_Logic;
 
+import DAO_classes.dbAccess_byClassName;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddIstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
@@ -8,17 +9,18 @@ import Model_classes.ModelClass;
 import Model_classes.Sede;
 
 import javax.swing.*;
+import java.util.List;
 
-public class AddInstanceFrame_controller {
+public class AddInstance_controller {
     Controller business_logic;
     CF_AddIstanceClassFrame AddInstanceClassFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     String ClassSelected;
     ModelClass CurrentOggetto;
 
-    private DefaultListModel<String> dlModel10 = new DefaultListModel<>();
+    private DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
     private DefaultListModel<String> dlModel11 = new DefaultListModel<>();
-    public AddInstanceFrame_controller(Controller c, CF_AddIstanceClassFrame aicf) {
+    public AddInstance_controller(Controller c, CF_AddIstanceClassFrame aicf) {
         business_logic = c;
         AddInstanceClassFrame = aicf;
         AddInstanceClassFrame.getSelectedItems_list10().setModel(dlModel10);
@@ -29,9 +31,12 @@ public class AddInstanceFrame_controller {
         NewLocazioneFrame = newLocazioneFrame;
     }
 
-    public void NewButtonClicked() {
+    public void NewButton11Clicked() {
         if(ClassSelected.equals("Sede")){
             NewLocazioneFrame.setVisible(true);
+        }
+        else if (ClassSelected.equals("Conferenza")){
+
         }
     }
 
@@ -61,8 +66,13 @@ public class AddInstanceFrame_controller {
         setConf_thirdField();
         setConf_fourthField();
         setConf_FK();
+        setConf_SessioniField();
+        setConf_EntiOrgField();
+        setConf_OrganField();
+        setConf_SponsorField();
         Hide_Conferenza_UnusedComponents();
     }
+
     private void setConf_firstField(){
         AddInstanceClassFrame.getLabel1().setText("Nome");
         AddInstanceClassFrame.getTextField1().setText("");
@@ -80,9 +90,44 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getTextField4().setText("");
     }
     private void setConf_FK(){
-        AddInstanceClassFrame.getLabel10().setText("Collocazione");
-        business_logic.setValues_in_Select_comboBox(AddInstanceClassFrame);
+        AddInstanceClassFrame.getLabel13().setText("Collocazione");
+        setValues_in_Select_comboBox13();
     }
+
+    private List<ModelClass> getValues_for_Select_comboBox(String class_selected) {
+        return new dbAccess_byClassName().GetAll_byClassName(class_selected);
+    }
+
+    private void setConf_SessioniField(){
+        AddInstanceClassFrame.getLabel11().setText("Sessioni");
+    }
+
+    private void setConf_EntiOrgField(){
+        AddInstanceClassFrame.getLabel10().setText("Enti organizzatori");
+        setValues_in_Select_comboBox10("Istituzione");
+    }
+
+    private void setValues_in_Select_comboBox10(String ClassIntoComboBox) {
+        for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
+            AddInstanceClassFrame.getSelect_comboBox10().addItem(o);
+    }
+
+    private void setConf_OrganField() {
+        AddInstanceClassFrame.getLabel12().setText("Organizzatori");
+        setValues_in_Select_comboBox12();
+    }
+
+    private void setValues_in_Select_comboBox12() {
+    }
+
+    private void setConf_SponsorField() {
+        AddInstanceClassFrame.getLabel14().setText("Sponsor");
+        setValues_in_Select_comboBox14();
+    }
+
+    private void setValues_in_Select_comboBox14() {
+    }
+
     private void Hide_Conferenza_UnusedComponents(){
         Hide_Conferenza_Unusedlabel();
         Hide_Conferenza_UnusedTextField_Button();
@@ -195,6 +240,28 @@ public class AddInstanceFrame_controller {
         AddInstanceClassFrame.getTextField8().setVisible(false);
     }
 
+
+    public void setValues_in_Select_comboBox13() {
+        String classIntoComboBox = chooseClassIntoComboBox13();
+        for(ModelClass o: getValues_for_Select_comboBox(classIntoComboBox)){
+            try {
+                AddInstanceClassFrame.getSelectOne_comboBox13().addItem(o);
+            }
+            catch (Exception ignored){}
+        }
+    }
+
+    private String chooseClassIntoComboBox13() {
+        switch (ClassSelected){
+            case "Conferenza" -> {
+                return "Sede";
+            }
+            default -> {
+                return "";
+            }
+        }
+    }
+
     public void NewLoc_AnnullaButton_clicked() {
         NewLocazioneFrame.setVisible(false);
         NewLocazioneFrame.getTextField1().setText("");
@@ -227,10 +294,14 @@ public class AddInstanceFrame_controller {
     }
 
     private void InsertSede_Control() {
-        if(!(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals("")) && !(AddInstanceClassFrame.getTextField3().getText().equals("")))
+        if(NoCampiVuoti())
             insertSede();
         else
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
+    }
+
+    private boolean NoCampiVuoti() {
+        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals("")) && !(AddInstanceClassFrame.getTextField3().getText().equals(""));
     }
 
     private void insertSede() {
@@ -251,5 +322,22 @@ public class AddInstanceFrame_controller {
 
     public void removeButtonClicked(){
         int currentlistIndex = AddInstanceClassFrame.getAddOnly_list11().getSelectedIndex();
+        if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
+            dlModel11.remove(currentlistIndex);
+            switch (ClassSelected) {
+                case "Sede"-> {
+                    ((Sede) CurrentOggetto).getLocazioneList().remove(currentlistIndex);
+                }
+            }
+        }
+    }
+
+    private boolean ListIsSelected(int currentlistIndex) {
+        return currentlistIndex != -1;
+    }
+
+    public void addButton10Clicked() {
+        ModelClass selectedItem10 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox10().getSelectedItem();
+        dlModel10.addElement(selectedItem10);
     }
 }

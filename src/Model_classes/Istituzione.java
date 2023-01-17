@@ -56,10 +56,15 @@ public class Istituzione implements ModelClass{
 
     @Override
     public String toGUI_Output(List<ModelClass> outputList) {
-        return null;
+        return Nome + " ("+Nazione+")";
     }
 
     public String toDetailString() {
         return getNome() + ", "+ getNazione();
+    }
+
+    @Override
+    public String toString() {
+        return Nome;
     }
 }

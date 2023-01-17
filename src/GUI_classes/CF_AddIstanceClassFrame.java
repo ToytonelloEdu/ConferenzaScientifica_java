@@ -2,6 +2,7 @@ package GUI_classes;
 
 import javax.swing.*;
 import Business_Logic.*;
+import Model_classes.ModelClass;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -35,11 +36,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JButton leftButton9Button;
     private JButton rightButton9Button;
     private JLabel Label9;
-    private JComboBox<String> Select_comboBox10;
+    private JComboBox<ModelClass> Select_comboBox10;
     private JButton addButton10;
     private JButton newButton10;
     private JLabel Label10;
-    private JList<String> SelectedItems_list10;
+    private JList<ModelClass> SelectedItems_list10;
 
     private JPanel SelectItems_JPanel10;
     private JButton removeButton11;
@@ -48,6 +49,23 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel label11;
     private JButton NewButton11;
     private JButton annullaButton;
+    private JPanel SelectItems_JPanel12;
+    private JComboBox<ModelClass> Select_comboBox12;
+    private JButton newButton12;
+    private JButton addButton12;
+    private JLabel label12;
+    private JList<ModelClass> SelectedItems_list12;
+    private JComboBox<ModelClass> SelectOne_comboBox13;
+    private JScrollPane DataInsert_JScrollPanel;
+    private JLabel label13;
+    private JPanel SelectOnly_JPanel13;
+    private JPanel SelectItems_JPanel14;
+    private JComboBox Select_comboBox14;
+    private JButton newButton14;
+    private JButton addButton14;
+    private JLabel label14;
+    private JList SelectedItems_list14;
+    private JPanel BottomPanel;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -74,7 +92,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
         NewButton11.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.NewButtonClicked();
+                business_logic.NewButton11Clicked();
 
             }
         });
@@ -96,6 +114,12 @@ public class CF_AddIstanceClassFrame extends JFrame {
                 business_logic.removeButtonClicked();
             }
         });
+        addButton10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.addButton10_clicked();
+            }
+        });
     }
 
     private CF_AddIstanceClassFrame AddIstanceClassFrame_setup() {
@@ -105,7 +129,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
         for (Component comp : DataInsert_JPanel.getComponents())
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
-        setBounds(50, 50, 500, 500);
+        setBounds(75, 75, 600, 650);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         return FrameHolder;
@@ -199,11 +223,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
         return Label10;
     }
 
-    public JComboBox getSelect_comboBox10() {
+    public JComboBox<ModelClass> getSelect_comboBox10() {
         return Select_comboBox10;
     }
 
-    public JList<String> getSelectedItems_list10() {
+    public JList<ModelClass> getSelectedItems_list10() {
         return SelectedItems_list10;
     }
 
@@ -211,7 +235,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
         return SelectItems_JPanel10;
     }
 
-    public JList getAddOnly_list11() {
+    public JList<String> getAddOnly_list11() {
         return AddOnly_list11;
     }
 
@@ -221,5 +245,25 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     public JLabel getLabel11() {
         return label11;
+    }
+
+    public JComboBox<ModelClass> getSelectOne_comboBox13() {
+        return SelectOne_comboBox13;
+    }
+
+    public JPanel getSelectOnly_JPanel13() {
+        return SelectOnly_JPanel13;
+    }
+
+    public JLabel getLabel13() {
+        return label13;
+    }
+
+    public JLabel getLabel12() {
+        return label12;
+    }
+
+    public JLabel getLabel14() {
+        return label14;
     }
 }
