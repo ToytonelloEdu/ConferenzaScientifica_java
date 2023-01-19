@@ -20,6 +20,7 @@ public class Controller {
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
+    CF_NewSponsorFrame NewSponsorFrame;
 
     public static void main(String[] args) {
         try {

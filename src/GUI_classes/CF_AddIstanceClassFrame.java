@@ -333,4 +333,16 @@ public class CF_AddIstanceClassFrame extends JFrame {
     public JButton getnewButton12() {
         return newButton12;
     }
+
+    public JPanel getSelectItems_JPanel14() {
+        return SelectItems_JPanel14;
+    }
+
+    public JPanel getSelectItems_JPanel12() {
+        return SelectItems_JPanel12;
+    }
+
+    public JPanel getTwoButton_JPanel() {
+        return TwoButton_JPanel;
+    }
 }
