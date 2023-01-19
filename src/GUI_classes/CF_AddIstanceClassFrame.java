@@ -65,6 +65,9 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel label14;
     private JList SelectedItems_list14;
     private JPanel BottomPanel;
+    private JButton removeButton10;
+    private JButton removeButton14;
+    private JButton removeButton12;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -288,5 +291,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
     }
     public JList<ModelClass> getSelectedItems_list12() {
         return SelectedItems_list12;
+    }
+    public JButton getnewButton10() {
+        return newButton10;
+    }
+    public JButton getnewButton12() {
+        return newButton12;
     }
 }

@@ -155,6 +155,8 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getTextField8().setVisible(false);
         AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
         AddInstanceClassFrame.getRightButton9Button().setVisible(false);
+        AddInstanceClassFrame.getnewButton10().setVisible(false);
+        AddInstanceClassFrame.getnewButton12().setVisible(false);
     }
 
     private void setFieldsAdd_forSede(){
