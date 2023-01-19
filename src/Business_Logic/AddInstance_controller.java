@@ -4,9 +4,11 @@ import DAO_classes.dbAccess_byClassName;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddIstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
+import GUI_classes.CF_NewSponsorFrame;
 import Model_classes.Locazione;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
+import Model_classes.Sponsor;
 
 import javax.swing.*;
 import java.util.List;
@@ -15,6 +17,7 @@ public class AddInstance_controller {
     Controller business_logic;
     CF_AddIstanceClassFrame AddInstanceClassFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
+    CF_NewSponsorFrame NewSponsorFrame;
     String ClassSelected;
     ModelClass CurrentOggetto;
 
@@ -32,8 +35,16 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getSelectedItems_list14().setModel(dlModel14);
     }
 
+    public void NewSpons_annullaButtonClicked() {
+        NewSponsorFrame.setVisible(false);
+    }
+
     public void setNewLocazioneFrame(CF_NewLocazioneFrame newLocazioneFrame) {
         NewLocazioneFrame = newLocazioneFrame;
+    }
+
+    public void setNewSponsorFrame(CF_NewSponsorFrame newSponsorFrame) {
+        NewSponsorFrame = newSponsorFrame;
     }
 
     public void NewButton11Clicked() {
@@ -305,13 +316,13 @@ public class AddInstance_controller {
     }
 
     private void InsertSede_Control() {
-        if(NoCampiVuoti())
+        if(NoCampiVuoti_forSede())
             insertSede();
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
     }
 
-    private boolean NoCampiVuoti() {
+    private boolean NoCampiVuoti_forSede() {
         return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals("")) && !(AddInstanceClassFrame.getTextField3().getText().equals(""));
     }
 
@@ -360,5 +371,28 @@ public class AddInstance_controller {
     public void addButton14Clicked() {
         ModelClass selectedItem14 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox14().getSelectedItem();
         dlModel14.addElement(selectedItem14);
+    }
+
+    public void newButton14Clicked() {
+        NewSponsorFrame.setVisible(true);
+    }
+
+    public void NewSpons_confermaButtonClicked() {
+        NewSponsorFrame.getConfermaButton().setEnabled(false);
+        if(NoCampiVuoti_forSpons()) {
+            Sponsor tempSponsor = new Sponsor();
+            tempSponsor.setNome(NewSponsorFrame.getTextField1().getText());
+            tempSponsor.setPartitaIVA(NewSponsorFrame.getTextField2().getText());
+            dlModel14.addElement(tempSponsor);
+            NewSponsorFrame.setVisible(false);
+            NewSponsorFrame.getTextField1().setText("");
+            NewSponsorFrame.getTextField2().setText("");
+        }
+        else
+            JOptionPane.showMessageDialog(NewSponsorFrame, "Dati mancanti");
+    }
+
+    private boolean NoCampiVuoti_forSpons() {
+        return !(NewSponsorFrame.getTextField1().getText().equals("") || NewSponsorFrame.getTextField2().getText().equals(""));
     }
 }

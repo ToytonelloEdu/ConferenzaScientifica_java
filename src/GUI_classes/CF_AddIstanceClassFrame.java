@@ -59,11 +59,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel label13;
     private JPanel SelectOnly_JPanel13;
     private JPanel SelectItems_JPanel14;
-    private JComboBox Select_comboBox14;
+    private JComboBox<ModelClass> Select_comboBox14;
     private JButton newButton14;
     private JButton addButton14;
     private JLabel label14;
-    private JList SelectedItems_list14;
+    private JList<ModelClass> SelectedItems_list14;
     private JPanel BottomPanel;
     private JButton removeButton10;
     private JButton removeButton14;
@@ -133,6 +133,12 @@ public class CF_AddIstanceClassFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 business_logic.addButton12_clicked();
+            }
+        });
+        newButton14.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.newButton14_clicked();
             }
         });
     }

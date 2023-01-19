@@ -13,7 +13,6 @@ public class DetailsPanel_setter {
     DefaultListModel<String> dListModel = new DefaultListModel<>();
     public DetailsPanel_setter(Controller controller) {
         business_logic = controller;
-
     }
 
     public DefaultListModel<String> getdListModel() {

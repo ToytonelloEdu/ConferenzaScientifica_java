@@ -19,6 +19,7 @@ public class Controller {
     AddInstance_controller addInstFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
+    CF_NewSponsorFrame NewSponsorFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
     public static void main(String[] args) {
@@ -35,10 +36,11 @@ public class Controller {
         MainFrame = new CF_MainFrame(this);
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
+        MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
         AddIstanceClassFrame = new CF_AddIstanceClassFrame(this);
         addInstFrame_controller = new AddInstance_controller(this, AddIstanceClassFrame);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
-        MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
+        NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
     }
 
     public CF_NewLocazioneFrame getNewLocazioneFrame() {
@@ -257,7 +259,7 @@ public class Controller {
     }
 
     public void AddInstanceFrame_hidden() {
-        if(!NewLocazioneFrame.isVisible())
+        if(!NewLocazioneFrame.isVisible() && !NewSponsorFrame.isVisible())
         {
             AddIstanceClassFrame.setVisible(false);
             MainFrame.getAddButton().setEnabled(true);
@@ -282,4 +284,6 @@ public class Controller {
     }
     public void addButton14_clicked(){ addInstFrame_controller.addButton14Clicked();}
     public void addButton12_clicked(){ addInstFrame_controller.addButton12Clicked();}
+
+    public void newButton14_clicked() {addInstFrame_controller.newButton14Clicked();}
 }
