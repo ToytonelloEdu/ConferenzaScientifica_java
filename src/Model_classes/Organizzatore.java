@@ -38,4 +38,8 @@ public class Organizzatore extends Utente{
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
     }
 
+    @Override
+    public String toString() {
+        return getNome() +" "+ getCognome() +", "+ getTitolo();
+    }
 }

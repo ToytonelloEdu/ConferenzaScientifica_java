@@ -1,15 +1,12 @@
 package DAO_classes;
 
-import Model_classes.Sede;
-import Model_classes.Sponsor;
+import Model_classes.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Sponsor_DAO {
+public class Sponsor_DAO implements DaoClass{
 
     public Sponsor_DAO(){}
 
@@ -32,8 +29,8 @@ public class Sponsor_DAO {
         return null;
     }
 
-    public ArrayList<Sponsor> getAllSponsor(){
-        ArrayList<Sponsor> AllSponsor = new ArrayList<>();
+    public ArrayList<ModelClass> getAll(){
+        ArrayList<ModelClass> AllSponsor = new ArrayList<>();
 
         try{
             Statement LocalStatement = this.getStatement();
@@ -41,8 +38,7 @@ public class Sponsor_DAO {
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Sponsor");
 
             while(LocalRS.next()){
-                Sponsor Sponsor_temp = new Sponsor();
-                setSponsor_tempFields(Sponsor_temp, LocalRS);
+                Sponsor Sponsor_temp = setSponsor_tempFields(LocalRS);
                 AllSponsor.add(Sponsor_temp);
             }
             return AllSponsor;
@@ -53,7 +49,30 @@ public class Sponsor_DAO {
         return AllSponsor;
     }
 
-    public void InsertSponsor(Sponsor Sponsor_temp){
+    public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        ArrayList<ModelClass> AllSponsor = new ArrayList<>();
+
+        try{
+            Statement LocalStatement = this.getStatement();
+            String command = "SELECT * FROM Main.Sponsor " +
+                    "WHERE "+Attr_in+" = '"+Value_in+"';";
+
+            ResultSet LocalRS = LocalStatement.executeQuery(command);
+
+            while(LocalRS.next()){
+                Sponsor Sponsor_temp = setSponsor_tempFields(LocalRS);
+                AllSponsor.add(Sponsor_temp);
+            }
+            return AllSponsor;
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void Insert(ModelClass Sponsor_temp){
         try {
             Statement LocalStatement = this.getStatement();
             String command = "INSERT INTO Main.Sponsor VALUES (DEFAULT, "+ Sponsor_temp.toSQLrow() +");";
@@ -65,7 +84,7 @@ public class Sponsor_DAO {
         }
     }
 
-    public void DeleteSponsor(Sponsor Sponsor_temp){
+    public void Delete(ModelClass Sponsor_temp){
         try {
             Statement LocalStatement = this.getStatement();
             String command = "DELETE FROM Main.Sponsor WHERE " + Sponsor_temp.toSQLctrl() +";";
@@ -77,7 +96,7 @@ public class Sponsor_DAO {
         }
     }
 
-    public void UpdateSponsor(Sponsor OldSponsor, Sponsor NewSponsor){
+    public void Update(ModelClass OldSponsor, ModelClass NewSponsor){
         try {
             Statement LocalStatement = this.getStatement();
             String command = "UPDATE Main.Sponsor SET (Nome, Partitaiva) = " +
@@ -92,10 +111,10 @@ public class Sponsor_DAO {
 
     }
 
-    public Integer getPK(Sponsor temp){
+    public Integer getPK(ModelClass Sponsor_temp){
         try{
             Statement localStmt = this.getStatement();
-            String command = "SELECT Sponsor_ID FROM Main.Sponsor WHERE " + temp.toSQLctrl() + ";";
+            String command = "SELECT Sponsor_ID FROM Main.Sponsor WHERE " + Sponsor_temp.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next())
@@ -115,7 +134,7 @@ public class Sponsor_DAO {
 
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next()) {
-                setSponsor_tempFields(Sponsor_temp, localRS);
+                Sponsor_temp = setSponsor_tempFields(localRS);
             }
 
             return Sponsor_temp;
@@ -126,9 +145,11 @@ public class Sponsor_DAO {
         return null;
     }
 
-    private void setSponsor_tempFields(Sponsor Sponsor_temp, ResultSet localRS) throws SQLException {
+    private Sponsor setSponsor_tempFields(ResultSet localRS) throws SQLException {
+        Sponsor Sponsor_temp = new Sponsor();
         Sponsor_temp.setNome(localRS.getString("nome"));
         Sponsor_temp.setPartitaIVA(localRS.getString("partitaiva"));
+        return Sponsor_temp;
     }
 
 }

@@ -280,4 +280,6 @@ public class Controller {
     public void addButton10_clicked() {
         addInstFrame_controller.addButton10Clicked();
     }
+    public void addButton14_clicked(){ addInstFrame_controller.addButton14Clicked();}
+    public void addButton12_clicked(){ addInstFrame_controller.addButton12Clicked();}
 }

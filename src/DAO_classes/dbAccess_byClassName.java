@@ -33,6 +33,8 @@ public class dbAccess_byClassName {
     public List<ModelClass> GetAll_byClassName(String SearchIn) {
         if(SearchIn.equals("Utente"))
             return new Partecipante_DAO().getAllUtenti();
+        if(SearchIn.equals("Organizzatori"))
+            return new Organizzatore_DAO().getAll();
         else
             try {
                 DaoClass DAO = getDAObyClassName(SearchIn);

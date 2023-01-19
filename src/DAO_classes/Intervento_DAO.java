@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Intervento_DAO extends  Evento_DAO implements DaoClass{
+public class Intervento_DAO extends  Evento_DAO{
 
     private Statement getStatement() throws SQLException {
         try {

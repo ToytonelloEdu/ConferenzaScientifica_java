@@ -20,11 +20,16 @@ public class AddInstance_controller {
 
     private DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
     private DefaultListModel<String> dlModel11 = new DefaultListModel<>();
+    private DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
+    private DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
+
     public AddInstance_controller(Controller c, CF_AddIstanceClassFrame aicf) {
         business_logic = c;
         AddInstanceClassFrame = aicf;
         AddInstanceClassFrame.getSelectedItems_list10().setModel(dlModel10);
         AddInstanceClassFrame.getAddOnly_list11().setModel(dlModel11);
+        AddInstanceClassFrame.getSelectedItems_list12().setModel(dlModel12);
+        AddInstanceClassFrame.getSelectedItems_list14().setModel(dlModel14);
     }
 
     public void setNewLocazioneFrame(CF_NewLocazioneFrame newLocazioneFrame) {
@@ -114,18 +119,22 @@ public class AddInstance_controller {
 
     private void setConf_OrganField() {
         AddInstanceClassFrame.getLabel12().setText("Organizzatori");
-        setValues_in_Select_comboBox12();
+        setValues_in_Select_comboBox12("Organizzatori");
     }
 
-    private void setValues_in_Select_comboBox12() {
+    private void setValues_in_Select_comboBox12(String ClassIntoComboBox) {
+        for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
+            AddInstanceClassFrame.getSelect_comboBox12().addItem(o);
     }
 
     private void setConf_SponsorField() {
         AddInstanceClassFrame.getLabel14().setText("Sponsor");
-        setValues_in_Select_comboBox14();
+        setValues_in_Select_comboBox14("Sponsor");
     }
 
-    private void setValues_in_Select_comboBox14() {
+    private void setValues_in_Select_comboBox14(String ClassIntoComboBox) {
+        for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
+            AddInstanceClassFrame.getSelect_comboBox14().addItem(o);
     }
 
     private void Hide_Conferenza_UnusedComponents(){
@@ -339,5 +348,15 @@ public class AddInstance_controller {
     public void addButton10Clicked() {
         ModelClass selectedItem10 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox10().getSelectedItem();
         dlModel10.addElement(selectedItem10);
+    }
+
+    public void addButton12Clicked() {
+        ModelClass selectedItem12 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox12().getSelectedItem();
+        dlModel12.addElement(selectedItem12);
+    }
+
+    public void addButton14Clicked() {
+        ModelClass selectedItem14 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox14().getSelectedItem();
+        dlModel14.addElement(selectedItem14);
     }
 }

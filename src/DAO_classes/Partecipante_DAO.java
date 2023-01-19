@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partecipante_DAO extends Utente_DAO implements DaoClass{
+public class Partecipante_DAO extends Utente_DAO{
 
     private Statement getStatement() throws SQLException {
         try{

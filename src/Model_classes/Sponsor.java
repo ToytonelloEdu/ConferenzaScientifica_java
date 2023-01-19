@@ -1,7 +1,9 @@
 package Model_classes;
 import DAO_classes.Sponsor_DAO;
 
-public class Sponsor {
+import java.util.List;
+
+public class Sponsor implements ModelClass{
 
     private String Nome;
     private String PartitaIVA;
@@ -51,4 +53,12 @@ public class Sponsor {
         return this.getDao().getPK(this);
     }
 
+    public String toGUI_Output(List<ModelClass> outputList) {
+        return this.Nome + " | " + this.PartitaIVA;
+    }
+
+    @Override
+    public String toString() {
+        return Nome;
+    }
 }
