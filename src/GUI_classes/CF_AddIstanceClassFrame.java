@@ -135,6 +135,24 @@ public class CF_AddIstanceClassFrame extends JFrame {
                 business_logic.addButton12_clicked();
             }
         });
+        removeButton10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.removeButton10_clicked();
+            }
+        });
+        removeButton12.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.removeButton12_clicked();
+            }
+        });
+        removeButton14.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.removeButton14_clicked();
+            }
+        });
     }
 
     private CF_AddIstanceClassFrame AddIstanceClassFrame_setup() {
@@ -294,10 +312,49 @@ public class CF_AddIstanceClassFrame extends JFrame {
     public JList<ModelClass> getSelectedItems_list12() {
         return SelectedItems_list12;
     }
+    public JButton getAddButton10() {
+        return addButton10;
+    }
+    public JButton getAddButton12() {
+        return addButton12;
+    }
+    public JButton getAddButton14() {
+        return addButton14;
+    }
     public JButton getnewButton10() {
         return newButton10;
     }
     public JButton getnewButton12() {
         return newButton12;
+    }
+    public JButton getnewButton11() {
+        return NewButton11;
+    }
+    public JButton getnewButton14() {
+        return newButton14;
+    }
+    public JButton getRemoveButton10() {
+        return removeButton10;
+    }
+    public JButton getRemoveButton11() {
+        return removeButton11;
+    }
+    public JButton getRemoveButton14() {
+        return removeButton14;
+    }
+    public JButton getRemoveButton12() {
+        return removeButton12;
+    }
+
+    public JPanel getSelectItems_JPanel12() {
+        return SelectItems_JPanel12;
+    }
+
+    public JPanel getSelectItems_JPanel14() {
+        return SelectItems_JPanel14;
+    }
+
+    public JPanel getTwoButton_JPanel() {
+        return TwoButton_JPanel;
     }
 }

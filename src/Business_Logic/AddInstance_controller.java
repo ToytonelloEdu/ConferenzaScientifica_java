@@ -57,6 +57,8 @@ public class AddInstance_controller {
             }
             case "Utente", "Organizzatore", "Partecipante" ->
                     setFieldsAdd_forUtente();
+            case "Istituzione" ->
+                    setFieldsAdd_forIstituzione();
         }
     }
 
@@ -139,7 +141,8 @@ public class AddInstance_controller {
 
     private void Hide_Conferenza_UnusedComponents(){
         Hide_Conferenza_Unusedlabel();
-        Hide_Conferenza_UnusedTextField_Button();
+        Hide_Conferenza_UnusedTextField();
+        Hide_Conferenza_UnusedButton();
     }
     private void Hide_Conferenza_Unusedlabel(){
         AddInstanceClassFrame.getLabel5().setVisible(false);
@@ -148,11 +151,17 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getLabel8().setVisible(false);
         AddInstanceClassFrame.getLabel9().setVisible(false);
     }
-    private void Hide_Conferenza_UnusedTextField_Button(){
+    private void Hide_Conferenza_UnusedTextField(){
         AddInstanceClassFrame.getTextField5().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getTextField8().setVisible(false);
+        AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
+        AddInstanceClassFrame.getRightButton9Button().setVisible(false);
+        AddInstanceClassFrame.getnewButton10().setVisible(false);
+        AddInstanceClassFrame.getnewButton12().setVisible(false);
+    }
+    private void Hide_Conferenza_UnusedButton(){
         AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
         AddInstanceClassFrame.getRightButton9Button().setVisible(false);
         AddInstanceClassFrame.getnewButton10().setVisible(false);
@@ -184,7 +193,8 @@ public class AddInstance_controller {
     }
     private void Hide_Sede_UnusedComponents(){
         Hide_Sede_Unusedlabel();
-        Hide_Sede_UnusedTextField_Button();
+        Hide_Sede_UnusedTextField();
+        Hide_Sede_UnusedJPanel();
         AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
     }
 
@@ -195,16 +205,26 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getLabel7().setVisible(false);
         AddInstanceClassFrame.getLabel8().setVisible(false);
         AddInstanceClassFrame.getLabel9().setVisible(false);
+        AddInstanceClassFrame.getLabel10().setVisible(false);
+        AddInstanceClassFrame.getLabel12().setVisible(false);
+        AddInstanceClassFrame.getLabel13().setVisible(false);
+        AddInstanceClassFrame.getLabel14().setVisible(false);
     }
 
-    private void Hide_Sede_UnusedTextField_Button(){
+    private void Hide_Sede_UnusedTextField(){
         AddInstanceClassFrame.getTextField4().setVisible(false);
         AddInstanceClassFrame.getTextField5().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getTextField8().setVisible(false);
-        AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
-        AddInstanceClassFrame.getRightButton9Button().setVisible(false);
+    }
+
+    private void Hide_Sede_UnusedJPanel(){
+        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
+        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
     }
 
     private void setFieldsAdd_forUtente(){
@@ -243,14 +263,32 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getRightButton9Button().setText("Organizzatore");
     }
     private void Hide_Utente_UnusedComponents(){
+        Hide_Utente_UnusedLabel();
+        Hide_Utente_UnusedTextField();
+        Hide_Utente_UnusedJPanel();
+    }
+    private void Hide_Utente_UnusedLabel(){
         AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getLabel8().setVisible(false);
+        AddInstanceClassFrame.getLabel10().setVisible(false);
+        AddInstanceClassFrame.getLabel11().setVisible(false);
+        AddInstanceClassFrame.getLabel12().setVisible(false);
+        AddInstanceClassFrame.getLabel13().setVisible(false);
+        AddInstanceClassFrame.getLabel14().setVisible(false);
+    }
+    private void Hide_Utente_UnusedTextField(){
+        AddInstanceClassFrame.getTextField6().setVisible(false);
+        AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getTextField8().setVisible(false);
     }
-
+    private void Hide_Utente_UnusedJPanel(){
+        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddInstanceClassFrame.getAddOnly_JPanel11().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
+    }
 
     public void setValues_in_Select_comboBox13() {
         String classIntoComboBox = chooseClassIntoComboBox13();
@@ -331,6 +369,7 @@ public class AddInstance_controller {
         }
     }
 
+
     public void removeButtonClicked(){
         int currentlistIndex = AddInstanceClassFrame.getAddOnly_list11().getSelectedIndex();
         if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
@@ -341,6 +380,56 @@ public class AddInstance_controller {
                 }
             }
         }
+    }
+
+    private void setFieldsAdd_forIstituzione(){
+        setIstituzione_firstField();
+        setIstituzione_secondField();
+        Hide_Istituzione_UnusedComponents();
+    }
+
+    private void setIstituzione_firstField(){
+        AddInstanceClassFrame.getLabel1().setText("Nome");
+        AddInstanceClassFrame.getTextField1().setText("");
+    }
+    private void setIstituzione_secondField(){
+        AddInstanceClassFrame.getLabel2().setText("Nazione");
+        AddInstanceClassFrame.getTextField2().setText("");
+    }
+    private void Hide_Istituzione_UnusedComponents(){
+        Hide_Istituzione_Unusedlabel();
+        Hide_Istituzione_UnusedTextField();
+        Hide_Istituzione_UnusedJPanel();
+    }
+    private void Hide_Istituzione_Unusedlabel(){
+        AddInstanceClassFrame.getLabel3().setVisible(false);
+        AddInstanceClassFrame.getLabel4().setVisible(false);
+        AddInstanceClassFrame.getLabel5().setVisible(false);
+        AddInstanceClassFrame.getLabel6().setVisible(false);
+        AddInstanceClassFrame.getLabel7().setVisible(false);
+        AddInstanceClassFrame.getLabel8().setVisible(false);
+        AddInstanceClassFrame.getLabel9().setVisible(false);
+        AddInstanceClassFrame.getLabel10().setVisible(false);
+        AddInstanceClassFrame.getLabel11().setVisible(false);
+        AddInstanceClassFrame.getLabel12().setVisible(false);
+        AddInstanceClassFrame.getLabel13().setVisible(false);
+        AddInstanceClassFrame.getLabel14().setVisible(false);
+    }
+    private void Hide_Istituzione_UnusedTextField(){
+        AddInstanceClassFrame.getTextField3().setVisible(false);
+        AddInstanceClassFrame.getTextField4().setVisible(false);
+        AddInstanceClassFrame.getTextField5().setVisible(false);
+        AddInstanceClassFrame.getTextField6().setVisible(false);
+        AddInstanceClassFrame.getTextField7().setVisible(false);
+        AddInstanceClassFrame.getTextField8().setVisible(false);
+    }
+    private void Hide_Istituzione_UnusedJPanel(){
+        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddInstanceClassFrame.getAddOnly_JPanel11().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
+        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
+        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
     }
 
     private boolean ListIsSelected(int currentlistIndex) {
@@ -360,5 +449,26 @@ public class AddInstance_controller {
     public void addButton14Clicked() {
         ModelClass selectedItem14 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox14().getSelectedItem();
         dlModel14.addElement(selectedItem14);
+    }
+
+    public void removeButton10Clicked(){
+        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list10().getSelectedIndex();
+        if(!dlModel10.isEmpty() && ListIsSelected(currentlistIndex)){
+            dlModel10.remove(currentlistIndex);
+        }
+    }
+
+    public void removeButton12Clicked(){
+        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list12().getSelectedIndex();
+        if(!dlModel12.isEmpty() && ListIsSelected(currentlistIndex)){
+            dlModel12.remove(currentlistIndex);
+        }
+    }
+
+    public void removeButton14Clicked(){
+        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list14().getSelectedIndex();
+        if(!dlModel14.isEmpty() && ListIsSelected(currentlistIndex)){
+            dlModel14.remove(currentlistIndex);
+        }
     }
 }
