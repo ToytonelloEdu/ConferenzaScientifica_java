@@ -2,8 +2,9 @@ package Business_Logic;
 
 import DAO_classes.dbAccess_byClassName;
 import Exceptions.InsertFailedException;
-import GUI_classes.CF_AddIstanceClassFrame;
+import GUI_classes.CF_AddInstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
+import GUI_classes.CF_NewSessioneFrame;
 import GUI_classes.CF_NewSponsorFrame;
 import Model_classes.Locazione;
 import Model_classes.ModelClass;
@@ -15,18 +16,19 @@ import java.util.List;
 
 public class AddInstance_controller {
     Controller business_logic;
-    CF_AddIstanceClassFrame AddInstanceClassFrame;
+    CF_AddInstanceClassFrame AddInstanceClassFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
+    CF_NewSessioneFrame NewSessioneFrame;
     String ClassSelected;
     ModelClass CurrentOggetto;
 
     private DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
-    private DefaultListModel<String> dlModel11 = new DefaultListModel<>();
+    private DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
     private DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
     private DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
 
-    public AddInstance_controller(Controller c, CF_AddIstanceClassFrame aicf) {
+    public AddInstance_controller(Controller c, CF_AddInstanceClassFrame aicf) {
         business_logic = c;
         AddInstanceClassFrame = aicf;
         AddInstanceClassFrame.getSelectedItems_list10().setModel(dlModel10);
@@ -45,6 +47,10 @@ public class AddInstance_controller {
 
     public void setNewSponsorFrame(CF_NewSponsorFrame newSponsorFrame) {
         NewSponsorFrame = newSponsorFrame;
+    }
+
+    public void setNewSessioneFrame(CF_NewSessioneFrame newSessioneFrame) {
+        NewSessioneFrame = newSessioneFrame;
     }
 
     public void NewButton11Clicked() {
@@ -167,14 +173,10 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getTextField8().setVisible(false);
-        AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
-        AddInstanceClassFrame.getRightButton9Button().setVisible(false);
         AddInstanceClassFrame.getnewButton10().setVisible(false);
-        AddInstanceClassFrame.getnewButton12().setVisible(false);
     }
     private void Hide_Conferenza_UnusedButton(){
-        AddInstanceClassFrame.getLeftButton9Button().setVisible(false);
-        AddInstanceClassFrame.getRightButton9Button().setVisible(false);
+        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
         AddInstanceClassFrame.getnewButton10().setVisible(false);
         AddInstanceClassFrame.getnewButton12().setVisible(false);
     }
@@ -340,7 +342,7 @@ public class AddInstance_controller {
         ((Sede) CurrentOggetto).getLocazioneList().add(locazioneTemp);
         dlModel11.clear();
         for(Locazione l : ((Sede) CurrentOggetto).getLocazioneList())
-            dlModel11.addElement(l.getNome());
+            dlModel11.addElement(l);
         NewLocazioneFrame.setVisible(false);
         NewLocazioneFrame.getTextField1().setText("");
         NewLocazioneFrame.getTextField2().setText("");
@@ -349,10 +351,13 @@ public class AddInstance_controller {
 
     public void confermaButtonClicked() {
         switch (ClassSelected){
-            case "Sede" -> {
-                InsertSede_Control();
-            }
+            case "Sede" -> InsertSede_Control();
+            case "Conferenza" -> InsertConferenza_Control();
         }
+    }
+
+    private void InsertConferenza_Control() {
+
     }
 
     private void InsertSede_Control() {

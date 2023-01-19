@@ -13,7 +13,7 @@ import java.util.List;
 public class Controller {
     CF_MainFrame MainFrame;
 
-    CF_AddIstanceClassFrame AddIstanceClassFrame;
+    CF_AddInstanceClassFrame AddIstanceClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
     AddInstance_controller addInstFrame_controller;
@@ -37,7 +37,7 @@ public class Controller {
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
-        AddIstanceClassFrame = new CF_AddIstanceClassFrame(this);
+        AddIstanceClassFrame = new CF_AddInstanceClassFrame(this);
         addInstFrame_controller = new AddInstance_controller(this, AddIstanceClassFrame);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);

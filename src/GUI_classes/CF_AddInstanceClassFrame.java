@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CF_AddIstanceClassFrame extends JFrame {
+public class CF_AddInstanceClassFrame extends JFrame {
 
     private Controller business_logic;
     private JPanel MainPanel;
@@ -44,7 +44,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JPanel SelectItems_JPanel10;
     private JButton removeButton11;
     private JPanel AddOnly_JPanel11;
-    private JList<String> AddOnly_list11;
+    private JList<ModelClass> AddOnly_list11;
     private JLabel label11;
     private JButton NewButton11;
     private JButton annullaButton;
@@ -72,9 +72,9 @@ public class CF_AddIstanceClassFrame extends JFrame {
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
-    public CF_AddIstanceClassFrame(Controller c) {
+    public CF_AddInstanceClassFrame(Controller c) {
         business_logic = c;
-        CF_AddIstanceClassFrame FrameHolder = AddIstanceClassFrame_setup();
+        CF_AddInstanceClassFrame FrameHolder = AddIstanceClassFrame_setup();
 
 
 
@@ -161,10 +161,10 @@ public class CF_AddIstanceClassFrame extends JFrame {
         });
     }
 
-    private CF_AddIstanceClassFrame AddIstanceClassFrame_setup() {
+    private CF_AddInstanceClassFrame AddIstanceClassFrame_setup() {
         setVisible(false);
         setContentPane(MainPanel);
-        CF_AddIstanceClassFrame FrameHolder = this;
+        CF_AddInstanceClassFrame FrameHolder = this;
         for (Component comp : DataInsert_JPanel.getComponents())
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
@@ -275,7 +275,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
         return SelectItems_JPanel10;
     }
 
-    public JList<String> getAddOnly_list11() {
+    public JList<ModelClass> getAddOnly_list11() {
         return AddOnly_list11;
     }
 
