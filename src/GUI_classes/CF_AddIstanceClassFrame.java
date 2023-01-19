@@ -68,6 +68,7 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JButton removeButton10;
     private JButton removeButton14;
     private JButton removeButton12;
+    private JPanel TwoButton_JPanel;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -143,7 +144,8 @@ public class CF_AddIstanceClassFrame extends JFrame {
         for (Component comp : DataInsert_JPanel.getComponents())
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");
-        setBounds(75, 75, 600, 650);
+        setBounds(75, 75, 650, 650);
+        DataInsert_JScrollPanel.getVerticalScrollBar().setUnitIncrement(8);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         return FrameHolder;
