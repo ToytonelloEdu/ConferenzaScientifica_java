@@ -59,11 +59,11 @@ public class CF_AddIstanceClassFrame extends JFrame {
     private JLabel label13;
     private JPanel SelectOnly_JPanel13;
     private JPanel SelectItems_JPanel14;
-    private JComboBox Select_comboBox14;
+    private JComboBox<ModelClass> Select_comboBox14;
     private JButton newButton14;
     private JButton addButton14;
     private JLabel label14;
-    private JList SelectedItems_list14;
+    private JList<ModelClass> SelectedItems_list14;
     private JPanel BottomPanel;
     private JButton removeButton10;
     private JButton removeButton14;
@@ -151,6 +151,12 @@ public class CF_AddIstanceClassFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 business_logic.removeButton14_clicked();
+            }
+        });
+        newButton14.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.newButton14_clicked();
             }
         });
     }
@@ -326,35 +332,5 @@ public class CF_AddIstanceClassFrame extends JFrame {
     }
     public JButton getnewButton12() {
         return newButton12;
-    }
-    public JButton getnewButton11() {
-        return NewButton11;
-    }
-    public JButton getnewButton14() {
-        return newButton14;
-    }
-    public JButton getRemoveButton10() {
-        return removeButton10;
-    }
-    public JButton getRemoveButton11() {
-        return removeButton11;
-    }
-    public JButton getRemoveButton14() {
-        return removeButton14;
-    }
-    public JButton getRemoveButton12() {
-        return removeButton12;
-    }
-
-    public JPanel getSelectItems_JPanel12() {
-        return SelectItems_JPanel12;
-    }
-
-    public JPanel getSelectItems_JPanel14() {
-        return SelectItems_JPanel14;
-    }
-
-    public JPanel getTwoButton_JPanel() {
-        return TwoButton_JPanel;
     }
 }
