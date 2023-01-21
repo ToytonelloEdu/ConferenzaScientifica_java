@@ -1,15 +1,14 @@
 package Business_Logic;
 
+import DAO_classes.Istituzione_DAO;
 import DAO_classes.dbAccess_byClassName;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddInstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
 import GUI_classes.CF_NewSponsorFrame;
-import Model_classes.Locazione;
-import Model_classes.ModelClass;
-import Model_classes.Sede;
-import Model_classes.Sponsor;
+import Model_classes.*;
+import java.lang.*;
 
 import javax.swing.*;
 import java.util.List;
@@ -69,13 +68,17 @@ public class AddInstance_controller {
             case "Conferenza" ->
                     setFieldsAdd_forConferenza();
             case "Sede" -> {
-                CurrentOggetto = new Sede();
-                setFieldsAdd_forSede();
-            }
-            case "Utente", "Organizzatore", "Partecipante" ->
+                    CurrentOggetto = new Sede();
+                    setFieldsAdd_forSede();
+                }
+            case "Utente", "Organizzatore", "Partecipante" -> {
+                    CurrentOggetto = new Organizzatore();
                     setFieldsAdd_forUtente();
-            case "Istituzione" ->
+                }
+            case "Istituzione" ->{
+                    CurrentOggetto = new Istituzione();
                     setFieldsAdd_forIstituzione();
+                }
         }
     }
 
@@ -245,8 +248,8 @@ public class AddInstance_controller {
         setUtente_secondField();
         setUtente_thirdField();
         setUtente_fourthField();
-        setUtente_fifthField();
         setUtente_tipo();
+        setUtente_FK();
         Hide_Utente_UnusedComponents();
     }
     private void setUtente_firstField(){
@@ -265,9 +268,9 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getLabel4().setText("Email");
         AddInstanceClassFrame.getTextField4().setText("");
     }
-    private void setUtente_fifthField(){
-        AddInstanceClassFrame.getLabel5().setText("Istituzione di afferenza");
-        AddInstanceClassFrame.getTextField5().setText("");
+    private void setUtente_FK(){
+        AddInstanceClassFrame.getLabel13().setText("Istituzione di afferenza");
+        setValues_in_Select_comboBox13();
     }
 
     private void setUtente_tipo(){
@@ -281,18 +284,17 @@ public class AddInstance_controller {
         Hide_Utente_UnusedJPanel();
     }
     private void Hide_Utente_UnusedLabel(){
+        AddInstanceClassFrame.getLabel5().setVisible(false);
         AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getLabel8().setVisible(false);
         AddInstanceClassFrame.getLabel10().setVisible(false);
         AddInstanceClassFrame.getLabel11().setVisible(false);
         AddInstanceClassFrame.getLabel12().setVisible(false);
-        AddInstanceClassFrame.getLabel13().setVisible(false);
         AddInstanceClassFrame.getLabel14().setVisible(false);
     }
     private void Hide_Utente_UnusedTextField(){
+        AddInstanceClassFrame.getTextField5().setVisible(false);
         AddInstanceClassFrame.getTextField6().setVisible(false);
         AddInstanceClassFrame.getTextField7().setVisible(false);
         AddInstanceClassFrame.getTextField8().setVisible(false);
@@ -301,7 +303,6 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
         AddInstanceClassFrame.getAddOnly_JPanel11().setVisible(false);
         AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
-        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
         AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
     }
 
@@ -319,6 +320,9 @@ public class AddInstance_controller {
         switch (ClassSelected){
             case "Conferenza" -> {
                 return "Sede";
+            }
+            case "Utente", "Organizzatore", "Partecipante" -> {
+                return "Istituzione";
             }
             default -> {
                 return "";
@@ -353,6 +357,8 @@ public class AddInstance_controller {
         switch (ClassSelected){
             case "Sede" -> InsertSede_Control();
             case "Conferenza" -> InsertConferenza_Control();
+            case "Utente", "Organizzatore", "Partecipante" -> InsertUtente_Control();
+            case "Istituzione" -> InsertIstituzione_Control();
         }
     }
 
@@ -398,6 +404,41 @@ public class AddInstance_controller {
                 }
             }
         }
+    }
+
+    private void InsertUtente_Control() {
+        if(NoCampiVuoti_forUtente())
+            insertUtente();
+        else
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
+    }
+
+    private boolean NoCampiVuoti_forUtente() {
+        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals(""))
+                && !(AddInstanceClassFrame.getTextField3().getText().equals("") && !(AddInstanceClassFrame.getTextField4().getText().equals(""))
+                && !(AddInstanceClassFrame.getTextField5().getText().equals("")));
+    }
+
+    private void insertUtente() {
+        ((Utente) CurrentOggetto).setTitolo(AddInstanceClassFrame.getTextField1().getText());
+        ((Utente) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField2().getText());
+        ((Utente) CurrentOggetto).setCognome(AddInstanceClassFrame.getTextField3().getText());
+        ((Utente) CurrentOggetto).setEmail(AddInstanceClassFrame.getTextField4().getText());
+        setIstituzione();
+        try {
+            CurrentOggetto.getDao().Insert(CurrentOggetto);
+            AddInstanceClassFrame.setVisible(false);
+        }
+        catch (InsertFailedException e){
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
+        }
+    }
+
+    private void setIstituzione(){
+        ModelClass IstituzioneSelected = (ModelClass) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
+        Istituzione_DAO istituzione = new Istituzione_DAO();
+        Istituzione istituzione_scelta = istituzione.getIstituzionebyNome(IstituzioneSelected);
+        ((Utente) CurrentOggetto).setIstit_afferenza(istituzione_scelta);
     }
 
     private void setFieldsAdd_forIstituzione(){
@@ -448,6 +489,29 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
         AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
         AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
+    }
+
+    private void InsertIstituzione_Control() {
+        if(NoCampiVuoti_forIstituzione())
+            insertIstituzione();
+        else
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
+    }
+
+    private boolean NoCampiVuoti_forIstituzione() {
+        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals(""));
+    }
+
+    private void insertIstituzione() {
+        ((Istituzione) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField1().getText());
+        ((Istituzione) CurrentOggetto).setNazione(AddInstanceClassFrame.getTextField2().getText());
+        try {
+            CurrentOggetto.getDao().Insert(CurrentOggetto);
+            AddInstanceClassFrame.setVisible(false);
+        }
+        catch (InsertFailedException e){
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
+        }
     }
 
     private boolean ListIsSelected(int currentlistIndex) {

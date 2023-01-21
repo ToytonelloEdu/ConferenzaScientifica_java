@@ -84,7 +84,7 @@ public class Istituzione_DAO implements DaoClass{
             LocalStatement.execute(command);
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new InsertFailedException(e.getMessage());
         }
     }
 
@@ -123,6 +123,25 @@ public class Istituzione_DAO implements DaoClass{
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next())
                 return localRS.getInt("Istit_ID");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Istituzione getIstituzionebyNome(ModelClass Nome){
+        Istituzione Istituzione_temp = new Istituzione();
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Istituzione WHERE nome = '"+ Nome +"';";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next()) {
+                setIstituzione_tempFields(Istituzione_temp, localRS);
+            }
+
+            return Istituzione_temp;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
