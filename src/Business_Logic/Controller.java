@@ -19,8 +19,9 @@ public class Controller {
     AddInstance_controller addInstFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
-    dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
     CF_NewSponsorFrame NewSponsorFrame;
+    CF_NewSessioneFrame NewSessioneFrame;
+    dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
     public static void main(String[] args) {
         try {
@@ -41,6 +42,7 @@ public class Controller {
         addInstFrame_controller = new AddInstance_controller(this, AddIstanceClassFrame);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
+        NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
     }
 
     public CF_NewLocazioneFrame getNewLocazioneFrame() {

@@ -306,10 +306,10 @@ public class CF_AddInstanceClassFrame extends JFrame {
     public JLabel getLabel14() {
         return label14;
     }
-    public JComboBox getSelect_comboBox14() {
+    public JComboBox<ModelClass> getSelect_comboBox14() {
         return Select_comboBox14;
     }
-    public JList getSelectedItems_list14() {
+    public JList<ModelClass> getSelectedItems_list14() {
         return SelectedItems_list14;
     }
     public JComboBox<ModelClass> getSelect_comboBox12() {

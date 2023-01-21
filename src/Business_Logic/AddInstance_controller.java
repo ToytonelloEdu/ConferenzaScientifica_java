@@ -576,4 +576,13 @@ public class AddInstance_controller {
             dlModel14.remove(currentlistIndex);
         }
     }
+
+    public void interventoButton_clicked() {
+    }
+
+    public void eventoSocialeButton_clicked() {
+    }
+
+    public void pausaButton_clicked() {
+    }
 }
