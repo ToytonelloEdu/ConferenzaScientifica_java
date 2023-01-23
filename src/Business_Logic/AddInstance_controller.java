@@ -59,6 +59,8 @@ public class AddInstance_controller {
             NewLocazioneFrame.setVisible(true);
         }
         else if (ClassSelected.equals("Conferenza")){
+            setComboboxLocazioniforSessione();
+
             NewSessioneFrame.setVisible(true);
         }
     }
@@ -595,8 +597,8 @@ public class AddInstance_controller {
 
     public void setComboboxLocazioniforSessione(){
         Sede SedeSelected = (Sede) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
-        Sede_DAO sede_temp = new Sede_DAO();
-        int Sede_PK = sede_temp.getPK(SedeSelected);
+        int Sede_PK = SedeSelected.toPK();
+        NewSessioneFrame.getComboBox3().removeAllItems();
         for(Locazione o : getValues_for_LocazioniforSessione_comboBox(Sede_PK, SedeSelected))
             NewSessioneFrame.getComboBox3().addItem(o);
     }

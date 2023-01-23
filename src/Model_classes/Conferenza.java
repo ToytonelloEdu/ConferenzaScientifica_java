@@ -96,10 +96,14 @@ public class Conferenza implements ModelClass {
         Timestamp DataInizioTimestamp = convertToTimestamp(this.dataInizio);
         Timestamp DataFineTimestamp = convertToTimestamp(this.dataFine);
 
-        return "nomeconf = '"+ this.nome +"' AND " +
+        return "nomeconf = '"+ adjustDoubleQuotes(nome) +"' AND " +
                      "datainizio = '"+ DataInizioTimestamp +"' AND " +
                      "datafine = '"+ DataFineTimestamp+ "' AND " +
-                     "collocazione = "+ this.collocazione.toPK();
+                     "collocazione = "+ collocazione.toPK();
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     private Timestamp convertToTimestamp(Date data) {

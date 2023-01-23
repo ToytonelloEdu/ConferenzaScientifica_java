@@ -43,6 +43,8 @@ public class Controller {
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
         NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
+        String s = "Ciro's";
+        System.out.println(s.replaceAll("'", "''"));
     }
 
     public CF_NewLocazioneFrame getNewLocazioneFrame() {
@@ -309,8 +311,5 @@ public class Controller {
     }
     public void removeButton14_clicked(){
         addInstFrame_controller.removeButton14Clicked();
-    }
-    public void setComboboxLocazioniforSessione(){
-        addInstFrame_controller.setComboboxLocazioniforSessione();
     }
 }

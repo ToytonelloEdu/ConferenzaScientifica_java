@@ -156,12 +156,6 @@ public class CF_AddInstanceClassFrame extends JFrame {
                 business_logic.newButton14_clicked();
             }
         });
-        NewButton11.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                business_logic.NewButton11Clicked();
-            }
-        });
     }
 
     private CF_AddInstanceClassFrame AddIstanceClassFrame_setup() {

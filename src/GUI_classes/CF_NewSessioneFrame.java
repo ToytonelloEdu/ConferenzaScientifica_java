@@ -67,9 +67,6 @@ public class CF_NewSessioneFrame extends JFrame {
                 AddInst_bl.pausaButton_clicked();
             }
         });
-
-        business_logic.setComboboxLocazioniforSessione();
-
     }
     public JComboBox<Locazione> getComboBox3() {
         return comboBox3;

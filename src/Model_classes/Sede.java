@@ -61,15 +61,19 @@ public class Sede implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.nome + "', '"+ this.indirizzo +"', '"+ this.citta + "'";
+        String ret = "'" + adjustDoubleQuotes(nome) + "', '"+ adjustDoubleQuotes(indirizzo) +"', '"+ adjustDoubleQuotes(citta) + "'";
         return ret;
     }
 
     public String toSQLctrl() {
-        String ret = "Nome = '"+ this.nome +
-                     "' AND Indirizzo = '"+ this.indirizzo +
-                     "' AND Città = '"+ this.citta + "'";
+        String ret = "Nome = '"+ adjustDoubleQuotes(nome) +
+                     "' AND Indirizzo = '"+ adjustDoubleQuotes(indirizzo) +
+                     "' AND Città = '"+ adjustDoubleQuotes(citta) + "'";
         return ret;
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     public int toPK(){
