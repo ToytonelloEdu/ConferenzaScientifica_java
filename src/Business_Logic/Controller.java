@@ -269,6 +269,16 @@ public class Controller {
         }
     }
 
+    public void PartecipanteButtonClicked() {
+        AddIstanceClassFrame.getLeftButton9Button().setEnabled(false);
+        AddIstanceClassFrame.getRightButton9Button().setEnabled(true);
+    }
+
+    public void OrganizzatoreButtonClicked() {
+        AddIstanceClassFrame.getLeftButton9Button().setEnabled(true);
+        AddIstanceClassFrame.getRightButton9Button().setEnabled(false);
+    }
+
     public void NewButton11Clicked() {
         addInstFrame_controller.NewButton11Clicked();
     }
@@ -294,12 +304,13 @@ public class Controller {
     public void removeButton10_clicked(){
         addInstFrame_controller.removeButton10Clicked();
     }
-
     public void removeButton12_clicked(){
         addInstFrame_controller.removeButton12Clicked();
     }
-
     public void removeButton14_clicked(){
         addInstFrame_controller.removeButton14Clicked();
+    }
+    public void setComboboxLocazioniforSessione(){
+        addInstFrame_controller.setComboboxLocazioniforSessione();
     }
 }

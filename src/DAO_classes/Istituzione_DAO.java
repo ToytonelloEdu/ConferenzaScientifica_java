@@ -130,25 +130,6 @@ public class Istituzione_DAO implements DaoClass{
         return null;
     }
 
-    public Istituzione getIstituzionebyNome(ModelClass Nome){
-        Istituzione Istituzione_temp = new Istituzione();
-        try{
-            Statement localStmt = this.getStatement();
-            String command = "SELECT * FROM Main.Istituzione WHERE nome = '"+ Nome +"';";
-
-            ResultSet localRS = localStmt.executeQuery(command);
-            if(localRS.next()) {
-                setIstituzione_tempFields(Istituzione_temp, localRS);
-            }
-
-            return Istituzione_temp;
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
     public Istituzione getByPK(int PK) {
         Istituzione Istituzione_temp = new Istituzione();
         try{

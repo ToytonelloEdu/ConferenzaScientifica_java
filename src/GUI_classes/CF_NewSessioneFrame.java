@@ -48,7 +48,7 @@ public class CF_NewSessioneFrame extends JFrame {
         setTitle("Nuova Sessione");
         setBounds(750, 75, 500, 550);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setVisible(true);
+        setVisible(false);
         interventoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,5 +67,11 @@ public class CF_NewSessioneFrame extends JFrame {
                 AddInst_bl.pausaButton_clicked();
             }
         });
+
+        business_logic.setComboboxLocazioniforSessione();
+
+    }
+    public JComboBox<Locazione> getComboBox3() {
+        return comboBox3;
     }
 }

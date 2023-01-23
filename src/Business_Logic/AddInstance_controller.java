@@ -1,6 +1,8 @@
 package Business_Logic;
 
 import DAO_classes.Istituzione_DAO;
+import DAO_classes.Locazione_DAO;
+import DAO_classes.Sede_DAO;
 import DAO_classes.dbAccess_byClassName;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddInstanceClassFrame;
@@ -57,7 +59,7 @@ public class AddInstance_controller {
             NewLocazioneFrame.setVisible(true);
         }
         else if (ClassSelected.equals("Conferenza")){
-
+            NewSessioneFrame.setVisible(true);
         }
     }
 
@@ -72,7 +74,6 @@ public class AddInstance_controller {
                     setFieldsAdd_forSede();
                 }
             case "Utente", "Organizzatore", "Partecipante" -> {
-                    CurrentOggetto = new Organizzatore();
                     setFieldsAdd_forUtente();
                 }
             case "Istituzione" ->{
@@ -420,6 +421,7 @@ public class AddInstance_controller {
     }
 
     private void insertUtente() {
+        Tipo_Utente();
         ((Utente) CurrentOggetto).setTitolo(AddInstanceClassFrame.getTextField1().getText());
         ((Utente) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField2().getText());
         ((Utente) CurrentOggetto).setCognome(AddInstanceClassFrame.getTextField3().getText());
@@ -434,11 +436,16 @@ public class AddInstance_controller {
         }
     }
 
+    private void Tipo_Utente() {
+        if(!(AddInstanceClassFrame.getLeftButton9Button().isEnabled()))
+            CurrentOggetto = new Partecipante();
+        else
+            CurrentOggetto = new Organizzatore();
+    }
+
     private void setIstituzione(){
         ModelClass IstituzioneSelected = (ModelClass) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
-        Istituzione_DAO istituzione = new Istituzione_DAO();
-        Istituzione istituzione_scelta = istituzione.getIstituzionebyNome(IstituzioneSelected);
-        ((Utente) CurrentOggetto).setIstit_afferenza(istituzione_scelta);
+        ((Utente) CurrentOggetto).setIstit_afferenza((Istituzione) IstituzioneSelected);
     }
 
     private void setFieldsAdd_forIstituzione(){
@@ -584,5 +591,18 @@ public class AddInstance_controller {
     }
 
     public void pausaButton_clicked() {
+    }
+
+    public void setComboboxLocazioniforSessione(){
+        Sede SedeSelected = (Sede) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
+        Sede_DAO sede_temp = new Sede_DAO();
+        int Sede_PK = sede_temp.getPK(SedeSelected);
+        for(Locazione o : getValues_for_LocazioniforSessione_comboBox(Sede_PK, SedeSelected))
+            NewSessioneFrame.getComboBox3().addItem(o);
+    }
+
+    private List<Locazione> getValues_for_LocazioniforSessione_comboBox(int Sede_PK, Sede sede) {
+        Locazione_DAO locazione_temp = new Locazione_DAO();
+        return locazione_temp.getAll_bySede(Sede_PK, sede);
     }
 }

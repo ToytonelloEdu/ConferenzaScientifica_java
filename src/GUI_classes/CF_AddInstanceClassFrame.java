@@ -81,22 +81,19 @@ public class CF_AddInstanceClassFrame extends JFrame {
         leftButton9Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                leftButton9Button.setEnabled(false);
-                rightButton9Button.setEnabled(true);
+                business_logic.PartecipanteButtonClicked();
             }
         });
         rightButton9Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                leftButton9Button.setEnabled(true);
-                rightButton9Button.setEnabled(false);
+                business_logic.OrganizzatoreButtonClicked();
             }
         });
         NewButton11.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 business_logic.NewButton11Clicked();
-
             }
         });
         confermaButton.addActionListener(new ActionListener() {
@@ -157,6 +154,12 @@ public class CF_AddInstanceClassFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 business_logic.newButton14_clicked();
+            }
+        });
+        NewButton11.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.NewButton11Clicked();
             }
         });
     }
