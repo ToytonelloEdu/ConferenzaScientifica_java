@@ -1,9 +1,6 @@
 package Business_Logic;
 
-import DAO_classes.Istituzione_DAO;
-import DAO_classes.Locazione_DAO;
-import DAO_classes.Sede_DAO;
-import DAO_classes.dbAccess_byClassName;
+import DAO_classes.*;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddInstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
@@ -59,10 +56,37 @@ public class AddInstance_controller {
             NewLocazioneFrame.setVisible(true);
         }
         else if (ClassSelected.equals("Conferenza")){
-            setComboboxLocazioniforSessione();
-
+            NewSessioneFrameSetUp();
             NewSessioneFrame.setVisible(true);
         }
+    }
+
+    private void NewSessioneFrameSetUp() {
+        setComboboxLocazioniforSessione();
+        setComboboxChairforSessione();
+        setComboboxKeynoteforSessione();
+        AddInstanceClassFrame.getNewButton11().setEnabled(false);
+        AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(false);
+    }
+
+    private void setComboboxKeynoteforSessione() {
+        for(ModelClass u : getAllPartecipantiforCombobox()){
+            NewSessioneFrame.getComboBox5().addItem((Partecipante) u);
+        }
+    }
+
+    private List<ModelClass> getAllPartecipantiforCombobox() {
+        return new Partecipante_DAO().getAll();
+    }
+
+    private void setComboboxChairforSessione() {
+        for(ModelClass u : getAllUtentiforCombobox()){
+            NewSessioneFrame.getComboBox4().addItem((Utente) u);
+        }
+    }
+
+    private List<ModelClass> getAllUtentiforCombobox() {
+        return new Partecipante_DAO().getAllUtenti();
     }
 
     public void ChoiseClassAdd(String selectedClass) {
@@ -606,5 +630,12 @@ public class AddInstance_controller {
     private List<Locazione> getValues_for_LocazioniforSessione_comboBox(int Sede_PK, Sede sede) {
         Locazione_DAO locazione_temp = new Locazione_DAO();
         return locazione_temp.getAll_bySede(Sede_PK, sede);
+    }
+
+    public void NewSess_AnnullaButton_clicked() {
+        NewSessioneFrame.setVisible(false);
+        NewSessioneFrame.getEventoJPanel().setVisible(false);
+        AddInstanceClassFrame.getNewButton11().setEnabled(true);
+        AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(true);
     }
 }

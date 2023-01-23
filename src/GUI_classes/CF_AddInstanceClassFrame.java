@@ -284,6 +284,10 @@ public class CF_AddInstanceClassFrame extends JFrame {
         return label11;
     }
 
+    public JButton getNewButton11() {
+        return NewButton11;
+    }
+
     public JComboBox<ModelClass> getSelectOne_comboBox13() {
         return SelectOne_comboBox13;
     }
