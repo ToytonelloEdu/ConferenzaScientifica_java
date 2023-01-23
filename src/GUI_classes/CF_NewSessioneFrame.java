@@ -48,7 +48,9 @@ public class CF_NewSessioneFrame extends JFrame {
         setTitle("Nuova Sessione");
         setBounds(750, 75, 500, 550);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        eventoJPanel.setVisible(false);
         setVisible(false);
+
         interventoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,8 +69,78 @@ public class CF_NewSessioneFrame extends JFrame {
                 AddInst_bl.pausaButton_clicked();
             }
         });
+        annullaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInst_bl.NewSess_AnnullaButton_clicked();
+            }
+        });
     }
     public JComboBox<Locazione> getComboBox3() {
         return comboBox3;
+    }
+
+    public JPanel getEventoJPanel() {
+        return eventoJPanel;
+    }
+
+    public JButton getInterventoButton() {
+        return interventoButton;
+    }
+
+    public JButton getEventoSocialeButton() {
+        return eventoSocialeButton;
+    }
+
+    public JButton getPausaButton() {
+        return pausaButton;
+    }
+
+    public JTextField getTextField1() {
+        return textField1;
+    }
+
+    public JTextField getTextField2() {
+        return textField2;
+    }
+
+    public JComboBox<Utente> getComboBox4() {
+        return comboBox4;
+    }
+
+    public JComboBox<Partecipante> getComboBox5() {
+        return comboBox5;
+    }
+
+    public JTextField getTextField3() {
+        return textField3;
+    }
+
+    public JTextField getTextField4() {
+        return textField4;
+    }
+
+    public JList<Evento> getList1() {
+        return list1;
+    }
+
+    public JTextField getTextField5() {
+        return textField5;
+    }
+
+    public JComboBox<Partecipante> getInterv_comboBox() {
+        return Interv_comboBox;
+    }
+
+    public JComboBox<String> getTipoP_comboBox() {
+        return tipoP_comboBox;
+    }
+
+    public JComboBox<String> getTipoES_comboBox() {
+        return tipoES_comboBox;
+    }
+
+    public JTextField getTextField6() {
+        return textField6;
     }
 }
