@@ -261,7 +261,7 @@
                 </constraints>
               </hspacer>
               <grid id="b0a99" binding="SelectItems_JPanel10" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+                <margin top="0" left="0" bottom="5" right="0"/>
                 <constraints>
                   <grid row="13" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -334,7 +334,7 @@
                 </children>
               </grid>
               <grid id="a744" binding="SelectItems_JPanel12" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+                <margin top="0" left="0" bottom="5" right="0"/>
                 <constraints>
                   <grid row="14" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -407,7 +407,7 @@
                 </children>
               </grid>
               <grid id="5d4ae" binding="AddOnly_JPanel11" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+                <margin top="0" left="0" bottom="5" right="0"/>
                 <constraints>
                   <grid row="12" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>

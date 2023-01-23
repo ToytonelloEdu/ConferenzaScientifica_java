@@ -10,6 +10,9 @@ import Model_classes.*;
 import java.lang.*;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AddInstance_controller {
@@ -65,14 +68,23 @@ public class AddInstance_controller {
         setComboboxLocazioniforSessione();
         setComboboxChairforSessione();
         setComboboxKeynoteforSessione();
+        setComboboxInterventistaforSessione();
         AddInstanceClassFrame.getNewButton11().setEnabled(false);
         AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(false);
     }
 
+    private void setComboboxInterventistaforSessione() {
+        if(NewSessioneFrame.getInterv_comboBox().getItemCount() == 0)
+            for(ModelClass u : getAllPartecipantiforCombobox()){
+                NewSessioneFrame.getInterv_comboBox().addItem((Partecipante) u);
+            }
+    }
+
     private void setComboboxKeynoteforSessione() {
-        for(ModelClass u : getAllPartecipantiforCombobox()){
-            NewSessioneFrame.getComboBox5().addItem((Partecipante) u);
-        }
+        if(NewSessioneFrame.getComboBox5().getItemCount() == 0)
+            for(ModelClass u : getAllPartecipantiforCombobox()){
+                NewSessioneFrame.getComboBox5().addItem((Partecipante) u);
+            }
     }
 
     private List<ModelClass> getAllPartecipantiforCombobox() {
@@ -80,9 +92,10 @@ public class AddInstance_controller {
     }
 
     private void setComboboxChairforSessione() {
-        for(ModelClass u : getAllUtentiforCombobox()){
-            NewSessioneFrame.getComboBox4().addItem((Utente) u);
-        }
+        if(NewSessioneFrame.getComboBox4().getItemCount() == 0)
+            for(ModelClass u : getAllUtentiforCombobox()){
+                NewSessioneFrame.getComboBox4().addItem((Utente) u);
+            }
     }
 
     private List<ModelClass> getAllUtentiforCombobox() {
@@ -611,12 +624,68 @@ public class AddInstance_controller {
     }
 
     public void interventoButton_clicked() {
+        NewSessioneFrame.setEventoSelected("Intervento");
+        NewSessioneFrame.getInterventoButton().setEnabled(false);
+        NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
+        NewSessioneFrame.getPausaButton().setEnabled(true);
+        NewSessioneFrame.getEventoData_JPanel().setVisible(true);
+        SetAllEventoDataCompVisible();
+        HideInterventoUnused();
+    }
+
+    private void HideInterventoUnused() {
+        NewSessioneFrame.getDescrizioneLabel().setVisible(false);
+        NewSessioneFrame.getTextField6().setVisible(false);
+        NewSessioneFrame.getEventoLabel().setVisible(false);
+        NewSessioneFrame.getTipoES_comboBox().setVisible(false);
+        NewSessioneFrame.getTipologiaLabel().setVisible(false);
+        NewSessioneFrame.getTipoP_comboBox().setVisible(false);
+    }
+
+    private void SetAllEventoDataCompVisible() {
+        for(JComponent jc : NewSessioneFrame.getEventoDataComponents()){
+            jc.setVisible(true);
+        }
     }
 
     public void eventoSocialeButton_clicked() {
+        NewSessioneFrame.setEventoSelected("Evento Sociale");
+        NewSessioneFrame.getInterventoButton().setEnabled(true);
+        NewSessioneFrame.getEventoSocialeButton().setEnabled(false);
+        NewSessioneFrame.getPausaButton().setEnabled(true);
+        NewSessioneFrame.getEventoData_JPanel().setVisible(true);
+        SetAllEventoDataCompVisible();
+        HideEventoSocialeUnused();
+    }
+
+    private void HideEventoSocialeUnused() {
+        NewSessioneFrame.getTipologiaLabel().setVisible(false);
+        NewSessioneFrame.getTipoP_comboBox().setVisible(false);
+        NewSessioneFrame.getIntervLabel().setVisible(false);
+        NewSessioneFrame.getInterv_comboBox().setVisible(false);
+        NewSessioneFrame.getAbstractLabel().setVisible(false);
+        NewSessioneFrame.getTextField5().setVisible(false);
     }
 
     public void pausaButton_clicked() {
+        NewSessioneFrame.setEventoSelected("Pausa");
+        NewSessioneFrame.getInterventoButton().setEnabled(true);
+        NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
+        NewSessioneFrame.getPausaButton().setEnabled(false);
+        NewSessioneFrame.getEventoData_JPanel().setVisible(true);
+        SetAllEventoDataCompVisible();
+        HidePausaUnused();
+    }
+
+    private void HidePausaUnused() {
+        NewSessioneFrame.getDescrizioneLabel().setVisible(false);
+        NewSessioneFrame.getTextField6().setVisible(false);
+        NewSessioneFrame.getEventoLabel().setVisible(false);
+        NewSessioneFrame.getTipoES_comboBox().setVisible(false);
+        NewSessioneFrame.getIntervLabel().setVisible(false);
+        NewSessioneFrame.getInterv_comboBox().setVisible(false);
+        NewSessioneFrame.getAbstractLabel().setVisible(false);
+        NewSessioneFrame.getTextField5().setVisible(false);
     }
 
     public void setComboboxLocazioniforSessione(){
@@ -634,8 +703,77 @@ public class AddInstance_controller {
 
     public void NewSess_AnnullaButton_clicked() {
         NewSessioneFrame.setVisible(false);
-        NewSessioneFrame.getEventoJPanel().setVisible(false);
+        NewSessioneFrame.getEventoData_JPanel().setVisible(false);
         AddInstanceClassFrame.getNewButton11().setEnabled(true);
         AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(true);
+    }
+
+    public void NewSess_ConfermaButtonClicked() {
+
+    }
+
+    public void NewSess_AggiungiButtonClicked() {
+        Evento eventoTemp;
+        switch (NewSessioneFrame.getEventoSelected()){
+            case "Intervento" -> {
+                eventoTemp = new Intervento();
+                setInterventoFields(eventoTemp);
+            }
+            case "Evento Sociale" -> {
+                eventoTemp = new Evento_Sociale();
+                setEvSocialeFields(eventoTemp);
+            }
+            case "Pausa" -> {
+                eventoTemp = new Pausa();
+                setPausaFields(eventoTemp);
+            }
+        }
+    }
+
+    private void setInterventoFields(Evento eventoTemp) {
+    }
+
+    private void setEvSocialeFields(Evento eventoTemp) {
+    }
+
+    private void setPausaFields(Evento eventoTemp) {
+        SetInizio_e_Fine(eventoTemp);
+        ((Pausa) eventoTemp).setTipo_pausa((String) NewSessioneFrame.getTipoP_comboBox().getSelectedItem());
+    }
+
+    private void SetInizio_e_Fine(Evento eventoTemp) {
+        eventoTemp.setInizio(getInizioInLDT());
+        eventoTemp.setFine(getFineInLDT());
+    }
+
+    private LocalDateTime getFineInLDT() {
+        String strData = NewSessioneFrame.getTextField3().getText();
+        Date data = Date.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    private LocalDateTime getInizioInLDT() {
+        String strData = NewSessioneFrame.getTextField4().getText();
+        Date data = Date.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    private LocalDateTime getInizioSessioneInLDT() {
+        String strData = NewSessioneFrame.getTextField1().getText()
+                         +" "+NewSessioneFrame.getTextField1_1();
+        Date data = Date.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    private LocalDateTime getFineSessioneInLDT() {
+        String strData = NewSessioneFrame.getTextField2().getText()
+                         +" "+NewSessioneFrame.getTextField2_1();
+        Date data = Date.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    private LocalDateTime convertToLocalDateTime(java.util.Date date) {
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp.toLocalDateTime();
     }
 }

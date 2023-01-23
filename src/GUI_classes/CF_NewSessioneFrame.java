@@ -5,12 +5,15 @@ import Business_Logic.Controller;
 import Model_classes.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CF_NewSessioneFrame extends JFrame {
-    private Controller business_logic;
-    private AddInstance_controller AddInst_bl;
+    private final Controller business_logic;
+    private final AddInstance_controller AddInst_bl;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -39,16 +42,34 @@ public class CF_NewSessioneFrame extends JFrame {
     private JButton annullaButton;
     private JButton confermaButton;
     private JLabel intervLabel;
+    private JPanel EventoData_JPanel;
+    private JPanel BottomPanel;
+    private JLabel tipologiaLabel;
+    private JLabel eventoLabel;
+    private JLabel inizioLabel;
+    private JLabel fineLabel;
+    private JLabel descrizioneLabel;
+    private JLabel abstractLabel;
+    private JTextField TextField1_1;
+    private JTextField TextField2_1;
+    private JButton aggiungiButton;
+    private final List<JComponent> EventoDataComponents = new ArrayList<>(EventoData_JPanel.getComponentCount());
+
+    private final DefaultListModel<Evento> EvDLModel = (DefaultListModel<Evento>) list1.getModel();
+    private String EventoSelected;
 
     public CF_NewSessioneFrame(Controller c, AddInstance_controller aic){
         business_logic = c;
         AddInst_bl = aic;
         AddInst_bl.setNewSessioneFrame(this);
+        for(Component comp : EventoData_JPanel.getComponents()){
+            EventoDataComponents.add((JComponent) comp);
+        }
         setContentPane(MainPanel);
         setTitle("Nuova Sessione");
         setBounds(750, 75, 500, 550);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        eventoJPanel.setVisible(false);
+        EventoData_JPanel.setVisible(false);
         setVisible(false);
 
         interventoButton.addActionListener(new ActionListener() {
@@ -75,7 +96,32 @@ public class CF_NewSessioneFrame extends JFrame {
                 AddInst_bl.NewSess_AnnullaButton_clicked();
             }
         });
+        confermaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInst_bl.NewSess_ConfermaButtonClicked();
+            }
+        });
+        aggiungiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInst_bl.NewSess_AggiungiButtonClicked();
+            }
+        });
     }
+
+    public List<JComponent> getEventoDataComponents() {
+        return EventoDataComponents;
+    }
+
+    public String getEventoSelected() {
+        return EventoSelected;
+    }
+
+    public void setEventoSelected(String eventoSelected) {
+        EventoSelected = eventoSelected;
+    }
+
     public JComboBox<Locazione> getComboBox3() {
         return comboBox3;
     }
@@ -142,5 +188,41 @@ public class CF_NewSessioneFrame extends JFrame {
 
     public JTextField getTextField6() {
         return textField6;
+    }
+
+    public JPanel getEventoData_JPanel() {
+        return EventoData_JPanel;
+    }
+
+    public Controller getBusiness_logic() {
+        return business_logic;
+    }
+
+    public JLabel getIntervLabel() {
+        return intervLabel;
+    }
+
+    public JLabel getTipologiaLabel() {
+        return tipologiaLabel;
+    }
+
+    public JLabel getEventoLabel() {
+        return eventoLabel;
+    }
+
+    public JLabel getDescrizioneLabel() {
+        return descrizioneLabel;
+    }
+
+    public JLabel getAbstractLabel() {
+        return abstractLabel;
+    }
+
+    public JTextField getTextField1_1() {
+        return TextField1_1;
+    }
+
+    public JTextField getTextField2_1() {
+        return TextField2_1;
     }
 }
