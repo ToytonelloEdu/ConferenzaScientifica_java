@@ -27,19 +27,23 @@ public class Partecipante extends Utente{
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.getTitolo() + "', '"+ this.getNome() +"', '" + this.getCognome() +"', '"
-                     + this.getEmail() +"', 'Partecipante', '" + this.getIstit_afferenza().toPK() +"'";
+        String ret = "'" + adjustDoubleQuotes(getTitolo()) + "', '"+ adjustDoubleQuotes(getNome()) +"', '" + adjustDoubleQuotes(getCognome()) +"', '"
+                     + adjustDoubleQuotes(getEmail()) +"', 'Partecipante', '" + getIstit_afferenza().toPK() +"'";
         return ret;
     }
 
     public String toSQLctrl(){
 
-        return "titolo = '"+ this.getTitolo() +"' AND " +
-                "nome = '"+ this.getNome() +"' AND " +
-                "cognome = '"+ this.getCognome()+ "' AND " +
-                "email = '"+ this.getEmail()+ "' AND " +
+        return "titolo = '"+ adjustDoubleQuotes(getTitolo()) +"' AND " +
+                "nome = '"+ adjustDoubleQuotes(getNome()) +"' AND " +
+                "cognome = '"+ adjustDoubleQuotes(getCognome()) + "' AND " +
+                "email = '"+ adjustDoubleQuotes(getEmail()) + "' AND " +
                 "tipo_utente = 'Partecipante' AND " +
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
 }

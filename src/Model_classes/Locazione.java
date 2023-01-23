@@ -49,15 +49,19 @@ public class Locazione implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = this.collocazione.toPK() + ", '"+ this.nome +"', "+ this.postiDisponibili;
+        String ret = this.collocazione.toPK() + ", '"+ adjustDoubleQuotes(nome) +"', "+ this.postiDisponibili;
         return ret;
     }
 
     public String toSQLctrl() {
         String ret = "Sede_ID = '"+ collocazione.toPK() +
-                "' AND Nome_loc = '"+ this.nome +
-                "' AND PostiDisp = '"+ this.postiDisponibili + "'";
+                "' AND Nome_loc = '"+ adjustDoubleQuotes(nome) +
+                "' AND PostiDisp = '"+ postiDisponibili + "'";
         return ret;
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     public int toPK(){

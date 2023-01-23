@@ -53,7 +53,7 @@ public class Intervento extends Evento{
     }
 
     public String toSQLrow() {
-        String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + this.Abstract +"', "
+        String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + adjustDoubleQuotes(Abstract) +"', "
                 + this.getSessione().toPK() +", "+ this.getPartecipante().toPK() +"";
         return ret;
     }
@@ -62,9 +62,13 @@ public class Intervento extends Evento{
     public String toSQLctrl() {
         return "inizio = '"+ Timestamp.valueOf(getInizio()) +"' AND " +
                 "fine = '"+ Timestamp.valueOf(getFine()) +"' AND " +
-                "abstract = '"+ this.Abstract + "' AND " +
+                "abstract = '"+ adjustDoubleQuotes(Abstract) + "' AND " +
                 "sessione = "+ this.getSessione().toPK() + " AND " +
                 "partecipante = "+ this.getPartecipante().toPK();
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     @Override

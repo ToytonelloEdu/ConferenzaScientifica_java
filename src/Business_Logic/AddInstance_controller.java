@@ -596,10 +596,10 @@ public class AddInstance_controller {
     }
 
     public void setComboboxLocazioniforSessione(){
-        Sede SedeSelected = (Sede) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
+        ModelClass SedeSelected = (ModelClass) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
         int Sede_PK = SedeSelected.toPK();
         NewSessioneFrame.getComboBox3().removeAllItems();
-        for(Locazione o : getValues_for_LocazioniforSessione_comboBox(Sede_PK, SedeSelected))
+        for(Locazione o : getValues_for_LocazioniforSessione_comboBox(Sede_PK, (Sede) SedeSelected))
             NewSessioneFrame.getComboBox3().addItem(o);
     }
 

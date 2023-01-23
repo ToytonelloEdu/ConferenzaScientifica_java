@@ -51,7 +51,7 @@ public class Pausa extends Evento implements ModelClass {
 
         return "inizio = '"+ Timestamp.valueOf(getInizio()) +"' AND " +
                 "fine = '"+ Timestamp.valueOf(getFine()) +"' AND " +
-                "tipo_pausa = '"+ this.tipo_pausa+ "' AND " +
+                "tipo_pausa = '"+ this.tipo_pausa + "' AND " +
                 "sessione = "+ this.getSessione().toPK();
     }
 

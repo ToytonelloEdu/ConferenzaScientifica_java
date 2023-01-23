@@ -55,7 +55,7 @@ public class Evento_Sociale extends Evento implements ModelClass{
     @Override
     public String toSQLrow() {
         String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + this.tipo_evsociale +"', '"
-                     + this.descrizione +"', "+ this.getSessione().toPK() +"";
+                     + adjustDoubleQuotes(descrizione) +"', "+ this.getSessione().toPK() +"";
         return ret;
     }
 
@@ -64,10 +64,13 @@ public class Evento_Sociale extends Evento implements ModelClass{
         return "inizio = '"+ Timestamp.valueOf(getInizio()) +"' AND " +
                 "fine = '"+ Timestamp.valueOf(getFine()) +"' AND " +
                 "tipo_evsociale = '"+ this.tipo_evsociale + "' AND " +
-                "descrizione = '"+ this.descrizione + "' AND " +
+                "descrizione = '"+ adjustDoubleQuotes(descrizione) + "' AND " +
                 "sessione = "+ this.getSessione().toPK();
     }
 
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
+    }
 
     @Override
     public String toDetailsString() {

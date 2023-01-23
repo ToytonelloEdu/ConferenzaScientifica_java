@@ -40,14 +40,18 @@ public class Istituzione implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.Nome + "', '"+ this.Nazione +"'";
+        String ret = "'" + adjustDoubleQuotes(Nome) + "', '"+ adjustDoubleQuotes(Nazione) +"'";
         return ret;
     }
 
     public String toSQLctrl() {
-        String ret = "Nome = '"+ this.Nome +
-                     "' AND Nazione = '"+ this.Nazione + "'";
+        String ret = "Nome = '"+ adjustDoubleQuotes(Nome) +
+                     "' AND Nazione = '"+ adjustDoubleQuotes(Nazione) + "'";
         return ret;
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     public int toPK(){

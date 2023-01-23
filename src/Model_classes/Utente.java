@@ -59,11 +59,15 @@ public abstract class Utente implements ModelClass {
     }
 
     public String toSQLctrlU(){
-        return "titolo = '"+ this.getTitolo() +"' AND " +
-                "nome = '"+ this.getNome() +"' AND " +
-                "cognome = '"+ this.getCognome()+ "' AND " +
-                "email = '"+ this.getEmail()+ "' AND " +
+        return "titolo = '"+ adjustDoubleQuotes(getTitolo()) +"' AND " +
+                "nome = '"+ adjustDoubleQuotes(getNome()) +"' AND " +
+                "cognome = '"+ adjustDoubleQuotes(getCognome()) + "' AND " +
+                "email = '"+ adjustDoubleQuotes(getEmail()) + "' AND " +
                 "istit_afferenza = "+ this.getIstit_afferenza().toPK();
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     @Override
@@ -81,5 +85,10 @@ public abstract class Utente implements ModelClass {
 
     public String toDetailString() {
         return Titolo +", "+ Nome + " " + Cognome + " ("+getClass().getSimpleName()+")";
+    }
+
+    @Override
+    public String toString() {
+        return Nome +" "+ Cognome +", "+ Titolo;
     }
 }

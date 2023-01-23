@@ -106,13 +106,13 @@ public class Sessione implements ModelClass{
         Object keynoteSP_PK;
 
         try{
-            keynoteSP_PK = this.keynote_speaker.toPK();
+            keynoteSP_PK = keynote_speaker.toPK();
         } catch (NullPointerException e){
             keynoteSP_PK = "null";
         }
 
-        String ret = "'"+ this.nome+"', '"+ Timestamp.valueOf(inizio) +"', '"+ Timestamp.valueOf(fine) + "', "+ this.conferenza.toPK() +
-                     ", "+ this.locazione.toPK() +", '"+ this.locazione.getNome() +"', "+ this.chair.toPK() +", "+ keynoteSP_PK;
+        String ret = "'"+ adjustDoubleQuotes(nome) +"', '"+ Timestamp.valueOf(inizio) +"', '"+ Timestamp.valueOf(fine) + "', "+ this.conferenza.toPK() +
+                     ", "+ this.locazione.toPK() +", '"+ adjustDoubleQuotes(locazione.getNome())  +"', "+ this.chair.toPK() +", "+ keynoteSP_PK;
 
         return ret;
     }
@@ -122,19 +122,23 @@ public class Sessione implements ModelClass{
         Object keynoteSP_PK;
 
         try{
-            keynoteSP_PK = this.keynote_speaker.toPK();
+            keynoteSP_PK = keynote_speaker.toPK();
         } catch (NullPointerException e){
             keynoteSP_PK = "null";
         }
 
-        return "nome_sess = '"+ this.nome +"' AND " +
+        return "nome_sess = '"+ adjustDoubleQuotes(nome) +"' AND " +
                 "inizio = '"+ Timestamp.valueOf(inizio) +"' AND " +
                 "fine = '"+ Timestamp.valueOf(fine) +"' AND " +
                 "conferenza = "+ this.conferenza.toPK() +" AND " +
                 "sede = "+ this.locazione.toPK() +" AND " +
-                "locazione = '"+ this.locazione.getNome() +"' AND " +
+                "locazione = '"+ adjustDoubleQuotes(locazione.getNome()) +"' AND " +
                 "chair = "+ this.chair.toPK() +" AND " +
                 "keynote_speaker = "+ keynoteSP_PK;
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     @Override

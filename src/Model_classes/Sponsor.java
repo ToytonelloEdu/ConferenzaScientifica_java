@@ -39,14 +39,18 @@ public class Sponsor implements ModelClass{
     }
 
     public String toSQLrow() {
-        String ret = "'" + this.Nome + "', '"+ this.PartitaIVA +"'";
+        String ret = "'" + adjustDoubleQuotes(Nome) + "', '"+ adjustDoubleQuotes(PartitaIVA) +"'";
         return ret;
     }
 
     public String toSQLctrl() {
-        String ret = "Nome = '"+ this.Nome +
-                     "' AND partitaiva = '"+ this.PartitaIVA + "'";
+        String ret = "Nome = '"+ adjustDoubleQuotes(Nome) +
+                     "' AND partitaiva = '"+ adjustDoubleQuotes(PartitaIVA) + "'";
         return ret;
+    }
+
+    private String adjustDoubleQuotes(String s){
+        return s.replaceAll("'", "''");
     }
 
     public int toPK(){
