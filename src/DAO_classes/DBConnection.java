@@ -20,7 +20,13 @@ public class DBConnection
         private Connection conn = null;
 
         // costruttore private
-        private DBConnection(){}
+        private DBConnection(){
+            passwordList.add("sangio");
+            passwordList.add("StaniLobo");
+
+            dbNamesList.add("Conferencer DB");
+            dbNamesList.add("Conferenze2.0");
+        }
 
         // metodo pubblico per ottenere una istanza della classe privata
         public static DBConnection getDBConnection()
@@ -34,11 +40,8 @@ public class DBConnection
 
         // metodo pubblico per ottenere la connessione
         public Connection getConnection() {
-            //String pwd = "StaniLobo";
-            if (passwordList.isEmpty()){
-                passwordList.add("sangio");
-                passwordList.add("StaniLobo");
-            }
+
+
             try
             {   // se la connessione non esiste oppure è stata chiusa
                 if(conn==null || conn.isClosed())
@@ -47,8 +50,6 @@ public class DBConnection
                     Class.forName("org.postgresql.Driver");
                     // chiama il DriverManager e chiedi la connessione
 
-                    dbNamesList.add("Conferencer DB");
-                    dbNamesList.add("Conferenze2.0");
                     for(String pwd : passwordList) {
                         for(String dbName : dbNamesList) {
                             try {
