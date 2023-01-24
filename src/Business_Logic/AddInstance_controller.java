@@ -566,17 +566,20 @@ public class AddInstance_controller {
 
     public void addButton10Clicked() {
         ModelClass selectedItem10 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox10().getSelectedItem();
-        dlModel10.addElement(selectedItem10);
+        if(!dlModel10.contains(selectedItem10))
+            dlModel10.addElement(selectedItem10);
     }
 
     public void addButton12Clicked() {
         ModelClass selectedItem12 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox12().getSelectedItem();
-        dlModel12.addElement(selectedItem12);
+        if(!dlModel12.contains(selectedItem12))
+            dlModel12.addElement(selectedItem12);
     }
 
     public void addButton14Clicked() {
         ModelClass selectedItem14 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox14().getSelectedItem();
-        dlModel14.addElement(selectedItem14);
+        if(!dlModel14.contains(selectedItem14))
+            dlModel14.addElement(selectedItem14);
     }
 
     public void newButton14Clicked() {
