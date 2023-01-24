@@ -33,11 +33,12 @@ public class DBConnection
         }
 
         // metodo pubblico per ottenere la connessione
-        public Connection getConnection()
-        {
+        public Connection getConnection() {
             //String pwd = "StaniLobo";
-            passwordList.add("sangio");
-            passwordList.add("StaniLobo");
+            if (passwordList.isEmpty()){
+                passwordList.add("sangio");
+                passwordList.add("StaniLobo");
+            }
             try
             {   // se la connessione non esiste oppure è stata chiusa
                 if(conn==null || conn.isClosed())
