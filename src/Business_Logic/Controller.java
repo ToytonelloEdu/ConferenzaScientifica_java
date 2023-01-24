@@ -24,6 +24,8 @@ public class Controller {
     CF_LoginFrame NewLoginFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
+    Organizzatore AccessUser;
+
     public static void main(String[] args) {
         try {
            Controller business_logic = new Controller();
@@ -354,5 +356,8 @@ public class Controller {
         }
         else
             return true;
+    }
+
+    public void LoginButtonClicked() {
     }
 }

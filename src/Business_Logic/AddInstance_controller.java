@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddInstance_controller {
@@ -81,10 +82,11 @@ public class AddInstance_controller {
     }
 
     private void setComboboxKeynoteforSessione() {
-        if(NewSessioneFrame.getComboBox5().getItemCount() == 0)
-            for(ModelClass u : getAllPartecipantiforCombobox()){
+        if(NewSessioneFrame.getComboBox5().getItemCount() == 0) {
+            for (ModelClass u : getAllPartecipantiforCombobox()) {
                 NewSessioneFrame.getComboBox5().addItem((Partecipante) u);
             }
+        }
     }
 
     private List<ModelClass> getAllPartecipantiforCombobox() {
@@ -712,11 +714,58 @@ public class AddInstance_controller {
     }
 
     public void NewSess_ConfermaButtonClicked() {
+        try {
+            if (CheckDataInserted()) {
+
+            }
+        }
+        catch (IllegalArgumentException ile){
+            JOptionPane.showMessageDialog(NewSessioneFrame, "Formato Data e Ora non corretti");
+        }
+    }
+
+    private boolean CheckDataInserted() {
+        return CheckNoCampiVuotiForSessione()
+               && CheckDate()
+               && CheckChair_e_Keynote();
 
     }
 
+    private Boolean CheckNoCampiVuotiForSessione() {
+        return !(NewSessioneFrame.getTextField1().getText().equals(""))
+                && !(NewSessioneFrame.getTextField1_1().getText().equals(""))
+                && !(NewSessioneFrame.getTextField2().getText().equals(""))
+                && !(NewSessioneFrame.getTextField2_1().getText().equals(""))
+                && !(NewSessioneFrame.getEvDLModel().isEmpty());
+    }
+
+    private boolean CheckDate() {
+        List<LocalDateTime> LDTList = TryLocalDateTimeConversion();
+
+        return LDTList.get(0).isBefore(LDTList.get(1));
+    }
+
+    private List<LocalDateTime> TryLocalDateTimeConversion() {
+        List<LocalDateTime> retList = new ArrayList<>(2);
+        List<String> strDatas = new ArrayList<>(2);
+        strDatas.add(NewSessioneFrame.getTextField1().getText()+" "+NewSessioneFrame.getTextField1_1().getText());
+        strDatas.add(NewSessioneFrame.getTextField2().getText()+" "+NewSessioneFrame.getTextField2_1().getText());
+        for(String strData : strDatas) {
+            Timestamp tempTStamp = Timestamp.valueOf(strData);
+            retList.add(tempTStamp.toLocalDateTime());
+        }
+        return retList;
+    }
+
+    private boolean CheckChair_e_Keynote() {
+        if(NewSessioneFrame.getComboBox5().isEnabled())
+            return NewSessioneFrame.getComboBox4().getSelectedItem().equals(NewSessioneFrame.getComboBox5().getSelectedItem());
+        else
+            return true;
+    }
+
     public void NewSess_AggiungiButtonClicked() {
-        Evento eventoTemp;
+        Evento eventoTemp = null;
         switch (NewSessioneFrame.getEventoSelected()){
             case "Intervento" -> {
                 eventoTemp = new Intervento();
@@ -731,14 +780,26 @@ public class AddInstance_controller {
                 setPausaFields(eventoTemp);
             }
         }
+        if (eventoTemp != null) {
+            NewSessioneFrame.getEvDLModel().addElement(eventoTemp);
+        }
+        for(JComponent jc : NewSessioneFrame.getEventoDataComponents()){
+            try{
+                ((JTextField) jc).setText("");
+            }catch (ClassCastException ignored){}
+        }
     }
 
     private void setInterventoFields(Evento eventoTemp) {
         SetInizio_e_Fine(eventoTemp);
+        ((Intervento) eventoTemp).setPartecipante((Partecipante) NewSessioneFrame.getInterv_comboBox().getSelectedItem());
+        ((Intervento) eventoTemp).setAbstract(NewSessioneFrame.getTextField5().getText());
     }
 
     private void setEvSocialeFields(Evento eventoTemp) {
         SetInizio_e_Fine(eventoTemp);
+        ((Evento_Sociale) eventoTemp).setTipo_evsociale((String) NewSessioneFrame.getTipoES_comboBox().getSelectedItem());
+        ((Evento_Sociale) eventoTemp).setDescrizione(NewSessioneFrame.getTextField6().getText());
     }
 
     private void setPausaFields(Evento eventoTemp) {
@@ -753,13 +814,13 @@ public class AddInstance_controller {
 
     private LocalDateTime getFineInLDT() {
         String strData = NewSessioneFrame.getTextField3().getText();
-        Date data = Date.valueOf(strData);
+        Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
     private LocalDateTime getInizioInLDT() {
         String strData = NewSessioneFrame.getTextField4().getText();
-        Date data = Date.valueOf(strData);
+        Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
@@ -780,5 +841,21 @@ public class AddInstance_controller {
     private LocalDateTime convertToLocalDateTime(java.util.Date date) {
         Timestamp timestamp = new Timestamp(date.getTime());
         return timestamp.toLocalDateTime();
+    }
+
+    public void NewSess_NessunoButtonClicked() {
+        NewSessioneFrame.getComboBox5().setEnabled(!NewSessioneFrame.getComboBox5().isEnabled());
+        if(NewSessioneFrame.getComboBox5().isEnabled()){
+            NewSessioneFrame.getNessunoButton().setText("Nessuno");
+        }
+        else if(!NewSessioneFrame.getComboBox5().isEnabled()){
+            NewSessioneFrame.getNessunoButton().setText("Scegli");
+        }
+    }
+
+    public void NewSess_RimuoviButtonClicked() {
+        if(!NewSessioneFrame.getEvDLModel().isEmpty() && NewSessioneFrame.getList1().getSelectedIndex() != -1){
+            NewSessioneFrame.getEvDLModel().remove(NewSessioneFrame.getList1().getSelectedIndex());
+        }
     }
 }

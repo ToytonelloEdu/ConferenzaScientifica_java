@@ -53,6 +53,8 @@ public class CF_NewSessioneFrame extends JFrame {
     private JTextField TextField1_1;
     private JTextField TextField2_1;
     private JButton aggiungiButton;
+    private JButton nessunoButton;
+    private JButton rimuoviButton;
     private final List<JComponent> EventoDataComponents = new ArrayList<>(EventoData_JPanel.getComponentCount());
 
     private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
@@ -107,6 +109,18 @@ public class CF_NewSessioneFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddInst_bl.NewSess_AggiungiButtonClicked();
+            }
+        });
+        nessunoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInst_bl.NewSess_NessunoButtonClicked();
+            }
+        });
+        rimuoviButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddInst_bl.NewSess_RimuoviButtonClicked();
             }
         });
     }
@@ -229,5 +243,9 @@ public class CF_NewSessioneFrame extends JFrame {
 
     public JTextField getTextField2_1() {
         return TextField2_1;
+    }
+
+    public JButton getNessunoButton() {
+        return nessunoButton;
     }
 }

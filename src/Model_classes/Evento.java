@@ -51,4 +51,9 @@ public abstract class Evento implements ModelClass{
     }
 
     public abstract String toDetailsString();
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " ("+ inizio + ", " +fine+")";
+    }
 }

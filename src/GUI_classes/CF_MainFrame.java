@@ -43,6 +43,8 @@ public class CF_MainFrame extends JFrame {
     private JButton detailsButton;
     private JPanel FirstList_Panel;
     private JComboBox<String> dbAttr_comboBox;
+    private JLabel TitleLabel;
+    private JButton loginButton;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -97,6 +99,12 @@ public class CF_MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 business_logic.addButton_clicked();
+            }
+        });
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.LoginButtonClicked();
             }
         });
     }

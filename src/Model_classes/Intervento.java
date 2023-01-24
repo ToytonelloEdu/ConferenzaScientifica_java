@@ -9,13 +9,13 @@ import java.util.List;
 public class Intervento extends Evento{
 
     private String Abstract;
-    private Utente partecipante;
+    private Partecipante partecipante;
     private Intervento_DAO dao = new Intervento_DAO();
 
     public Intervento(){
     }
 
-    public Intervento(LocalDateTime inizio, LocalDateTime fine, String Abstract, Sessione sessione, Utente partecipante){
+    public Intervento(LocalDateTime inizio, LocalDateTime fine, String Abstract, Sessione sessione, Partecipante partecipante){
         setInizio(inizio);
         setFine(fine);
         this.Abstract = Abstract;
@@ -31,11 +31,11 @@ public class Intervento extends Evento{
         Abstract = anAbstract;
     }
 
-    public Utente getPartecipante() {
+    public Partecipante getPartecipante() {
         return partecipante;
     }
 
-    public void setPartecipante(Utente partecipante) {
+    public void setPartecipante(Partecipante partecipante) {
         this.partecipante = partecipante;
     }
 

@@ -91,4 +91,19 @@ public abstract class Utente implements ModelClass {
     public String toString() {
         return Nome +" "+ Cognome +", "+ Titolo;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        try{
+            if(this.getClass().equals(obj.getClass()))
+                return  Nome.equals(((Utente) obj).Nome)
+                        && Cognome.equals(((Utente) obj).Cognome)
+                        && Titolo.equals(((Utente) obj).Titolo)
+                        && Email.equals(((Utente) obj).Email);
+            else
+                return false;
+        }catch (ClassCastException castE){
+            return false;
+        }
+    }
 }
