@@ -9,6 +9,7 @@ public abstract class Evento implements ModelClass{
 
     private LocalDateTime inizio;
     private LocalDateTime fine;
+    private Sessione sessione;
 
     public Evento(){
     }
@@ -27,6 +28,14 @@ public abstract class Evento implements ModelClass{
 
     public void setFine(LocalDateTime fine) {
         this.fine = fine;
+    }
+
+    public Sessione getSessione() {
+        return sessione;
+    }
+
+    public void setSessione(Sessione sessione) {
+        this.sessione = sessione;
     }
 
     public abstract DaoClass getDao();

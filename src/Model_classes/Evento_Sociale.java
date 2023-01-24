@@ -10,7 +10,6 @@ public class Evento_Sociale extends Evento implements ModelClass{
 
     private String tipo_evsociale;
     private String descrizione;
-    private Sessione sessione;
     private Evento_Sociale_DAO dao = new Evento_Sociale_DAO();
 
     public Evento_Sociale(){
@@ -21,7 +20,7 @@ public class Evento_Sociale extends Evento implements ModelClass{
         setFine(fine);
         this.tipo_evsociale = tipo_evsociale;
         this.descrizione = descrizione;
-        this.sessione = sessione;
+        setSessione(sessione);
     }
 
     public String getTipo_evsociale() {
@@ -38,14 +37,6 @@ public class Evento_Sociale extends Evento implements ModelClass{
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
-    }
-
-    public Sessione getSessione() {
-        return sessione;
-    }
-
-    public void setSessione(Sessione sessione) {
-        this.sessione = sessione;
     }
 
     public Evento_Sociale_DAO getDao() {

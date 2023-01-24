@@ -9,7 +9,6 @@ import java.util.List;
 public class Intervento extends Evento{
 
     private String Abstract;
-    private Sessione sessione;
     private Utente partecipante;
     private Intervento_DAO dao = new Intervento_DAO();
 
@@ -20,7 +19,7 @@ public class Intervento extends Evento{
         setInizio(inizio);
         setFine(fine);
         this.Abstract = Abstract;
-        this.sessione = sessione;
+        setSessione(sessione);;
         this.partecipante = partecipante;
     }
 
@@ -30,14 +29,6 @@ public class Intervento extends Evento{
 
     public void setAbstract(String anAbstract) {
         Abstract = anAbstract;
-    }
-
-    public Sessione getSessione() {
-        return sessione;
-    }
-
-    public void setSessione(Sessione sessione) {
-        this.sessione = sessione;
     }
 
     public Utente getPartecipante() {

@@ -169,10 +169,8 @@ public class Pausa_DAO extends Evento_DAO {
 
             while (LocalRS.next()) {
 
-
                 Pausa pausaTemp = this.setPausa_tempFields(sess, LocalRS);
                 AllPausa.add(pausaTemp);
-
             }
             return AllPausa;
         } catch (SQLException e) {

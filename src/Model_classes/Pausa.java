@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 public class Pausa extends Evento implements ModelClass {
 
     private String tipo_pausa;
-    private Sessione sessione;
     private Pausa_DAO dao = new Pausa_DAO();
 
     public Pausa() {
@@ -18,7 +17,7 @@ public class Pausa extends Evento implements ModelClass {
         setInizio(inizio);
         setFine(fine);
         this.tipo_pausa = tipo_pausa;
-        this.sessione = sessione;
+        setSessione(sessione);
     }
 
     public String getTipo_pausa() {
@@ -27,14 +26,6 @@ public class Pausa extends Evento implements ModelClass {
 
     public void setTipo_pausa(String tipo_pausa) {
         this.tipo_pausa = tipo_pausa;
-    }
-
-    public Sessione getSessione() {
-        return sessione;
-    }
-
-    public void setSessione(Sessione sessione) {
-        this.sessione = sessione;
     }
 
     public Pausa_DAO getDao() {

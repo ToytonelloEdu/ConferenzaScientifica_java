@@ -3,6 +3,7 @@ package DAO_classes;
 import Exceptions.InsertFailedException;
 import Model_classes.Istituzione;
 import Model_classes.ModelClass;
+import Model_classes.Organizzatore;
 import Model_classes.Utente;
 
 import java.sql.Connection;
@@ -117,6 +118,25 @@ public class Organizzatore_DAO extends Utente_DAO{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public Organizzatore getByEmail(String email){
+
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT * FROM Main.Utente WHERE tipo_utente = 'Organizzatore' AND email = '"+ email +"';";
+            ResultSet LocalRS = localStmt.executeQuery(command);
+
+            while (LocalRS.next()) {
+                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+
+                return (Organizzatore) setUtente_tempFields(istituzione_temp, LocalRS);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 }

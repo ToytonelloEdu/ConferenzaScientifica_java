@@ -21,6 +21,7 @@ public class Controller {
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
     CF_NewSessioneFrame NewSessioneFrame;
+    CF_LoginFrame NewLoginFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
     public static void main(String[] args) {
@@ -43,8 +44,7 @@ public class Controller {
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
         NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
-        String s = "Ciro's";
-        System.out.println(s.replaceAll("'", "''"));
+        NewLoginFrame = new CF_LoginFrame(this);
     }
 
     public CF_NewLocazioneFrame getNewLocazioneFrame() {
@@ -311,5 +311,48 @@ public class Controller {
     }
     public void removeButton14_clicked(){
         addInstFrame_controller.removeButton14Clicked();
+    }
+
+    public void AnnullaButtonLoginClicked(){
+        NewLoginFrame.setVisible(false);
+        NewLoginFrame.getTextField1().setText("");
+        NewLoginFrame.getTextField2().setText("");
+    }
+
+    public void AccediButtonLoginClicked(){
+        if(CheckNoCampiVuoti()) {
+            String emailInserita = NewLoginFrame.getTextField1().getText();
+            String passwordInserita = NewLoginFrame.getTextField2().getText();
+            if(check_accesso(emailInserita, passwordInserita)) {
+                JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
+                NewLoginFrame.setVisible(false);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(NewLoginFrame, "Inserimento fallito: dati mancanti");
+    }
+
+    public boolean CheckNoCampiVuoti() {
+        return !(NewLoginFrame.getTextField1().getText().equals("")) && !(NewLoginFrame.getTextField2().getText().equals(""));
+    }
+
+    public boolean check_accesso(String emailInserita, String passwordInserita) {
+        try {
+            Organizzatore organizzatore_temp = new Organizzatore_DAO().getByEmail(emailInserita);
+            System.out.println(organizzatore_temp.toDetailString());
+            return check_password(passwordInserita);
+        }catch(NullPointerException e){
+            JOptionPane.showMessageDialog(NewLoginFrame, "Email errata!");
+            return false;
+        }
+    }
+
+    private boolean check_password(String passwordInserita) {
+        if(!passwordInserita.equals("StaniLobo") && !passwordInserita.equals("sangio")) {
+            JOptionPane.showMessageDialog(NewLoginFrame, "Password errata!");
+            return false;
+        }
+        else
+            return true;
     }
 }
