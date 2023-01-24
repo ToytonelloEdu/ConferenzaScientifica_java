@@ -19,7 +19,6 @@ public class CF_LoginFrame extends JFrame{
     public CF_LoginFrame(Controller c){
         business_logic = c;
         CF_LoginFrame FrameHolder = LoginFrame_setup();
-        setVisible(true);
 
         buttonAnnulla.addActionListener(new ActionListener() {
             @Override
@@ -39,7 +38,7 @@ public class CF_LoginFrame extends JFrame{
         CF_LoginFrame FrameHolder = this;
         setContentPane(HomePanel);
         setTitle("Login Organizzatore");
-        setBounds(150, 150, 400, 200);
+        setBounds(150, 150, 400, 150);
         return FrameHolder;
     }
 

@@ -55,6 +55,7 @@ public class CF_NewSessioneFrame extends JFrame {
     private JButton aggiungiButton;
     private JButton nessunoButton;
     private JButton rimuoviButton;
+    private JTextField textField0;
     private final List<JComponent> EventoDataComponents = new ArrayList<>(EventoData_JPanel.getComponentCount());
 
     private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
@@ -247,5 +248,9 @@ public class CF_NewSessioneFrame extends JFrame {
 
     public JButton getNessunoButton() {
         return nessunoButton;
+    }
+
+    public JTextField getTextField0() {
+        return textField0;
     }
 }

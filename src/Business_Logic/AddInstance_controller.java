@@ -715,8 +715,8 @@ public class AddInstance_controller {
 
     public void NewSess_ConfermaButtonClicked() {
         try {
-            if (CheckDataInserted()) {
-
+            if (CheckSessioneInserted()) {
+                Sessione tempSessione = createSessione();
             }
         }
         catch (IllegalArgumentException ile){
@@ -724,7 +724,25 @@ public class AddInstance_controller {
         }
     }
 
-    private boolean CheckDataInserted() {
+    private Sessione createSessione() {
+        Sessione tempSessione = new Sessione();
+        tempSessione.setNome(NewSessioneFrame.getTextField0().getText());
+        tempSessione.setInizio(getInizioSessioneInLDT());
+        tempSessione.setFine(getFineSessioneInLDT());
+        tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox4().getSelectedItem()));
+        tempSessione.setChair(((Utente) NewSessioneFrame.getComboBox4().getSelectedItem()));
+        tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
+        List<Evento> tempEventoList = new ArrayList<>();
+        while(!NewSessioneFrame.getEvDLModel().isEmpty()){
+            Evento tempEvento = NewSessioneFrame.getEvDLModel().get(0);
+            tempEventoList.add(tempEvento);
+            NewSessioneFrame.getEvDLModel().remove(0);
+        }
+        tempSessione.setEventoList(tempEventoList);
+        return tempSessione;
+    }
+
+    private boolean CheckSessioneInserted() {
         return CheckNoCampiVuotiForSessione()
                && CheckDate()
                && CheckChair_e_Keynote();

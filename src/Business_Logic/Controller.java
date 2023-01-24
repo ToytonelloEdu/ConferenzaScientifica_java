@@ -5,6 +5,7 @@ import DAO_classes.*;
 import GUI_classes.*;
 import Model_classes.*;
 
+import javax.security.auth.spi.LoginModule;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.sql.Timestamp;
@@ -359,5 +360,6 @@ public class Controller {
     }
 
     public void LoginButtonClicked() {
+        NewLoginFrame.setVisible(true);
     }
 }
