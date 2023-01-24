@@ -55,13 +55,14 @@ public class CF_NewSessioneFrame extends JFrame {
     private JButton aggiungiButton;
     private final List<JComponent> EventoDataComponents = new ArrayList<>(EventoData_JPanel.getComponentCount());
 
-    private final DefaultListModel<Evento> EvDLModel = (DefaultListModel<Evento>) list1.getModel();
+    private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
     private String EventoSelected;
 
     public CF_NewSessioneFrame(Controller c, AddInstance_controller aic){
         business_logic = c;
         AddInst_bl = aic;
         AddInst_bl.setNewSessioneFrame(this);
+        list1.setModel(EvDLModel);
         for(Component comp : EventoData_JPanel.getComponents()){
             EventoDataComponents.add((JComponent) comp);
         }
@@ -108,6 +109,10 @@ public class CF_NewSessioneFrame extends JFrame {
                 AddInst_bl.NewSess_AggiungiButtonClicked();
             }
         });
+    }
+
+    public DefaultListModel<Evento> getEvDLModel() {
+        return EvDLModel;
     }
 
     public List<JComponent> getEventoDataComponents() {
