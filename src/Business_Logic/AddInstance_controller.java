@@ -731,9 +731,11 @@ public class AddInstance_controller {
     }
 
     private void setInterventoFields(Evento eventoTemp) {
+        SetInizio_e_Fine(eventoTemp);
     }
 
     private void setEvSocialeFields(Evento eventoTemp) {
+        SetInizio_e_Fine(eventoTemp);
     }
 
     private void setPausaFields(Evento eventoTemp) {
