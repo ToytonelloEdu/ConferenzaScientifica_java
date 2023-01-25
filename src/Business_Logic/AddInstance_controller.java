@@ -1,16 +1,18 @@
 package Business_Logic;
 
 import DAO_classes.*;
+import Exceptions.DataInsertedException;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddInstanceClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
 import GUI_classes.CF_NewSponsorFrame;
 import Model_classes.*;
+
+import java.awt.*;
 import java.lang.*;
 
 import javax.swing.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -708,6 +710,7 @@ public class AddInstance_controller {
 
     public void NewSess_AnnullaButton_clicked() {
         NewSessioneFrame.setVisible(false);
+        EraseAllTextFieldsInNewSessionFrame();
         NewSessioneFrame.getEventoData_JPanel().setVisible(false);
         AddInstanceClassFrame.getNewButton11().setEnabled(true);
         AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(true);
@@ -717,10 +720,25 @@ public class AddInstance_controller {
         try {
             if (CheckSessioneInserted()) {
                 Sessione tempSessione = createSessione();
+                dlModel11.addElement(tempSessione);
+                NewSessioneFrame.setVisible(false);
+                AddInstanceClassFrame.getNewButton11().setEnabled(true);
+                EraseAllTextFieldsInNewSessionFrame();
             }
         }
         catch (IllegalArgumentException ile){
             JOptionPane.showMessageDialog(NewSessioneFrame, "Formato Data e Ora non corretti");
+        }
+        catch (DataInsertedException efe){
+            JOptionPane.showMessageDialog(NewSessioneFrame, efe.getMessage());
+        }
+    }
+
+    private void EraseAllTextFieldsInNewSessionFrame() {
+        for(Component comp: NewSessioneFrame.getComponents()){
+            try{
+                ((JTextField) comp).setText("");
+            }catch (ClassCastException ignored){}
         }
     }
 
@@ -729,7 +747,7 @@ public class AddInstance_controller {
         tempSessione.setNome(NewSessioneFrame.getTextField0().getText());
         tempSessione.setInizio(getInizioSessioneInLDT());
         tempSessione.setFine(getFineSessioneInLDT());
-        tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox4().getSelectedItem()));
+        tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox3().getSelectedItem()));
         tempSessione.setChair(((Utente) NewSessioneFrame.getComboBox4().getSelectedItem()));
         tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
         List<Evento> tempEventoList = new ArrayList<>();
@@ -750,11 +768,20 @@ public class AddInstance_controller {
     }
 
     private Boolean CheckNoCampiVuotiForSessione() {
+        if(NoCampiVuoti())
+            return true;
+        else
+            throw new DataInsertedException("Uno o più campi vuoti");
+
+    }
+
+    private boolean NoCampiVuoti() {
         return !(NewSessioneFrame.getTextField1().getText().equals(""))
                 && !(NewSessioneFrame.getTextField1_1().getText().equals(""))
                 && !(NewSessioneFrame.getTextField2().getText().equals(""))
                 && !(NewSessioneFrame.getTextField2_1().getText().equals(""))
-                && !(NewSessioneFrame.getEvDLModel().isEmpty());
+                && !(NewSessioneFrame.getEvDLModel().isEmpty())
+                && !(NewSessioneFrame.getTextField0().getText().equals(""));
     }
 
     private boolean CheckDate() {
@@ -783,24 +810,77 @@ public class AddInstance_controller {
     }
 
     public void NewSess_AggiungiButtonClicked() {
-        Evento eventoTemp = null;
-        switch (NewSessioneFrame.getEventoSelected()){
-            case "Intervento" -> {
-                eventoTemp = new Intervento();
-                setInterventoFields(eventoTemp);
+        try{
+            CheckEventoInserted();
+            Evento eventoTemp = null;
+            switch (NewSessioneFrame.getEventoSelected()) {
+                case "Intervento" -> {
+                    eventoTemp = new Intervento();
+                    setInterventoFields(eventoTemp);
+                }
+                case "Evento Sociale" -> {
+                    eventoTemp = new Evento_Sociale();
+                    setEvSocialeFields(eventoTemp);
+                }
+                case "Pausa" -> {
+                    eventoTemp = new Pausa();
+                    setPausaFields(eventoTemp);
+                }
             }
-            case "Evento Sociale" -> {
-                eventoTemp = new Evento_Sociale();
-                setEvSocialeFields(eventoTemp);
+            if (eventoTemp != null) {
+                NewSessioneFrame.getEvDLModel().addElement(eventoTemp);
             }
-            case "Pausa" -> {
-                eventoTemp = new Pausa();
-                setPausaFields(eventoTemp);
-            }
+            EraseAllTextFieldsInNewEventoJPanel();
+        }catch (IllegalArgumentException ile){
+            JOptionPane.showMessageDialog(NewSessioneFrame.getEventoJPanel(), "Formato Data e Ora non corretti");
+        }catch (DataInsertedException efe){
+            JOptionPane.showMessageDialog(NewSessioneFrame, efe.getMessage());
         }
-        if (eventoTemp != null) {
-            NewSessioneFrame.getEvDLModel().addElement(eventoTemp);
-        }
+    }
+
+    private void CheckEventoInserted() {
+        List<LocalDateTime> listLDT = CheckDateForEvento();
+        CheckDateEventoInSessione(listLDT);
+        CheckNoOverlap(listLDT);
+        CheckNoCampiVuotiForEvento();
+    }
+
+    private List<LocalDateTime> CheckDateForEvento(){
+        List<LocalDateTime> listLDT = TryLocalDateTimeConversionForEvento();
+        if(!(listLDT.get(0).isBefore(listLDT.get(1))))
+            throw new DataInsertedException("Fine e Inizio sono temporalmente invertiti");
+        return listLDT;
+    }
+
+    private List<LocalDateTime> TryLocalDateTimeConversionForEvento() {
+        List<LocalDateTime> tempListLDT = new ArrayList<>(2);
+        tempListLDT.add(getInizioInLDT());
+        tempListLDT.add(getFineInLDT());
+        return tempListLDT;
+    }
+
+    private void CheckDateEventoInSessione(List<LocalDateTime> listLDT) {
+        LocalDateTime InizioSess = getInizioSessioneInLDT();
+        LocalDateTime FineSess = getFineSessioneInLDT();
+        if (!DateEventoInSessione(listLDT, InizioSess, FineSess))
+            throw new DataInsertedException("L'evento non rientra temporalmente nella sessione");
+    }
+
+    private boolean DateEventoInSessione(List<LocalDateTime> listLDT, LocalDateTime InizioSess, LocalDateTime FineSess){
+        return  listLDT.get(0).isAfter(InizioSess) &&
+                listLDT.get(1).isAfter(InizioSess) &&
+                listLDT.get(0).isBefore(FineSess)  &&
+                listLDT.get(1).isBefore(FineSess);
+    }
+
+    private void CheckNoOverlap(List<LocalDateTime> listLDT) {
+
+    }
+
+    private void CheckNoCampiVuotiForEvento() {
+    }
+
+    private void EraseAllTextFieldsInNewEventoJPanel() {
         for(JComponent jc : NewSessioneFrame.getEventoDataComponents()){
             try{
                 ((JTextField) jc).setText("");
@@ -831,28 +911,28 @@ public class AddInstance_controller {
     }
 
     private LocalDateTime getFineInLDT() {
-        String strData = NewSessioneFrame.getTextField3().getText();
+        String strData = NewSessioneFrame.getTextField4().getText();
         Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
     private LocalDateTime getInizioInLDT() {
-        String strData = NewSessioneFrame.getTextField4().getText();
+        String strData = NewSessioneFrame.getTextField3().getText();
         Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
     private LocalDateTime getInizioSessioneInLDT() {
         String strData = NewSessioneFrame.getTextField1().getText()
-                         +" "+NewSessioneFrame.getTextField1_1();
-        Date data = Date.valueOf(strData);
+                         +" "+NewSessioneFrame.getTextField1_1().getText();
+        Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
     private LocalDateTime getFineSessioneInLDT() {
         String strData = NewSessioneFrame.getTextField2().getText()
-                         +" "+NewSessioneFrame.getTextField2_1();
-        Date data = Date.valueOf(strData);
+                         +" "+NewSessioneFrame.getTextField2_1().getText();
+        Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 

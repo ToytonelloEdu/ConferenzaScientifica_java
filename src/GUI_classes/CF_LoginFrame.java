@@ -38,6 +38,7 @@ public class CF_LoginFrame extends JFrame{
         CF_LoginFrame FrameHolder = this;
         setContentPane(HomePanel);
         setTitle("Login Organizzatore");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setBounds(150, 150, 400, 150);
         return FrameHolder;
     }
