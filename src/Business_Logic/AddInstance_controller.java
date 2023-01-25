@@ -411,8 +411,10 @@ public class AddInstance_controller {
     }
 
     private void InsertSede_Control() {
-        if(NoCampiVuoti_forSede())
+        if(NoCampiVuoti_forSede()) {
             insertSede();
+            business_logic.MainFrame.getAddButton().setEnabled(true);
+        }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
     }
@@ -451,8 +453,10 @@ public class AddInstance_controller {
     }
 
     private void InsertUtente_Control() {
-        if(NoCampiVuoti_forUtente())
+        if(NoCampiVuoti_forUtente()) {
             insertUtente();
+            business_logic.MainFrame.getAddButton().setEnabled(true);
+        }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
     }
@@ -542,8 +546,10 @@ public class AddInstance_controller {
     }
 
     private void InsertIstituzione_Control() {
-        if(NoCampiVuoti_forIstituzione())
+        if (NoCampiVuoti_forIstituzione()){
             insertIstituzione();
+        business_logic.MainFrame.getAddButton().setEnabled(true);
+        }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
     }
@@ -874,7 +880,15 @@ public class AddInstance_controller {
     }
 
     private void CheckNoOverlap(List<LocalDateTime> listLDT) {
+        List<Evento> currEventoList = getAllCurrentEventi();
 
+    }
+
+    private List<Evento> getAllCurrentEventi() {
+        List<Evento> tempList = new ArrayList<>(NewSessioneFrame.getList1().getModel().getSize());
+
+
+        return tempList;
     }
 
     private void CheckNoCampiVuotiForEvento() {
