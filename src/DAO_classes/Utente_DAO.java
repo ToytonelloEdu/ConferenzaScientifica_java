@@ -40,7 +40,7 @@ public abstract class Utente_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente");
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllUtenti.add(Partecipante_temp);
@@ -64,7 +64,7 @@ public abstract class Utente_DAO implements DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllUtenti.add(Partecipante_temp);
@@ -99,7 +99,7 @@ public abstract class Utente_DAO implements DaoClass{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(localRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(localRS.getInt("istit_afferenza"));
 
                 return setUtente_tempFields(istituzione_temp, localRS);
             }

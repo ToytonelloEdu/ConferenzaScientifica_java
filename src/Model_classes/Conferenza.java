@@ -18,7 +18,7 @@ public class Conferenza implements ModelClass {
     private List<Istituzione> istitList;
     private List<Organizzatore> organizList;
 
-    private Conferenza_DAO dao = new Conferenza_DAO();
+    private Conferenza_DAO dao = Conferenza_DAO.getDAO();
 
     public Conferenza(){
 

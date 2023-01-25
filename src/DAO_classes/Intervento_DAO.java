@@ -13,6 +13,17 @@ import java.util.List;
 
 public class Intervento_DAO extends  Evento_DAO{
 
+    private static Intervento_DAO interventoDAO = null;
+
+    private Intervento_DAO(){}
+
+    public static Intervento_DAO getDAO(){
+        if (interventoDAO == null)
+            interventoDAO = new Intervento_DAO();
+        return interventoDAO;
+    }
+
+
     private Statement getStatement() throws SQLException {
         try {
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -40,8 +51,8 @@ public class Intervento_DAO extends  Evento_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Intervento");
 
             while (LocalRS.next()) {
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
-                Partecipante partecipante_temp = (Partecipante) (new Partecipante_DAO().getByPK(LocalRS.getInt("partecipante")));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
+                Partecipante partecipante_temp = (Partecipante) Partecipante_DAO.getDAO().getByPK(LocalRS.getInt("partecipante"));
 
                 Intervento Intervento_temp = this.setIntervento_tempFields(partecipante_temp, sessione_temp, LocalRS);
                 AllInterventi.add(Intervento_temp);
@@ -80,8 +91,8 @@ public class Intervento_DAO extends  Evento_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
-                Partecipante partecipante_temp = (Partecipante) new Partecipante_DAO().getByPK(LocalRS.getInt("partecipante"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
+                Partecipante partecipante_temp = (Partecipante) Partecipante_DAO.getDAO().getByPK(LocalRS.getInt("partecipante"));
 
                 Intervento Intervento_temp = setIntervento_tempFields(partecipante_temp, sessione_temp, LocalRS);
                 AllIntervento.add(Intervento_temp);
@@ -151,8 +162,8 @@ public class Intervento_DAO extends  Evento_DAO{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Sessione sessione_temp = new Sessione_DAO().getByPK(localRS.getInt("sessione"));
-                Partecipante partecipante_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("partecipante"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(localRS.getInt("sessione"));
+                Partecipante partecipante_temp = (Partecipante) Partecipante_DAO.getDAO().getByPK(localRS.getInt("partecipante"));
 
                 return setIntervento_tempFields(partecipante_temp, sessione_temp, localRS);
             }
@@ -192,7 +203,7 @@ public class Intervento_DAO extends  Evento_DAO{
         Intervento_temp.setAbstract(localRS.getString("abstract"));
         Intervento_temp.setSessione(sessione_temp);
 
-        Partecipante partecipante_temp = (Partecipante) new Partecipante_DAO().getByPK(localRS.getInt("partecipante"));
+        Partecipante partecipante_temp = (Partecipante) Partecipante_DAO.getDAO().getByPK(localRS.getInt("partecipante"));
         Intervento_temp.setPartecipante(partecipante_temp);
         return Intervento_temp;
     }

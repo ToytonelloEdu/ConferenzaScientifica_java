@@ -9,9 +9,16 @@ import Model_classes.Sede;
 
 public class Locazione_DAO implements CompPK_DaoClass{
 
-    public Locazione_DAO(){
+    private static Locazione_DAO locazioneDAO = null;
 
+    private Locazione_DAO(){}
+
+    public static Locazione_DAO getDAO(){
+        if (locazioneDAO == null)
+            locazioneDAO = new Locazione_DAO();
+        return locazioneDAO;
     }
+
     private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -40,7 +47,7 @@ public class Locazione_DAO implements CompPK_DaoClass{
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Locazione");
 
             while(LocalRS.next()){
-                Sede sede_temp = new Sede_DAO().getByPK(LocalRS.getInt("sede_id"));
+                Sede sede_temp = Sede_DAO.getDAO().getByPK(LocalRS.getInt("sede_id"));
 
                 Locazione Locazione_temp = this.setLocazione_tempFields(sede_temp, LocalRS);
                 AllLocazione.add(Locazione_temp);
@@ -64,7 +71,7 @@ public class Locazione_DAO implements CompPK_DaoClass{
             ResultSet LocalRS = LocalStatement.executeQuery(command);
 
             while(LocalRS.next()){
-                Sede sede_temp = new Sede_DAO().getByPK(LocalRS.getInt("sede_id"));
+                Sede sede_temp = Sede_DAO.getDAO().getByPK(LocalRS.getInt("sede_id"));
 
                 Locazione Locazione_temp = this.setLocazione_tempFields(sede_temp, LocalRS);
                 AllLocazione.add(Locazione_temp);
@@ -143,7 +150,7 @@ public class Locazione_DAO implements CompPK_DaoClass{
     }
 
     public ModelClass getByPK(int Sede){
-        return new Sede_DAO().getByPK(Sede);
+        return Sede_DAO.getDAO().getByPK(Sede);
     }
 
     public ModelClass getByCompositePK(Object sede_id, Object nome_loc){
@@ -154,7 +161,7 @@ public class Locazione_DAO implements CompPK_DaoClass{
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
                 int Sede_PK = localRS.getInt("Sede_ID");
-                Sede Sede_temp = (Sede) new Sede_DAO().getByPK(Sede_PK);
+                Sede Sede_temp = (Sede) Sede_DAO.getDAO().getByPK(Sede_PK);
                 return setLocazione_tempFields(Sede_temp, localRS);
             }
         }

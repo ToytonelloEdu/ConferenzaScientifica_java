@@ -13,8 +13,14 @@ import java.util.List;
 
 public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
-    public Conf_Sponsor_DAO(){
+    private static Conf_Sponsor_DAO confSponsorDAO = null;
 
+    private Conf_Sponsor_DAO(){}
+
+    public static Conf_Sponsor_DAO getDAO(){
+        if (confSponsorDAO == null)
+            confSponsorDAO = new Conf_Sponsor_DAO();
+        return confSponsorDAO;
     }
 
     private Statement getStatement() throws SQLException {
@@ -173,12 +179,12 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
     private Sponsor getSponsor_temp(ResultSet localRS) throws SQLException {
         int Sponsor_PK = localRS.getInt("Sponsor");
-        return new Sponsor_DAO().getByPK(Sponsor_PK);
+        return Sponsor_DAO.getDAO().getByPK(Sponsor_PK);
     }
 
     private Conferenza getConferenza_temp(ResultSet localRS) throws SQLException {
         int Conferenza_PK = localRS.getInt("Conferenza");
-        return new Conferenza_DAO().getByPK(Conferenza_PK);
+        return Conferenza_DAO.getDAO().getByPK(Conferenza_PK);
     }
 
 }

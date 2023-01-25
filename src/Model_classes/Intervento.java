@@ -1,6 +1,7 @@
 package Model_classes;
 
-import DAO_classes.*;
+import DAO_classes.Intervento_DAO;
+import DAO_classes.Pausa_DAO;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ public class Intervento extends Evento{
 
     private String Abstract;
     private Partecipante partecipante;
-    private Intervento_DAO dao = new Intervento_DAO();
+    private Intervento_DAO dao = Intervento_DAO.getDAO();
 
     public Intervento(){
     }

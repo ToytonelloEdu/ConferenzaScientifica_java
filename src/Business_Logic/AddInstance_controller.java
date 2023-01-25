@@ -90,7 +90,7 @@ public class AddInstance_controller {
     }
 
     private List<ModelClass> getAllPartecipantiforCombobox() {
-        return new Partecipante_DAO().getAll();
+        return Partecipante_DAO.getDAO().getAll();
     }
 
     private void setComboboxChairforSessione() {
@@ -101,7 +101,7 @@ public class AddInstance_controller {
     }
 
     private List<ModelClass> getAllUtentiforCombobox() {
-        return new Partecipante_DAO().getAllUtenti();
+        return Partecipante_DAO.getDAO().getAllUtenti();
     }
 
     public void ChoiseClassAdd(String selectedClass) {
@@ -702,7 +702,7 @@ public class AddInstance_controller {
     }
 
     private List<Locazione> getValues_for_LocazioniforSessione_comboBox(int Sede_PK, Sede sede) {
-        Locazione_DAO locazione_temp = new Locazione_DAO();
+        Locazione_DAO locazione_temp = Locazione_DAO.getDAO();
         return locazione_temp.getAll_bySede(Sede_PK, sede);
     }
 

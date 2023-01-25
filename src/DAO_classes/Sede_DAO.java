@@ -10,7 +10,15 @@ import java.util.List;
 
 public class Sede_DAO implements DaoClass{
 
-            public Sede_DAO(){}
+            private static Sede_DAO sedeDAO = null;
+
+            private Sede_DAO(){}
+
+            public static Sede_DAO getDAO(){
+                if (sedeDAO == null)
+                    sedeDAO = new Sede_DAO();
+                return sedeDAO;
+            }
 
             private Statement getStatement() throws SQLException {
                 try{

@@ -8,9 +8,17 @@ import java.util.*;
 
 public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
 
-    public Ente_Organizzatore_DAO(){
 
+    private static Ente_Organizzatore_DAO enteOrganizzatoreDAO = null;
+
+    private Ente_Organizzatore_DAO(){}
+
+    public static Ente_Organizzatore_DAO getDAO(){
+        if (enteOrganizzatoreDAO == null)
+            enteOrganizzatoreDAO = new Ente_Organizzatore_DAO();
+        return enteOrganizzatoreDAO;
     }
+
     private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -39,8 +47,8 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_org");
 
             while (LocalRS.next()){
-                Conferenza conferenza_temp = new Conferenza_DAO().getByPK(LocalRS.getInt("conferenza"));
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istituzione"));
+                Conferenza conferenza_temp = Conferenza_DAO.getDAO().getByPK(LocalRS.getInt("conferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istituzione"));
 
                 Ente_organizzatore Enteorg_temp = this.setEnteorg_tempFields(conferenza_temp, istituzione_temp);
                 AllEnte_organizzatore.add(Enteorg_temp);
@@ -154,9 +162,9 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
                 int Conferenza_PK = localRS.getInt("Conferenza");
-                Conferenza conferenza_temp = new Conferenza_DAO().getByPK(Conferenza_PK);
+                Conferenza conferenza_temp = Conferenza_DAO.getDAO().getByPK(Conferenza_PK);
                 int Istituzione_PK = localRS.getInt("Istituzione");
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(Istituzione_PK);
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(Istituzione_PK);
 
                 return setEnteorg_tempFields(conferenza_temp, istituzione_temp);
             }

@@ -8,7 +8,15 @@ import java.util.List;
 
 public class Sponsor_DAO implements DaoClass{
 
-    public Sponsor_DAO(){}
+    private static Sponsor_DAO sponsorDAO = null;
+
+    private Sponsor_DAO(){}
+
+    public static Sponsor_DAO getDAO(){
+        if (sponsorDAO == null)
+            sponsorDAO = new Sponsor_DAO();
+        return sponsorDAO;
+    }
 
     private Statement getStatement() throws SQLException {
         try{

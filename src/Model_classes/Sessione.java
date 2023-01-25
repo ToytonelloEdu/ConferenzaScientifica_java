@@ -17,7 +17,7 @@ public class Sessione implements ModelClass{
     private Partecipante keynote_speaker;
     private List<? extends Evento> eventoList;
 
-    private Sessione_DAO dao = new Sessione_DAO();
+    private Sessione_DAO dao = Sessione_DAO.getDAO();
 
     public Sessione(){
     }

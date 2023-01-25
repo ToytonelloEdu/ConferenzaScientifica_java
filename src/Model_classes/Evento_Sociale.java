@@ -10,7 +10,7 @@ public class Evento_Sociale extends Evento implements ModelClass{
 
     private String tipo_evsociale;
     private String descrizione;
-    private Evento_Sociale_DAO dao = new Evento_Sociale_DAO();
+    private Evento_Sociale_DAO dao = Evento_Sociale_DAO.getDAO();
 
     public Evento_Sociale(){
     }

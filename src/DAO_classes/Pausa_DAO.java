@@ -11,6 +11,16 @@ import java.util.List;
 
 public class Pausa_DAO extends Evento_DAO {
 
+    private static Pausa_DAO pausaDAO = null;
+
+    private Pausa_DAO(){}
+
+    public static Pausa_DAO getDAO(){
+        if (pausaDAO == null)
+            pausaDAO = new Pausa_DAO();
+        return pausaDAO;
+    }
+
     private Statement getStatement() throws SQLException {
         try {
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -38,7 +48,7 @@ public class Pausa_DAO extends Evento_DAO {
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Pausa");
 
             while (LocalRS.next()) {
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
 
                 Pausa Pausa_temp = this.setPausa_tempFields(sessione_temp, LocalRS);
                 AllPause.add(Pausa_temp);
@@ -77,7 +87,7 @@ public class Pausa_DAO extends Evento_DAO {
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
 
                 Pausa Pausa_temp = setPausa_tempFields(sessione_temp, LocalRS);
                 AllPausa.add(Pausa_temp);
@@ -147,7 +157,7 @@ public class Pausa_DAO extends Evento_DAO {
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Sessione sessione_temp = (Sessione) new Sessione_DAO().getByPK(localRS.getInt("sessione"));
+                Sessione sessione_temp = (Sessione) Sessione_DAO.getDAO().getByPK(localRS.getInt("sessione"));
 
                 return setPausa_tempFields(sessione_temp, localRS);
             }

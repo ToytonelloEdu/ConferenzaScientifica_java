@@ -11,6 +11,16 @@ import java.util.*;
 
 public class Conferenza_DAO implements DaoClass{
 
+    private static Conferenza_DAO conferenzaDAO = null;
+
+    private Conferenza_DAO(){}
+
+    public static Conferenza_DAO getDAO(){
+        if (conferenzaDAO == null)
+            conferenzaDAO = new Conferenza_DAO();
+        return conferenzaDAO;
+    }
+
 
     private Statement getStatement() throws SQLException {
         try{
@@ -92,12 +102,12 @@ public class Conferenza_DAO implements DaoClass{
     }
 
     private List<Sessione> getSessList_temp(int conf_pk, Conferenza conferenza_temp) {
-        return new Sessione_DAO().getAllbyConference(conf_pk, conferenza_temp);
+        return Sessione_DAO.getDAO().getAllbyConference(conf_pk, conferenza_temp);
     }
 
     private Sede getSede_temp(ResultSet LocalRS) throws SQLException {
         int Sede_PK = LocalRS.getInt("collocazione");
-        return new Sede_DAO().getByPK(Sede_PK);
+        return Sede_DAO.getDAO().getByPK(Sede_PK);
     }
 
     public void Insert(ModelClass Conf_temp) throws InsertFailedException {
@@ -160,7 +170,7 @@ public class Conferenza_DAO implements DaoClass{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Sede Sede_temp = (Sede)  new Sede_DAO().getByPK(localRS.getInt("collocazione"));
+                Sede Sede_temp = (Sede)  Sede_DAO.getDAO().getByPK(localRS.getInt("collocazione"));
                 return setConferenza_tempFields(localRS);
             }
         }

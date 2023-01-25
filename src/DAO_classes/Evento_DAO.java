@@ -42,13 +42,13 @@ public abstract class Evento_DAO implements DaoClass{
     public List<? extends Evento> getAllEventi_bySessione(int sessPK, Sessione sess){
         List<Evento> allEventi_list = new ArrayList<>();
 
-        List<Intervento> interventoList = new Intervento_DAO().getAll_bySessione(sessPK, sess);
+        List<Intervento> interventoList = Intervento_DAO.getDAO().getAll_bySessione(sessPK, sess);
         allEventi_list.addAll(interventoList);
 
-        List<Pausa> pausaList = new Pausa_DAO().getAll_bySessione(sessPK, sess);
+        List<Pausa> pausaList = Pausa_DAO.getDAO().getAll_bySessione(sessPK, sess);
         allEventi_list.addAll(pausaList);
 
-        List<Evento_Sociale> evento_socialeList = new Evento_Sociale_DAO().getAll_bySessione(sessPK, sess);
+        List<Evento_Sociale> evento_socialeList = Evento_Sociale_DAO.getDAO().getAll_bySessione(sessPK, sess);
         allEventi_list.addAll(evento_socialeList);
 
         allEventi_list.sort(Comparator.comparing(Evento::getInizio));

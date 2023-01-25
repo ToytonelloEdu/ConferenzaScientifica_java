@@ -11,7 +11,7 @@ public class Conf_Sponsor implements ModelClass{
     private Conferenza conferenza;
     private Sponsor sponsor;
     private BigDecimal importo;
-    private Conf_Sponsor_DAO Dao = new Conf_Sponsor_DAO();
+    private Conf_Sponsor_DAO Dao = Conf_Sponsor_DAO.getDAO();
 
     public Conf_Sponsor(){}
 

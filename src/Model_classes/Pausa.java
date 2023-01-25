@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Pausa extends Evento implements ModelClass {
 
     private String tipo_pausa;
-    private Pausa_DAO dao = new Pausa_DAO();
+    private Pausa_DAO dao = Pausa_DAO.getDAO();
 
     public Pausa() {
     }

@@ -9,7 +9,7 @@ public class Conf_Organ implements ModelClass{
     private Conferenza conferenza;
     private Utente organizzatore;
     private String comitato;
-    private Conf_Organ_DAO dao = new Conf_Organ_DAO();
+    private Conf_Organ_DAO dao = Conf_Organ_DAO.getDAO();
 
     public Conf_Organ(){
     }

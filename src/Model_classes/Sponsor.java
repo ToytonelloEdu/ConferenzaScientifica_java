@@ -7,7 +7,7 @@ public class Sponsor implements ModelClass{
 
     private String Nome;
     private String PartitaIVA;
-    private Sponsor_DAO Dao = new Sponsor_DAO();
+    private Sponsor_DAO Dao = Sponsor_DAO.getDAO();
 
     public Sponsor(){
 

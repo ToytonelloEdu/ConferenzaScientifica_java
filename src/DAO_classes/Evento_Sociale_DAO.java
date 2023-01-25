@@ -11,6 +11,16 @@ import java.util.List;
 
 public class Evento_Sociale_DAO extends Evento_DAO{
 
+    private static Evento_Sociale_DAO evento_sociale_dao = null;
+
+    private Evento_Sociale_DAO(){}
+
+    public static Evento_Sociale_DAO getDAO(){
+        if (evento_sociale_dao == null)
+            evento_sociale_dao = new Evento_Sociale_DAO();
+        return evento_sociale_dao;
+    }
+
     private Statement getStatement() throws SQLException {
         try {
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -38,7 +48,7 @@ public class Evento_Sociale_DAO extends Evento_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ev_sociale");
 
             while (LocalRS.next()) {
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
 
                 Evento_Sociale Ev_sociale_temp = this.setEv_sociale_tempFields(sessione_temp, LocalRS);
                 AllEv_sociali.add(Ev_sociale_temp);
@@ -77,7 +87,7 @@ public class Evento_Sociale_DAO extends Evento_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Sessione sessione_temp = new Sessione_DAO().getByPK(LocalRS.getInt("sessione"));
+                Sessione sessione_temp = Sessione_DAO.getDAO().getByPK(LocalRS.getInt("sessione"));
 
                 Evento_Sociale Ev_sociale_temp = setEv_sociale_tempFields(sessione_temp, LocalRS);
                 AllEv_sociale.add(Ev_sociale_temp);
@@ -147,7 +157,7 @@ public class Evento_Sociale_DAO extends Evento_DAO{
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
-                Sessione sessione_temp = (Sessione) new Sessione_DAO().getByPK(localRS.getInt("sessione"));
+                Sessione sessione_temp = (Sessione) Sessione_DAO.getDAO().getByPK(localRS.getInt("sessione"));
 
                 return setEv_sociale_tempFields(sessione_temp, localRS);
             }

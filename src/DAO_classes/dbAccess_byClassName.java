@@ -32,7 +32,7 @@ public class dbAccess_byClassName {
 
     public List<ModelClass> GetAll_byClassName(String SearchIn) {
         if(SearchIn.equals("Utente"))
-            return new Partecipante_DAO().getAllUtenti();
+            return Partecipante_DAO.getDAO().getAllUtenti();
         if(SearchIn.equals("Organizzatori"))
             return Organizzatore_DAO.getDAO().getAll();
         else
@@ -115,7 +115,7 @@ public class dbAccess_byClassName {
 
     public List<ModelClass> GetByClass_and_Attribute(String Class, String Attribute, String Value){
         if(Class.equals("Utente"))
-            return new Partecipante_DAO().getAllUtenti_byAttribute(Attribute, Value);
+            return Partecipante_DAO.getDAO().getAllUtenti_byAttribute(Attribute, Value);
         try{
             DaoClass DAO = getDAObyClassName(Class);
             return DAO.getAll_byAttribute(Attribute, Value);

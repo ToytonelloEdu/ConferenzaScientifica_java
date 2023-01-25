@@ -9,7 +9,7 @@ public class Ente_organizzatore implements ModelClass{
 
     private Conferenza conferenza;
     private Istituzione istituzione;
-    private Ente_Organizzatore_DAO Dao = new Ente_Organizzatore_DAO();
+    private Ente_Organizzatore_DAO Dao = Ente_Organizzatore_DAO.getDAO();
 
     public Ente_organizzatore(){
 

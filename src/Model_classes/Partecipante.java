@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Partecipante extends Utente{
 
-    private Partecipante_DAO dao = new Partecipante_DAO();
+    private Partecipante_DAO dao = Partecipante_DAO.getDAO();
 
     public Partecipante(){
 

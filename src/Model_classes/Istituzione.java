@@ -9,7 +9,7 @@ public class Istituzione implements ModelClass{
 
     private String Nome;
     private String Nazione;
-    private Istituzione_DAO dao = new Istituzione_DAO();
+    private Istituzione_DAO dao = Istituzione_DAO.getDAO();
 
     public Istituzione(){
 

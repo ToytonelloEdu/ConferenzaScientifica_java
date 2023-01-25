@@ -8,8 +8,14 @@ import Model_classes.ModelClass;
 
 public class Istituzione_DAO implements DaoClass{
 
-    public Istituzione_DAO(){
+    private static Istituzione_DAO istituzioneDAO = null;
 
+    private Istituzione_DAO(){}
+
+    public static Istituzione_DAO getDAO(){
+        if (istituzioneDAO == null)
+            istituzioneDAO = new Istituzione_DAO();
+        return istituzioneDAO;
     }
 
     private Statement getStatement() throws SQLException {

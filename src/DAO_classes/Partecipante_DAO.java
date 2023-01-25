@@ -12,6 +12,16 @@ import java.util.List;
 
 public class Partecipante_DAO extends Utente_DAO{
 
+    private static Partecipante_DAO partecipanteDAO = null;
+
+    private Partecipante_DAO(){}
+
+    public static Partecipante_DAO getDAO(){
+        if (partecipanteDAO == null)
+            partecipanteDAO = new Partecipante_DAO();
+        return partecipanteDAO;
+    }
+
     private Statement getStatement() throws SQLException {
         try{
             DBConnection dbConnection = DBConnection.getDBConnection();
@@ -40,7 +50,7 @@ public class Partecipante_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente WHERE tipo_utente = 'Partecipante'");
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllPartecipanti.add(Partecipante_temp);
@@ -65,7 +75,7 @@ public class Partecipante_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllPartecipanti.add(Partecipante_temp);

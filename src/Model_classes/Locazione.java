@@ -8,7 +8,7 @@ public class Locazione implements ModelClass{
     private Sede collocazione;
     private String nome;
     private int postiDisponibili;
-    private Locazione_DAO dao = new Locazione_DAO();
+    private Locazione_DAO dao = Locazione_DAO.getDAO();
 
     public Locazione(){
 

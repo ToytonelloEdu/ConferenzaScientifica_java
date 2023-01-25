@@ -53,7 +53,7 @@ public class Organizzatore_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Utente WHERE tipo_utente = 'Organizzatore'");
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllOrganizzatori.add(Partecipante_temp);
@@ -78,7 +78,7 @@ public class Organizzatore_DAO extends Utente_DAO{
             ResultSet LocalRS = LocalStmt.executeQuery(command);
 
             while (LocalRS.next()){
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 Utente Partecipante_temp = this.setUtente_tempFields(istituzione_temp, LocalRS);
                 AllOrganizzatori.add(Partecipante_temp);
@@ -137,7 +137,7 @@ public class Organizzatore_DAO extends Utente_DAO{
             ResultSet LocalRS = localStmt.executeQuery(command);
 
             while (LocalRS.next()) {
-                Istituzione istituzione_temp = new Istituzione_DAO().getByPK(LocalRS.getInt("istit_afferenza"));
+                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istit_afferenza"));
 
                 return (Organizzatore) setUtente_tempFields(istituzione_temp, LocalRS);
             }

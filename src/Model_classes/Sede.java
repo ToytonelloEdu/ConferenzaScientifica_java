@@ -10,7 +10,7 @@ public class Sede implements ModelClass{
     private String indirizzo;
     private String citta;
 
-    private Sede_DAO dao = new Sede_DAO();
+    private Sede_DAO dao = Sede_DAO.getDAO();
 
     private List<Locazione> locazioneList;
 
