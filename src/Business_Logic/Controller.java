@@ -4,6 +4,7 @@ package Business_Logic;
 import DAO_classes.*;
 import GUI_classes.*;
 import Model_classes.*;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -343,7 +344,9 @@ public class Controller {
                 JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
                 if(MainFrame.getAddButton().isEnabled())
                     login_eseguito();
-                else
+                else if (MainFrame.getDeleteButton().isEnabled()) {
+                    deleteObject();
+                } else
                     login_eseguito_foradd();
             }
         }
@@ -393,5 +396,20 @@ public class Controller {
     public void LoginButtonClicked() {
         MainFrame.getLoginButton().setEnabled(false);
         NewLoginFrame.setVisible(true);
+    }
+
+    public void DeleteButtonClicked(){
+        if(MainFrame.getLoginButton().isVisible())
+            NewLoginFrame.setVisible(true);
+    }
+
+    public void deleteObject() {
+        int CurrentSpinnerValue = (Integer) MainFrame.getSelection_spinner().getValue() - 1;
+        ModelClass CurrentObjectOutput = Current_Main_outputList.get(CurrentSpinnerValue);
+        int risposta = JOptionPane.showConfirmDialog(MainFrame.getDetails_panel(), "Vuoi cancellare l'oggetto: "+ CurrentObjectOutput +"?");
+        if(risposta == 0) {
+            CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
+            MainFrame_searchButton_clicked(MainFrame);
+        }
     }
 }

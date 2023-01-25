@@ -108,6 +108,12 @@ public class CF_MainFrame extends JFrame {
                 business_logic.LoginButtonClicked();
             }
         });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.DeleteButtonClicked();
+            }
+        });
     }
 
     private CF_MainFrame MainFrame_setUp() {
@@ -257,5 +263,13 @@ public class CF_MainFrame extends JFrame {
 
     public JLabel getLabelLogin() {
         return LabelLogin;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JButton getEditButton() {
+        return editButton;
     }
 }
