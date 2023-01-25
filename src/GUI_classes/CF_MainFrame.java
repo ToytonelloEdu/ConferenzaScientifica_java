@@ -45,6 +45,7 @@ public class CF_MainFrame extends JFrame {
     private JComboBox<String> dbAttr_comboBox;
     private JLabel TitleLabel;
     private JButton loginButton;
+    private JLabel LabelLogin;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -119,6 +120,7 @@ public class CF_MainFrame extends JFrame {
         business_logic.setValues_in_Attribute_comboBox(MainFrame_holder);
         Search_textField.setText("");
         dbAttr_comboBox.setVisible(false);
+        LabelLogin.setVisible(false);
         return MainFrame_holder;
     }
 
@@ -247,5 +249,13 @@ public class CF_MainFrame extends JFrame {
 
     public JButton getAddButton() {
         return addButton;
+    }
+
+    public JButton getLoginButton() {
+        return loginButton;
+    }
+
+    public JLabel getLabelLogin() {
+        return LabelLogin;
     }
 }

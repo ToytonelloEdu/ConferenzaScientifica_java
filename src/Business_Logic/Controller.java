@@ -258,11 +258,20 @@ public class Controller {
     }
 
     public void addButton_clicked(){
-        MainFrame.getAddButton().setEnabled(false);
-        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-        addInstFrame_controller.ChoiseClassAdd(Class_Selected);
-        AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi "+ Class_Selected);
-        AddIstanceClassFrame.setVisible(true);
+        if(MainFrame.getLoginButton().isVisible()) {
+            MainFrame.getAddButton().setEnabled(false);
+            String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+            addInstFrame_controller.ChoiseClassAdd(Class_Selected);
+            AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+            NewLoginFrame.setVisible(true);
+        }
+        else {
+            MainFrame.getAddButton().setEnabled(false);
+            String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+            addInstFrame_controller.ChoiseClassAdd(Class_Selected);
+            AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+            AddIstanceClassFrame.setVisible(true);
+        }
     }
 
     public void AddInstanceFrame_hidden() {
@@ -328,7 +337,10 @@ public class Controller {
             String passwordInserita = NewLoginFrame.getTextField2().getText();
             if(check_accesso(emailInserita, passwordInserita)) {
                 JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
-                NewLoginFrame.setVisible(false);
+                if(MainFrame.getAddButton().isEnabled())
+                    login_eseguito();
+                else
+                    login_eseguito_foradd();
             }
         }
         else
@@ -342,6 +354,7 @@ public class Controller {
     public boolean check_accesso(String emailInserita, String passwordInserita) {
         try {
             Organizzatore organizzatore_temp = new Organizzatore_DAO().getByEmail(emailInserita);
+            MainFrame.getLabelLogin().setText(organizzatore_temp.getNome() +" "+ organizzatore_temp.getCognome());
             System.out.println(organizzatore_temp.toDetailString());
             return check_password(passwordInserita);
         }catch(NullPointerException e){
@@ -357,6 +370,19 @@ public class Controller {
         }
         else
             return true;
+    }
+
+    public void login_eseguito() {
+        NewLoginFrame.setVisible(false);
+        MainFrame.getLoginButton().setVisible(false);
+        MainFrame.getLabelLogin().setVisible(true);
+    }
+
+    public void login_eseguito_foradd() {
+        NewLoginFrame.setVisible(false);
+        MainFrame.getLoginButton().setVisible(false);
+        MainFrame.getLabelLogin().setVisible(true);
+        AddIstanceClassFrame.setVisible(true);
     }
 
     public void LoginButtonClicked() {
