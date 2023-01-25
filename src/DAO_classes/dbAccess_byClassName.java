@@ -1,8 +1,10 @@
 package DAO_classes;
 
 import Model_classes.*;
+import jdk.dynalink.Operation;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,10 +49,11 @@ public class dbAccess_byClassName {
     private DaoClass getDAObyClassName(String SearchIn) throws ClassNotFoundException {
         try {
             Class<?> foundClass = Class.forName("DAO_classes." + SearchIn + "_DAO");
-            Object DAO = foundClass.getDeclaredConstructor().newInstance();
+            Method method = foundClass.getMethod("getDAO");
+            DaoClass DAO = (DaoClass) method.invoke(null);
             return castOfDAO(DAO);
         }
-        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e){
             return null;
         }
     }

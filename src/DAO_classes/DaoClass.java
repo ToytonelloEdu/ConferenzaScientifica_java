@@ -6,6 +6,9 @@ import Model_classes.ModelClass;
 import java.util.List;
 
 public interface DaoClass {
+    static DaoClass getDao() {
+        return null;
+    }
     List<ModelClass> getAll();
     List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in);
     Integer getPK(ModelClass Object);

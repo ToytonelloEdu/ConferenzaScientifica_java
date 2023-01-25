@@ -257,6 +257,10 @@ public class Controller {
     }
 
     public void addButton_clicked(){
+        AddIstanceClassFrame.getSelect_comboBox10().removeAllItems();
+        AddIstanceClassFrame.getSelect_comboBox12().removeAllItems();
+        AddIstanceClassFrame.getSelect_comboBox14().removeAllItems();
+        AddIstanceClassFrame.getSelectOne_comboBox13().removeAllItems();
         if(MainFrame.getLoginButton().isVisible()) {
             MainFrame.getAddButton().setEnabled(false);
             String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
