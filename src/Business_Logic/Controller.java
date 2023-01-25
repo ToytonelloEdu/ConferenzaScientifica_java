@@ -50,10 +50,6 @@ public class Controller {
         NewLoginFrame = new CF_LoginFrame(this);
     }
 
-    public CF_NewLocazioneFrame getNewLocazioneFrame() {
-        return NewLocazioneFrame;
-    }
-
     private boolean isEmpty(JTextComponent text_Comp) {
         return text_Comp.getText().equals("");
     }
@@ -258,10 +254,6 @@ public class Controller {
     }
 
     public void addButton_clicked(){
-        AddIstanceClassFrame.getSelect_comboBox10().removeAllItems();
-        AddIstanceClassFrame.getSelect_comboBox12().removeAllItems();
-        AddIstanceClassFrame.getSelect_comboBox14().removeAllItems();
-        AddIstanceClassFrame.getSelectOne_comboBox13().removeAllItems();
         if(MainFrame.getLoginButton().isVisible()) {
             MainFrame.getAddButton().setEnabled(false);
             String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
@@ -282,9 +274,17 @@ public class Controller {
         if(!NewLocazioneFrame.isVisible() && !NewSponsorFrame.isVisible())
         {
             AddIstanceClassFrame.setVisible(false);
+            EmptyComboboxInAddFrame();
             MainFrame.getAddButton().setEnabled(true);
 
         }
+    }
+
+    private void EmptyComboboxInAddFrame() {
+        AddIstanceClassFrame.getSelect_comboBox10().removeAllItems();
+        AddIstanceClassFrame.getSelect_comboBox12().removeAllItems();
+        AddIstanceClassFrame.getSelect_comboBox14().removeAllItems();
+        AddIstanceClassFrame.getSelectOne_comboBox13().removeAllItems();
     }
 
     public void PartecipanteButtonClicked() {
@@ -342,12 +342,13 @@ public class Controller {
             String passwordInserita = NewLoginFrame.getTextField2().getText();
             if(check_accesso(emailInserita, passwordInserita)) {
                 JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
-                if(MainFrame.getAddButton().isEnabled())
-                    login_eseguito();
-                else if (MainFrame.getDeleteButton().isEnabled()) {
-                    deleteObject();
-                } else
+                if(!MainFrame.getAddButton().isEnabled())
                     login_eseguito_foradd();
+                else if (!MainFrame.getDeleteButton().isEnabled()) {
+                    login_eseguito_fordelete();
+                } else
+                    login_eseguito();
+
             }
         }
         else
@@ -393,12 +394,21 @@ public class Controller {
         AddIstanceClassFrame.setVisible(true);
     }
 
+    public void login_eseguito_fordelete(){
+        NewLoginFrame.setVisible(false);
+        MainFrame.getLoginButton().setVisible(false);
+        MainFrame.getLoginButton().setEnabled(true);
+        MainFrame.getLabelLogin().setVisible(true);
+        deleteObject();
+    }
+
     public void LoginButtonClicked() {
         MainFrame.getLoginButton().setEnabled(false);
         NewLoginFrame.setVisible(true);
     }
 
     public void DeleteButtonClicked(){
+        MainFrame.getDeleteButton().setEnabled(false);
         if(MainFrame.getLoginButton().isVisible())
             NewLoginFrame.setVisible(true);
     }
@@ -411,5 +421,6 @@ public class Controller {
             CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
             MainFrame_searchButton_clicked(MainFrame);
         }
+        MainFrame.getDeleteButton().setEnabled(true);
     }
 }
