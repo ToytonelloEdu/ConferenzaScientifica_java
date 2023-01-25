@@ -2,7 +2,6 @@ package Business_Logic;
 
 import GUI_classes.*;
 import Model_classes.*;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.util.List;
@@ -46,8 +45,22 @@ public class DetailsPanel_setter {
             case "Sede" -> setFields_inDetPanel_forSede(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
             case "Utente", "Partecipante", "Organizzatore" ->
                     setFields_inDetPanel_forUtenti(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
+            case "Istituzione" -> setFields_inDetPanel_forIstituzione(MainFrame, Current_Main_outputList, CurrentSpinnerValue);
             default -> MainFrame.getDetails_panel().setVisible(false);
         }
+    }
+
+    private void setFields_inDetPanel_forIstituzione(CF_MainFrame mainFrame, List current_main_outputList, int currentSpinnerValue) {
+        Istituzione SelectedIstituzione = (Istituzione) current_main_outputList.get(currentSpinnerValue);
+        mainFrame.getDetail_ObjectName_label().setText(SelectedIstituzione.getNome());
+        mainFrame.getFirstField_label().setText("Nazione");
+        mainFrame.getFirstField_outputArea().setText(SelectedIstituzione.getNazione());
+        dListModel.clear();
+        Hide_Istituzione_UnusedFields(mainFrame);
+    }
+
+    private void Hide_Istituzione_UnusedFields(CF_MainFrame mainFrame) {
+
     }
 
     private void setFields_inDetPanel_forUtenti(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
