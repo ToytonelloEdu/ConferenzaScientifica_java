@@ -46,7 +46,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
 
             while (LocalRS.next()){
                 Conferenza conferenza_temp = new Conferenza_DAO().getByPK(LocalRS.getInt("conferenza"));
-                Utente oranizzatore_temp = new Organizzatore_DAO().getByPK(LocalRS.getInt("organizzatore"));
+                Utente oranizzatore_temp = Organizzatore_DAO.getDAO().getByPK(LocalRS.getInt("organizzatore"));
 
                 Conf_Organ Conf_Organ_temp = this.setConf_Organ_tempFields(LocalRS);
                 AllConf_Organ.add(Conf_Organ_temp);
@@ -181,7 +181,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
 
     private Utente getOrganizzatore_temp(ResultSet localRS) throws SQLException {
         int Organizzatore_PK = localRS.getInt("Organizzatore");
-        return new Organizzatore_DAO().getByPK(Organizzatore_PK);
+        return Organizzatore_DAO.getDAO().getByPK(Organizzatore_PK);
     }
 
 }

@@ -34,7 +34,7 @@ public class dbAccess_byClassName {
         if(SearchIn.equals("Utente"))
             return new Partecipante_DAO().getAllUtenti();
         if(SearchIn.equals("Organizzatori"))
-            return new Organizzatore_DAO().getAll();
+            return Organizzatore_DAO.getDAO().getAll();
         else
             try {
                 DaoClass DAO = getDAObyClassName(SearchIn);

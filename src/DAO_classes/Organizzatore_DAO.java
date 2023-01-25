@@ -14,6 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Organizzatore_DAO extends Utente_DAO{
+    private static Organizzatore_DAO organizzatoreDAO = null;
+
+    private Organizzatore_DAO(){}
+
+    public static Organizzatore_DAO getDAO(){
+        if (organizzatoreDAO == null)
+            organizzatoreDAO = new Organizzatore_DAO();
+        return organizzatoreDAO;
+    }
 
     private Statement getStatement() throws SQLException {
         try{

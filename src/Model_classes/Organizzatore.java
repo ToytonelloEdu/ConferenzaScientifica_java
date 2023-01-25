@@ -4,7 +4,7 @@ import DAO_classes.Organizzatore_DAO;
 
 public class Organizzatore extends Utente{
 
-    private Organizzatore_DAO dao = new Organizzatore_DAO();
+    private Organizzatore_DAO dao = Organizzatore_DAO.getDAO();
 
     public Organizzatore(){
 

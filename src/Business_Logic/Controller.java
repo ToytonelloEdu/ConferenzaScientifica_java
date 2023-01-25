@@ -5,7 +5,6 @@ import DAO_classes.*;
 import GUI_classes.*;
 import Model_classes.*;
 
-import javax.security.auth.spi.LoginModule;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.sql.Timestamp;
@@ -25,7 +24,7 @@ public class Controller {
     CF_LoginFrame NewLoginFrame;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
 
-    Organizzatore AccessUser;
+    Organizzatore AccessUser = null;
 
     public static void main(String[] args) {
         try {
@@ -326,6 +325,7 @@ public class Controller {
     }
 
     public void AnnullaButtonLoginClicked(){
+        MainFrame.getAddButton().setEnabled(true);
         NewLoginFrame.setVisible(false);
         NewLoginFrame.getTextField1().setText("");
         NewLoginFrame.getTextField2().setText("");
@@ -353,9 +353,8 @@ public class Controller {
 
     public boolean check_accesso(String emailInserita, String passwordInserita) {
         try {
-            Organizzatore organizzatore_temp = new Organizzatore_DAO().getByEmail(emailInserita);
-            MainFrame.getLabelLogin().setText(organizzatore_temp.getNome() +" "+ organizzatore_temp.getCognome());
-            System.out.println(organizzatore_temp.toDetailString());
+            AccessUser = Organizzatore_DAO.getDAO().getByEmail(emailInserita);
+            MainFrame.getLabelLogin().setText(AccessUser.getNome() +" "+ AccessUser.getCognome());
             return check_password(passwordInserita);
         }catch(NullPointerException e){
             JOptionPane.showMessageDialog(NewLoginFrame, "Email errata!");
@@ -375,17 +374,20 @@ public class Controller {
     public void login_eseguito() {
         NewLoginFrame.setVisible(false);
         MainFrame.getLoginButton().setVisible(false);
+        MainFrame.getLoginButton().setEnabled(true);
         MainFrame.getLabelLogin().setVisible(true);
     }
 
     public void login_eseguito_foradd() {
         NewLoginFrame.setVisible(false);
         MainFrame.getLoginButton().setVisible(false);
+        MainFrame.getLoginButton().setEnabled(true);
         MainFrame.getLabelLogin().setVisible(true);
         AddIstanceClassFrame.setVisible(true);
     }
 
     public void LoginButtonClicked() {
+        MainFrame.getLoginButton().setEnabled(false);
         NewLoginFrame.setVisible(true);
     }
 }
