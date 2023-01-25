@@ -94,6 +94,8 @@ public abstract class Utente implements ModelClass {
 
     @Override
     public boolean equals(Object obj) {
+        if(obj == null)
+            return false;
         try{
             if(this.getClass().equals(obj.getClass()))
                 return  Nome.equals(((Utente) obj).Nome)
