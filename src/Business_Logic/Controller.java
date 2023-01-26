@@ -255,19 +255,20 @@ public class Controller {
 
     public void addButton_clicked(){
         if(MainFrame.getLoginButton().isVisible()) {
-            MainFrame.getAddButton().setEnabled(false);
-            String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-            addInstFrame_controller.ChoiseClassAdd(Class_Selected);
-            AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+            AddInstanceFrame_initialization();
             NewLoginFrame.setVisible(true);
         }
         else {
-            MainFrame.getAddButton().setEnabled(false);
-            String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-            addInstFrame_controller.ChoiseClassAdd(Class_Selected);
-            AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+            AddInstanceFrame_initialization();
             AddIstanceClassFrame.setVisible(true);
         }
+    }
+
+    private void AddInstanceFrame_initialization() {
+        MainFrame.getAddButton().setEnabled(false);
+        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        addInstFrame_controller.ChoiseClassAdd(Class_Selected);
+        AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
     }
 
     public void AddInstanceFrame_hidden() {
@@ -342,13 +343,7 @@ public class Controller {
             String passwordInserita = NewLoginFrame.getTextField2().getText();
             if(check_accesso(emailInserita, passwordInserita)) {
                 JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
-                if(!MainFrame.getAddButton().isEnabled())
-                    login_eseguito_foradd();
-                else if (!MainFrame.getDeleteButton().isEnabled()) {
-                    login_eseguito_fordelete();
-                } else
-                    login_eseguito();
-
+                tipo_login();
             }
         }
         else
@@ -377,6 +372,15 @@ public class Controller {
         }
         else
             return true;
+    }
+
+    private void tipo_login() {
+        if(!MainFrame.getAddButton().isEnabled())
+            login_eseguito_foradd();
+        else if (!MainFrame.getDeleteButton().isEnabled()) {
+            login_eseguito_fordelete();
+        } else
+            login_eseguito();
     }
 
     public void login_eseguito() {
@@ -411,6 +415,8 @@ public class Controller {
         MainFrame.getDeleteButton().setEnabled(false);
         if(MainFrame.getLoginButton().isVisible())
             NewLoginFrame.setVisible(true);
+        else
+            deleteObject();
     }
 
     public void deleteObject() {

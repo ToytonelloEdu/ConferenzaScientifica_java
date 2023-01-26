@@ -124,4 +124,9 @@ public class Conferenza implements ModelClass {
     private Conferenza castToConf(ModelClass o){
         return (Conferenza) o;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
