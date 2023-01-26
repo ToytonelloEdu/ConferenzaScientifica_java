@@ -160,6 +160,7 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
+        MainFrame.getDetailsButton().setVisible(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {

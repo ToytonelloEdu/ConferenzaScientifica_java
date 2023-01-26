@@ -154,4 +154,9 @@ public class Sessione implements ModelClass{
     public String toDetailString() {
         return nome + " || " + locazione.getNome();
     }
+
+    @Override
+    public String toString() {
+        return nome +", da"+ inizio +" a "+ fine;
+    }
 }
