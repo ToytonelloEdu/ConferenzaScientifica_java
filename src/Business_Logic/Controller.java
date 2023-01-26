@@ -332,6 +332,7 @@ public class Controller {
 
     public void AnnullaButtonLoginClicked(){
         MainFrame.getAddButton().setEnabled(true);
+        MainFrame.getDeleteButton().setEnabled(true);
         NewLoginFrame.setVisible(false);
         NewLoginFrame.getTextField1().setText("");
         NewLoginFrame.getTextField2().setText("");
