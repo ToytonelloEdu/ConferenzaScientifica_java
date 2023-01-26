@@ -14,8 +14,14 @@ import java.lang.*;
 
 import javax.swing.*;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddInstance_controller {
@@ -129,9 +135,11 @@ public class AddInstance_controller {
     private void SetAllToVisible() {
         for(JComponent jc : AddInstanceClassFrame.getDataInsertComponentList())
             jc.setVisible(true);
+        AddInstanceClassFrame.getNewButton11().setEnabled(true);
     }
 
     private void setFieldsAdd_forConferenza(){
+        AddInstanceClassFrame.getNewButton11().setEnabled(false);
         setConf_firstField();
         setConf_secondField();
         setConf_thirdField();
@@ -1012,31 +1020,68 @@ public class AddInstance_controller {
     }
 
     public void CheckCorrectConferenzaDates() {
-        try{
-            getInizioConferenzaInDate();
-            getFineConferenzaInDate();
-            AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(true);
-            AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
-        }catch (IllegalArgumentException iae){
-            AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(false);
-            AddInstanceClassFrame.getCheckButtonLabel().setVisible(true);
+        if(ClassSelected.equals("Conferenza")) {
+            try {
+                getInizioConferenzaInDate();
+                getFineConferenzaInDate();
+                AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(true);
+                AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
+            } catch (IllegalArgumentException | DateTimeParseException | ParseException TypeE) {
+                System.out.println(TypeE.getMessage());
+                AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(false);
+                AddInstanceClassFrame.getCheckButtonLabel().setVisible(true);
+            }
         }
     }
 
-    private void getFineConferenzaInDate() {
-
+    private Date getFineConferenzaInDate() throws ParseException {
+        String strData2 = AddInstanceClassFrame.getTextField3().getText();
+        return new SimpleDateFormat("yyyy-MM-dd").parse(strData2);
     }
 
-    private void getInizioConferenzaInDate() {
+    private Date getInizioConferenzaInDate() throws ParseException{
+        String strData1 = AddInstanceClassFrame.getTextField2().getText();
+        return new SimpleDateFormat("yyyy-MM-dd").parse(strData1);
     }
 
+    private List<Date> GetDateFromInsertedConferenza() throws ParseException {
+        List<Date> tempList = new ArrayList<>(2);
+        tempList.add(getInizioConferenzaInDate());
+        tempList.add(getFineConferenzaInDate());
+        return tempList;
+    }
+
+    //TODO: VEDI PERCHé NON FUNZIONA
     public void CheckButtonClicked() {
-        if(CheckNoOverlapConferenze()){
-            AddInstanceClassFrame.getCheckBox1().setSelected(true);
+        try {
+            if (CheckNoOverlapConferenze()) {
+                AddInstanceClassFrame.getCheckBox1().setSelected(true);
+                AddInstanceClassFrame.getNewButton11().setEnabled(true);
+            } else {
+                AddInstanceClassFrame.getCheckBox1().setSelected(false);
+                AddInstanceClassFrame.getNewButton11().setEnabled(false);
+            }
+        }catch (ParseException e){
+            System.out.println(e.getMessage());
         }
     }
 
-    private boolean CheckNoOverlapConferenze() {
+    private boolean CheckNoOverlapConferenze() throws ParseException {
+        List<Date> DateConferenza = GetDateFromInsertedConferenza();
+        for(ModelClass c : Conferenza_DAO.getDAO().getAll())
+            if(OverlapDate(DateConferenza, (Conferenza) c)){
+                return false;
+            }
         return true;
+    }
+
+    private boolean OverlapDate(List<Date> dateConferenza, Conferenza c) {
+        if(c.getCollocazione().equals(AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem()))
+            return (dateConferenza.get(0).after(c.getDataInizio()) && dateConferenza.get(1).before(c.getDataFine()))
+                ||(dateConferenza.get(0).before(c.getDataInizio()) && dateConferenza.get(1).after(c.getDataFine()))
+                ||(dateConferenza.get(0).before(c.getDataInizio()) && dateConferenza.get(1).after(c.getDataInizio()))
+                ||(dateConferenza.get(0).before(c.getDataFine()) && dateConferenza.get(1).after(c.getDataFine()));
+        else
+            return false;
     }
 }
