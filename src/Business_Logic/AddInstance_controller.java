@@ -408,6 +408,7 @@ public class AddInstance_controller {
 
     private void InsertConferenza_Control() {
 
+
     }
 
     private void InsertSede_Control() {
@@ -840,15 +841,15 @@ public class AddInstance_controller {
         }catch (IllegalArgumentException ile){
             JOptionPane.showMessageDialog(NewSessioneFrame.getEventoJPanel(), "Formato Data e Ora non corretti");
         }catch (DataInsertedException efe){
-            JOptionPane.showMessageDialog(NewSessioneFrame, efe.getMessage());
+            JOptionPane.showMessageDialog(NewSessioneFrame, "Inserimento fallito: "+efe.getMessage());
         }
     }
 
     private void CheckEventoInserted() {
+        CheckNoCampiVuotiForEvento();
         List<LocalDateTime> listLDT = CheckDateForEvento();
         CheckDateEventoInSessione(listLDT);
         CheckNoOverlap(listLDT);
-        CheckNoCampiVuotiForEvento();
     }
 
     private List<LocalDateTime> CheckDateForEvento(){
@@ -880,13 +881,13 @@ public class AddInstance_controller {
     }
 
     private void CheckNoOverlap(List<LocalDateTime> listLDT) {
-        List<Evento> currEventoList = getAllCurrentEventi();
-        for (Evento e : currEventoList) {
-            CheckOverlap(listLDT, e); //if overlaps, throws exception
+        List<Evento> EventiInseritiList = getAllEventiInseriti();
+        for (Evento e : EventiInseritiList) {
+            checkOverlap(listLDT, e); //if overlaps, throws exception
         }
     }
 
-    private void CheckOverlap(List<LocalDateTime> listLDT, Evento e) {
+    private void checkOverlap(List<LocalDateTime> listLDT, Evento e) {
         if(EventsOverlap(listLDT, e))
             throw new DataInsertedException("Evento inserito fa conflitto con un evento precedente");
     }
@@ -898,7 +899,7 @@ public class AddInstance_controller {
              ||(listLDT.get(0).isBefore(e.getInizio()) && listLDT.get(1).isAfter(e.getInizio()));
     }
 
-    private List<Evento> getAllCurrentEventi() {
+    private List<Evento> getAllEventiInseriti() {
         List<Evento> tempList = new ArrayList<>(NewSessioneFrame.getEvDLModel().getSize());
         for(int i = 0; i < NewSessioneFrame.getEvDLModel().getSize(); i++)
             tempList.add(NewSessioneFrame.getEvDLModel().getElementAt(i));
@@ -908,6 +909,16 @@ public class AddInstance_controller {
 
 
     private void CheckNoCampiVuotiForEvento() {
+        if(CampiVuotiForEvento())
+            throw new DataInsertedException("Dati mancanti");
+
+    }
+
+    private boolean CampiVuotiForEvento() {
+        return NewSessioneFrame.getTextField3().getText().equals("") ||
+               NewSessioneFrame.getTextField4().getText().equals("") ||
+                    (NewSessioneFrame.getTextField5().getText().equals("") &&
+                     NewSessioneFrame.getTextField6().getText().equals(""));
     }
 
     private void EraseAllTextFieldsInNewEventoJPanel() {
@@ -985,5 +996,47 @@ public class AddInstance_controller {
         if(!NewSessioneFrame.getEvDLModel().isEmpty() && NewSessioneFrame.getList1().getSelectedIndex() != -1){
             NewSessioneFrame.getEvDLModel().remove(NewSessioneFrame.getList1().getSelectedIndex());
         }
+    }
+
+    public void CheckCorrectSessioneDates() {
+        try{
+            getInizioSessioneInLDT();
+            getFineSessioneInLDT();
+            NewSessioneFrame.getAddButtonLabel().setVisible(false);
+            NewSessioneFrame.getAggiungiButton().setEnabled(true);
+        }
+        catch (IllegalArgumentException iae){
+            NewSessioneFrame.getAddButtonLabel().setVisible(true);
+            NewSessioneFrame.getAggiungiButton().setEnabled(false);
+        }
+    }
+
+    public void CheckCorrectConferenzaDates() {
+        try{
+            getInizioConferenzaInDate();
+            getFineConferenzaInDate();
+            AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(true);
+            AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
+        }catch (IllegalArgumentException iae){
+            AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(false);
+            AddInstanceClassFrame.getCheckButtonLabel().setVisible(true);
+        }
+    }
+
+    private void getFineConferenzaInDate() {
+
+    }
+
+    private void getInizioConferenzaInDate() {
+    }
+
+    public void CheckButtonClicked() {
+        if(CheckNoOverlapConferenze()){
+            AddInstanceClassFrame.getCheckBox1().setSelected(true);
+        }
+    }
+
+    private boolean CheckNoOverlapConferenze() {
+        return true;
     }
 }

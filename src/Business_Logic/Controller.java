@@ -429,4 +429,12 @@ public class Controller {
         }
         MainFrame.getDeleteButton().setEnabled(true);
     }
+
+    public void CheckCorrectConferenzaDates() {
+        addInstFrame_controller.CheckCorrectConferenzaDates();
+    }
+
+    public void CheckButtonClicked() {
+        addInstFrame_controller.CheckButtonClicked();
+    }
 }

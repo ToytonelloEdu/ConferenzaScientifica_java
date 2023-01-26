@@ -119,6 +119,7 @@ public class Conferenza_DAO implements DaoClass{
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+            throw new InsertFailedException(e.getMessage());
         }
     }
 

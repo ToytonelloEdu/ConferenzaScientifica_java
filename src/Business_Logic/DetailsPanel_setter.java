@@ -9,6 +9,7 @@ import java.util.Objects;
 
 public class DetailsPanel_setter {
     Controller business_logic;
+    String Class_selected;
     DefaultListModel<String> dListModel = new DefaultListModel<>();
     public DetailsPanel_setter(Controller controller) {
         business_logic = controller;
@@ -39,7 +40,7 @@ public class DetailsPanel_setter {
 
     public void setData_onDPanel_byClass(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         JComboBox<String> Class_Cbox = MainFrame.getClass_comboBox();
-        String Class_selected = Objects.requireNonNull((String) Class_Cbox.getSelectedItem());
+        Class_selected = Objects.requireNonNull((String) Class_Cbox.getSelectedItem());
         switch (Class_selected) {
             case "Conferenza" ->
                     setFields_inDetPanel_forConferenza(MainFrame, Current_Main_outputList, CurrentSpinnerValue);

@@ -6,10 +6,7 @@ import Model_classes.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +55,7 @@ public class CF_NewSessioneFrame extends JFrame {
     private JButton nessunoButton;
     private JButton rimuoviButton;
     private JTextField textField0;
+    private JLabel addButtonLabel;
     private final List<JComponent> EventoDataComponents = new ArrayList<>(EventoData_JPanel.getComponentCount());
 
     private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
@@ -73,8 +71,9 @@ public class CF_NewSessioneFrame extends JFrame {
         }
         setContentPane(MainPanel);
         setTitle("Nuova Sessione");
-        setBounds(750, 75, 500, 550);
+        setBounds(750, 75, 550, 550);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        aggiungiButton.setEnabled(false);
         EventoData_JPanel.setVisible(false);
         setVisible(false);
 
@@ -124,6 +123,34 @@ public class CF_NewSessioneFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddInst_bl.NewSess_RimuoviButtonClicked();
+            }
+        });
+        textField1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                AddInst_bl.CheckCorrectSessioneDates();
+            }
+        });
+        textField2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                AddInst_bl.CheckCorrectSessioneDates();
+            }
+        });
+        TextField1_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                AddInst_bl.CheckCorrectSessioneDates();
+            }
+        });
+        TextField2_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                AddInst_bl.CheckCorrectSessioneDates();
             }
         });
     }
@@ -254,5 +281,13 @@ public class CF_NewSessioneFrame extends JFrame {
 
     public JTextField getTextField0() {
         return textField0;
+    }
+
+    public JButton getAggiungiButton() {
+        return aggiungiButton;
+    }
+
+    public JLabel getAddButtonLabel() {
+        return addButtonLabel;
     }
 }

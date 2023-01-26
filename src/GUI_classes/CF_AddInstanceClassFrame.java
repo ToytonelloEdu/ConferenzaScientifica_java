@@ -69,6 +69,9 @@ public class CF_AddInstanceClassFrame extends JFrame {
     private JButton removeButton14;
     private JButton removeButton12;
     private JPanel TwoButton_JPanel;
+    private JButton checkDisponibilitaButton;
+    private JCheckBox checkBox1;
+    private JLabel CheckButtonLabel;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -156,6 +159,26 @@ public class CF_AddInstanceClassFrame extends JFrame {
                 business_logic.newButton14_clicked();
             }
         });
+        textField2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                business_logic.CheckCorrectConferenzaDates();
+            }
+        });
+        textField3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                business_logic.CheckCorrectConferenzaDates();
+            }
+        });
+        checkDisponibilitaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.CheckButtonClicked();
+            }
+        });
     }
 
     private CF_AddInstanceClassFrame AddIstanceClassFrame_setup() {
@@ -168,7 +191,7 @@ public class CF_AddInstanceClassFrame extends JFrame {
         setBounds(75, 75, 650, 650);
         DataInsert_JScrollPanel.getVerticalScrollBar().setUnitIncrement(8);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+        NewButton11.setEnabled(false);
         return FrameHolder;
     }
 
@@ -345,5 +368,17 @@ public class CF_AddInstanceClassFrame extends JFrame {
 
     public JPanel getTwoButton_JPanel() {
         return TwoButton_JPanel;
+    }
+
+    public JButton getCheckDisponibilitaButton() {
+        return checkDisponibilitaButton;
+    }
+
+    public JLabel getCheckButtonLabel() {
+        return CheckButtonLabel;
+    }
+
+    public JCheckBox getCheckBox1() {
+        return checkBox1;
     }
 }
