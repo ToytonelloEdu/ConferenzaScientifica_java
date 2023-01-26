@@ -255,6 +255,7 @@ public class AddInstance_controller {
         Hide_Sede_Unusedlabel();
         Hide_Sede_UnusedTextField();
         Hide_Sede_UnusedJPanel();
+        Hide_CheckboxDisponibilita();
         AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
     }
 
@@ -285,6 +286,12 @@ public class AddInstance_controller {
         AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
         AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
         AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
+    }
+
+    private void Hide_CheckboxDisponibilita(){
+        AddInstanceClassFrame.getCheckBox1().setVisible(false);
+        AddInstanceClassFrame.getCheckDisponibilitaButton().setVisible(false);
+        AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
     }
 
     private void setFieldsAdd_forUtente(){
@@ -326,6 +333,7 @@ public class AddInstance_controller {
         Hide_Utente_UnusedLabel();
         Hide_Utente_UnusedTextField();
         Hide_Utente_UnusedJPanel();
+        Hide_CheckboxDisponibilita();
     }
     private void Hide_Utente_UnusedLabel(){
         AddInstanceClassFrame.getLabel5().setVisible(false);
@@ -400,15 +408,10 @@ public class AddInstance_controller {
     public void confermaButtonClicked() {
         switch (ClassSelected){
             case "Sede" -> InsertSede_Control();
-            case "Conferenza" -> InsertConferenza_Control();
+//            case "Conferenza" -> InsertConferenza_Control();
             case "Utente", "Organizzatore", "Partecipante" -> InsertUtente_Control();
             case "Istituzione" -> InsertIstituzione_Control();
         }
-    }
-
-    private void InsertConferenza_Control() {
-
-
     }
 
     private void InsertSede_Control() {
@@ -514,6 +517,7 @@ public class AddInstance_controller {
         Hide_Istituzione_Unusedlabel();
         Hide_Istituzione_UnusedTextField();
         Hide_Istituzione_UnusedJPanel();
+        Hide_CheckboxDisponibilita();
     }
     private void Hide_Istituzione_Unusedlabel(){
         AddInstanceClassFrame.getLabel3().setVisible(false);
