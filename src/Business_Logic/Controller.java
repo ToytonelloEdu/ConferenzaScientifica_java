@@ -55,7 +55,6 @@ public class Controller {
     }
 
     public void MainFrame_searchButton_clicked(CF_MainFrame Frame) {
-        List<ModelClass> Output_list;
         detailsPanel_setter.getdListModel().clear();
         Frame.getOutput_TextArea().setText("");
         String Class_SearchIn_str = (String) Frame.getClass_comboBox().getSelectedItem();

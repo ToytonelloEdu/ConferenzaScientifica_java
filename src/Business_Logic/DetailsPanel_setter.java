@@ -22,6 +22,7 @@ public class DetailsPanel_setter {
         for(JComponent comp : detailsComp_list){
             comp.setVisible(true);
         }
+        business_logic.MainFrame.getDetailsButton().setVisible(true);
         dListModel.clear();
     }
 

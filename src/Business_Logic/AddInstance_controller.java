@@ -881,15 +881,31 @@ public class AddInstance_controller {
 
     private void CheckNoOverlap(List<LocalDateTime> listLDT) {
         List<Evento> currEventoList = getAllCurrentEventi();
+        for (Evento e : currEventoList) {
+            CheckOverlap(listLDT, e); //if overlaps, throws exception
+        }
+    }
 
+    private void CheckOverlap(List<LocalDateTime> listLDT, Evento e) {
+        if(EventsOverlap(listLDT, e))
+            throw new DataInsertedException("Evento inserito fa conflitto con un evento precedente");
+    }
+
+    private boolean EventsOverlap(List<LocalDateTime> listLDT, Evento e) {
+        return (listLDT.get(0).isAfter(e.getInizio()) && listLDT.get(1).isBefore(e.getFine()))
+             ||(listLDT.get(0).isBefore(e.getInizio()) && listLDT.get(1).isAfter(e.getFine()))
+             ||(listLDT.get(0).isBefore(e.getFine()) && listLDT.get(1).isAfter(e.getFine()))
+             ||(listLDT.get(0).isBefore(e.getInizio()) && listLDT.get(1).isAfter(e.getInizio()));
     }
 
     private List<Evento> getAllCurrentEventi() {
-        List<Evento> tempList = new ArrayList<>(NewSessioneFrame.getList1().getModel().getSize());
-
-
+        List<Evento> tempList = new ArrayList<>(NewSessioneFrame.getEvDLModel().getSize());
+        for(int i = 0; i < NewSessioneFrame.getEvDLModel().getSize(); i++)
+            tempList.add(NewSessioneFrame.getEvDLModel().getElementAt(i));
         return tempList;
     }
+
+
 
     private void CheckNoCampiVuotiForEvento() {
     }

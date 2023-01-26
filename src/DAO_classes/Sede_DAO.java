@@ -1,6 +1,7 @@
 package DAO_classes;
 
 import Exceptions.InsertFailedException;
+import Model_classes.Locazione;
 import Model_classes.ModelClass;
 import Model_classes.Sede;
 
@@ -159,10 +160,16 @@ public class Sede_DAO implements DaoClass{
 
             private Sede setSede_tempFields(ResultSet localRS) throws SQLException {
                 Sede Sede_temp = new Sede();
+                int Sede_pk = localRS.getInt("sede_id");
                 Sede_temp.setNome(localRS.getString("nome"));
                 Sede_temp.setIndirizzo(localRS.getString("indirizzo"));
                 Sede_temp.setCitta(localRS.getString("città"));
+                Sede_temp.setLocazioneList(getLocazioni(Sede_pk, Sede_temp));
                 return Sede_temp;
-    }
+            }
+
+            private List<Locazione> getLocazioni(int sede_pk, Sede sede_temp) {
+                return Locazione_DAO.getDAO().getAll_bySede(sede_pk, sede_temp);
+            }
 }
 
