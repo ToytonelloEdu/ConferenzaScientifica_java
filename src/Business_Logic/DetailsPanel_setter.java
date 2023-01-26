@@ -60,7 +60,13 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Istituzione_UnusedFields(CF_MainFrame mainFrame) {
-
+        mainFrame.getSecondField_label().setVisible(false);
+        mainFrame.getThirdField_label().setVisible(false);
+        mainFrame.getFourthField_label().setVisible(false);
+        mainFrame.getSecondField_outputArea().setVisible(false);
+        mainFrame.getThirdField_outputArea().setVisible(false);
+        mainFrame.getFourthField_outputArea().setVisible(false);
+        mainFrame.getFirstList_Panel().setVisible(false);
     }
 
     private void setFields_inDetPanel_forUtenti(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
@@ -143,6 +149,8 @@ public class DetailsPanel_setter {
         MainFrame.getDetail_ObjectName_label().setText((SelectedSede.getNome()));
         SetSede_FirstField(MainFrame, SelectedSede);
         SetSede_SecondField(MainFrame, SelectedSede);
+        for(Locazione l : SelectedSede.getLocazioneList())
+            dListModel.addElement(l.toString());
         Hide_Sede_UnusedComp(MainFrame);
     }
 
@@ -151,7 +159,6 @@ public class DetailsPanel_setter {
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
-        MainFrame.getFirstList_Panel().setVisible(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {
