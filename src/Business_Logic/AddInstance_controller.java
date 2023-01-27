@@ -13,6 +13,7 @@ import java.awt.*;
 import java.lang.*;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -116,15 +117,16 @@ public class AddInstance_controller {
         ClassSelected = selectedClass;
         SetAllToVisible();
         switch (selectedClass) {
-            case "Conferenza" ->
-                    setFieldsAdd_forConferenza();
+            case "Conferenza" -> {
+
+                setFieldsAdd_forConferenza();
+            }
             case "Sede" -> {
                     CurrentOggetto = new Sede();
                     setFieldsAdd_forSede();
                 }
-            case "Utente", "Organizzatore", "Partecipante" -> {
+            case "Utente", "Organizzatore", "Partecipante" ->
                     setFieldsAdd_forUtente();
-                }
             case "Istituzione" ->{
                     CurrentOggetto = new Istituzione();
                     setFieldsAdd_forIstituzione();
@@ -416,10 +418,118 @@ public class AddInstance_controller {
     public void confermaButtonClicked() {
         switch (ClassSelected){
             case "Sede" -> InsertSede_Control();
-//            case "Conferenza" -> InsertConferenza_Control();
+            case "Conferenza" -> InsertConferenza_Control();
             case "Utente", "Organizzatore", "Partecipante" -> InsertUtente_Control();
             case "Istituzione" -> InsertIstituzione_Control();
         }
+    }
+
+    private void InsertConferenza_Control() {
+        try {
+            if(NoCampiVuoti_forConferenza())
+                insertConferenza();
+            else
+                JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: Dati mancanti");
+        } catch (DataInsertedException e) {
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, e.getMessage());
+        }
+    }
+
+    private boolean NoCampiVuoti_forConferenza() {
+        return  !AddInstanceClassFrame.getTextField1().getText().equals("") &&
+                !AddInstanceClassFrame.getTextField2().getText().equals("") &&
+                !AddInstanceClassFrame.getTextField3().getText().equals("") &&
+                !AddInstanceClassFrame.getTextField4().getText().equals("");
+    }
+
+    private void insertConferenza() {
+        CurrentOggetto = new Conferenza();
+        try {
+            SetField_forInsertedConferenza();
+            Conferenza_DAO.getDAO().Insert(CurrentOggetto);
+
+            InsertConfSessioni();
+            
+            InsertConf_EntiOrganizzatori();
+
+            InsertConfOrganizzatori();
+
+            InsertConfSponsors();
+            EraseAllFieldsInAddFrame();
+        }catch (InsertFailedException ife){
+            JOptionPane.showMessageDialog(AddInstanceClassFrame ,"Inserimento fallito: "+ife.getMessage());
+        }
+
+    }
+
+    private void SetField_forInsertedConferenza() {
+        (((Conferenza) CurrentOggetto)).setNome(AddInstanceClassFrame.getTextField1().getText());
+        try {
+            (((Conferenza) CurrentOggetto)).setDataInizio(getInizioConferenzaInDate());
+            (((Conferenza) CurrentOggetto)).setDataFine(getFineConferenzaInDate());
+        } catch (ParseException ignored) {
+            throw new DataInsertedException("Formato data incorretto");
+        }
+        (((Conferenza) CurrentOggetto)).setDescrizione(AddInstanceClassFrame.getTextField4().getText());
+        (((Conferenza) CurrentOggetto)).setCollocazione((Sede) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem());
+    }
+
+    private void InsertConfSessioni() throws InsertFailedException {
+        for(int i = 0; i < dlModel11.getSize(); i++) {
+            Sessione sess = ((Sessione) dlModel11.getElementAt(i));
+            sess.setConferenza((((Conferenza) CurrentOggetto)));
+            Sessione_DAO.getDAO().Insert(sess);
+            for (Evento ev: sess.getEventoList()) {
+                ev.setSessione(sess);
+                ev.getDao().Insert(ev);
+            }
+        }
+    }
+
+    private void InsertConf_EntiOrganizzatori() throws InsertFailedException {
+        Ente_organizzatore enteorg = new Ente_organizzatore();
+        enteorg.setConferenza((Conferenza) CurrentOggetto);
+        for(int i = 0; i < dlModel10.getSize(); i++){
+            enteorg.setIstituzione((Istituzione) dlModel10.getElementAt(i));
+            Ente_Organizzatore_DAO.getDAO().Insert(enteorg);
+        }
+    }
+
+    private void InsertConfOrganizzatori() throws InsertFailedException {
+        Conf_Organ confOrgan = new Conf_Organ();
+        confOrgan.setConferenza(((Conferenza) CurrentOggetto));
+        confOrgan.setComitato("Locale");
+        for(int i = 0; i < dlModel12.getSize(); i++){
+            confOrgan.setOrganizzatore((Organizzatore) dlModel12.getElementAt(i));
+            Conf_Organ_DAO.getDAO().Insert(confOrgan);
+        }
+    }
+
+    private void InsertConfSponsors() throws InsertFailedException {
+        Conf_Sponsor conf_sponsor = new Conf_Sponsor();
+        conf_sponsor.setConferenza(((Conferenza) CurrentOggetto));
+        conf_sponsor.setImporto(BigDecimal.valueOf(0));
+        for(int i = 0; i < dlModel14.getSize(); i++){
+            Sponsor sponsor = ((Sponsor) dlModel14.getElementAt(i));
+            conf_sponsor.setSponsor(sponsor);
+            try{
+                Sponsor_DAO.getDAO().Insert(sponsor);
+            }catch (InsertFailedException ignored){}
+            Conf_Sponsor_DAO.getDAO().Insert(conf_sponsor);
+        }
+    }
+
+    private void EraseAllFieldsInAddFrame() {
+        for(Component comp: AddInstanceClassFrame.getComponents()){
+            try{
+                ((JTextField) comp).setText("");
+            }catch (ClassCastException ignored){}
+        }
+        dlModel10.clear();
+        dlModel11.clear();
+        dlModel12.clear();
+        dlModel14.clear();
+        business_logic.MainFrame.getAddButton().setEnabled(true);
     }
 
     private void InsertSede_Control() {
@@ -445,6 +555,7 @@ public class AddInstance_controller {
                 l.getDao().Insert(l);
             }
             AddInstanceClassFrame.setVisible(false);
+            EraseAllFieldsInAddFrame();
         }
         catch (InsertFailedException e){
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
@@ -768,7 +879,10 @@ public class AddInstance_controller {
         tempSessione.setFine(getFineSessioneInLDT());
         tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox3().getSelectedItem()));
         tempSessione.setChair(((Utente) NewSessioneFrame.getComboBox4().getSelectedItem()));
-        tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
+        if(NewSessioneFrame.getComboBox5().isEnabled())
+            tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
+        else
+            tempSessione.setKeynote_speaker(null);
         List<Evento> tempEventoList = new ArrayList<>();
         while(!NewSessioneFrame.getEvDLModel().isEmpty()){
             Evento tempEvento = NewSessioneFrame.getEvDLModel().get(0);
@@ -1067,24 +1181,30 @@ public class AddInstance_controller {
             }
         }catch (ParseException e){
             System.out.println(e.getMessage());
+        }catch(DataInsertedException die){
+            AddInstanceClassFrame.getCheckBox1().setSelected(false);
+            AddInstanceClassFrame.getNewButton11().setEnabled(false);
+            JOptionPane.showMessageDialog(AddInstanceClassFrame, die.getMessage());
         }
     }
 
     private boolean CheckNoOverlapConferenze() throws ParseException {
         List<Date> DateConferenza = GetDateFromInsertedConferenza();
         for(ModelClass c : Conferenza_DAO.getDAO().getAll())
-            if(OverlapDate(DateConferenza, (Conferenza) c)){
-                return false;
+            if(OverlapDate(DateConferenza.get(0), DateConferenza.get(1), (Conferenza) c)) {
+                throw new DataInsertedException("Sede occupata nelle date scelte");
             }
         return true;
     }
 
-    private boolean OverlapDate(List<Date> dateConferenza, Conferenza c) {
-        if(c.getCollocazione().equals(AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem()))
-            return (dateConferenza.get(0).after(c.getDataInizio()) && dateConferenza.get(1).before(c.getDataFine()))
-                ||(dateConferenza.get(0).before(c.getDataInizio()) && dateConferenza.get(1).after(c.getDataFine()))
-                ||(dateConferenza.get(0).before(c.getDataInizio()) && dateConferenza.get(1).after(c.getDataInizio()))
-                ||(dateConferenza.get(0).before(c.getDataFine()) && dateConferenza.get(1).after(c.getDataFine()));
+    private boolean OverlapDate(Date Inizio, Date Fine, Conferenza c) {
+        if(c.getCollocazione().equals(AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem())) {
+            if     (Inizio.after(c.getDataInizio())  && (Fine.before(c.getDataFine()))) return true;
+            if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataFine())) return true;
+            if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataInizio())) return true;
+            if     (Inizio.before(c.getDataFine()) && Fine.after(c.getDataFine())) return true;
+            return (Inizio.equals(c.getDataInizio())) || (Fine.equals(c.getDataFine()));
+        }
         else
             return false;
     }

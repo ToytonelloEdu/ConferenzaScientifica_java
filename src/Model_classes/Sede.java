@@ -93,4 +93,26 @@ public class Sede implements ModelClass{
     public String toString() {
         return nome;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sede sede = (Sede) o;
+
+        if (!nome.equals(sede.nome)) return false;
+        if (!indirizzo.equals(sede.indirizzo)) return false;
+        return citta.equals(sede.citta);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nome.hashCode();
+        result = 31 * result + indirizzo.hashCode();
+        result = 31 * result + citta.hashCode();
+        result = 31 * result + dao.hashCode();
+        result = 31 * result + locazioneList.hashCode();
+        return result;
+    }
 }

@@ -45,8 +45,8 @@ public class Evento_Sociale extends Evento implements ModelClass{
 
     @Override
     public String toSQLrow() {
-        String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + this.tipo_evsociale +"', '"
-                     + adjustDoubleQuotes(descrizione) +"', "+ this.getSessione().toPK() +"";
+        String ret = "'" + Timestamp.valueOf(getInizio()) + "', '"+ Timestamp.valueOf(getFine()) +"', '" + this.tipo_evsociale +"'" +
+                        ", "+ this.getSessione().toPK() +", '"+ adjustDoubleQuotes(descrizione) +"'";
         return ret;
     }
 

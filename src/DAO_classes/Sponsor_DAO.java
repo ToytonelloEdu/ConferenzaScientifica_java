@@ -1,5 +1,6 @@
 package DAO_classes;
 
+import Exceptions.InsertFailedException;
 import Model_classes.*;
 
 import java.sql.*;
@@ -80,7 +81,7 @@ public class Sponsor_DAO implements DaoClass{
         return null;
     }
 
-    public void Insert(ModelClass Sponsor_temp){
+    public void Insert(ModelClass Sponsor_temp) throws InsertFailedException {
         try {
             Statement LocalStatement = this.getStatement();
             String command = "INSERT INTO Main.Sponsor VALUES (DEFAULT, "+ Sponsor_temp.toSQLrow() +");";
@@ -88,7 +89,7 @@ public class Sponsor_DAO implements DaoClass{
             LocalStatement.execute(command);
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new InsertFailedException(e.getMessage());
         }
     }
 
