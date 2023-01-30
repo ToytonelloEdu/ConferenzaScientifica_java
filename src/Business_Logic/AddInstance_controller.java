@@ -1043,8 +1043,9 @@ public class AddInstance_controller {
     private boolean CampiVuotiForEvento() {
         return NewSessioneFrame.getTextField3().getText().equals("") ||
                NewSessioneFrame.getTextField4().getText().equals("") ||
-                    (NewSessioneFrame.getTextField5().getText().equals("") &&
-                     NewSessioneFrame.getTextField6().getText().equals(""));
+                    ((NewSessioneFrame.getTextField5().getText().equals("") ||
+                     NewSessioneFrame.getTextField6().getText().equals("")) &&
+                     NewSessioneFrame.getPausaButton().isEnabled());
     }
 
     private void EraseAllTextFieldsInNewEventoJPanel() {
