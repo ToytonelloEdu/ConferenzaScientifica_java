@@ -13,10 +13,10 @@ import java.util.List;
 public class Controller {
     CF_MainFrame MainFrame;
 
-    CF_AddInstanceClassFrame AddIstanceClassFrame;
+    CF_AddEditClassFrame AddIstanceClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
-    AddInstance_controller addInstFrame_controller;
+    AddEditFrameAppearanceController addInstFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
@@ -49,8 +49,8 @@ public class Controller {
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
-        AddIstanceClassFrame = new CF_AddInstanceClassFrame(this);
-        addInstFrame_controller = new AddInstance_controller(this, AddIstanceClassFrame);
+        AddIstanceClassFrame = new CF_AddEditClassFrame(this);
+        addInstFrame_controller = new AddEditFrameAppearanceController(this, AddIstanceClassFrame);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
         NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
@@ -268,12 +268,10 @@ public class Controller {
     }
 
     public void addButton_clicked(){
+        AddInstanceFrame_initialization();
         if(MainFrame.getLoginButton().isVisible()) {
-            AddInstanceFrame_initialization();
             NewLoginFrame.setVisible(true);
-        }
-        else {
-            AddInstanceFrame_initialization();
+        } else {
             AddIstanceClassFrame.setVisible(true);
         }
     }
@@ -286,7 +284,7 @@ public class Controller {
     }
 
     public void AddInstanceFrame_hidden() {
-        if(!NewLocazioneFrame.isVisible() && !NewSponsorFrame.isVisible())
+        if(!NewLocazioneFrame.isVisible() && !NewSponsorFrame.isVisible() && !NewSessioneFrame.isVisible())
         {
             AddIstanceClassFrame.setVisible(false);
             EmptyComboboxInAddFrame();
@@ -295,7 +293,7 @@ public class Controller {
         }
     }
 
-    private void EmptyComboboxInAddFrame() {
+    void EmptyComboboxInAddFrame() {
         AddIstanceClassFrame.getSelect_comboBox10().removeAllItems();
         AddIstanceClassFrame.getSelect_comboBox12().removeAllItems();
         AddIstanceClassFrame.getSelect_comboBox14().removeAllItems();
