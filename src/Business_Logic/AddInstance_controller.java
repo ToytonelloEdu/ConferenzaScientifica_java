@@ -32,10 +32,10 @@ public class AddInstance_controller {
     String ClassSelected;
     ModelClass CurrentOggetto;
 
-    private DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
-    private DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
-    private DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
-    private DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
 
     public AddInstance_controller(Controller c, CF_AddInstanceClassFrame aicf) {
         business_logic = c;
@@ -1039,17 +1039,15 @@ public class AddInstance_controller {
     private void CheckDateEventoInSessione(List<LocalDateTime> listLDT) {
         LocalDateTime InizioSess = getInizioSessioneInLDT();
         LocalDateTime FineSess = getFineSessioneInLDT();
-        if (!DateEventoInSessione(listLDT, InizioSess, FineSess))
+        if (!DateEventoInSessione(listLDT.get(0), listLDT.get(1), InizioSess, FineSess))
             throw new DataInsertedException("L'evento non rientra temporalmente nella sessione");
     }
 
-    private boolean DateEventoInSessione(List<LocalDateTime> listLDT, LocalDateTime InizioSess, LocalDateTime FineSess){
-        return  listLDT.get(0).isAfter(InizioSess) &&
-                listLDT.get(1).isAfter(InizioSess) &&
-                listLDT.get(0).isBefore(FineSess)  &&
-                listLDT.get(1).isBefore(FineSess)  &&
-                listLDT.get(0).equals(InizioSess)  &&
-                listLDT.get(1).equals(FineSess);
+    private boolean DateEventoInSessione(LocalDateTime InizioEv, LocalDateTime FineEv, LocalDateTime InizioSess, LocalDateTime FineSess){
+        return  InizioEv.isAfter(InizioSess) || InizioEv.equals(InizioSess) &&
+                FineEv.isAfter(InizioSess) &&
+                InizioEv.isBefore(FineSess)  &&
+                FineEv.isBefore(FineSess)  || FineEv.equals(FineSess);
     }
 
     private void CheckNoOverlap(List<LocalDateTime> listLDT) {
