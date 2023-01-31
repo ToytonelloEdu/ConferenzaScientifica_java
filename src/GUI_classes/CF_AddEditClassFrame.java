@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CF_AddInstanceClassFrame extends JFrame {
+public class CF_AddEditClassFrame extends JFrame {
 
     private Controller business_logic;
     private JPanel MainPanel;
@@ -72,12 +72,13 @@ public class CF_AddInstanceClassFrame extends JFrame {
     private JButton checkDisponibilitaButton;
     private JCheckBox checkBox1;
     private JLabel CheckButtonLabel;
+    private JTextField textField9;
 
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
-    public CF_AddInstanceClassFrame(Controller c) {
+    public CF_AddEditClassFrame(Controller c) {
         business_logic = c;
-        CF_AddInstanceClassFrame FrameHolder = AddIstanceClassFrame_setup();
+        CF_AddEditClassFrame FrameHolder = AddIstanceClassFrame_setup();
 
 
 
@@ -181,10 +182,10 @@ public class CF_AddInstanceClassFrame extends JFrame {
         });
     }
 
-    private CF_AddInstanceClassFrame AddIstanceClassFrame_setup() {
+    private CF_AddEditClassFrame AddIstanceClassFrame_setup() {
         setVisible(false);
         setContentPane(MainPanel);
-        CF_AddInstanceClassFrame FrameHolder = this;
+        CF_AddEditClassFrame FrameHolder = this;
         for (Component comp : DataInsert_JPanel.getComponents())
             DataInsertComponentList.add((JComponent) comp);
         setTitle("Conferencer: aggiungi oggetto");

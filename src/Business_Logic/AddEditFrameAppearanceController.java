@@ -3,7 +3,7 @@ package Business_Logic;
 import DAO_classes.*;
 import Exceptions.DataInsertedException;
 import Exceptions.InsertFailedException;
-import GUI_classes.CF_AddInstanceClassFrame;
+import GUI_classes.CF_AddEditClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
 import GUI_classes.CF_NewSponsorFrame;
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddInstance_controller {
+public class AddEditFrameAppearanceController {
     Controller business_logic;
-    CF_AddInstanceClassFrame AddInstanceClassFrame;
+    CF_AddEditClassFrame AddInstanceClassFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
     CF_NewSessioneFrame NewSessioneFrame;
@@ -37,7 +37,7 @@ public class AddInstance_controller {
     private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
 
-    public AddInstance_controller(Controller c, CF_AddInstanceClassFrame aicf) {
+    public AddEditFrameAppearanceController(Controller c, CF_AddEditClassFrame aicf) {
         business_logic = c;
         AddInstanceClassFrame = aicf;
         AddInstanceClassFrame.getSelectedItems_list10().setModel(dlModel10);
@@ -424,9 +424,10 @@ public class AddInstance_controller {
 
     private void InsertConferenza_Control() {
         try {
-            if(NoCampiVuoti_forConferenza())
+            if (NoCampiVuoti_forConferenza()){
                 insertConferenza();
-            else
+                SuccessfulInsertCompleted();
+            }else
                 JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: Dati mancanti");
         } catch (DataInsertedException e) {
             JOptionPane.showMessageDialog(AddInstanceClassFrame, e.getMessage());
@@ -454,13 +455,17 @@ public class AddInstance_controller {
             InsertConfOrganizzatori();
 
             InsertConfSponsors();
-            AddInstanceClassFrame.setVisible(false);
-            EraseAllFieldsInAddFrame();
-            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
         }catch (InsertFailedException ife){
             JOptionPane.showMessageDialog(AddInstanceClassFrame ,"Inserimento fallito: "+ife.getMessage());
         }
 
+    }
+
+    private void SuccessfulInsertCompleted() {
+        AddInstanceClassFrame.setVisible(false);
+        business_logic.EmptyComboboxInAddFrame();
+        EraseAllFieldsInAddFrame();
+        JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
     }
 
     private void SetField_forInsertedConferenza() {
@@ -560,9 +565,7 @@ public class AddInstance_controller {
             for (Locazione l : ((Sede) CurrentOggetto).getLocazioneList()) {
                 l.getDao().Insert(l);
             }
-            AddInstanceClassFrame.setVisible(false);
-            EraseAllFieldsInAddFrame();
-            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
+            SuccessfulInsertCompleted();
         }
         catch (InsertFailedException e){
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
@@ -585,9 +588,7 @@ public class AddInstance_controller {
     private void InsertUtente_Control() {
         if(NoCampiVuoti_forUtente()) {
             insertUtente();
-            AddInstanceClassFrame.setVisible(false);
-            EraseAllFieldsInAddFrame();
-            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
+            SuccessfulInsertCompleted();
         }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
@@ -681,9 +682,7 @@ public class AddInstance_controller {
     private void InsertIstituzione_Control() {
         if (NoCampiVuoti_forIstituzione()){
             insertIstituzione();
-            AddInstanceClassFrame.setVisible(false);
-            EraseAllFieldsInAddFrame();
-            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
+            SuccessfulInsertCompleted();
         }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
