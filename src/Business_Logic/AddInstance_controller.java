@@ -454,7 +454,9 @@ public class AddInstance_controller {
             InsertConfOrganizzatori();
 
             InsertConfSponsors();
+            AddInstanceClassFrame.setVisible(false);
             EraseAllFieldsInAddFrame();
+            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
         }catch (InsertFailedException ife){
             JOptionPane.showMessageDialog(AddInstanceClassFrame ,"Inserimento fallito: "+ife.getMessage());
         }
@@ -524,7 +526,7 @@ public class AddInstance_controller {
     }
 
     private void EraseAllFieldsInAddFrame() {
-        for(Component comp: AddInstanceClassFrame.getComponents()){
+        for(JComponent comp: AddInstanceClassFrame.getDataInsertComponentList()){
             try{
                 ((JTextField) comp).setText("");
             }catch (ClassCastException ignored){}
@@ -560,6 +562,7 @@ public class AddInstance_controller {
             }
             AddInstanceClassFrame.setVisible(false);
             EraseAllFieldsInAddFrame();
+            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
         }
         catch (InsertFailedException e){
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
@@ -582,7 +585,9 @@ public class AddInstance_controller {
     private void InsertUtente_Control() {
         if(NoCampiVuoti_forUtente()) {
             insertUtente();
-            business_logic.MainFrame.getAddButton().setEnabled(true);
+            AddInstanceClassFrame.setVisible(false);
+            EraseAllFieldsInAddFrame();
+            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
         }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
@@ -676,7 +681,9 @@ public class AddInstance_controller {
     private void InsertIstituzione_Control() {
         if (NoCampiVuoti_forIstituzione()){
             insertIstituzione();
-        business_logic.MainFrame.getAddButton().setEnabled(true);
+            AddInstanceClassFrame.setVisible(false);
+            EraseAllFieldsInAddFrame();
+            JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
         }
         else
             JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
@@ -1209,7 +1216,6 @@ public class AddInstance_controller {
         return tempList;
     }
 
-    //TODO: VEDI PERCHé NON FUNZIONA
     public void CheckButtonClicked() {
         try {
             if (CheckNoOverlapConferenze() && CheckDatesOrdered()) {

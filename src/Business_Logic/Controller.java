@@ -231,7 +231,7 @@ public class Controller {
             SessionDetailsFrame.getLocazione_textArea().setText(selectedSessione.getLocazione().getNome());
             for (Evento e : selectedSessione.getEventoList())
                 SessionDetailsFrame.getListModel().addElement(e.toDetailsString());
-        }catch (IndexOutOfBoundsException ignored){}
+        }catch (IndexOutOfBoundsException | ClassCastException ignored){}
     }
 
     public void EventoList_SelectedItem_changed() {
@@ -240,23 +240,31 @@ public class Controller {
         try {
             Evento selectedEvento = SessionDetailsFrame.getCurrentEventoList().get(currentIndex);
             try {
-                Intervento selectedIntervento = (Intervento) selectedEvento;
-                SessionDetailsFrame.getDescrizione_Label().setText("Abstract");
-                SessionDetailsFrame.getDescrizione_textArea().setText(selectedIntervento.getAbstract());
-                SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
+                setDetailsForInterverto((Intervento) selectedEvento);
                 return;
             } catch (ClassCastException e) {
                 try {
-                    Evento_Sociale selectedEvSociale = (Evento_Sociale) selectedEvento;
-                    SessionDetailsFrame.getDescrizione_Label().setText("Descrizione");
-                    SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvSociale.getDescrizione());
-                    SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
+                    //noinspection ConstantConditions
+                    setDetailsForEvSociale((Evento_Sociale) selectedEvento);
                     return;
                 } catch (ClassCastException ignored) {
                 }
             }
         }catch (IndexOutOfBoundsException ignored){}
         SessionDetailsFrame.getDescrizione_JPanel().setVisible(false);
+    }
+
+    private void setDetailsForEvSociale(Evento_Sociale selectedEvento) {
+        SessionDetailsFrame.getDescrizione_Label().setText("Descrizione");
+        SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvento.getDescrizione());
+        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
+    }
+
+    private void setDetailsForInterverto(Intervento selectedEvento) {
+        Intervento selectedIntervento = selectedEvento;
+        SessionDetailsFrame.getDescrizione_Label().setText("Abstract");
+        SessionDetailsFrame.getDescrizione_textArea().setText(selectedIntervento.getAbstract());
+        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
     }
 
     public void addButton_clicked(){
