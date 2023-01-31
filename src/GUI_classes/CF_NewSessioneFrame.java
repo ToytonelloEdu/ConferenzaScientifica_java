@@ -1,6 +1,6 @@
 package GUI_classes;
 
-import Business_Logic.AddInstance_controller;
+import Business_Logic.AddEditFrameAppearanceController;
 import Business_Logic.Controller;
 import Model_classes.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CF_NewSessioneFrame extends JFrame {
     private final Controller business_logic;
-    private final AddInstance_controller AddInst_bl;
+    private final AddEditFrameAppearanceController AddInst_bl;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -61,7 +61,7 @@ public class CF_NewSessioneFrame extends JFrame {
     private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
     private String EventoSelected;
 
-    public CF_NewSessioneFrame(Controller c, AddInstance_controller aic){
+    public CF_NewSessioneFrame(Controller c, AddEditFrameAppearanceController aic){
         business_logic = c;
         AddInst_bl = aic;
         AddInst_bl.setNewSessioneFrame(this);

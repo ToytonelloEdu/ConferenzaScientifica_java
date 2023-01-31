@@ -1,6 +1,6 @@
 package GUI_classes;
 
-import Business_Logic.AddInstance_controller;
+import Business_Logic.AddEditFrameAppearanceController;
 import Business_Logic.Controller;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class CF_NewSponsorFrame extends JFrame{
     private Controller business_logic;
-    private AddInstance_controller AddInst_bl;
+    private AddEditFrameAppearanceController AddInst_bl;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -19,7 +19,7 @@ public class CF_NewSponsorFrame extends JFrame{
     private JLabel label2;
 
 
-    public CF_NewSponsorFrame(Controller c, AddInstance_controller addInstFrame_c){
+    public CF_NewSponsorFrame(Controller c, AddEditFrameAppearanceController addInstFrame_c){
         business_logic = c;
         AddInst_bl = addInstFrame_c;
         AddInst_bl.setNewSponsorFrame(this);

@@ -1,6 +1,6 @@
 package GUI_classes;
 
-import Business_Logic.AddInstance_controller;
+import Business_Logic.AddEditFrameAppearanceController;
 import Business_Logic.Controller;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class CF_NewLocazioneFrame extends JFrame {
     private Controller business_logic;
-    private AddInstance_controller addInstance_FC;
+    private AddEditFrameAppearanceController addInstance_FC;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -18,7 +18,7 @@ public class CF_NewLocazioneFrame extends JFrame {
     private JLabel label2;
     private JButton annullaButton;
 
-    public CF_NewLocazioneFrame(Controller c, AddInstance_controller aifc){
+    public CF_NewLocazioneFrame(Controller c, AddEditFrameAppearanceController aifc){
         business_logic = c;
         addInstance_FC = aifc;
         addInstance_FC.setNewLocazioneFrame(this);
