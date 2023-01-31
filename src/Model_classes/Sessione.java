@@ -119,12 +119,12 @@ public class Sessione implements ModelClass{
 
     @Override
     public String toSQLctrl() {
-        Object keynoteSP_PK;
+        String  keynoteSP_PK;
 
         try{
-            keynoteSP_PK = keynote_speaker.toPK();
+            keynoteSP_PK = "= "+ keynote_speaker.toPK();
         } catch (NullPointerException e){
-            keynoteSP_PK = "null";
+            keynoteSP_PK = " IS NULL";
         }
 
         return "nome_sess = '"+ adjustDoubleQuotes(nome) +"' AND " +
@@ -134,7 +134,7 @@ public class Sessione implements ModelClass{
                 "sede = "+ this.locazione.toPK() +" AND " +
                 "locazione = '"+ adjustDoubleQuotes(locazione.getNome()) +"' AND " +
                 "chair = "+ this.chair.toPK() +" AND " +
-                "keynote_speaker = "+ keynoteSP_PK;
+                "keynote_speaker "+ keynoteSP_PK;
     }
 
     private String adjustDoubleQuotes(String s){

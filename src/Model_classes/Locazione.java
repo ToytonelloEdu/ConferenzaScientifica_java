@@ -3,6 +3,7 @@ package Model_classes;
 import DAO_classes.Locazione_DAO;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Locazione implements ModelClass{
     private Sede collocazione;
@@ -76,5 +77,24 @@ public class Locazione implements ModelClass{
     @Override
     public String toString() {
         return nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Locazione locazione = (Locazione) o;
+
+        if (!Objects.equals(collocazione, locazione.collocazione))
+            return false;
+        return Objects.equals(nome, locazione.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = collocazione != null ? collocazione.hashCode() : 0;
+        result = 31 * result + (nome != null ? nome.hashCode() : 0);
+        return result;
     }
 }

@@ -97,6 +97,8 @@ public class Sessione_DAO implements DaoClass{
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next())
                 pk = localRS.getInt("sessione_id");
+            else
+                throw new RuntimeException("localRS vuoto");
 
             return pk;
         }

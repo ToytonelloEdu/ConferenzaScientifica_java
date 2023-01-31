@@ -15,10 +15,8 @@ import java.lang.*;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -449,6 +447,7 @@ public class AddInstance_controller {
             Conferenza_DAO.getDAO().Insert(CurrentOggetto);
 
             InsertConfSessioni();
+            InsertConfEventi();
             
             InsertConf_EntiOrganizzatori();
 
@@ -475,15 +474,20 @@ public class AddInstance_controller {
     }
 
     private void InsertConfSessioni() throws InsertFailedException {
+        ((Conferenza) CurrentOggetto).setSessioneList(new ArrayList<>());
         for(int i = 0; i < dlModel11.getSize(); i++) {
             Sessione sess = ((Sessione) dlModel11.getElementAt(i));
-            sess.setConferenza((((Conferenza) CurrentOggetto)));
+            sess.setConferenza(((Conferenza) CurrentOggetto));
+            ((Conferenza) CurrentOggetto).getSessioneList().add(sess);
             Sessione_DAO.getDAO().Insert(sess);
+        }
+    }
+
+    public void InsertConfEventi() throws InsertFailedException {
+        for(Sessione sess: ((Conferenza) CurrentOggetto).getSessioneList())
             for (Evento ev: sess.getEventoList()) {
-                ev.setSessione(sess);
                 ev.getDao().Insert(ev);
             }
-        }
     }
 
     private void InsertConf_EntiOrganizzatori() throws InsertFailedException {
@@ -886,6 +890,7 @@ public class AddInstance_controller {
         List<Evento> tempEventoList = new ArrayList<>();
         while(!NewSessioneFrame.getEvDLModel().isEmpty()){
             Evento tempEvento = NewSessioneFrame.getEvDLModel().get(0);
+            tempEvento.setSessione(tempSessione);
             tempEventoList.add(tempEvento);
             NewSessioneFrame.getEvDLModel().remove(0);
         }
@@ -896,8 +901,39 @@ public class AddInstance_controller {
     private boolean CheckSessioneInserted() {
         return CheckNoCampiVuotiForSessione()
                && CheckDate()
+               && CheckNoOverlapSessione()
                && CheckChair_e_Keynote();
 
+    }
+
+    private boolean CheckNoOverlapSessione() {
+        List<LocalDateTime> listLDT = TryLocalDateTimeConversion();
+        List<ModelClass> sessList = getAllbyDLModel(dlModel11);
+        for(ModelClass sess: sessList){
+            if (SessionsOverlap(listLDT.get(0), listLDT.get(1), (Sessione) sess))
+                throw new DataInsertedException("Locazione scelta già occupata nell'intervallo di tempo");
+        }
+        return true;
+    }
+
+    private boolean SessionsOverlap(LocalDateTime Inizio, LocalDateTime Fine, Sessione sess) {
+        if(sess.getLocazione().equals(NewSessioneFrame.getComboBox3().getSelectedItem())){
+            if     (Inizio.isAfter(sess.getInizio())  && (Fine.isBefore(sess.getFine()))) return true;
+            if     (Inizio.isBefore(sess.getInizio()) && Fine.isAfter(sess.getFine())) return true;
+            if     (Inizio.isBefore(sess.getInizio()) && Fine.isAfter(sess.getInizio())) return true;
+            if     (Inizio.isBefore(sess.getFine()) && Fine.isAfter(sess.getFine())) return true;
+            return (Inizio.equals(sess.getInizio())) || (Fine.equals(sess.getFine()));
+        }
+        else
+            return false;
+    }
+
+    private List<ModelClass> getAllbyDLModel(DefaultListModel<ModelClass> dlModel11) {
+        List<ModelClass> tempList = new ArrayList<>();
+        for(int i = 0; i < dlModel11.getSize(); i++){
+            tempList.add( dlModel11.getElementAt(i));
+        }
+        return tempList;
     }
 
     private Boolean CheckNoCampiVuotiForSessione() {
@@ -920,7 +956,10 @@ public class AddInstance_controller {
     private boolean CheckDate() {
         List<LocalDateTime> LDTList = TryLocalDateTimeConversion();
 
-        return LDTList.get(0).isBefore(LDTList.get(1));
+        if (LDTList.get(0).isBefore(LDTList.get(1)))
+            return true;
+        else
+            throw new DataInsertedException("Inizio e fine sono invertiti (o coincidono)");
     }
 
     private List<LocalDateTime> TryLocalDateTimeConversion() {
@@ -936,10 +975,15 @@ public class AddInstance_controller {
     }
 
     private boolean CheckChair_e_Keynote() {
-        if(NewSessioneFrame.getComboBox5().isEnabled())
-            return NewSessioneFrame.getComboBox4().getSelectedItem().equals(NewSessioneFrame.getComboBox5().getSelectedItem());
+        if(NewSessioneFrame.getComboBox5().isEnabled()) {
+            if (NewSessioneFrame.getComboBox4().getSelectedItem().equals(NewSessioneFrame.getComboBox5().getSelectedItem())) {
+                throw new DataInsertedException("Keynote Speaker e Chair combaciano");
+            } else
+                return true;
+        }
         else
             return true;
+
     }
 
     public void NewSess_AggiungiButtonClicked() {
@@ -1003,19 +1047,17 @@ public class AddInstance_controller {
         return  listLDT.get(0).isAfter(InizioSess) &&
                 listLDT.get(1).isAfter(InizioSess) &&
                 listLDT.get(0).isBefore(FineSess)  &&
-                listLDT.get(1).isBefore(FineSess);
+                listLDT.get(1).isBefore(FineSess)  &&
+                listLDT.get(0).equals(InizioSess)  &&
+                listLDT.get(1).equals(FineSess);
     }
 
     private void CheckNoOverlap(List<LocalDateTime> listLDT) {
         List<Evento> EventiInseritiList = getAllEventiInseriti();
         for (Evento e : EventiInseritiList) {
-            checkOverlap(listLDT, e); //if overlaps, throws exception
+            if(EventsOverlap(listLDT, e))
+                throw new DataInsertedException("Evento inserito fa conflitto con un evento precedente");
         }
-    }
-
-    private void checkOverlap(List<LocalDateTime> listLDT, Evento e) {
-        if(EventsOverlap(listLDT, e))
-            throw new DataInsertedException("Evento inserito fa conflitto con un evento precedente");
     }
 
     private boolean EventsOverlap(List<LocalDateTime> listLDT, Evento e) {
@@ -1043,9 +1085,8 @@ public class AddInstance_controller {
     private boolean CampiVuotiForEvento() {
         return NewSessioneFrame.getTextField3().getText().equals("") ||
                NewSessioneFrame.getTextField4().getText().equals("") ||
-                    ((NewSessioneFrame.getTextField5().getText().equals("") ||
-                     NewSessioneFrame.getTextField6().getText().equals("")) &&
-                     NewSessioneFrame.getPausaButton().isEnabled());
+               ((NewSessioneFrame.getTextField5().getText().equals("") && NewSessioneFrame.getTextField6().getText().equals(""))
+               && NewSessioneFrame.getPausaButton().isEnabled());
     }
 
     private void EraseAllTextFieldsInNewEventoJPanel() {
@@ -1173,7 +1214,7 @@ public class AddInstance_controller {
     //TODO: VEDI PERCHé NON FUNZIONA
     public void CheckButtonClicked() {
         try {
-            if (CheckNoOverlapConferenze()) {
+            if (CheckNoOverlapConferenze() && CheckDatesOrdered()) {
                 AddInstanceClassFrame.getCheckBox1().setSelected(true);
                 AddInstanceClassFrame.getNewButton11().setEnabled(true);
             } else {
@@ -1187,6 +1228,14 @@ public class AddInstance_controller {
             AddInstanceClassFrame.getNewButton11().setEnabled(false);
             JOptionPane.showMessageDialog(AddInstanceClassFrame, die.getMessage());
         }
+    }
+
+    private boolean CheckDatesOrdered() throws ParseException {
+        List<Date> DateConferenza = GetDateFromInsertedConferenza();
+        if(DateConferenza.get(0).before(DateConferenza.get(1)))
+            return true;
+        else
+            throw new DataInsertedException("Date di Inizio e Fine invertite");
     }
 
     private boolean CheckNoOverlapConferenze() throws ParseException {

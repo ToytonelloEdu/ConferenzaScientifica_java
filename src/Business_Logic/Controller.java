@@ -4,7 +4,6 @@ package Business_Logic;
 import DAO_classes.*;
 import GUI_classes.*;
 import Model_classes.*;
-import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -35,6 +34,14 @@ public class Controller {
         {
             System.out.println(e.getMessage());
         }
+
+//        Sessione sess = Sessione_DAO.getDAO().getByPK(1);
+//        try {
+//            int pk = sess.toPK();
+//            System.out.println(pk);
+//        } catch (NullPointerException e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     public Controller(){
@@ -302,6 +309,7 @@ public class Controller {
     }
 
     public void confermaButtonClicked() {
+        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         addInstFrame_controller.confermaButtonClicked();
     }
 
