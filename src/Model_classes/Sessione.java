@@ -157,6 +157,6 @@ public class Sessione implements ModelClass{
 
     @Override
     public String toString() {
-        return nome +", da"+ inizio +" a "+ fine;
+        return nome +", da "+ inizio +" a "+ fine;
     }
 }

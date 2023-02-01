@@ -1,13 +1,14 @@
 package GUI_classes;
 
 import Business_Logic.Controller;
+import Business_Logic.UserLogin_Controller;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CF_LoginFrame extends JFrame{
-    private Controller business_logic;
+    private UserLogin_Controller login_controller;
     private JPanel HomePanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -16,20 +17,20 @@ public class CF_LoginFrame extends JFrame{
     private JLabel LabelEmail;
     private JLabel LabelPasswordDB;
 
-    public CF_LoginFrame(Controller c){
-        business_logic = c;
+    public CF_LoginFrame(UserLogin_Controller lc){
+        login_controller = lc;
         CF_LoginFrame FrameHolder = LoginFrame_setup();
 
         buttonAnnulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.AnnullaButtonLoginClicked();
+                lc.AnnullaButtonLoginClicked();
             }
         });
         buttonAccedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.AccediButtonLoginClicked();
+                lc.AccediButtonLoginClicked();
             }
         });
     }

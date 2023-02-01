@@ -12,7 +12,6 @@ import java.util.List;
 
 public class Controller {
     CF_MainFrame MainFrame;
-
     CF_AddEditClassFrame AddIstanceClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
@@ -22,9 +21,8 @@ public class Controller {
     CF_NewSponsorFrame NewSponsorFrame;
     CF_NewSessioneFrame NewSessioneFrame;
     CF_LoginFrame NewLoginFrame;
+    UserLogin_Controller login_controller;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
-
-    Organizzatore AccessUser = null;
 
     public static void main(String[] args) {
         try {
@@ -34,27 +32,20 @@ public class Controller {
         {
             System.out.println(e.getMessage());
         }
-
-//        Sessione sess = Sessione_DAO.getDAO().getByPK(1);
-//        try {
-//            int pk = sess.toPK();
-//            System.out.println(pk);
-//        } catch (NullPointerException e) {
-//            System.out.println(e.getMessage());
-//        }
     }
 
     public Controller(){
-        MainFrame = new CF_MainFrame(this);
+        login_controller = new UserLogin_Controller(this);
+        MainFrame = new CF_MainFrame(this, login_controller);
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
         AddIstanceClassFrame = new CF_AddEditClassFrame(this);
         addInstFrame_controller = new AddEditFrameAppearanceController(this, AddIstanceClassFrame);
+        NewLoginFrame = new CF_LoginFrame(login_controller);
         NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
         NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
         NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
-        NewLoginFrame = new CF_LoginFrame(this);
     }
 
     private boolean isEmpty(JTextComponent text_Comp) {
@@ -343,106 +334,7 @@ public class Controller {
         addInstFrame_controller.removeButton14Clicked();
     }
 
-    public void AnnullaButtonLoginClicked(){
-        MainFrame.getAddButton().setEnabled(true);
-        MainFrame.getDeleteButton().setEnabled(true);
-        NewLoginFrame.setVisible(false);
-        NewLoginFrame.getTextField1().setText("");
-        NewLoginFrame.getTextField2().setText("");
-    }
 
-    public void AccediButtonLoginClicked(){
-        if(CheckNoCampiVuoti()) {
-            String emailInserita = NewLoginFrame.getTextField1().getText();
-            String passwordInserita = NewLoginFrame.getTextField2().getText();
-            if(check_accesso(emailInserita, passwordInserita)) {
-                JOptionPane.showMessageDialog(NewLoginFrame, "Accesso eseguito");
-                tipo_login();
-            }
-        }
-        else
-            JOptionPane.showMessageDialog(NewLoginFrame, "Inserimento fallito: dati mancanti");
-    }
-
-    public boolean CheckNoCampiVuoti() {
-        return !(NewLoginFrame.getTextField1().getText().equals("")) && !(NewLoginFrame.getTextField2().getText().equals(""));
-    }
-
-    public boolean check_accesso(String emailInserita, String passwordInserita) {
-        try {
-            AccessUser = Organizzatore_DAO.getDAO().getByEmail(emailInserita);
-            MainFrame.getLabelLogin().setText(AccessUser.getNome() +" "+ AccessUser.getCognome());
-            return check_password(passwordInserita);
-        }catch(NullPointerException e){
-            JOptionPane.showMessageDialog(NewLoginFrame, "Email errata!");
-            return false;
-        }
-    }
-
-    private boolean check_password(String passwordInserita) {
-        if(!passwordInserita.equals("StaniLobo") && !passwordInserita.equals("sangio")) {
-            JOptionPane.showMessageDialog(NewLoginFrame, "Password errata!");
-            return false;
-        }
-        else
-            return true;
-    }
-
-    private void tipo_login() {
-        if(!MainFrame.getAddButton().isEnabled())
-            login_eseguito_foradd();
-        else if (!MainFrame.getDeleteButton().isEnabled()) {
-            login_eseguito_fordelete();
-        } else
-            login_eseguito();
-    }
-
-    public void login_eseguito() {
-        NewLoginFrame.setVisible(false);
-        MainFrame.getLoginButton().setVisible(false);
-        MainFrame.getLoginButton().setEnabled(true);
-        MainFrame.getLabelLogin().setVisible(true);
-    }
-
-    public void login_eseguito_foradd() {
-        NewLoginFrame.setVisible(false);
-        MainFrame.getLoginButton().setVisible(false);
-        MainFrame.getLoginButton().setEnabled(true);
-        MainFrame.getLabelLogin().setVisible(true);
-        AddIstanceClassFrame.setVisible(true);
-    }
-
-    public void login_eseguito_fordelete(){
-        NewLoginFrame.setVisible(false);
-        MainFrame.getLoginButton().setVisible(false);
-        MainFrame.getLoginButton().setEnabled(true);
-        MainFrame.getLabelLogin().setVisible(true);
-        deleteObject();
-    }
-
-    public void LoginButtonClicked() {
-        MainFrame.getLoginButton().setEnabled(false);
-        NewLoginFrame.setVisible(true);
-    }
-
-    public void DeleteButtonClicked(){
-        MainFrame.getDeleteButton().setEnabled(false);
-        if(MainFrame.getLoginButton().isVisible())
-            NewLoginFrame.setVisible(true);
-        else
-            deleteObject();
-    }
-
-    public void deleteObject() {
-        int CurrentSpinnerValue = (Integer) MainFrame.getSelection_spinner().getValue() - 1;
-        ModelClass CurrentObjectOutput = Current_Main_outputList.get(CurrentSpinnerValue);
-        int risposta = JOptionPane.showConfirmDialog(MainFrame.getDetails_panel(), "Vuoi cancellare l'oggetto: "+ CurrentObjectOutput +"?");
-        if(risposta == 0) {
-            CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
-            MainFrame_searchButton_clicked(MainFrame);
-        }
-        MainFrame.getDeleteButton().setEnabled(true);
-    }
 
     public void CheckCorrectConferenzaDates() {
         addInstFrame_controller.CheckCorrectConferenzaDates();

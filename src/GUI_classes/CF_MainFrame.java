@@ -46,11 +46,13 @@ public class CF_MainFrame extends JFrame {
     private JLabel TitleLabel;
     private JButton loginButton;
     private JLabel LabelLogin;
+    UserLogin_Controller login_controller;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
-    public CF_MainFrame(Controller c) {
+    public CF_MainFrame(Controller c, UserLogin_Controller ulc) {
         business_logic = c;
+        login_controller = ulc;
         CF_MainFrame MainFrame_holder = MainFrame_setUp();
         setVisible(true);
 
@@ -105,13 +107,13 @@ public class CF_MainFrame extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.LoginButtonClicked();
+                ulc.LoginButtonClicked();
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.DeleteButtonClicked();
+                ulc.DeleteButtonClicked();
             }
         });
     }
