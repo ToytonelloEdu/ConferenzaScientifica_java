@@ -4,6 +4,7 @@ import GUI_classes.*;
 import Model_classes.*;
 
 import javax.swing.*;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -172,5 +173,70 @@ public class DetailsPanel_setter {
     private void SetSede_SecondField(CF_MainFrame MainFrame, Sede SelectedSede) {
         MainFrame.getSecondField_label().setText("Città");
         MainFrame.getSecondField_outputArea().setText(SelectedSede.getCitta());
+    }
+
+    public void setSessioneDetails(CF_SessionDetailsFrame SessionDetailsFrame) {
+        SessionDetailsFrame.getListModel().clear();
+        int currentIndex = (int) business_logic.MainFrame.getSelection_spinner().getValue() -1;
+        int currentListIndex = business_logic.MainFrame.getDetPanel_FirstList().getSelectedIndex();
+        try {
+            Conferenza selectedConferenza = (Conferenza) business_logic.Current_Main_outputList.get(currentIndex);
+            Sessione selectedSessione = selectedConferenza.getSessioneList().get(currentListIndex);
+            setSessioneDetInFields(SessionDetailsFrame, selectedSessione);
+        }catch (IndexOutOfBoundsException | ClassCastException ignored){}
+    }
+
+    private void setSessioneDetInFields(CF_SessionDetailsFrame SessionDetailsFrame, Sessione selectedSessione) {
+        SessionDetailsFrame.setCurrentEventoList(selectedSessione.getEventoList());
+        SessionDetailsFrame.getSessTitle_Label().setText(selectedSessione.getNome());
+        SessionDetailsFrame.getInizioSessione_textArea().setText(Timestamp.valueOf(selectedSessione.getInizio()).toString());
+        SessionDetailsFrame.getFineSessione_textArea().setText(Timestamp.valueOf(selectedSessione.getFine()).toString());
+        SessionDetailsFrame.getChair_textArea().setText(selectedSessione.getChair().toDetailString());
+        setKeyNoteSpeakerInfo(SessionDetailsFrame, selectedSessione);
+        SessionDetailsFrame.getLocazione_textArea().setText(selectedSessione.getLocazione().getNome());
+
+        for (Evento e : selectedSessione.getEventoList())
+            SessionDetailsFrame.getListModel().addElement(e.toDetailsString());
+    }
+
+    private void setKeyNoteSpeakerInfo(CF_SessionDetailsFrame SessionDetailsFrame, Sessione selectedSessione) {
+        try {
+            SessionDetailsFrame.getKeynoteSpeaker_textArea().setText(selectedSessione.getKeynote_speaker().toDetailString());
+        } catch (NullPointerException e) {
+            SessionDetailsFrame.getKeynoteSpeaker_textArea().setText("Non presente");
+        }
+    }
+
+    public void SetDescrizioneForEventoSelected(CF_SessionDetailsFrame SessionDetailsFrame) {
+
+        int currentIndex = SessionDetailsFrame.getEventi_JList().getSelectedIndex();
+        try {
+            Evento selectedEvento = SessionDetailsFrame.getCurrentEventoList().get(currentIndex);
+            try {
+                setDetailsForInterverto(SessionDetailsFrame, (Intervento) selectedEvento);
+                return;
+            } catch (ClassCastException e) {
+                try {
+                    //noinspection ConstantConditions
+                    setDetailsForEvSociale(SessionDetailsFrame, (Evento_Sociale) selectedEvento);
+                    return;
+                } catch (ClassCastException ignored) {
+                }
+            }
+        }catch (IndexOutOfBoundsException ignored){}
+        //caso Pausa (non ha descrizione):
+        SessionDetailsFrame.getDescrizione_JPanel().setVisible(false);
+    }
+
+    private void setDetailsForEvSociale(CF_SessionDetailsFrame SessionDetailsFrame, Evento_Sociale selectedEvento) {
+        SessionDetailsFrame.getDescrizione_Label().setText("Descrizione");
+        SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvento.getDescrizione());
+        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
+    }
+
+    private void setDetailsForInterverto(CF_SessionDetailsFrame SessionDetailsFrame, Intervento selectedEvento) {
+        SessionDetailsFrame.getDescrizione_Label().setText("Abstract");
+        SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvento.getAbstract());
+        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
     }
 }

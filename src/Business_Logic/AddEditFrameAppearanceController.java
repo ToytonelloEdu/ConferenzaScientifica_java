@@ -2,7 +2,6 @@ package Business_Logic;
 
 import DAO_classes.*;
 import Exceptions.DataInsertedException;
-import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddEditClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
@@ -13,7 +12,7 @@ import java.awt.*;
 import java.lang.*;
 
 import javax.swing.*;
-import java.math.BigDecimal;
+import javax.swing.text.JTextComponent;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,25 +24,40 @@ import java.util.List;
 
 public class AddEditFrameAppearanceController {
     Controller business_logic;
-    CF_AddEditClassFrame AddInstanceClassFrame;
+    CF_AddEditClassFrame AddEditClassFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
     CF_NewSessioneFrame NewSessioneFrame;
     String ClassSelected;
-    ModelClass CurrentOggetto;
 
     private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
 
-    public AddEditFrameAppearanceController(Controller c, CF_AddEditClassFrame aicf) {
+    public AddEditFrameAppearanceController(Controller c) {
         business_logic = c;
-        AddInstanceClassFrame = aicf;
-        AddInstanceClassFrame.getSelectedItems_list10().setModel(dlModel10);
-        AddInstanceClassFrame.getAddOnly_list11().setModel(dlModel11);
-        AddInstanceClassFrame.getSelectedItems_list12().setModel(dlModel12);
-        AddInstanceClassFrame.getSelectedItems_list14().setModel(dlModel14);
+        AddEditClassFrame = business_logic.AddEditClassFrame;
+        AddEditClassFrame.getSelectedItems_list10().setModel(dlModel10);
+        AddEditClassFrame.getAddOnly_list11().setModel(dlModel11);
+        AddEditClassFrame.getSelectedItems_list12().setModel(dlModel12);
+        AddEditClassFrame.getSelectedItems_list14().setModel(dlModel14);
+    }
+
+    public DefaultListModel<ModelClass> getDlModel10() {
+        return dlModel10;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel11() {
+        return dlModel11;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel12() {
+        return dlModel12;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel14() {
+        return dlModel14;
     }
 
     public void NewSpons_annullaButtonClicked() {
@@ -62,23 +76,13 @@ public class AddEditFrameAppearanceController {
         NewSessioneFrame = newSessioneFrame;
     }
 
-    public void NewButton11Clicked() {
-        if(ClassSelected.equals("Sede")){
-            NewLocazioneFrame.setVisible(true);
-        }
-        else if (ClassSelected.equals("Conferenza")){
-            NewSessioneFrameSetUp();
-            NewSessioneFrame.setVisible(true);
-        }
-    }
-
-    private void NewSessioneFrameSetUp() {
+    void NewSessioneFrameSetUp() {
         setComboboxLocazioniforSessione();
         setComboboxChairforSessione();
         setComboboxKeynoteforSessione();
         setComboboxInterventistaforSessione();
-        AddInstanceClassFrame.getNewButton11().setEnabled(false);
-        AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(false);
+        AddEditClassFrame.getNewButton11().setEnabled(false);
+        AddEditClassFrame.getSelectOne_comboBox13().setEnabled(false);
     }
 
     private void setComboboxInterventistaforSessione() {
@@ -111,35 +115,25 @@ public class AddEditFrameAppearanceController {
         return Partecipante_DAO.getDAO().getAllUtenti();
     }
 
-    public void ChoiseClassAdd(String selectedClass) {
+    public void ChoiceClassAdd(String selectedClass) {
         ClassSelected = selectedClass;
         SetAllToVisible();
         switch (selectedClass) {
-            case "Conferenza" -> {
-
-                setFieldsAdd_forConferenza();
-            }
-            case "Sede" -> {
-                    CurrentOggetto = new Sede();
-                    setFieldsAdd_forSede();
-                }
-            case "Utente", "Organizzatore", "Partecipante" ->
-                    setFieldsAdd_forUtente();
-            case "Istituzione" ->{
-                    CurrentOggetto = new Istituzione();
-                    setFieldsAdd_forIstituzione();
-                }
+            case "Conferenza" -> setFieldsAdd_forConferenza();
+            case "Sede" -> setFieldsAdd_forSede();
+            case "Utente", "Organizzatore", "Partecipante" -> setFieldsAdd_forUtente();
+            case "Istituzione" -> setFieldsAdd_forIstituzione();
         }
     }
 
     private void SetAllToVisible() {
-        for(JComponent jc : AddInstanceClassFrame.getDataInsertComponentList())
+        for(JComponent jc : AddEditClassFrame.getDataInsertComponentList())
             jc.setVisible(true);
-        AddInstanceClassFrame.getNewButton11().setEnabled(true);
+        AddEditClassFrame.getNewButton11().setEnabled(true);
     }
 
     private void setFieldsAdd_forConferenza(){
-        AddInstanceClassFrame.getNewButton11().setEnabled(false);
+        AddEditClassFrame.getNewButton11().setEnabled(false);
         setConf_firstField();
         setConf_secondField();
         setConf_thirdField();
@@ -153,23 +147,23 @@ public class AddEditFrameAppearanceController {
     }
 
     private void setConf_firstField(){
-        AddInstanceClassFrame.getLabel1().setText("Nome");
-        AddInstanceClassFrame.getTextField1().setText("");
+        AddEditClassFrame.getLabel1().setText("Nome");
+        AddEditClassFrame.getTextField1().setText("");
     }
     private void setConf_secondField(){
-        AddInstanceClassFrame.getLabel2().setText("Data Inizio");
-        AddInstanceClassFrame.getTextField2().setText("");
+        AddEditClassFrame.getLabel2().setText("Data Inizio");
+        AddEditClassFrame.getTextField2().setText("");
     }
     private void setConf_thirdField(){
-        AddInstanceClassFrame.getLabel3().setText("Data Fine");
-        AddInstanceClassFrame.getTextField3().setText("");
+        AddEditClassFrame.getLabel3().setText("Data Fine");
+        AddEditClassFrame.getTextField3().setText("");
     }
     private void setConf_fourthField(){
-        AddInstanceClassFrame.getLabel4().setText("Descrizione");
-        AddInstanceClassFrame.getTextField4().setText("");
+        AddEditClassFrame.getLabel4().setText("Descrizione");
+        AddEditClassFrame.getTextField4().setText("");
     }
     private void setConf_FK(){
-        AddInstanceClassFrame.getLabel13().setText("Collocazione");
+        AddEditClassFrame.getLabel13().setText("Collocazione");
         setValues_in_Select_comboBox13();
     }
 
@@ -178,37 +172,37 @@ public class AddEditFrameAppearanceController {
     }
 
     private void setConf_SessioniField(){
-        AddInstanceClassFrame.getLabel11().setText("Sessioni");
+        AddEditClassFrame.getLabel11().setText("Sessioni");
     }
 
     private void setConf_EntiOrgField(){
-        AddInstanceClassFrame.getLabel10().setText("Enti organizzatori");
+        AddEditClassFrame.getLabel10().setText("Enti organizzatori");
         setValues_in_Select_comboBox10("Istituzione");
     }
 
     private void setValues_in_Select_comboBox10(String ClassIntoComboBox) {
         for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
-            AddInstanceClassFrame.getSelect_comboBox10().addItem(o);
+            AddEditClassFrame.getSelect_comboBox10().addItem(o);
     }
 
     private void setConf_OrganField() {
-        AddInstanceClassFrame.getLabel12().setText("Organizzatori");
+        AddEditClassFrame.getLabel12().setText("Organizzatori");
         setValues_in_Select_comboBox12("Organizzatori");
     }
 
     private void setValues_in_Select_comboBox12(String ClassIntoComboBox) {
         for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
-            AddInstanceClassFrame.getSelect_comboBox12().addItem(o);
+            AddEditClassFrame.getSelect_comboBox12().addItem(o);
     }
 
     private void setConf_SponsorField() {
-        AddInstanceClassFrame.getLabel14().setText("Sponsor");
+        AddEditClassFrame.getLabel14().setText("Sponsor");
         setValues_in_Select_comboBox14("Sponsor");
     }
 
     private void setValues_in_Select_comboBox14(String ClassIntoComboBox) {
         for(ModelClass o : getValues_for_Select_comboBox(ClassIntoComboBox))
-            AddInstanceClassFrame.getSelect_comboBox14().addItem(o);
+            AddEditClassFrame.getSelect_comboBox14().addItem(o);
     }
 
     private void Hide_Conferenza_UnusedComponents(){
@@ -217,23 +211,23 @@ public class AddEditFrameAppearanceController {
         Hide_Conferenza_UnusedButton();
     }
     private void Hide_Conferenza_Unusedlabel(){
-        AddInstanceClassFrame.getLabel5().setVisible(false);
-        AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getLabel8().setVisible(false);
-        AddInstanceClassFrame.getLabel9().setVisible(false);
+        AddEditClassFrame.getLabel5().setVisible(false);
+        AddEditClassFrame.getLabel6().setVisible(false);
+        AddEditClassFrame.getLabel7().setVisible(false);
+        AddEditClassFrame.getLabel8().setVisible(false);
+        AddEditClassFrame.getLabel9().setVisible(false);
     }
     private void Hide_Conferenza_UnusedTextField(){
-        AddInstanceClassFrame.getTextField5().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
-        AddInstanceClassFrame.getTextField8().setVisible(false);
-        AddInstanceClassFrame.getnewButton10().setVisible(false);
+        AddEditClassFrame.getTextField5().setVisible(false);
+        AddEditClassFrame.getTextField6().setVisible(false);
+        AddEditClassFrame.getTextField7().setVisible(false);
+        AddEditClassFrame.getTextField8().setVisible(false);
+        AddEditClassFrame.getnewButton10().setVisible(false);
     }
     private void Hide_Conferenza_UnusedButton(){
-        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
-        AddInstanceClassFrame.getnewButton10().setVisible(false);
-        AddInstanceClassFrame.getnewButton12().setVisible(false);
+        AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
+        AddEditClassFrame.getnewButton10().setVisible(false);
+        AddEditClassFrame.getnewButton12().setVisible(false);
     }
 
     private void setFieldsAdd_forSede(){
@@ -244,19 +238,19 @@ public class AddEditFrameAppearanceController {
         Hide_Sede_UnusedComponents();
     }
     private void setSede_firstField(){
-        AddInstanceClassFrame.getLabel1().setText("Nome");
-        AddInstanceClassFrame.getTextField1().setText("");
+        AddEditClassFrame.getLabel1().setText("Nome");
+        AddEditClassFrame.getTextField1().setText("");
     }
     private void setSede_secondField(){
-        AddInstanceClassFrame.getLabel2().setText("Indirizzo");
-        AddInstanceClassFrame.getTextField2().setText("");
+        AddEditClassFrame.getLabel2().setText("Indirizzo");
+        AddEditClassFrame.getTextField2().setText("");
     }
     private void setSede_thirdField(){
-        AddInstanceClassFrame.getLabel3().setText("Città");
-        AddInstanceClassFrame.getTextField3().setText("");
+        AddEditClassFrame.getLabel3().setText("Città");
+        AddEditClassFrame.getTextField3().setText("");
     }
     private void setSede_LocazioneList(){
-        AddInstanceClassFrame.getLabel11().setText("Locazioni");
+        AddEditClassFrame.getLabel11().setText("Locazioni");
         dlModel11.clear();
     }
     private void Hide_Sede_UnusedComponents(){
@@ -264,42 +258,42 @@ public class AddEditFrameAppearanceController {
         Hide_Sede_UnusedTextField();
         Hide_Sede_UnusedJPanel();
         Hide_CheckboxDisponibilita();
-        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel10().setVisible(false);
     }
 
     private void Hide_Sede_Unusedlabel(){
-        AddInstanceClassFrame.getLabel4().setVisible(false);
-        AddInstanceClassFrame.getLabel5().setVisible(false);
-        AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getLabel8().setVisible(false);
-        AddInstanceClassFrame.getLabel9().setVisible(false);
-        AddInstanceClassFrame.getLabel10().setVisible(false);
-        AddInstanceClassFrame.getLabel12().setVisible(false);
-        AddInstanceClassFrame.getLabel13().setVisible(false);
-        AddInstanceClassFrame.getLabel14().setVisible(false);
+        AddEditClassFrame.getLabel4().setVisible(false);
+        AddEditClassFrame.getLabel5().setVisible(false);
+        AddEditClassFrame.getLabel6().setVisible(false);
+        AddEditClassFrame.getLabel7().setVisible(false);
+        AddEditClassFrame.getLabel8().setVisible(false);
+        AddEditClassFrame.getLabel9().setVisible(false);
+        AddEditClassFrame.getLabel10().setVisible(false);
+        AddEditClassFrame.getLabel12().setVisible(false);
+        AddEditClassFrame.getLabel13().setVisible(false);
+        AddEditClassFrame.getLabel14().setVisible(false);
     }
 
     private void Hide_Sede_UnusedTextField(){
-        AddInstanceClassFrame.getTextField4().setVisible(false);
-        AddInstanceClassFrame.getTextField5().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
-        AddInstanceClassFrame.getTextField8().setVisible(false);
+        AddEditClassFrame.getTextField4().setVisible(false);
+        AddEditClassFrame.getTextField5().setVisible(false);
+        AddEditClassFrame.getTextField6().setVisible(false);
+        AddEditClassFrame.getTextField7().setVisible(false);
+        AddEditClassFrame.getTextField8().setVisible(false);
     }
 
     private void Hide_Sede_UnusedJPanel(){
-        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
-        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
-        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddEditClassFrame.getSelectOnly_JPanel13().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel14().setVisible(false);
+        AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
     }
 
     private void Hide_CheckboxDisponibilita(){
-        AddInstanceClassFrame.getCheckBox1().setVisible(false);
-        AddInstanceClassFrame.getCheckDisponibilitaButton().setVisible(false);
-        AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
+        AddEditClassFrame.getCheckBox1().setVisible(false);
+        AddEditClassFrame.getCheckDisponibilitaButton().setVisible(false);
+        AddEditClassFrame.getCheckButtonLabel().setVisible(false);
     }
 
     private void setFieldsAdd_forUtente(){
@@ -312,30 +306,30 @@ public class AddEditFrameAppearanceController {
         Hide_Utente_UnusedComponents();
     }
     private void setUtente_firstField(){
-        AddInstanceClassFrame.getLabel1().setText("Titolo");
-        AddInstanceClassFrame.getTextField1().setText("");
+        AddEditClassFrame.getLabel1().setText("Titolo");
+        AddEditClassFrame.getTextField1().setText("");
     }
     private void setUtente_secondField(){
-        AddInstanceClassFrame.getLabel2().setText("Nome");
-        AddInstanceClassFrame.getTextField2().setText("");
+        AddEditClassFrame.getLabel2().setText("Nome");
+        AddEditClassFrame.getTextField2().setText("");
     }
     private void setUtente_thirdField(){
-        AddInstanceClassFrame.getLabel3().setText("Cognome");
-        AddInstanceClassFrame.getTextField3().setText("");
+        AddEditClassFrame.getLabel3().setText("Cognome");
+        AddEditClassFrame.getTextField3().setText("");
     }
     private void setUtente_fourthField(){
-        AddInstanceClassFrame.getLabel4().setText("Email");
-        AddInstanceClassFrame.getTextField4().setText("");
+        AddEditClassFrame.getLabel4().setText("Email");
+        AddEditClassFrame.getTextField4().setText("");
     }
     private void setUtente_FK(){
-        AddInstanceClassFrame.getLabel13().setText("Istituzione di afferenza");
+        AddEditClassFrame.getLabel13().setText("Istituzione di afferenza");
         setValues_in_Select_comboBox13();
     }
 
     private void setUtente_tipo(){
-        AddInstanceClassFrame.getLabel9().setText("Ruolo");
-        AddInstanceClassFrame.getLeftButton9Button().setText("Partecipante");
-        AddInstanceClassFrame.getRightButton9Button().setText("Organizzatore");
+        AddEditClassFrame.getLabel9().setText("Ruolo");
+        AddEditClassFrame.getLeftButton9Button().setText("Partecipante");
+        AddEditClassFrame.getRightButton9Button().setText("Organizzatore");
     }
     private void Hide_Utente_UnusedComponents(){
         Hide_Utente_UnusedLabel();
@@ -344,33 +338,33 @@ public class AddEditFrameAppearanceController {
         Hide_CheckboxDisponibilita();
     }
     private void Hide_Utente_UnusedLabel(){
-        AddInstanceClassFrame.getLabel5().setVisible(false);
-        AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getLabel8().setVisible(false);
-        AddInstanceClassFrame.getLabel10().setVisible(false);
-        AddInstanceClassFrame.getLabel11().setVisible(false);
-        AddInstanceClassFrame.getLabel12().setVisible(false);
-        AddInstanceClassFrame.getLabel14().setVisible(false);
+        AddEditClassFrame.getLabel5().setVisible(false);
+        AddEditClassFrame.getLabel6().setVisible(false);
+        AddEditClassFrame.getLabel7().setVisible(false);
+        AddEditClassFrame.getLabel8().setVisible(false);
+        AddEditClassFrame.getLabel10().setVisible(false);
+        AddEditClassFrame.getLabel11().setVisible(false);
+        AddEditClassFrame.getLabel12().setVisible(false);
+        AddEditClassFrame.getLabel14().setVisible(false);
     }
     private void Hide_Utente_UnusedTextField(){
-        AddInstanceClassFrame.getTextField5().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
-        AddInstanceClassFrame.getTextField8().setVisible(false);
+        AddEditClassFrame.getTextField5().setVisible(false);
+        AddEditClassFrame.getTextField6().setVisible(false);
+        AddEditClassFrame.getTextField7().setVisible(false);
+        AddEditClassFrame.getTextField8().setVisible(false);
     }
     private void Hide_Utente_UnusedJPanel(){
-        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
-        AddInstanceClassFrame.getAddOnly_JPanel11().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddEditClassFrame.getAddOnly_JPanel11().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel14().setVisible(false);
     }
 
     public void setValues_in_Select_comboBox13() {
         String classIntoComboBox = chooseClassIntoComboBox13();
         for(ModelClass o: getValues_for_Select_comboBox(classIntoComboBox)){
             try {
-                AddInstanceClassFrame.getSelectOne_comboBox13().addItem(o);
+                AddEditClassFrame.getSelectOne_comboBox13().addItem(o);
             }
             catch (Exception ignored){}
         }
@@ -390,148 +384,32 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    public void NewLoc_AnnullaButton_clicked() {
-        NewLocazioneFrame.setVisible(false);
-        NewLocazioneFrame.getTextField1().setText("");
-        NewLocazioneFrame.getTextField2().setText("");
-
+    public void NewLocOperations_afterConferma() {
+        if(NoCampiVuotiInJPanel(NewLocazioneFrame.getMainPanel())){
+            AddNewLocazioneToJList();
+            business_logic.HideNewLocationFrame();
+            NewLocazioneFrame.getConfermaButton().setEnabled(true);
+        }
+        else
+            JOptionPane.showMessageDialog(NewLocazioneFrame, "ERRORE: Dati mancanti");
     }
 
-    public void NewLoc_ConfermaButton_clicked() {
-        NewLocazioneFrame.getConfermaButton().setEnabled(false);
+
+
+    private void AddNewLocazioneToJList() {
+        Locazione locazioneTemp = getInsertedLocazione();
+        dlModel11.addElement(locazioneTemp);
+    }
+
+    private Locazione getInsertedLocazione() {
         Locazione locazioneTemp = new Locazione();
-        locazioneTemp.setCollocazione(((Sede) CurrentOggetto));
         locazioneTemp.setNome(NewLocazioneFrame.getTextField1().getText());
         locazioneTemp.setPostiDisponibili(Integer.parseInt(NewLocazioneFrame.getTextField2().getText()));
-        ((Sede) CurrentOggetto).getLocazioneList().add(locazioneTemp);
-        dlModel11.clear();
-        for(Locazione l : ((Sede) CurrentOggetto).getLocazioneList())
-            dlModel11.addElement(l);
-        NewLocazioneFrame.setVisible(false);
-        NewLocazioneFrame.getTextField1().setText("");
-        NewLocazioneFrame.getTextField2().setText("");
-        NewLocazioneFrame.getConfermaButton().setEnabled(true);
+        return locazioneTemp;
     }
 
-    public void confermaButtonClicked() {
-        switch (ClassSelected){
-            case "Sede" -> InsertSede_Control();
-            case "Conferenza" -> InsertConferenza_Control();
-            case "Utente", "Organizzatore", "Partecipante" -> InsertUtente_Control();
-            case "Istituzione" -> InsertIstituzione_Control();
-        }
-    }
-
-    private void InsertConferenza_Control() {
-        try {
-            if (NoCampiVuoti_forConferenza()){
-                insertConferenza();
-                SuccessfulInsertCompleted();
-            }else
-                JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: Dati mancanti");
-        } catch (DataInsertedException e) {
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, e.getMessage());
-        }
-    }
-
-    private boolean NoCampiVuoti_forConferenza() {
-        return  !AddInstanceClassFrame.getTextField1().getText().equals("") &&
-                !AddInstanceClassFrame.getTextField2().getText().equals("") &&
-                !AddInstanceClassFrame.getTextField3().getText().equals("") &&
-                !AddInstanceClassFrame.getTextField4().getText().equals("");
-    }
-
-    private void insertConferenza() {
-        CurrentOggetto = new Conferenza();
-        try {
-            SetField_forInsertedConferenza();
-            Conferenza_DAO.getDAO().Insert(CurrentOggetto);
-
-            InsertConfSessioni();
-            InsertConfEventi();
-            
-            InsertConf_EntiOrganizzatori();
-
-            InsertConfOrganizzatori();
-
-            InsertConfSponsors();
-        }catch (InsertFailedException ife){
-            JOptionPane.showMessageDialog(AddInstanceClassFrame ,"Inserimento fallito: "+ife.getMessage());
-        }
-
-    }
-
-    private void SuccessfulInsertCompleted() {
-        AddInstanceClassFrame.setVisible(false);
-        business_logic.EmptyComboboxInAddFrame();
-        EraseAllFieldsInAddFrame();
-        JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
-    }
-
-    private void SetField_forInsertedConferenza() {
-        (((Conferenza) CurrentOggetto)).setNome(AddInstanceClassFrame.getTextField1().getText());
-        try {
-            (((Conferenza) CurrentOggetto)).setDataInizio(getInizioConferenzaInDate());
-            (((Conferenza) CurrentOggetto)).setDataFine(getFineConferenzaInDate());
-        } catch (ParseException ignored) {
-            throw new DataInsertedException("Formato data incorretto");
-        }
-        (((Conferenza) CurrentOggetto)).setDescrizione(AddInstanceClassFrame.getTextField4().getText());
-        (((Conferenza) CurrentOggetto)).setCollocazione((Sede) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem());
-    }
-
-    private void InsertConfSessioni() throws InsertFailedException {
-        ((Conferenza) CurrentOggetto).setSessioneList(new ArrayList<>());
-        for(int i = 0; i < dlModel11.getSize(); i++) {
-            Sessione sess = ((Sessione) dlModel11.getElementAt(i));
-            sess.setConferenza(((Conferenza) CurrentOggetto));
-            ((Conferenza) CurrentOggetto).getSessioneList().add(sess);
-            Sessione_DAO.getDAO().Insert(sess);
-        }
-    }
-
-    public void InsertConfEventi() throws InsertFailedException {
-        for(Sessione sess: ((Conferenza) CurrentOggetto).getSessioneList())
-            for (Evento ev: sess.getEventoList()) {
-                ev.getDao().Insert(ev);
-            }
-    }
-
-    private void InsertConf_EntiOrganizzatori() throws InsertFailedException {
-        Ente_organizzatore enteorg = new Ente_organizzatore();
-        enteorg.setConferenza((Conferenza) CurrentOggetto);
-        for(int i = 0; i < dlModel10.getSize(); i++){
-            enteorg.setIstituzione((Istituzione) dlModel10.getElementAt(i));
-            Ente_Organizzatore_DAO.getDAO().Insert(enteorg);
-        }
-    }
-
-    private void InsertConfOrganizzatori() throws InsertFailedException {
-        Conf_Organ confOrgan = new Conf_Organ();
-        confOrgan.setConferenza(((Conferenza) CurrentOggetto));
-        confOrgan.setComitato("Locale");
-        for(int i = 0; i < dlModel12.getSize(); i++){
-            confOrgan.setOrganizzatore((Organizzatore) dlModel12.getElementAt(i));
-            Conf_Organ_DAO.getDAO().Insert(confOrgan);
-        }
-    }
-
-    private void InsertConfSponsors() throws InsertFailedException {
-        Conf_Sponsor conf_sponsor = new Conf_Sponsor();
-        conf_sponsor.setConferenza(((Conferenza) CurrentOggetto));
-        conf_sponsor.setImporto(BigDecimal.valueOf(0));
-        for(int i = 0; i < dlModel14.getSize(); i++){
-            Sponsor sponsor = ((Sponsor) dlModel14.getElementAt(i));
-            conf_sponsor.setSponsor(sponsor);
-            try{
-                Sponsor_DAO.getDAO().Insert(sponsor);
-            }catch (InsertFailedException ignored){}
-            Conf_Sponsor_DAO.getDAO().Insert(conf_sponsor);
-        }
-    }
-
-    private void EraseAllFieldsInAddFrame() {
-        for(JComponent comp: AddInstanceClassFrame.getDataInsertComponentList()){
+    void EraseAllFieldsInAddFrame() {
+        for(JComponent comp: AddEditClassFrame.getDataInsertComponentList()){
             try{
                 ((JTextField) comp).setText("");
             }catch (ClassCastException ignored){}
@@ -543,89 +421,12 @@ public class AddEditFrameAppearanceController {
         business_logic.MainFrame.getAddButton().setEnabled(true);
     }
 
-    private void InsertSede_Control() {
-        if(NoCampiVuoti_forSede()) {
-            insertSede();
-            business_logic.MainFrame.getAddButton().setEnabled(true);
-        }
-        else
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
-    }
-
-    private boolean NoCampiVuoti_forSede() {
-        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals("")) && !(AddInstanceClassFrame.getTextField3().getText().equals(""));
-    }
-
-    private void insertSede() {
-        ((Sede) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField1().getText());
-        ((Sede) CurrentOggetto).setIndirizzo(AddInstanceClassFrame.getTextField2().getText());
-        ((Sede) CurrentOggetto).setCitta(AddInstanceClassFrame.getTextField3().getText());
-        try {
-            CurrentOggetto.getDao().Insert(CurrentOggetto);
-            for (Locazione l : ((Sede) CurrentOggetto).getLocazioneList()) {
-                l.getDao().Insert(l);
-            }
-            SuccessfulInsertCompleted();
-        }
-        catch (InsertFailedException e){
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
-        }
-    }
-
 
     public void removeButtonClicked(){
-        int currentlistIndex = AddInstanceClassFrame.getAddOnly_list11().getSelectedIndex();
+        int currentlistIndex = AddEditClassFrame.getAddOnly_list11().getSelectedIndex();
         if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel11.remove(currentlistIndex);
-            switch (ClassSelected) {
-                case "Sede"-> {
-                    ((Sede) CurrentOggetto).getLocazioneList().remove(currentlistIndex);
-                }
-            }
         }
-    }
-
-    private void InsertUtente_Control() {
-        if(NoCampiVuoti_forUtente()) {
-            insertUtente();
-            SuccessfulInsertCompleted();
-        }
-        else
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
-    }
-
-    private boolean NoCampiVuoti_forUtente() {
-        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals(""))
-                && !(AddInstanceClassFrame.getTextField3().getText().equals("") && !(AddInstanceClassFrame.getTextField4().getText().equals(""))
-                && !(AddInstanceClassFrame.getTextField5().getText().equals("")));
-    }
-
-    private void insertUtente() {
-        Tipo_Utente();
-        ((Utente) CurrentOggetto).setTitolo(AddInstanceClassFrame.getTextField1().getText());
-        ((Utente) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField2().getText());
-        ((Utente) CurrentOggetto).setCognome(AddInstanceClassFrame.getTextField3().getText());
-        ((Utente) CurrentOggetto).setEmail(AddInstanceClassFrame.getTextField4().getText());
-        setIstituzione();
-        try {
-            CurrentOggetto.getDao().Insert(CurrentOggetto);
-            AddInstanceClassFrame.setVisible(false);
-        }
-        catch (InsertFailedException e){
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
-        }
-    }
-
-    private void Tipo_Utente() {
-        if(!(AddInstanceClassFrame.getLeftButton9Button().isEnabled()))
-            CurrentOggetto = new Partecipante();
-        else
-            CurrentOggetto = new Organizzatore();
-    }
-
-    private void setIstituzione(){
-        ModelClass IstituzioneSelected = (ModelClass) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
-        ((Utente) CurrentOggetto).setIstit_afferenza((Istituzione) IstituzioneSelected);
     }
 
     private void setFieldsAdd_forIstituzione(){
@@ -635,12 +436,12 @@ public class AddEditFrameAppearanceController {
     }
 
     private void setIstituzione_firstField(){
-        AddInstanceClassFrame.getLabel1().setText("Nome");
-        AddInstanceClassFrame.getTextField1().setText("");
+        AddEditClassFrame.getLabel1().setText("Nome");
+        AddEditClassFrame.getTextField1().setText("");
     }
     private void setIstituzione_secondField(){
-        AddInstanceClassFrame.getLabel2().setText("Nazione");
-        AddInstanceClassFrame.getTextField2().setText("");
+        AddEditClassFrame.getLabel2().setText("Nazione");
+        AddEditClassFrame.getTextField2().setText("");
     }
     private void Hide_Istituzione_UnusedComponents(){
         Hide_Istituzione_Unusedlabel();
@@ -649,59 +450,34 @@ public class AddEditFrameAppearanceController {
         Hide_CheckboxDisponibilita();
     }
     private void Hide_Istituzione_Unusedlabel(){
-        AddInstanceClassFrame.getLabel3().setVisible(false);
-        AddInstanceClassFrame.getLabel4().setVisible(false);
-        AddInstanceClassFrame.getLabel5().setVisible(false);
-        AddInstanceClassFrame.getLabel6().setVisible(false);
-        AddInstanceClassFrame.getLabel7().setVisible(false);
-        AddInstanceClassFrame.getLabel8().setVisible(false);
-        AddInstanceClassFrame.getLabel9().setVisible(false);
-        AddInstanceClassFrame.getLabel10().setVisible(false);
-        AddInstanceClassFrame.getLabel11().setVisible(false);
-        AddInstanceClassFrame.getLabel12().setVisible(false);
-        AddInstanceClassFrame.getLabel13().setVisible(false);
-        AddInstanceClassFrame.getLabel14().setVisible(false);
+        AddEditClassFrame.getLabel3().setVisible(false);
+        AddEditClassFrame.getLabel4().setVisible(false);
+        AddEditClassFrame.getLabel5().setVisible(false);
+        AddEditClassFrame.getLabel6().setVisible(false);
+        AddEditClassFrame.getLabel7().setVisible(false);
+        AddEditClassFrame.getLabel8().setVisible(false);
+        AddEditClassFrame.getLabel9().setVisible(false);
+        AddEditClassFrame.getLabel10().setVisible(false);
+        AddEditClassFrame.getLabel11().setVisible(false);
+        AddEditClassFrame.getLabel12().setVisible(false);
+        AddEditClassFrame.getLabel13().setVisible(false);
+        AddEditClassFrame.getLabel14().setVisible(false);
     }
     private void Hide_Istituzione_UnusedTextField(){
-        AddInstanceClassFrame.getTextField3().setVisible(false);
-        AddInstanceClassFrame.getTextField4().setVisible(false);
-        AddInstanceClassFrame.getTextField5().setVisible(false);
-        AddInstanceClassFrame.getTextField6().setVisible(false);
-        AddInstanceClassFrame.getTextField7().setVisible(false);
-        AddInstanceClassFrame.getTextField8().setVisible(false);
+        AddEditClassFrame.getTextField3().setVisible(false);
+        AddEditClassFrame.getTextField4().setVisible(false);
+        AddEditClassFrame.getTextField5().setVisible(false);
+        AddEditClassFrame.getTextField6().setVisible(false);
+        AddEditClassFrame.getTextField7().setVisible(false);
+        AddEditClassFrame.getTextField8().setVisible(false);
     }
     private void Hide_Istituzione_UnusedJPanel(){
-        AddInstanceClassFrame.getSelectItems_JPanel10().setVisible(false);
-        AddInstanceClassFrame.getAddOnly_JPanel11().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel12().setVisible(false);
-        AddInstanceClassFrame.getSelectOnly_JPanel13().setVisible(false);
-        AddInstanceClassFrame.getSelectItems_JPanel14().setVisible(false);
-        AddInstanceClassFrame.getTwoButton_JPanel().setVisible(false);
-    }
-
-    private void InsertIstituzione_Control() {
-        if (NoCampiVuoti_forIstituzione()){
-            insertIstituzione();
-            SuccessfulInsertCompleted();
-        }
-        else
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito: dati mancanti");
-    }
-
-    private boolean NoCampiVuoti_forIstituzione() {
-        return !(AddInstanceClassFrame.getTextField1().getText().equals("")) && !(AddInstanceClassFrame.getTextField2().getText().equals(""));
-    }
-
-    private void insertIstituzione() {
-        ((Istituzione) CurrentOggetto).setNome(AddInstanceClassFrame.getTextField1().getText());
-        ((Istituzione) CurrentOggetto).setNazione(AddInstanceClassFrame.getTextField2().getText());
-        try {
-            CurrentOggetto.getDao().Insert(CurrentOggetto);
-            AddInstanceClassFrame.setVisible(false);
-        }
-        catch (InsertFailedException e){
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, "Inserimento fallito");
-        }
+        AddEditClassFrame.getSelectItems_JPanel10().setVisible(false);
+        AddEditClassFrame.getAddOnly_JPanel11().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel12().setVisible(false);
+        AddEditClassFrame.getSelectOnly_JPanel13().setVisible(false);
+        AddEditClassFrame.getSelectItems_JPanel14().setVisible(false);
+        AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
     }
 
     private boolean ListIsSelected(int currentlistIndex) {
@@ -709,19 +485,19 @@ public class AddEditFrameAppearanceController {
     }
 
     public void addButton10Clicked() {
-        ModelClass selectedItem10 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox10().getSelectedItem();
+        ModelClass selectedItem10 = (ModelClass) AddEditClassFrame.getSelect_comboBox10().getSelectedItem();
         if(!dlModel10.contains(selectedItem10))
             dlModel10.addElement(selectedItem10);
     }
 
     public void addButton12Clicked() {
-        ModelClass selectedItem12 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox12().getSelectedItem();
+        ModelClass selectedItem12 = (ModelClass) AddEditClassFrame.getSelect_comboBox12().getSelectedItem();
         if(!dlModel12.contains(selectedItem12))
             dlModel12.addElement(selectedItem12);
     }
 
     public void addButton14Clicked() {
-        ModelClass selectedItem14 = (ModelClass) AddInstanceClassFrame.getSelect_comboBox14().getSelectedItem();
+        ModelClass selectedItem14 = (ModelClass) AddEditClassFrame.getSelect_comboBox14().getSelectedItem();
         if(!dlModel14.contains(selectedItem14))
             dlModel14.addElement(selectedItem14);
     }
@@ -750,21 +526,21 @@ public class AddEditFrameAppearanceController {
     }
 
     public void removeButton10Clicked(){
-        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list10().getSelectedIndex();
+        int currentlistIndex = AddEditClassFrame.getSelectedItems_list10().getSelectedIndex();
         if(!dlModel10.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel10.remove(currentlistIndex);
         }
     }
 
     public void removeButton12Clicked(){
-        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list12().getSelectedIndex();
+        int currentlistIndex = AddEditClassFrame.getSelectedItems_list12().getSelectedIndex();
         if(!dlModel12.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel12.remove(currentlistIndex);
         }
     }
 
     public void removeButton14Clicked(){
-        int currentlistIndex = AddInstanceClassFrame.getSelectedItems_list14().getSelectedIndex();
+        int currentlistIndex = AddEditClassFrame.getSelectedItems_list14().getSelectedIndex();
         if(!dlModel14.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel14.remove(currentlistIndex);
         }
@@ -836,7 +612,7 @@ public class AddEditFrameAppearanceController {
     }
 
     public void setComboboxLocazioniforSessione(){
-        ModelClass SedeSelected = (ModelClass) AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem();
+        ModelClass SedeSelected = (ModelClass) AddEditClassFrame.getSelectOne_comboBox13().getSelectedItem();
         int Sede_PK = SedeSelected.toPK();
         NewSessioneFrame.getComboBox3().removeAllItems();
         for(Locazione o : getValues_for_LocazioniforSessione_comboBox(Sede_PK, (Sede) SedeSelected))
@@ -852,8 +628,8 @@ public class AddEditFrameAppearanceController {
         NewSessioneFrame.setVisible(false);
         EraseAllTextFieldsInNewSessionFrame();
         NewSessioneFrame.getEventoData_JPanel().setVisible(false);
-        AddInstanceClassFrame.getNewButton11().setEnabled(true);
-        AddInstanceClassFrame.getSelectOne_comboBox13().setEnabled(true);
+        AddEditClassFrame.getNewButton11().setEnabled(true);
+        AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
     }
 
     public void NewSess_ConfermaButtonClicked() {
@@ -862,7 +638,7 @@ public class AddEditFrameAppearanceController {
                 Sessione tempSessione = createSessione();
                 dlModel11.addElement(tempSessione);
                 NewSessioneFrame.setVisible(false);
-                AddInstanceClassFrame.getNewButton11().setEnabled(true);
+                AddEditClassFrame.getNewButton11().setEnabled(true);
                 EraseAllTextFieldsInNewSessionFrame();
             }
         }
@@ -1188,23 +964,23 @@ public class AddEditFrameAppearanceController {
             try {
                 getInizioConferenzaInDate();
                 getFineConferenzaInDate();
-                AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(true);
-                AddInstanceClassFrame.getCheckButtonLabel().setVisible(false);
+                AddEditClassFrame.getCheckDisponibilitaButton().setEnabled(true);
+                AddEditClassFrame.getCheckButtonLabel().setVisible(false);
             } catch (IllegalArgumentException | DateTimeParseException | ParseException TypeE) {
                 System.out.println(TypeE.getMessage());
-                AddInstanceClassFrame.getCheckDisponibilitaButton().setEnabled(false);
-                AddInstanceClassFrame.getCheckButtonLabel().setVisible(true);
+                AddEditClassFrame.getCheckDisponibilitaButton().setEnabled(false);
+                AddEditClassFrame.getCheckButtonLabel().setVisible(true);
             }
         }
     }
 
     private Date getFineConferenzaInDate() throws ParseException {
-        String strData2 = AddInstanceClassFrame.getTextField3().getText();
+        String strData2 = AddEditClassFrame.getTextField3().getText();
         return new SimpleDateFormat("yyyy-MM-dd").parse(strData2);
     }
 
     private Date getInizioConferenzaInDate() throws ParseException{
-        String strData1 = AddInstanceClassFrame.getTextField2().getText();
+        String strData1 = AddEditClassFrame.getTextField2().getText();
         return new SimpleDateFormat("yyyy-MM-dd").parse(strData1);
     }
 
@@ -1218,18 +994,18 @@ public class AddEditFrameAppearanceController {
     public void CheckButtonClicked() {
         try {
             if (CheckNoOverlapConferenze() && CheckDatesOrdered()) {
-                AddInstanceClassFrame.getCheckBox1().setSelected(true);
-                AddInstanceClassFrame.getNewButton11().setEnabled(true);
+                AddEditClassFrame.getCheckBox1().setSelected(true);
+                AddEditClassFrame.getNewButton11().setEnabled(true);
             } else {
-                AddInstanceClassFrame.getCheckBox1().setSelected(false);
-                AddInstanceClassFrame.getNewButton11().setEnabled(false);
+                AddEditClassFrame.getCheckBox1().setSelected(false);
+                AddEditClassFrame.getNewButton11().setEnabled(false);
             }
         }catch (ParseException e){
             System.out.println(e.getMessage());
         }catch(DataInsertedException die){
-            AddInstanceClassFrame.getCheckBox1().setSelected(false);
-            AddInstanceClassFrame.getNewButton11().setEnabled(false);
-            JOptionPane.showMessageDialog(AddInstanceClassFrame, die.getMessage());
+            AddEditClassFrame.getCheckBox1().setSelected(false);
+            AddEditClassFrame.getNewButton11().setEnabled(false);
+            JOptionPane.showMessageDialog(AddEditClassFrame, die.getMessage());
         }
     }
 
@@ -1251,7 +1027,7 @@ public class AddEditFrameAppearanceController {
     }
 
     private boolean OverlapDate(Date Inizio, Date Fine, Conferenza c) {
-        if(c.getCollocazione().equals(AddInstanceClassFrame.getSelectOne_comboBox13().getSelectedItem())) {
+        if(c.getCollocazione().equals(AddEditClassFrame.getSelectOne_comboBox13().getSelectedItem())) {
             if     (Inizio.after(c.getDataInizio())  && (Fine.before(c.getDataFine()))) return true;
             if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataFine())) return true;
             if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataInizio())) return true;
@@ -1260,5 +1036,19 @@ public class AddEditFrameAppearanceController {
         }
         else
             return false;
+    }
+
+    private boolean isEmpty(JTextComponent text_Comp) {
+        return text_Comp.getText().equals("");
+    }
+
+    private boolean NoCampiVuotiInJPanel(JPanel mainPanel) {
+        for(Component comp: mainPanel.getComponents()){
+            try{
+                if(isEmpty((JTextField) comp))
+                    return false;
+            }catch (ClassCastException ignored){}
+        }
+        return true;
     }
 }

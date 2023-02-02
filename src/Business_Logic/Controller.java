@@ -7,22 +7,24 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.sql.Timestamp;
 import java.util.List;
 
 public class Controller {
     CF_MainFrame MainFrame;
-    CF_AddEditClassFrame AddIstanceClassFrame;
+    CF_AddEditClassFrame AddEditClassFrame;
     List<ModelClass> Current_Main_outputList;
     DetailsPanel_setter detailsPanel_setter;
-    AddEditFrameAppearanceController addInstFrame_controller;
+    AddEditFrameAppearanceController AddEditFrame_controller;
     CF_SessionDetailsFrame SessionDetailsFrame;
     CF_NewLocazioneFrame NewLocazioneFrame;
     CF_NewSponsorFrame NewSponsorFrame;
     CF_NewSessioneFrame NewSessioneFrame;
     CF_LoginFrame NewLoginFrame;
     UserLogin_Controller login_controller;
+    InstanceInsert_Controller instInsert_controller;
+    AddEdit_ChecksController addEdit_checksController;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
+    String ClassSelected;
 
     public static void main(String[] args) {
         try {
@@ -35,17 +37,20 @@ public class Controller {
     }
 
     public Controller(){
-        login_controller = new UserLogin_Controller(this);
-        MainFrame = new CF_MainFrame(this, login_controller);
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
+        AddEditClassFrame = new CF_AddEditClassFrame(this);
+        AddEditFrame_controller = new AddEditFrameAppearanceController(this);
+        NewLocazioneFrame = new CF_NewLocazioneFrame(this, AddEditFrame_controller);
+        NewSponsorFrame = new CF_NewSponsorFrame(this, AddEditFrame_controller);
+        NewSessioneFrame = new CF_NewSessioneFrame(this, AddEditFrame_controller);
+
+        login_controller = new UserLogin_Controller(this);
+        instInsert_controller = new InstanceInsert_Controller(this);
+        addEdit_checksController = new AddEdit_ChecksController(this);
+        NewLoginFrame = new CF_LoginFrame(this);
+        MainFrame = new CF_MainFrame(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
-        AddIstanceClassFrame = new CF_AddEditClassFrame(this);
-        addInstFrame_controller = new AddEditFrameAppearanceController(this, AddIstanceClassFrame);
-        NewLoginFrame = new CF_LoginFrame(login_controller);
-        NewLocazioneFrame = new CF_NewLocazioneFrame(this, addInstFrame_controller);
-        NewSponsorFrame = new CF_NewSponsorFrame(this, addInstFrame_controller);
-        NewSessioneFrame = new CF_NewSessioneFrame(this, addInstFrame_controller);
     }
 
     private boolean isEmpty(JTextComponent text_Comp) {
@@ -135,6 +140,7 @@ public class Controller {
         Frame.getOutput_TextArea().setText("Esegui una ricerca...");
         clear_Attribute_comboBoxes(Frame);
         setValues_in_Attribute_comboBox(Frame);
+        ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
     }
 
     private void clear_Attribute_comboBoxes(CF_MainFrame Frame) {
@@ -157,8 +163,6 @@ public class Controller {
             }
             catch (Exception ignored){}
         }
-        Frame.getAttribute_comboBox().addItem("Ricerca avanzata"); //add events if selected
-        Frame.getDbAttr_comboBox().addItem("Ricerca avanzata");
         Frame.getAttribute_comboBox().setSelectedIndex(0);
     }
 
@@ -170,9 +174,6 @@ public class Controller {
         try {
             MainFrame.getDbAttr_comboBox().setSelectedIndex(MainFrame.getAttribute_comboBox().getSelectedIndex());
         }catch (IllegalArgumentException ignored){}
-
-
-        //inserire caso per Ricerca Avanzata;
     }
 
     public void Selection_spinner_ItemChanged() {
@@ -199,85 +200,34 @@ public class Controller {
         if(! (MainFrame.getDetailsButton().isEnabled()))
             MainFrame.getDetailsButton().setEnabled(true); //inserisci in Focus Listeners
         if(MainFrame.getClass_comboBox().getSelectedItem().equals("Conferenza"))
-            setSessioneDetails();
-    }
-
-    private void setSessioneDetails() {
-        SessionDetailsFrame.getListModel().clear();
-        int currentIndex = (int) MainFrame.getSelection_spinner().getValue() -1;
-        int currentListIndex = MainFrame.getDetPanel_FirstList().getSelectedIndex();
-        try {
-            Conferenza selectedConferenza = (Conferenza) Current_Main_outputList.get(currentIndex);
-            Sessione selectedSessione = selectedConferenza.getSessioneList().get(currentListIndex);
-            SessionDetailsFrame.setCurrentEventoList(selectedSessione.getEventoList());
-            SessionDetailsFrame.getSessTitle_Label().setText(selectedSessione.getNome());
-            SessionDetailsFrame.getInizioSessione_textArea().setText(Timestamp.valueOf(selectedSessione.getInizio()).toString());
-            SessionDetailsFrame.getFineSessione_textArea().setText(Timestamp.valueOf(selectedSessione.getFine()).toString());
-            SessionDetailsFrame.getChair_textArea().setText(selectedSessione.getChair().toDetailString());
-            try {
-                SessionDetailsFrame.getKeynoteSpeaker_textArea().setText(selectedSessione.getKeynote_speaker().toDetailString());
-            } catch (NullPointerException e) {
-                SessionDetailsFrame.getKeynoteSpeaker_textArea().setText("Non presente");
-            }
-            SessionDetailsFrame.getLocazione_textArea().setText(selectedSessione.getLocazione().getNome());
-            for (Evento e : selectedSessione.getEventoList())
-                SessionDetailsFrame.getListModel().addElement(e.toDetailsString());
-        }catch (IndexOutOfBoundsException | ClassCastException ignored){}
+            detailsPanel_setter.setSessioneDetails(SessionDetailsFrame);
     }
 
     public void EventoList_SelectedItem_changed() {
-
-        int currentIndex = SessionDetailsFrame.getEventi_JList().getSelectedIndex();
-        try {
-            Evento selectedEvento = SessionDetailsFrame.getCurrentEventoList().get(currentIndex);
-            try {
-                setDetailsForInterverto((Intervento) selectedEvento);
-                return;
-            } catch (ClassCastException e) {
-                try {
-                    //noinspection ConstantConditions
-                    setDetailsForEvSociale((Evento_Sociale) selectedEvento);
-                    return;
-                } catch (ClassCastException ignored) {
-                }
-            }
-        }catch (IndexOutOfBoundsException ignored){}
-        SessionDetailsFrame.getDescrizione_JPanel().setVisible(false);
+        detailsPanel_setter.SetDescrizioneForEventoSelected(SessionDetailsFrame);
     }
 
-    private void setDetailsForEvSociale(Evento_Sociale selectedEvento) {
-        SessionDetailsFrame.getDescrizione_Label().setText("Descrizione");
-        SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvento.getDescrizione());
-        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
-    }
-
-    private void setDetailsForInterverto(Intervento selectedEvento) {
-        Intervento selectedIntervento = selectedEvento;
-        SessionDetailsFrame.getDescrizione_Label().setText("Abstract");
-        SessionDetailsFrame.getDescrizione_textArea().setText(selectedIntervento.getAbstract());
-        SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
-    }
 
     public void addButton_clicked(){
         AddInstanceFrame_initialization();
         if(MainFrame.getLoginButton().isVisible()) {
             NewLoginFrame.setVisible(true);
         } else {
-            AddIstanceClassFrame.setVisible(true);
+            AddEditClassFrame.setVisible(true);
         }
     }
 
     private void AddInstanceFrame_initialization() {
         MainFrame.getAddButton().setEnabled(false);
         String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-        addInstFrame_controller.ChoiseClassAdd(Class_Selected);
-        AddIstanceClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+        AddEditFrame_controller.ChoiceClassAdd(Class_Selected);
+        AddEditClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
     }
 
     public void AddInstanceFrame_hidden() {
         if(!NewLocazioneFrame.isVisible() && !NewSponsorFrame.isVisible() && !NewSessioneFrame.isVisible())
         {
-            AddIstanceClassFrame.setVisible(false);
+            AddEditClassFrame.setVisible(false);
             EmptyComboboxInAddFrame();
             MainFrame.getAddButton().setEnabled(true);
 
@@ -285,62 +235,116 @@ public class Controller {
     }
 
     void EmptyComboboxInAddFrame() {
-        AddIstanceClassFrame.getSelect_comboBox10().removeAllItems();
-        AddIstanceClassFrame.getSelect_comboBox12().removeAllItems();
-        AddIstanceClassFrame.getSelect_comboBox14().removeAllItems();
-        AddIstanceClassFrame.getSelectOne_comboBox13().removeAllItems();
+        AddEditClassFrame.getSelect_comboBox10().removeAllItems();
+        AddEditClassFrame.getSelect_comboBox12().removeAllItems();
+        AddEditClassFrame.getSelect_comboBox14().removeAllItems();
+        AddEditClassFrame.getSelectOne_comboBox13().removeAllItems();
     }
 
     public void PartecipanteButtonClicked() {
-        AddIstanceClassFrame.getLeftButton9Button().setEnabled(false);
-        AddIstanceClassFrame.getRightButton9Button().setEnabled(true);
+        AddEditClassFrame.getLeftButton9Button().setEnabled(false);
+        AddEditClassFrame.getRightButton9Button().setEnabled(true);
     }
 
     public void OrganizzatoreButtonClicked() {
-        AddIstanceClassFrame.getLeftButton9Button().setEnabled(true);
-        AddIstanceClassFrame.getRightButton9Button().setEnabled(false);
+        AddEditClassFrame.getLeftButton9Button().setEnabled(true);
+        AddEditClassFrame.getRightButton9Button().setEnabled(false);
     }
 
     public void NewButton11Clicked() {
-        addInstFrame_controller.NewButton11Clicked();
+        if(ClassSelected.equals("Sede")){
+            NewLocazioneFrame.setVisible(true);
+        }
+        else if (ClassSelected.equals("Conferenza")){
+            AddEditFrame_controller.NewSessioneFrameSetUp();
+            NewSessioneFrame.setVisible(true);
+        }
     }
 
     public void confermaButtonClicked() {
-        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-        addInstFrame_controller.confermaButtonClicked();
+        switch (ClassSelected){
+            case "Sede" -> instInsert_controller.InsertSede_Control();
+            case "Conferenza" -> instInsert_controller.InsertConferenza_Control();
+            case "Istituzione" -> instInsert_controller.InsertIstituzione_Control();
+            case "Utente", "Organizzatore", "Partecipante" -> instInsert_controller.InsertUtente_Control();
+        }
     }
 
     public void removeButtonClicked(){
-        addInstFrame_controller.removeButtonClicked();
+        AddEditFrame_controller.removeButtonClicked();
     }
 
     public void addButton10_clicked() {
-        addInstFrame_controller.addButton10Clicked();
+        AddEditFrame_controller.addButton10Clicked();
     }
 
-    public void addButton14_clicked(){ addInstFrame_controller.addButton14Clicked();}
+    public void addButton14_clicked(){ AddEditFrame_controller.addButton14Clicked();}
 
-    public void addButton12_clicked(){ addInstFrame_controller.addButton12Clicked();}
+    public void addButton12_clicked(){ AddEditFrame_controller.addButton12Clicked();}
 
-    public void newButton14_clicked() {addInstFrame_controller.newButton14Clicked();}
+    public void newButton14_clicked() {
+        AddEditFrame_controller.newButton14Clicked();}
 
     public void removeButton10_clicked(){
-        addInstFrame_controller.removeButton10Clicked();
+        AddEditFrame_controller.removeButton10Clicked();
     }
     public void removeButton12_clicked(){
-        addInstFrame_controller.removeButton12Clicked();
+        AddEditFrame_controller.removeButton12Clicked();
     }
     public void removeButton14_clicked(){
-        addInstFrame_controller.removeButton14Clicked();
+        AddEditFrame_controller.removeButton14Clicked();
     }
 
 
 
     public void CheckCorrectConferenzaDates() {
-        addInstFrame_controller.CheckCorrectConferenzaDates();
+        AddEditFrame_controller.CheckCorrectConferenzaDates();
     }
 
     public void CheckButtonClicked() {
-        addInstFrame_controller.CheckButtonClicked();
+        AddEditFrame_controller.CheckButtonClicked();
+    }
+
+    public void LoginButtonClicked() {
+        login_controller.LoginButtonClicked();
+    }
+
+    public void DeleteButtonClicked() {
+        login_controller.DeleteButtonClicked();
+    }
+
+    public void AnnullaButtonLoginClicked() {
+        login_controller.AnnullaButtonLoginClicked();
+    }
+
+    public void AccediButtonLoginClicked() {
+        login_controller.AccediButtonLoginClicked();
+    }
+
+    public void deleteObject() {
+        int CurrentSpinnerValue = (Integer) MainFrame.getSelection_spinner().getValue() - 1;
+        ModelClass CurrentObjectOutput = Current_Main_outputList.get(CurrentSpinnerValue);
+        int risposta = JOptionPane.showConfirmDialog(MainFrame.getDetails_panel(), "Vuoi cancellare l'oggetto: "+ CurrentObjectOutput +"?");
+        if(risposta == 0) {
+            CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
+            MainFrame_searchButton_clicked(MainFrame);
+        }
+        MainFrame.getDeleteButton().setEnabled(true);
+    }
+
+
+    public void NewLoc_ConfermaButton_clicked() {
+        NewLocazioneFrame.getConfermaButton().setEnabled(false);
+        AddEditFrame_controller.NewLocOperations_afterConferma();
+    }
+
+    public void NewLoc_AnnullaButton_clicked() {
+        HideNewLocationFrame();
+    }
+
+    void HideNewLocationFrame() {
+        NewLocazioneFrame.setVisible(false);
+        NewLocazioneFrame.getTextField1().setText("");
+        NewLocazioneFrame.getTextField2().setText("");
     }
 }

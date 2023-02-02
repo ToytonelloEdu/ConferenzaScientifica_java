@@ -14,8 +14,8 @@ public class UserLogin_Controller {
 
     public UserLogin_Controller(Controller c){
         business_logic = c;
-        AddIstanceClassFrame = new CF_AddEditClassFrame(business_logic);
-        addInstFrame_controller = new AddEditFrameAppearanceController(business_logic, AddIstanceClassFrame);
+        AddIstanceClassFrame = business_logic.AddEditClassFrame;
+        addInstFrame_controller = business_logic.AddEditFrame_controller;
     }
 
     public void AccediButtonLoginClicked() {
@@ -92,7 +92,7 @@ public class UserLogin_Controller {
         business_logic.MainFrame.getLoginButton().setVisible(false);
         business_logic.MainFrame.getLoginButton().setEnabled(true);
         business_logic.MainFrame.getLabelLogin().setVisible(true);
-        deleteObject();
+        business_logic.deleteObject();
     }
 
     public void LoginButtonClicked() {
@@ -105,19 +105,10 @@ public class UserLogin_Controller {
         if(business_logic.MainFrame.getLoginButton().isVisible())
             business_logic.NewLoginFrame.setVisible(true);
         else
-            deleteObject();
+            business_logic.deleteObject();
     }
 
-    public void deleteObject() {
-        int CurrentSpinnerValue = (Integer) business_logic.MainFrame.getSelection_spinner().getValue() - 1;
-        ModelClass CurrentObjectOutput = business_logic.Current_Main_outputList.get(CurrentSpinnerValue);
-        int risposta = JOptionPane.showConfirmDialog(business_logic.MainFrame.getDetails_panel(), "Vuoi cancellare l'oggetto: "+ CurrentObjectOutput +"?");
-        if(risposta == 0) {
-            CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
-            business_logic.MainFrame_searchButton_clicked(business_logic.MainFrame);
-        }
-        business_logic.MainFrame.getDeleteButton().setEnabled(true);
-    }
+
 
 }
 
