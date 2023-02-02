@@ -74,6 +74,11 @@ public class CF_AddEditClassFrame extends JFrame {
     private JLabel CheckButtonLabel;
     private JTextField textField9;
 
+    private final DefaultListModel<ModelClass> dlModel10;
+    private final DefaultListModel<ModelClass> dlModel11;
+    private final DefaultListModel<ModelClass> dlModel12;
+    private final DefaultListModel<ModelClass> dlModel14;
+
     private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
     public CF_AddEditClassFrame(Controller c) {
@@ -381,5 +386,18 @@ public class CF_AddEditClassFrame extends JFrame {
 
     public JCheckBox getCheckBox1() {
         return checkBox1;
+    }
+
+    public void EraseAllFieldsAndJLists() {
+        for(JComponent comp: getDataInsertComponentList()){
+            try{
+                ((JTextField) comp).setText("");
+            }catch (ClassCastException ignored){}
+        }
+
+        dlModel10.clear();
+        dlModel11.clear();
+        dlModel12.clear();
+        dlModel14.clear();
     }
 }
