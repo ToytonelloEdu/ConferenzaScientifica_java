@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CF_LoginFrame extends JFrame{
-    private UserLogin_Controller login_controller;
+    private Controller business_logic;
     private JPanel HomePanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -17,20 +17,20 @@ public class CF_LoginFrame extends JFrame{
     private JLabel LabelEmail;
     private JLabel LabelPasswordDB;
 
-    public CF_LoginFrame(UserLogin_Controller lc){
-        login_controller = lc;
+    public CF_LoginFrame(Controller c){
+        business_logic = c;
         CF_LoginFrame FrameHolder = LoginFrame_setup();
 
         buttonAnnulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lc.AnnullaButtonLoginClicked();
+                business_logic.AnnullaButtonLoginClicked();
             }
         });
         buttonAccedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lc.AccediButtonLoginClicked();
+                business_logic.AccediButtonLoginClicked();
             }
         });
     }

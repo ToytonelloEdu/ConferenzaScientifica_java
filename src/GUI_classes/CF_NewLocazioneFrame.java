@@ -29,13 +29,13 @@ public class CF_NewLocazioneFrame extends JFrame {
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addInstance_FC.NewLoc_AnnullaButton_clicked();
+                business_logic.NewLoc_AnnullaButton_clicked();
             }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addInstance_FC.NewLoc_ConfermaButton_clicked();
+                business_logic.NewLoc_ConfermaButton_clicked();
             }
         });
     }
@@ -50,5 +50,9 @@ public class CF_NewLocazioneFrame extends JFrame {
 
     public JButton getConfermaButton() {
         return confermaButton;
+    }
+
+    public JPanel getMainPanel() {
+        return MainPanel;
     }
 }
