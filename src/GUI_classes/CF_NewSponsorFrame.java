@@ -8,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CF_NewSponsorFrame extends JFrame{
-    private Controller business_logic;
-    private AddEditFrameAppearanceController AddInst_bl;
+    private final Controller business_logic;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -19,10 +18,8 @@ public class CF_NewSponsorFrame extends JFrame{
     private JLabel label2;
 
 
-    public CF_NewSponsorFrame(Controller c, AddEditFrameAppearanceController addInstFrame_c){
+    public CF_NewSponsorFrame(Controller c){
         business_logic = c;
-        AddInst_bl = addInstFrame_c;
-        AddInst_bl.setNewSponsorFrame(this);
         setContentPane(MainPanel);
         setTitle("Nuovo Sponsor");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -30,13 +27,13 @@ public class CF_NewSponsorFrame extends JFrame{
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSpons_annullaButtonClicked();
+                business_logic.NewSpons_annullaButtonClicked();
             }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSpons_confermaButtonClicked();
+                business_logic.NewSpons_confermaButtonClicked();
             }
         });
     }

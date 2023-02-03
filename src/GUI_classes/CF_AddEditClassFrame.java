@@ -74,12 +74,12 @@ public class CF_AddEditClassFrame extends JFrame {
     private JLabel CheckButtonLabel;
     private JTextField textField9;
 
-    private final DefaultListModel<ModelClass> dlModel10;
-    private final DefaultListModel<ModelClass> dlModel11;
-    private final DefaultListModel<ModelClass> dlModel12;
-    private final DefaultListModel<ModelClass> dlModel14;
+    private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
 
-    private List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
+    private final List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
     public CF_AddEditClassFrame(Controller c) {
         business_logic = c;
@@ -198,7 +198,28 @@ public class CF_AddEditClassFrame extends JFrame {
         DataInsert_JScrollPanel.getVerticalScrollBar().setUnitIncrement(8);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         NewButton11.setEnabled(false);
+        SelectedItems_list10.setModel(dlModel10);
+        AddOnly_list11.setModel(dlModel11);
+        SelectedItems_list12.setModel(dlModel12);
+        SelectedItems_list14.setModel(dlModel14);
+
         return FrameHolder;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel10() {
+        return dlModel10;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel11() {
+        return dlModel11;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel12() {
+        return dlModel12;
+    }
+
+    public DefaultListModel<ModelClass> getDlModel14() {
+        return dlModel14;
     }
 
     public JLabel getObjectAdded_label() {

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CF_NewSessioneFrame extends JFrame {
     private final Controller business_logic;
-    private final AddEditFrameAppearanceController AddInst_bl;
+    private final AddEditFrameAppearanceController AddEdit_bl;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -63,8 +63,8 @@ public class CF_NewSessioneFrame extends JFrame {
 
     public CF_NewSessioneFrame(Controller c, AddEditFrameAppearanceController aic){
         business_logic = c;
-        AddInst_bl = aic;
-        AddInst_bl.setNewSessioneFrame(this);
+        AddEdit_bl = aic;
+        AddEdit_bl.setNewSessioneFrame(this);
         list1.setModel(EvDLModel);
         for(Component comp : EventoData_JPanel.getComponents()){
             EventoDataComponents.add((JComponent) comp);
@@ -80,77 +80,77 @@ public class CF_NewSessioneFrame extends JFrame {
         interventoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.interventoButton_clicked();
+                business_logic.interventoButton_clicked();
             }
         });
         eventoSocialeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.eventoSocialeButton_clicked();
+                business_logic.eventoSocialeButton_clicked();
             }
         });
         pausaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.pausaButton_clicked();
+                business_logic.pausaButton_clicked();
             }
         });
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSess_AnnullaButton_clicked();
+                business_logic.NewSess_AnnullaButton_clicked();
             }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSess_ConfermaButtonClicked();
+                business_logic.NewSess_ConfermaButtonClicked();
             }
         });
         aggiungiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSess_AggiungiButtonClicked();
+                business_logic.NewSess_AggiungiButtonClicked();
             }
         });
         nessunoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSess_NessunoButtonClicked();
+                business_logic.NewSess_NessunoButtonClicked();
             }
         });
         rimuoviButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddInst_bl.NewSess_RimuoviButtonClicked();
+                business_logic.NewSess_RimuoviButtonClicked();
             }
         });
         textField1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                AddInst_bl.CheckCorrectSessioneDates();
+                business_logic.NewSess_DateTextFieldsExited();
             }
         });
         textField2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                AddInst_bl.CheckCorrectSessioneDates();
+                business_logic.NewSess_DateTextFieldsExited();
             }
         });
         TextField1_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                AddInst_bl.CheckCorrectSessioneDates();
+                business_logic.NewSess_DateTextFieldsExited();
             }
         });
         TextField2_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                AddInst_bl.CheckCorrectSessioneDates();
+                business_logic.NewSess_DateTextFieldsExited();
             }
         });
     }

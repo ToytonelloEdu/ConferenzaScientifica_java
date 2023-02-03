@@ -2,11 +2,13 @@ package Business_Logic;
 
 
 import DAO_classes.*;
+import Exceptions.DataInsertedException;
 import GUI_classes.*;
 import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.text.ParseException;
 import java.util.List;
 
 public class Controller {
@@ -40,9 +42,9 @@ public class Controller {
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         AddEditClassFrame = new CF_AddEditClassFrame(this);
+        NewLocazioneFrame = new CF_NewLocazioneFrame(this);
+        NewSponsorFrame = new CF_NewSponsorFrame(this);
         AddEditFrame_controller = new AddEditFrameAppearanceController(this);
-        NewLocazioneFrame = new CF_NewLocazioneFrame(this, AddEditFrame_controller);
-        NewSponsorFrame = new CF_NewSponsorFrame(this, AddEditFrame_controller);
         NewSessioneFrame = new CF_NewSessioneFrame(this, AddEditFrame_controller);
 
         login_controller = new UserLogin_Controller(this);
@@ -219,9 +221,9 @@ public class Controller {
 
     private void AddInstanceFrame_initialization() {
         MainFrame.getAddButton().setEnabled(false);
-        String Class_Selected = (String) MainFrame.getClass_comboBox().getSelectedItem();
-        AddEditFrame_controller.ChoiceClassAdd(Class_Selected);
-        AddEditClassFrame.getObjectAdded_label().setText("Aggiungi " + Class_Selected);
+        ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        AddEditFrame_controller.ChoiceClassAdd(ClassSelected);
+        AddEditClassFrame.getObjectAdded_label().setText("Aggiungi " + ClassSelected);
     }
 
     public void AddInstanceFrame_hidden() {
@@ -283,7 +285,8 @@ public class Controller {
     public void addButton12_clicked(){ AddEditFrame_controller.addButton12Clicked();}
 
     public void newButton14_clicked() {
-        AddEditFrame_controller.newButton14Clicked();}
+        AddEditFrame_controller.newButton14Clicked();
+    }
 
     public void removeButton10_clicked(){
         AddEditFrame_controller.removeButton10Clicked();
@@ -298,11 +301,24 @@ public class Controller {
 
 
     public void CheckCorrectConferenzaDates() {
-        AddEditFrame_controller.CheckCorrectConferenzaDates();
+        if(ClassSelected.equals("Conferenza")){
+            AddEditFrame_controller.EnableCheckButton(addEdit_checksController.tryConf_LDT_Conversion());
+        }
     }
 
     public void CheckButtonClicked() {
-        AddEditFrame_controller.CheckButtonClicked();
+        try {
+            AddEditFrame_controller.EnableConf_SessioneAdd(isConfDateCorrect());
+        } catch (ParseException ignored) {}
+          catch(DataInsertedException die){
+            AddEditFrame_controller.EnableConf_SessioneAdd(false);
+            JOptionPane.showMessageDialog(AddEditClassFrame, die.getMessage());
+        }
+
+    }
+
+    private boolean isConfDateCorrect() throws ParseException {
+        return addEdit_checksController.CheckDateConferenza();
     }
 
     public void LoginButtonClicked() {
@@ -346,5 +362,57 @@ public class Controller {
         NewLocazioneFrame.setVisible(false);
         NewLocazioneFrame.getTextField1().setText("");
         NewLocazioneFrame.getTextField2().setText("");
+    }
+
+    public void NewSpons_annullaButtonClicked() {
+        AddEditFrame_controller.NewSpons_annullaButtonClicked();
+    }
+
+    public void NewSpons_confermaButtonClicked() {
+        AddEditFrame_controller.NewSpons_confermaButtonClicked();
+    }
+
+    public void interventoButton_clicked() {
+        AddEditFrame_controller.interventoButton_clicked();
+    }
+
+    public void eventoSocialeButton_clicked() {
+        AddEditFrame_controller.eventoSocialeButton_clicked();
+    }
+
+    public void pausaButton_clicked() {
+        AddEditFrame_controller.pausaButton_clicked();
+    }
+
+    public void NewSess_AnnullaButton_clicked() {
+        AddEditFrame_controller.NewSess_AnnullaButton_clicked();
+    }
+
+    public void NewSess_ConfermaButtonClicked() {
+        AddEditFrame_controller.NewSess_ConfermaButtonClicked();
+    }
+
+    public void NewSess_AggiungiButtonClicked() {
+        AddEditFrame_controller.NewSess_AggiungiButtonClicked();
+    }
+
+    public void NewSess_NessunoButtonClicked() {
+        AddEditFrame_controller.NewSess_NessunoButtonClicked();
+    }
+
+    public void NewSess_RimuoviButtonClicked() {
+        AddEditFrame_controller.NewSess_RimuoviButtonClicked();
+    }
+
+    public void NewSess_DateTextFieldsExited() {
+        addEdit_checksController.CheckCorrectSessioneDates();
+    }
+
+    public void CorrectSessioneDates() {
+        AddEditFrame_controller.EnableEventiAdd();
+    }
+
+    public void WrongSessioneDates() {
+        AddEditFrame_controller.DisableEventiAdd();
     }
 }

@@ -4,12 +4,15 @@ import DAO_classes.*;
 import Exceptions.DataInsertedException;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddEditClassFrame;
+import GUI_classes.CF_NewSessioneFrame;
 import Model_classes.*;
 
 import javax.swing.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,10 +31,10 @@ public class InstanceInsert_Controller {
     public InstanceInsert_Controller(Controller c){
         business_logic = c;
         AddEditClassFrame = business_logic.AddEditClassFrame;
-        dlModel10 = business_logic.AddEditFrame_controller.getDlModel10();
-        dlModel11 = business_logic.AddEditFrame_controller.getDlModel11();
-        dlModel12 = business_logic.AddEditFrame_controller.getDlModel12();
-        dlModel14 = business_logic.AddEditFrame_controller.getDlModel14();
+        dlModel10 = AddEditClassFrame.getDlModel10();
+        dlModel11 = AddEditClassFrame.getDlModel11();
+        dlModel12 = AddEditClassFrame.getDlModel12();
+        dlModel14 = AddEditClassFrame.getDlModel14();
     }
 
     //CASO CONFERENZA:

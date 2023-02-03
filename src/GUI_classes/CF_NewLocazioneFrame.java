@@ -8,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CF_NewLocazioneFrame extends JFrame {
-    private Controller business_logic;
-    private AddEditFrameAppearanceController addInstance_FC;
+    private final Controller business_logic;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -18,10 +17,8 @@ public class CF_NewLocazioneFrame extends JFrame {
     private JLabel label2;
     private JButton annullaButton;
 
-    public CF_NewLocazioneFrame(Controller c, AddEditFrameAppearanceController aifc){
+    public CF_NewLocazioneFrame(Controller c){
         business_logic = c;
-        addInstance_FC = aifc;
-        addInstance_FC.setNewLocazioneFrame(this);
         setContentPane(MainPanel);
         setTitle("Nuova Locazione");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,18 +29,21 @@ public class AddEditFrameAppearanceController {
     CF_NewSessioneFrame NewSessioneFrame;
     String ClassSelected;
 
-    private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
-    private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
-    private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
-    private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
+    private final DefaultListModel<ModelClass> dlModel10;
+    private final DefaultListModel<ModelClass> dlModel11;
+    private final DefaultListModel<ModelClass> dlModel12;
+    private final DefaultListModel<ModelClass> dlModel14;
 
     public AddEditFrameAppearanceController(Controller c) {
         business_logic = c;
         AddEditClassFrame = business_logic.AddEditClassFrame;
-        AddEditClassFrame.getSelectedItems_list10().setModel(dlModel10);
-        AddEditClassFrame.getAddOnly_list11().setModel(dlModel11);
-        AddEditClassFrame.getSelectedItems_list12().setModel(dlModel12);
-        AddEditClassFrame.getSelectedItems_list14().setModel(dlModel14);
+        NewLocazioneFrame = business_logic.NewLocazioneFrame;
+        NewSponsorFrame = business_logic.NewSponsorFrame;
+        NewSessioneFrame = business_logic.NewSessioneFrame;
+        dlModel10 = AddEditClassFrame.getDlModel10();
+        dlModel11 = AddEditClassFrame.getDlModel11();
+        dlModel12 = AddEditClassFrame.getDlModel12();
+        dlModel14 = AddEditClassFrame.getDlModel14();
     }
 
     public DefaultListModel<ModelClass> getDlModel10() {
@@ -384,51 +386,6 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    public void NewLocOperations_afterConferma() {
-        if(NoCampiVuotiInJPanel(NewLocazioneFrame.getMainPanel())){
-            AddNewLocazioneToJList();
-            business_logic.HideNewLocationFrame();
-            NewLocazioneFrame.getConfermaButton().setEnabled(true);
-        }
-        else
-            JOptionPane.showMessageDialog(NewLocazioneFrame, "ERRORE: Dati mancanti");
-    }
-
-
-
-    private void AddNewLocazioneToJList() {
-        Locazione locazioneTemp = getInsertedLocazione();
-        dlModel11.addElement(locazioneTemp);
-    }
-
-    private Locazione getInsertedLocazione() {
-        Locazione locazioneTemp = new Locazione();
-        locazioneTemp.setNome(NewLocazioneFrame.getTextField1().getText());
-        locazioneTemp.setPostiDisponibili(Integer.parseInt(NewLocazioneFrame.getTextField2().getText()));
-        return locazioneTemp;
-    }
-
-    void EraseAllFieldsInAddFrame() {
-        for(JComponent comp: AddEditClassFrame.getDataInsertComponentList()){
-            try{
-                ((JTextField) comp).setText("");
-            }catch (ClassCastException ignored){}
-        }
-        dlModel10.clear();
-        dlModel11.clear();
-        dlModel12.clear();
-        dlModel14.clear();
-        business_logic.MainFrame.getAddButton().setEnabled(true);
-    }
-
-
-    public void removeButtonClicked(){
-        int currentlistIndex = AddEditClassFrame.getAddOnly_list11().getSelectedIndex();
-        if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
-            dlModel11.remove(currentlistIndex);
-        }
-    }
-
     private void setFieldsAdd_forIstituzione(){
         setIstituzione_firstField();
         setIstituzione_secondField();
@@ -478,6 +435,38 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getSelectOnly_JPanel13().setVisible(false);
         AddEditClassFrame.getSelectItems_JPanel14().setVisible(false);
         AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
+    }
+
+    public void NewLocOperations_afterConferma() {
+        if(NoCampiVuotiInJPanel(NewLocazioneFrame.getMainPanel())){
+            AddNewLocazioneToJList();
+            business_logic.HideNewLocationFrame();
+            NewLocazioneFrame.getConfermaButton().setEnabled(true);
+        }
+        else
+            JOptionPane.showMessageDialog(NewLocazioneFrame, "ERRORE: Dati mancanti");
+    }
+
+
+
+    private void AddNewLocazioneToJList() {
+        Locazione locazioneTemp = getInsertedLocazione();
+        dlModel11.addElement(locazioneTemp);
+    }
+
+    private Locazione getInsertedLocazione() {
+        Locazione locazioneTemp = new Locazione();
+        locazioneTemp.setNome(NewLocazioneFrame.getTextField1().getText());
+        locazioneTemp.setPostiDisponibili(Integer.parseInt(NewLocazioneFrame.getTextField2().getText()));
+        return locazioneTemp;
+    }
+
+
+    public void removeButtonClicked(){
+        int currentlistIndex = AddEditClassFrame.getAddOnly_list11().getSelectedIndex();
+        if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
+            dlModel11.remove(currentlistIndex);
+        }
     }
 
     private boolean ListIsSelected(int currentlistIndex) {
@@ -632,6 +621,7 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
     }
 
+    //TODO: Sposta in controller accordingly
     public void NewSess_ConfermaButtonClicked() {
         try {
             if (CheckSessioneInserted()) {
@@ -813,8 +803,8 @@ public class AddEditFrameAppearanceController {
 
     private List<LocalDateTime> TryLocalDateTimeConversionForEvento() {
         List<LocalDateTime> tempListLDT = new ArrayList<>(2);
-        tempListLDT.add(getInizioInLDT());
-        tempListLDT.add(getFineInLDT());
+        tempListLDT.add(getInizioEventoInLDT());
+        tempListLDT.add(getFineEventoInLDT());
         return tempListLDT;
     }
 
@@ -895,17 +885,17 @@ public class AddEditFrameAppearanceController {
     }
 
     private void SetInizio_e_Fine(Evento eventoTemp) {
-        eventoTemp.setInizio(getInizioInLDT());
-        eventoTemp.setFine(getFineInLDT());
+        eventoTemp.setInizio(getInizioEventoInLDT());
+        eventoTemp.setFine(getFineEventoInLDT());
     }
 
-    private LocalDateTime getFineInLDT() {
+    private LocalDateTime getFineEventoInLDT() {
         String strData = NewSessioneFrame.getTextField4().getText();
         Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
     }
 
-    private LocalDateTime getInizioInLDT() {
+    private LocalDateTime getInizioEventoInLDT() {
         String strData = NewSessioneFrame.getTextField3().getText();
         Timestamp data = Timestamp.valueOf(strData);
         return convertToLocalDateTime(data);
@@ -946,32 +936,9 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    public void CheckCorrectSessioneDates() {
-        try{
-            getInizioSessioneInLDT();
-            getFineSessioneInLDT();
-            NewSessioneFrame.getAddButtonLabel().setVisible(false);
-            NewSessioneFrame.getAggiungiButton().setEnabled(true);
-        }
-        catch (IllegalArgumentException iae){
-            NewSessioneFrame.getAddButtonLabel().setVisible(true);
-            NewSessioneFrame.getAggiungiButton().setEnabled(false);
-        }
-    }
-
-    public void CheckCorrectConferenzaDates() {
-        if(ClassSelected.equals("Conferenza")) {
-            try {
-                getInizioConferenzaInDate();
-                getFineConferenzaInDate();
-                AddEditClassFrame.getCheckDisponibilitaButton().setEnabled(true);
-                AddEditClassFrame.getCheckButtonLabel().setVisible(false);
-            } catch (IllegalArgumentException | DateTimeParseException | ParseException TypeE) {
-                System.out.println(TypeE.getMessage());
-                AddEditClassFrame.getCheckDisponibilitaButton().setEnabled(false);
-                AddEditClassFrame.getCheckButtonLabel().setVisible(true);
-            }
-        }
+    void EnableCheckButton(boolean b) {
+        AddEditClassFrame.getCheckDisponibilitaButton().setEnabled(b);
+        AddEditClassFrame.getCheckButtonLabel().setVisible(!b);
     }
 
     private Date getFineConferenzaInDate() throws ParseException {
@@ -984,58 +951,9 @@ public class AddEditFrameAppearanceController {
         return new SimpleDateFormat("yyyy-MM-dd").parse(strData1);
     }
 
-    private List<Date> GetDateFromInsertedConferenza() throws ParseException {
-        List<Date> tempList = new ArrayList<>(2);
-        tempList.add(getInizioConferenzaInDate());
-        tempList.add(getFineConferenzaInDate());
-        return tempList;
-    }
-
-    public void CheckButtonClicked() {
-        try {
-            if (CheckNoOverlapConferenze() && CheckDatesOrdered()) {
-                AddEditClassFrame.getCheckBox1().setSelected(true);
-                AddEditClassFrame.getNewButton11().setEnabled(true);
-            } else {
-                AddEditClassFrame.getCheckBox1().setSelected(false);
-                AddEditClassFrame.getNewButton11().setEnabled(false);
-            }
-        }catch (ParseException e){
-            System.out.println(e.getMessage());
-        }catch(DataInsertedException die){
-            AddEditClassFrame.getCheckBox1().setSelected(false);
-            AddEditClassFrame.getNewButton11().setEnabled(false);
-            JOptionPane.showMessageDialog(AddEditClassFrame, die.getMessage());
-        }
-    }
-
-    private boolean CheckDatesOrdered() throws ParseException {
-        List<Date> DateConferenza = GetDateFromInsertedConferenza();
-        if(DateConferenza.get(0).before(DateConferenza.get(1)))
-            return true;
-        else
-            throw new DataInsertedException("Date di Inizio e Fine invertite");
-    }
-
-    private boolean CheckNoOverlapConferenze() throws ParseException {
-        List<Date> DateConferenza = GetDateFromInsertedConferenza();
-        for(ModelClass c : Conferenza_DAO.getDAO().getAll())
-            if(OverlapDate(DateConferenza.get(0), DateConferenza.get(1), (Conferenza) c)) {
-                throw new DataInsertedException("Sede occupata nelle date scelte");
-            }
-        return true;
-    }
-
-    private boolean OverlapDate(Date Inizio, Date Fine, Conferenza c) {
-        if(c.getCollocazione().equals(AddEditClassFrame.getSelectOne_comboBox13().getSelectedItem())) {
-            if     (Inizio.after(c.getDataInizio())  && (Fine.before(c.getDataFine()))) return true;
-            if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataFine())) return true;
-            if     (Inizio.before(c.getDataInizio()) && Fine.after(c.getDataInizio())) return true;
-            if     (Inizio.before(c.getDataFine()) && Fine.after(c.getDataFine())) return true;
-            return (Inizio.equals(c.getDataInizio())) || (Fine.equals(c.getDataFine()));
-        }
-        else
-            return false;
+    void EnableConf_SessioneAdd(boolean b) {
+        AddEditClassFrame.getCheckBox1().setSelected(b);
+        AddEditClassFrame.getNewButton11().setEnabled(b);
     }
 
     private boolean isEmpty(JTextComponent text_Comp) {
@@ -1050,5 +968,15 @@ public class AddEditFrameAppearanceController {
             }catch (ClassCastException ignored){}
         }
         return true;
+    }
+
+    public void EnableEventiAdd() {
+        NewSessioneFrame.getAddButtonLabel().setVisible(false);
+        NewSessioneFrame.getAggiungiButton().setEnabled(true);
+    }
+
+    public void DisableEventiAdd() {
+        NewSessioneFrame.getAddButtonLabel().setVisible(true);
+        NewSessioneFrame.getAggiungiButton().setEnabled(false);
     }
 }
