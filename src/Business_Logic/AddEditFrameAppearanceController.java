@@ -1,7 +1,6 @@
 package Business_Logic;
 
 import DAO_classes.*;
-import Exceptions.DataInsertedException;
 import GUI_classes.CF_AddEditClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
@@ -12,12 +11,8 @@ import java.awt.*;
 import java.lang.*;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,9 +57,6 @@ public class AddEditFrameAppearanceController {
         return dlModel14;
     }
 
-    public void NewSpons_annullaButtonClicked() {
-        NewSponsorFrame.setVisible(false);
-    }
 
     public void setNewLocazioneFrame(CF_NewLocazioneFrame newLocazioneFrame) {
         NewLocazioneFrame = newLocazioneFrame;
@@ -437,34 +429,21 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
     }
 
-    public void NewLocOperations_afterConferma() {
-        if(NoCampiVuotiInJPanel(NewLocazioneFrame.getMainPanel())){
-            AddNewLocazioneToJList();
-            business_logic.HideNewLocationFrame();
-            NewLocazioneFrame.getConfermaButton().setEnabled(true);
-        }
-        else
-            JOptionPane.showMessageDialog(NewLocazioneFrame, "ERRORE: Dati mancanti");
+    void AddNewLocazioneToJList(Locazione tempLocazione) {
+        dlModel11.addElement(tempLocazione);
+        HideNewLocationFrame();
+        NewLocazioneFrame.getConfermaButton().setEnabled(true);
     }
 
-
-
-    private void AddNewLocazioneToJList() {
-        Locazione locazioneTemp = getInsertedLocazione();
-        dlModel11.addElement(locazioneTemp);
+    void HideNewLocationFrame() {
+        NewLocazioneFrame.setVisible(false);
+        NewLocazioneFrame.getTextField1().setText("");
+        NewLocazioneFrame.getTextField2().setText("");
     }
 
-    private Locazione getInsertedLocazione() {
-        Locazione locazioneTemp = new Locazione();
-        locazioneTemp.setNome(NewLocazioneFrame.getTextField1().getText());
-        locazioneTemp.setPostiDisponibili(Integer.parseInt(NewLocazioneFrame.getTextField2().getText()));
-        return locazioneTemp;
-    }
-
-
-    public void removeButtonClicked(){
+    public void RemoveSelectedItemFromList11(){
         int currentlistIndex = AddEditClassFrame.getAddOnly_list11().getSelectedIndex();
-        if(!dlModel11.isEmpty() && ListIsSelected(currentlistIndex)){
+        if(isListSelected(AddEditClassFrame.getAddOnly_list11())){
             dlModel11.remove(currentlistIndex);
         }
     }
@@ -473,19 +452,19 @@ public class AddEditFrameAppearanceController {
         return currentlistIndex != -1;
     }
 
-    public void addButton10Clicked() {
+    public void AddSelectedItemToList10() {
         ModelClass selectedItem10 = (ModelClass) AddEditClassFrame.getSelect_comboBox10().getSelectedItem();
         if(!dlModel10.contains(selectedItem10))
             dlModel10.addElement(selectedItem10);
     }
 
-    public void addButton12Clicked() {
+    public void AddSelectedItemToList12() {
         ModelClass selectedItem12 = (ModelClass) AddEditClassFrame.getSelect_comboBox12().getSelectedItem();
         if(!dlModel12.contains(selectedItem12))
             dlModel12.addElement(selectedItem12);
     }
 
-    public void addButton14Clicked() {
+    public void AddSelectedItemToList14() {
         ModelClass selectedItem14 = (ModelClass) AddEditClassFrame.getSelect_comboBox14().getSelectedItem();
         if(!dlModel14.contains(selectedItem14))
             dlModel14.addElement(selectedItem14);
@@ -495,47 +474,39 @@ public class AddEditFrameAppearanceController {
         NewSponsorFrame.setVisible(true);
     }
 
-    public void NewSpons_confermaButtonClicked() {
-        NewSponsorFrame.getConfermaButton().setEnabled(false);
-        if(NoCampiVuoti_forSpons()) {
-            Sponsor tempSponsor = new Sponsor();
-            tempSponsor.setNome(NewSponsorFrame.getTextField1().getText());
-            tempSponsor.setPartitaIVA(NewSponsorFrame.getTextField2().getText());
-            dlModel14.addElement(tempSponsor);
-            NewSponsorFrame.setVisible(false);
-            NewSponsorFrame.getTextField1().setText("");
-            NewSponsorFrame.getTextField2().setText("");
-        }
-        else
-            JOptionPane.showMessageDialog(NewSponsorFrame, "Dati mancanti");
+    public void AddNewSponsToJList(Sponsor tempSponsor) {
+        dlModel14.addElement(tempSponsor);
+        HideNewSponsorFrame();
     }
 
-    private boolean NoCampiVuoti_forSpons() {
-        return !(NewSponsorFrame.getTextField1().getText().equals("") || NewSponsorFrame.getTextField2().getText().equals(""));
+    void HideNewSponsorFrame() {
+        NewSponsorFrame.setVisible(false);
+        NewSponsorFrame.getTextField1().setText("");
+        NewSponsorFrame.getTextField2().setText("");
     }
 
-    public void removeButton10Clicked(){
+    public void RemoveSelectedItemFromList10(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list10().getSelectedIndex();
         if(!dlModel10.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel10.remove(currentlistIndex);
         }
     }
 
-    public void removeButton12Clicked(){
+    public void RemoveSelectedItemFromList12(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list12().getSelectedIndex();
         if(!dlModel12.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel12.remove(currentlistIndex);
         }
     }
 
-    public void removeButton14Clicked(){
+    public void RemoveSelectedItemFromList14(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list14().getSelectedIndex();
         if(!dlModel14.isEmpty() && ListIsSelected(currentlistIndex)){
             dlModel14.remove(currentlistIndex);
         }
     }
 
-    public void interventoButton_clicked() {
+    public void Select_interventoButton() {
         NewSessioneFrame.setEventoSelected("Intervento");
         NewSessioneFrame.getInterventoButton().setEnabled(false);
         NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
@@ -560,7 +531,7 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    public void eventoSocialeButton_clicked() {
+    public void Select_eventoSocialeButton() {
         NewSessioneFrame.setEventoSelected("Evento Sociale");
         NewSessioneFrame.getInterventoButton().setEnabled(true);
         NewSessioneFrame.getEventoSocialeButton().setEnabled(false);
@@ -579,7 +550,7 @@ public class AddEditFrameAppearanceController {
         NewSessioneFrame.getTextField5().setVisible(false);
     }
 
-    public void pausaButton_clicked() {
+    public void Select_pausaButton() {
         NewSessioneFrame.setEventoSelected("Pausa");
         NewSessioneFrame.getInterventoButton().setEnabled(true);
         NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
@@ -613,31 +584,21 @@ public class AddEditFrameAppearanceController {
         return locazione_temp.getAll_bySede(Sede_PK, sede);
     }
 
-    public void NewSess_AnnullaButton_clicked() {
+    public void HideNewSessFrame() {
         NewSessioneFrame.setVisible(false);
-        EraseAllTextFieldsInNewSessionFrame();
-        NewSessioneFrame.getEventoData_JPanel().setVisible(false);
         AddEditClassFrame.getNewButton11().setEnabled(true);
         AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
+        EraseAllTextFieldsInNewSessionFrame();
+        NewSessioneFrame.getEventoData_JPanel().setVisible(false);
+        NewSessioneFrame.getPausaButton().setEnabled(true);
+        NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
+        NewSessioneFrame.getInterventoButton().setEnabled(true);
     }
 
     //TODO: Sposta in controller accordingly
-    public void NewSess_ConfermaButtonClicked() {
-        try {
-            if (CheckSessioneInserted()) {
-                Sessione tempSessione = createSessione();
-                dlModel11.addElement(tempSessione);
-                NewSessioneFrame.setVisible(false);
-                AddEditClassFrame.getNewButton11().setEnabled(true);
-                EraseAllTextFieldsInNewSessionFrame();
-            }
-        }
-        catch (IllegalArgumentException ile){
-            JOptionPane.showMessageDialog(NewSessioneFrame, "Formato Data e Ora non corretti");
-        }
-        catch (DataInsertedException efe){
-            JOptionPane.showMessageDialog(NewSessioneFrame, efe.getMessage());
-        }
+    public void InsertNewSessioneInJList(Sessione tempSessione) {
+        dlModel11.addElement(tempSessione);
+        HideNewSessFrame();
     }
 
     private void EraseAllTextFieldsInNewSessionFrame() {
@@ -648,215 +609,12 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    private Sessione createSessione() {
-        Sessione tempSessione = new Sessione();
-        tempSessione.setNome(NewSessioneFrame.getTextField0().getText());
-        tempSessione.setInizio(getInizioSessioneInLDT());
-        tempSessione.setFine(getFineSessioneInLDT());
-        tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox3().getSelectedItem()));
-        tempSessione.setChair(((Utente) NewSessioneFrame.getComboBox4().getSelectedItem()));
-        if(NewSessioneFrame.getComboBox5().isEnabled())
-            tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
-        else
-            tempSessione.setKeynote_speaker(null);
-        List<Evento> tempEventoList = new ArrayList<>();
-        while(!NewSessioneFrame.getEvDLModel().isEmpty()){
-            Evento tempEvento = NewSessioneFrame.getEvDLModel().get(0);
-            tempEvento.setSessione(tempSessione);
-            tempEventoList.add(tempEvento);
-            NewSessioneFrame.getEvDLModel().remove(0);
+    public void AddNewEventoToJList(Evento eventoTemp) {
+        if (eventoTemp != null) {
+            NewSessioneFrame.getEvDLModel().addElement(eventoTemp);
         }
-        tempSessione.setEventoList(tempEventoList);
-        return tempSessione;
-    }
+        EraseAllTextFieldsInNewEventoJPanel();
 
-    private boolean CheckSessioneInserted() {
-        return CheckNoCampiVuotiForSessione()
-               && CheckDate()
-               && CheckNoOverlapSessione()
-               && CheckChair_e_Keynote();
-
-    }
-
-    private boolean CheckNoOverlapSessione() {
-        List<LocalDateTime> listLDT = TryLocalDateTimeConversion();
-        List<ModelClass> sessList = getAllbyDLModel(dlModel11);
-        for(ModelClass sess: sessList){
-            if (SessionsOverlap(listLDT.get(0), listLDT.get(1), (Sessione) sess))
-                throw new DataInsertedException("Locazione scelta già occupata nell'intervallo di tempo");
-        }
-        return true;
-    }
-
-    private boolean SessionsOverlap(LocalDateTime Inizio, LocalDateTime Fine, Sessione sess) {
-        if(sess.getLocazione().equals(NewSessioneFrame.getComboBox3().getSelectedItem())){
-            if     (Inizio.isAfter(sess.getInizio())  && (Fine.isBefore(sess.getFine()))) return true;
-            if     (Inizio.isBefore(sess.getInizio()) && Fine.isAfter(sess.getFine())) return true;
-            if     (Inizio.isBefore(sess.getInizio()) && Fine.isAfter(sess.getInizio())) return true;
-            if     (Inizio.isBefore(sess.getFine()) && Fine.isAfter(sess.getFine())) return true;
-            return (Inizio.equals(sess.getInizio())) || (Fine.equals(sess.getFine()));
-        }
-        else
-            return false;
-    }
-
-    private List<ModelClass> getAllbyDLModel(DefaultListModel<ModelClass> dlModel11) {
-        List<ModelClass> tempList = new ArrayList<>();
-        for(int i = 0; i < dlModel11.getSize(); i++){
-            tempList.add( dlModel11.getElementAt(i));
-        }
-        return tempList;
-    }
-
-    private Boolean CheckNoCampiVuotiForSessione() {
-        if(NoCampiVuoti())
-            return true;
-        else
-            throw new DataInsertedException("Uno o più campi vuoti");
-
-    }
-
-    private boolean NoCampiVuoti() {
-        return !(NewSessioneFrame.getTextField1().getText().equals(""))
-                && !(NewSessioneFrame.getTextField1_1().getText().equals(""))
-                && !(NewSessioneFrame.getTextField2().getText().equals(""))
-                && !(NewSessioneFrame.getTextField2_1().getText().equals(""))
-                && !(NewSessioneFrame.getEvDLModel().isEmpty())
-                && !(NewSessioneFrame.getTextField0().getText().equals(""));
-    }
-
-    private boolean CheckDate() {
-        List<LocalDateTime> LDTList = TryLocalDateTimeConversion();
-
-        if (LDTList.get(0).isBefore(LDTList.get(1)))
-            return true;
-        else
-            throw new DataInsertedException("Inizio e fine sono invertiti (o coincidono)");
-    }
-
-    private List<LocalDateTime> TryLocalDateTimeConversion() {
-        List<LocalDateTime> retList = new ArrayList<>(2);
-        List<String> strDatas = new ArrayList<>(2);
-        strDatas.add(NewSessioneFrame.getTextField1().getText()+" "+NewSessioneFrame.getTextField1_1().getText());
-        strDatas.add(NewSessioneFrame.getTextField2().getText()+" "+NewSessioneFrame.getTextField2_1().getText());
-        for(String strData : strDatas) {
-            Timestamp tempTStamp = Timestamp.valueOf(strData);
-            retList.add(tempTStamp.toLocalDateTime());
-        }
-        return retList;
-    }
-
-    private boolean CheckChair_e_Keynote() {
-        if(NewSessioneFrame.getComboBox5().isEnabled()) {
-            if (NewSessioneFrame.getComboBox4().getSelectedItem().equals(NewSessioneFrame.getComboBox5().getSelectedItem())) {
-                throw new DataInsertedException("Keynote Speaker e Chair combaciano");
-            } else
-                return true;
-        }
-        else
-            return true;
-
-    }
-
-    public void NewSess_AggiungiButtonClicked() {
-        try{
-            CheckEventoInserted();
-            Evento eventoTemp = null;
-            switch (NewSessioneFrame.getEventoSelected()) {
-                case "Intervento" -> {
-                    eventoTemp = new Intervento();
-                    setInterventoFields(eventoTemp);
-                }
-                case "Evento Sociale" -> {
-                    eventoTemp = new Evento_Sociale();
-                    setEvSocialeFields(eventoTemp);
-                }
-                case "Pausa" -> {
-                    eventoTemp = new Pausa();
-                    setPausaFields(eventoTemp);
-                }
-            }
-            if (eventoTemp != null) {
-                NewSessioneFrame.getEvDLModel().addElement(eventoTemp);
-            }
-            EraseAllTextFieldsInNewEventoJPanel();
-        }catch (IllegalArgumentException ile){
-            JOptionPane.showMessageDialog(NewSessioneFrame.getEventoJPanel(), "Formato Data e Ora non corretti");
-        }catch (DataInsertedException efe){
-            JOptionPane.showMessageDialog(NewSessioneFrame, "Inserimento fallito: "+efe.getMessage());
-        }
-    }
-
-    private void CheckEventoInserted() {
-        CheckNoCampiVuotiForEvento();
-        List<LocalDateTime> listLDT = CheckDateForEvento();
-        CheckDateEventoInSessione(listLDT);
-        CheckNoOverlap(listLDT);
-    }
-
-    private List<LocalDateTime> CheckDateForEvento(){
-        List<LocalDateTime> listLDT = TryLocalDateTimeConversionForEvento();
-        if(!(listLDT.get(0).isBefore(listLDT.get(1))))
-            throw new DataInsertedException("Fine e Inizio sono temporalmente invertiti");
-        return listLDT;
-    }
-
-    private List<LocalDateTime> TryLocalDateTimeConversionForEvento() {
-        List<LocalDateTime> tempListLDT = new ArrayList<>(2);
-        tempListLDT.add(getInizioEventoInLDT());
-        tempListLDT.add(getFineEventoInLDT());
-        return tempListLDT;
-    }
-
-    private void CheckDateEventoInSessione(List<LocalDateTime> listLDT) {
-        LocalDateTime InizioSess = getInizioSessioneInLDT();
-        LocalDateTime FineSess = getFineSessioneInLDT();
-        if (!DateEventoInSessione(listLDT.get(0), listLDT.get(1), InizioSess, FineSess))
-            throw new DataInsertedException("L'evento non rientra temporalmente nella sessione");
-    }
-
-    private boolean DateEventoInSessione(LocalDateTime InizioEv, LocalDateTime FineEv, LocalDateTime InizioSess, LocalDateTime FineSess){
-        return  InizioEv.isAfter(InizioSess) || InizioEv.equals(InizioSess) &&
-                FineEv.isAfter(InizioSess) &&
-                InizioEv.isBefore(FineSess)  &&
-                FineEv.isBefore(FineSess)  || FineEv.equals(FineSess);
-    }
-
-    private void CheckNoOverlap(List<LocalDateTime> listLDT) {
-        List<Evento> EventiInseritiList = getAllEventiInseriti();
-        for (Evento e : EventiInseritiList) {
-            if(EventsOverlap(listLDT, e))
-                throw new DataInsertedException("Evento inserito fa conflitto con un evento precedente");
-        }
-    }
-
-    private boolean EventsOverlap(List<LocalDateTime> listLDT, Evento e) {
-        return (listLDT.get(0).isAfter(e.getInizio()) && listLDT.get(1).isBefore(e.getFine()))
-             ||(listLDT.get(0).isBefore(e.getInizio()) && listLDT.get(1).isAfter(e.getFine()))
-             ||(listLDT.get(0).isBefore(e.getFine()) && listLDT.get(1).isAfter(e.getFine()))
-             ||(listLDT.get(0).isBefore(e.getInizio()) && listLDT.get(1).isAfter(e.getInizio()));
-    }
-
-    private List<Evento> getAllEventiInseriti() {
-        List<Evento> tempList = new ArrayList<>(NewSessioneFrame.getEvDLModel().getSize());
-        for(int i = 0; i < NewSessioneFrame.getEvDLModel().getSize(); i++)
-            tempList.add(NewSessioneFrame.getEvDLModel().getElementAt(i));
-        return tempList;
-    }
-
-
-
-    private void CheckNoCampiVuotiForEvento() {
-        if(CampiVuotiForEvento())
-            throw new DataInsertedException("Dati mancanti");
-
-    }
-
-    private boolean CampiVuotiForEvento() {
-        return NewSessioneFrame.getTextField3().getText().equals("") ||
-               NewSessioneFrame.getTextField4().getText().equals("") ||
-               ((NewSessioneFrame.getTextField5().getText().equals("") && NewSessioneFrame.getTextField6().getText().equals(""))
-               && NewSessioneFrame.getPausaButton().isEnabled());
     }
 
     private void EraseAllTextFieldsInNewEventoJPanel() {
@@ -867,60 +625,7 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    private void setInterventoFields(Evento eventoTemp) {
-        SetInizio_e_Fine(eventoTemp);
-        ((Intervento) eventoTemp).setPartecipante((Partecipante) NewSessioneFrame.getInterv_comboBox().getSelectedItem());
-        ((Intervento) eventoTemp).setAbstract(NewSessioneFrame.getTextField5().getText());
-    }
-
-    private void setEvSocialeFields(Evento eventoTemp) {
-        SetInizio_e_Fine(eventoTemp);
-        ((Evento_Sociale) eventoTemp).setTipo_evsociale((String) NewSessioneFrame.getTipoES_comboBox().getSelectedItem());
-        ((Evento_Sociale) eventoTemp).setDescrizione(NewSessioneFrame.getTextField6().getText());
-    }
-
-    private void setPausaFields(Evento eventoTemp) {
-        SetInizio_e_Fine(eventoTemp);
-        ((Pausa) eventoTemp).setTipo_pausa((String) NewSessioneFrame.getTipoP_comboBox().getSelectedItem());
-    }
-
-    private void SetInizio_e_Fine(Evento eventoTemp) {
-        eventoTemp.setInizio(getInizioEventoInLDT());
-        eventoTemp.setFine(getFineEventoInLDT());
-    }
-
-    private LocalDateTime getFineEventoInLDT() {
-        String strData = NewSessioneFrame.getTextField4().getText();
-        Timestamp data = Timestamp.valueOf(strData);
-        return convertToLocalDateTime(data);
-    }
-
-    private LocalDateTime getInizioEventoInLDT() {
-        String strData = NewSessioneFrame.getTextField3().getText();
-        Timestamp data = Timestamp.valueOf(strData);
-        return convertToLocalDateTime(data);
-    }
-
-    private LocalDateTime getInizioSessioneInLDT() {
-        String strData = NewSessioneFrame.getTextField1().getText()
-                         +" "+NewSessioneFrame.getTextField1_1().getText();
-        Timestamp data = Timestamp.valueOf(strData);
-        return convertToLocalDateTime(data);
-    }
-
-    private LocalDateTime getFineSessioneInLDT() {
-        String strData = NewSessioneFrame.getTextField2().getText()
-                         +" "+NewSessioneFrame.getTextField2_1().getText();
-        Timestamp data = Timestamp.valueOf(strData);
-        return convertToLocalDateTime(data);
-    }
-
-    private LocalDateTime convertToLocalDateTime(java.util.Date date) {
-        Timestamp timestamp = new Timestamp(date.getTime());
-        return timestamp.toLocalDateTime();
-    }
-
-    public void NewSess_NessunoButtonClicked() {
+    public void NewSess_Switch_NoKeynote() {
         NewSessioneFrame.getComboBox5().setEnabled(!NewSessioneFrame.getComboBox5().isEnabled());
         if(NewSessioneFrame.getComboBox5().isEnabled()){
             NewSessioneFrame.getNessunoButton().setText("Nessuno");
@@ -930,10 +635,14 @@ public class AddEditFrameAppearanceController {
         }
     }
 
-    public void NewSess_RimuoviButtonClicked() {
-        if(!NewSessioneFrame.getEvDLModel().isEmpty() && NewSessioneFrame.getList1().getSelectedIndex() != -1){
+    public void NewSess_RemoveSelectedEvento() {
+        if(isListSelected(NewSessioneFrame.getList1())){
             NewSessioneFrame.getEvDLModel().remove(NewSessioneFrame.getList1().getSelectedIndex());
         }
+    }
+
+    private boolean isListSelected(JList list) {
+        return !(list.getModel().getSize() == 0) && list.getSelectedIndex() != -1;
     }
 
     void EnableCheckButton(boolean b) {
@@ -956,20 +665,6 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getNewButton11().setEnabled(b);
     }
 
-    private boolean isEmpty(JTextComponent text_Comp) {
-        return text_Comp.getText().equals("");
-    }
-
-    private boolean NoCampiVuotiInJPanel(JPanel mainPanel) {
-        for(Component comp: mainPanel.getComponents()){
-            try{
-                if(isEmpty((JTextField) comp))
-                    return false;
-            }catch (ClassCastException ignored){}
-        }
-        return true;
-    }
-
     public void EnableEventiAdd() {
         NewSessioneFrame.getAddButtonLabel().setVisible(false);
         NewSessioneFrame.getAggiungiButton().setEnabled(true);
@@ -978,5 +673,10 @@ public class AddEditFrameAppearanceController {
     public void DisableEventiAdd() {
         NewSessioneFrame.getAddButtonLabel().setVisible(true);
         NewSessioneFrame.getAggiungiButton().setEnabled(false);
+    }
+
+    public void switchLocaleButton(boolean b) {
+        AddEditClassFrame.getLocaleButton().setEnabled(b);
+        AddEditClassFrame.getScientificoButton().setEnabled(!b);
     }
 }

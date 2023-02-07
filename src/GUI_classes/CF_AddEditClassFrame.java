@@ -1,11 +1,14 @@
 package GUI_classes;
 
-import javax.swing.*;
-import Business_Logic.*;
+import Business_Logic.Controller;
 import Model_classes.ModelClass;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +76,21 @@ public class CF_AddEditClassFrame extends JFrame {
     private JCheckBox checkBox1;
     private JLabel CheckButtonLabel;
     private JTextField textField9;
+    private JPanel TwoButtons14_JPanel;
+    private JButton localeButton;
+    private JButton scientificoButton;
+    private JLabel comitatoLabel;
+    private JPanel ListsPanel12;
+    private JList<String> SelectedItems_infoList12;
+    private JList<Integer> SelectedItems_infoList14;
+    private JPanel ListsPanel14;
 
     private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel12 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel14 = new DefaultListModel<>();
+    private final DefaultListModel<String> dlModel12i = new DefaultListModel<>();
+    private final DefaultListModel<Integer> dlModel14i = new DefaultListModel<>();
 
     private final List<JComponent> DataInsertComponentList = new ArrayList<>(DataInsert_JPanel.getComponentCount());
 
@@ -87,18 +100,8 @@ public class CF_AddEditClassFrame extends JFrame {
 
 
 
-        leftButton9Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                business_logic.PartecipanteButtonClicked();
-            }
-        });
-        rightButton9Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                business_logic.OrganizzatoreButtonClicked();
-            }
-        });
+        leftButton9Button.addActionListener(e -> business_logic.PartecipanteButtonClicked());
+        rightButton9Button.addActionListener(e -> business_logic.OrganizzatoreButtonClicked());
         NewButton11.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,6 +188,18 @@ public class CF_AddEditClassFrame extends JFrame {
                 business_logic.CheckButtonClicked();
             }
         });
+        localeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.LocaleButtonClicked();
+            }
+        });
+        scientificoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.ScientificoButtonClicked();
+            }
+        });
     }
 
     private CF_AddEditClassFrame AddIstanceClassFrame_setup() {
@@ -202,7 +217,8 @@ public class CF_AddEditClassFrame extends JFrame {
         AddOnly_list11.setModel(dlModel11);
         SelectedItems_list12.setModel(dlModel12);
         SelectedItems_list14.setModel(dlModel14);
-
+        SelectedItems_infoList12.setModel(dlModel12i);
+        SelectedItems_infoList14.setModel(dlModel14i);
         return FrameHolder;
     }
 
@@ -407,6 +423,23 @@ public class CF_AddEditClassFrame extends JFrame {
 
     public JCheckBox getCheckBox1() {
         return checkBox1;
+    }
+
+    public JButton getLocaleButton() {
+        return localeButton;
+    }
+
+    public JButton getScientificoButton() {
+        return scientificoButton;
+    }
+
+    //TODO: Usa!
+    public JList<String> getSelectedItems_infoList12() {
+        return SelectedItems_infoList12;
+    }
+
+    public JList<Integer> getSelectedItems_infoList14() {
+        return SelectedItems_infoList14;
     }
 
     public void EraseAllFieldsAndJLists() {

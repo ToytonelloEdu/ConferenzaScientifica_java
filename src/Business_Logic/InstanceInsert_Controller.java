@@ -4,7 +4,9 @@ import DAO_classes.*;
 import Exceptions.DataInsertedException;
 import Exceptions.InsertFailedException;
 import GUI_classes.CF_AddEditClassFrame;
+import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
+import GUI_classes.CF_NewSponsorFrame;
 import Model_classes.*;
 
 import javax.swing.*;
@@ -121,11 +123,18 @@ public class InstanceInsert_Controller {
     private void InsertConfOrganizzatori() throws InsertFailedException {
         Conf_Organ confOrgan = new Conf_Organ();
         confOrgan.setConferenza(((Conferenza) CurrentOggetto));
-        confOrgan.setComitato("Locale");
+        confOrgan.setComitato(getComitato());
         for(int i = 0; i < dlModel12.getSize(); i++){
             confOrgan.setOrganizzatore((Organizzatore) dlModel12.getElementAt(i));
             Conf_Organ_DAO.getDAO().Insert(confOrgan);
         }
+    }
+
+    private String getComitato() {
+        if(AddEditClassFrame.getLocaleButton().isEnabled())
+            return "Locale";
+        else
+            return "Scientifico";
     }
 
     private void InsertConfSponsors() throws InsertFailedException {
@@ -261,13 +270,101 @@ public class InstanceInsert_Controller {
         }
     }
 
+    Sessione createSessione(CF_NewSessioneFrame NewSessioneFrame) {
+        Sessione tempSessione = new Sessione();
+        tempSessione.setNome(NewSessioneFrame.getTextField0().getText());
+        tempSessione.setInizio(getInizioSessioneInLDT(NewSessioneFrame));
+        tempSessione.setFine(getFineSessioneInLDT(NewSessioneFrame));
+        tempSessione.setLocazione(((Locazione) NewSessioneFrame.getComboBox3().getSelectedItem()));
+        tempSessione.setChair(((Utente) NewSessioneFrame.getComboBox4().getSelectedItem()));
+        if(NewSessioneFrame.getComboBox5().isEnabled())
+            tempSessione.setKeynote_speaker(((Partecipante) NewSessioneFrame.getComboBox5().getSelectedItem()));
+        else
+            tempSessione.setKeynote_speaker(null);
+        List<Evento> tempEventoList = new ArrayList<>();
+        while(!NewSessioneFrame.getEvDLModel().isEmpty()){
+            Evento tempEvento = NewSessioneFrame.getEvDLModel().get(0);
+            tempEvento.setSessione(tempSessione);
+            tempEventoList.add(tempEvento);
+            NewSessioneFrame.getEvDLModel().remove(0);
+        }
+        tempSessione.setEventoList(tempEventoList);
+        return tempSessione;
+    }
 
 
+    private LocalDateTime getInizioSessioneInLDT(CF_NewSessioneFrame NewSessioneFrame) {
+        String strData = NewSessioneFrame.getTextField1().getText()
+                +" "+NewSessioneFrame.getTextField1_1().getText();
+        Timestamp data = Timestamp.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
 
+    private LocalDateTime getFineSessioneInLDT(CF_NewSessioneFrame NewSessioneFrame) {
+        String strData = NewSessioneFrame.getTextField2().getText()
+                +" "+NewSessioneFrame.getTextField2_1().getText();
+        Timestamp data = Timestamp.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
 
+    private LocalDateTime convertToLocalDateTime(java.util.Date date) {
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp.toLocalDateTime();
+    }
 
+    Sponsor createSponsor(CF_NewSponsorFrame NewSponsorFrame) {
+        Sponsor tempSponsor = new Sponsor();
+        tempSponsor.setNome(NewSponsorFrame.getTextField1().getText());
+        tempSponsor.setPartitaIVA(NewSponsorFrame.getTextField2().getText());
+        return tempSponsor;
+    }
 
+    Evento createIntervento(CF_NewSessioneFrame NewSessioneFrame) {
+        Intervento interventoTemp = new Intervento();
+        SetInizio_e_Fine(interventoTemp, NewSessioneFrame);
+        interventoTemp.setPartecipante((Partecipante) NewSessioneFrame.getInterv_comboBox().getSelectedItem());
+        interventoTemp.setAbstract(NewSessioneFrame.getTextField5().getText());
+        return interventoTemp;
+    }
 
+    Evento createEvSociale(CF_NewSessioneFrame NewSessioneFrame) {
+        Evento_Sociale evSocialeTemp = new Evento_Sociale();
+        SetInizio_e_Fine(evSocialeTemp, NewSessioneFrame);
+        evSocialeTemp.setTipo_evsociale((String) NewSessioneFrame.getTipoES_comboBox().getSelectedItem());
+        evSocialeTemp.setDescrizione(NewSessioneFrame.getTextField6().getText());
+        return evSocialeTemp;
+    }
+
+    Evento createPausa(CF_NewSessioneFrame NewSessioneFrame) {
+        Pausa pausaTemp = new Pausa();
+        SetInizio_e_Fine(pausaTemp, NewSessioneFrame);
+        pausaTemp.setTipo_pausa((String) NewSessioneFrame.getTipoP_comboBox().getSelectedItem());
+        return pausaTemp;
+    }
+
+    private void SetInizio_e_Fine(Evento eventoTemp, CF_NewSessioneFrame NewSessioneFrame) {
+        eventoTemp.setInizio(getInizioEventoInLDT(NewSessioneFrame));
+        eventoTemp.setFine(getFineEventoInLDT(NewSessioneFrame));
+    }
+
+    private LocalDateTime getFineEventoInLDT(CF_NewSessioneFrame NewSessioneFrame) {
+        String strData = NewSessioneFrame.getTextField4().getText();
+        Timestamp data = Timestamp.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    private LocalDateTime getInizioEventoInLDT(CF_NewSessioneFrame NewSessioneFrame) {
+        String strData = NewSessioneFrame.getTextField3().getText();
+        Timestamp data = Timestamp.valueOf(strData);
+        return convertToLocalDateTime(data);
+    }
+
+    Locazione createLocazione(CF_NewLocazioneFrame NewLocazioneFrame) {
+        Locazione locazioneTemp = new Locazione();
+        locazioneTemp.setNome(NewLocazioneFrame.getTextField1().getText());
+        locazioneTemp.setPostiDisponibili(Integer.parseInt(NewLocazioneFrame.getTextField2().getText()));
+        return locazioneTemp;
+    }
 
 
 

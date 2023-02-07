@@ -28,6 +28,11 @@ public class Controller {
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
     String ClassSelected;
 
+    private final DefaultListModel<ModelClass> dlModel10;
+    private final DefaultListModel<ModelClass> dlModel11;
+    private final DefaultListModel<ModelClass> dlModel12;
+    private final DefaultListModel<ModelClass> dlModel14;
+
     public static void main(String[] args) {
         try {
            Controller business_logic = new Controller();
@@ -42,6 +47,10 @@ public class Controller {
         SessionDetailsFrame = new CF_SessionDetailsFrame(this);
         detailsPanel_setter = new DetailsPanel_setter(this);
         AddEditClassFrame = new CF_AddEditClassFrame(this);
+        dlModel10 = AddEditClassFrame.getDlModel10();
+        dlModel11 = AddEditClassFrame.getDlModel11();
+        dlModel12 = AddEditClassFrame.getDlModel12();
+        dlModel14 = AddEditClassFrame.getDlModel14();
         NewLocazioneFrame = new CF_NewLocazioneFrame(this);
         NewSponsorFrame = new CF_NewSponsorFrame(this);
         AddEditFrame_controller = new AddEditFrameAppearanceController(this);
@@ -273,29 +282,29 @@ public class Controller {
     }
 
     public void removeButtonClicked(){
-        AddEditFrame_controller.removeButtonClicked();
+        AddEditFrame_controller.RemoveSelectedItemFromList11();
     }
 
     public void addButton10_clicked() {
-        AddEditFrame_controller.addButton10Clicked();
+        AddEditFrame_controller.AddSelectedItemToList10();
     }
 
-    public void addButton14_clicked(){ AddEditFrame_controller.addButton14Clicked();}
+    public void addButton14_clicked(){ AddEditFrame_controller.AddSelectedItemToList14();}
 
-    public void addButton12_clicked(){ AddEditFrame_controller.addButton12Clicked();}
+    public void addButton12_clicked(){ AddEditFrame_controller.AddSelectedItemToList12();}
 
     public void newButton14_clicked() {
         AddEditFrame_controller.newButton14Clicked();
     }
 
     public void removeButton10_clicked(){
-        AddEditFrame_controller.removeButton10Clicked();
+        AddEditFrame_controller.RemoveSelectedItemFromList10();
     }
     public void removeButton12_clicked(){
-        AddEditFrame_controller.removeButton12Clicked();
+        AddEditFrame_controller.RemoveSelectedItemFromList12();
     }
     public void removeButton14_clicked(){
-        AddEditFrame_controller.removeButton14Clicked();
+        AddEditFrame_controller.RemoveSelectedItemFromList14();
     }
 
 
@@ -351,57 +360,86 @@ public class Controller {
 
     public void NewLoc_ConfermaButton_clicked() {
         NewLocazioneFrame.getConfermaButton().setEnabled(false);
-        AddEditFrame_controller.NewLocOperations_afterConferma();
+        if(addEdit_checksController.NoCampiVuotiInJPanel(NewLocazioneFrame.getMainPanel())){
+            Locazione tempLocazione = instInsert_controller.createLocazione(NewLocazioneFrame);
+            AddEditFrame_controller.AddNewLocazioneToJList(tempLocazione);
+        }
+        else
+            JOptionPane.showMessageDialog(NewLocazioneFrame, "ERRORE: Dati mancanti");
     }
 
     public void NewLoc_AnnullaButton_clicked() {
-        HideNewLocationFrame();
-    }
-
-    void HideNewLocationFrame() {
-        NewLocazioneFrame.setVisible(false);
-        NewLocazioneFrame.getTextField1().setText("");
-        NewLocazioneFrame.getTextField2().setText("");
+        AddEditFrame_controller.HideNewLocationFrame();
     }
 
     public void NewSpons_annullaButtonClicked() {
-        AddEditFrame_controller.NewSpons_annullaButtonClicked();
+        AddEditFrame_controller.HideNewSponsorFrame();
     }
 
     public void NewSpons_confermaButtonClicked() {
-        AddEditFrame_controller.NewSpons_confermaButtonClicked();
+        NewSponsorFrame.getConfermaButton().setEnabled(false);
+        if(addEdit_checksController.NoCampiVuoti_forSpons(NewSponsorFrame)) {
+            Sponsor tempSponsor = instInsert_controller.createSponsor(NewSponsorFrame);
+            AddEditFrame_controller.AddNewSponsToJList(tempSponsor);
+        }
+        else
+            JOptionPane.showMessageDialog(NewSponsorFrame, "Dati mancanti");
     }
 
     public void interventoButton_clicked() {
-        AddEditFrame_controller.interventoButton_clicked();
+        AddEditFrame_controller.Select_interventoButton();
     }
 
     public void eventoSocialeButton_clicked() {
-        AddEditFrame_controller.eventoSocialeButton_clicked();
+        AddEditFrame_controller.Select_eventoSocialeButton();
     }
 
     public void pausaButton_clicked() {
-        AddEditFrame_controller.pausaButton_clicked();
+        AddEditFrame_controller.Select_pausaButton();
     }
 
     public void NewSess_AnnullaButton_clicked() {
-        AddEditFrame_controller.NewSess_AnnullaButton_clicked();
+        AddEditFrame_controller.HideNewSessFrame();
     }
 
     public void NewSess_ConfermaButtonClicked() {
-        AddEditFrame_controller.NewSess_ConfermaButtonClicked();
+        try {
+            if (CheckSessioneInserted()) {
+                Sessione tempSessione = instInsert_controller.createSessione(NewSessioneFrame);
+                AddEditFrame_controller.InsertNewSessioneInJList(tempSessione);
+            }
+        }
+        catch (IllegalArgumentException ile){
+            JOptionPane.showMessageDialog(NewSessioneFrame, "Formato Data e Ora non corretti");
+        }
+        catch (DataInsertedException efe){
+            JOptionPane.showMessageDialog(NewSessioneFrame, efe.getMessage());
+        }
     }
 
     public void NewSess_AggiungiButtonClicked() {
-        AddEditFrame_controller.NewSess_AggiungiButtonClicked();
+        try{
+            addEdit_checksController.CheckEventoInserted();
+            Evento eventoTemp = null;
+            switch (NewSessioneFrame.getEventoSelected()) {
+                case "Pausa" -> eventoTemp = instInsert_controller.createPausa(NewSessioneFrame);
+                case "Intervento" -> eventoTemp = instInsert_controller.createIntervento(NewSessioneFrame);
+                case "Evento Sociale" -> eventoTemp = instInsert_controller.createEvSociale(NewSessioneFrame);
+            }
+            AddEditFrame_controller.AddNewEventoToJList(eventoTemp);
+        }catch (IllegalArgumentException ile) {
+            JOptionPane.showMessageDialog(NewSessioneFrame.getEventoJPanel(), "Formato Data e Ora non corretti");
+        }catch (DataInsertedException efe){
+            JOptionPane.showMessageDialog(NewSessioneFrame, "Inserimento fallito: "+efe.getMessage());
+        }
     }
 
     public void NewSess_NessunoButtonClicked() {
-        AddEditFrame_controller.NewSess_NessunoButtonClicked();
+        AddEditFrame_controller.NewSess_Switch_NoKeynote();
     }
 
     public void NewSess_RimuoviButtonClicked() {
-        AddEditFrame_controller.NewSess_RimuoviButtonClicked();
+        AddEditFrame_controller.NewSess_RemoveSelectedEvento();
     }
 
     public void NewSess_DateTextFieldsExited() {
@@ -414,5 +452,17 @@ public class Controller {
 
     public void WrongSessioneDates() {
         AddEditFrame_controller.DisableEventiAdd();
+    }
+
+    public boolean CheckSessioneInserted() {
+        return addEdit_checksController.CheckSessioneInserted(dlModel11);
+    }
+
+    public void LocaleButtonClicked() {
+        AddEditFrame_controller.switchLocaleButton(true);
+    }
+
+    public void ScientificoButtonClicked() {
+        AddEditFrame_controller.switchLocaleButton(false);
     }
 }
