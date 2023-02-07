@@ -159,4 +159,56 @@ public class Istituzione_DAO implements DaoClass{
         Istituzione_temp.setNome(localRS.getString("nome"));
         Istituzione_temp.setNazione(localRS.getString("nazione"));
     }
+
+    public int allKeynoteSpeaker(){
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers;";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next()) {
+                return localRS.getInt(1);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public int countKeynoteSpeaker_byIstituzione(Istituzione Istituzione_temp, int anno){
+        String nome_istituzione = Istituzione_temp.getNome();
+
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND date_part('year', inizio) = "+ anno +";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next()) {
+                return localRS.getInt(1);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public int countKeynoteSpeaker_byIstituzione(int mese, Istituzione Istituzione_temp){
+        String nome_istituzione = Istituzione_temp.getNome();
+
+        try{
+            Statement localStmt = this.getStatement();
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND date_part('month', inizio) = "+ mese +";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if(localRS.next()) {
+                return localRS.getInt(1);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 }

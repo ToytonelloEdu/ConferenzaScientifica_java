@@ -465,4 +465,8 @@ public class Controller {
     public void ScientificoButtonClicked() {
         AddEditFrame_controller.switchLocaleButton(false);
     }
+
+    public void meseSpinner_Changed() {
+        detailsPanel_setter.aggiornaPercentualeIstituzione(MainFrame, Current_Main_outputList);
+    }
 }

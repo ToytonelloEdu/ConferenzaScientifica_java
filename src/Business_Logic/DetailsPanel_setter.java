@@ -1,5 +1,6 @@
 package Business_Logic;
 
+import DAO_classes.Istituzione_DAO;
 import GUI_classes.*;
 import Model_classes.*;
 
@@ -58,16 +59,28 @@ public class DetailsPanel_setter {
         mainFrame.getDetail_ObjectName_label().setText(SelectedIstituzione.getNome());
         mainFrame.getFirstField_label().setText("Nazione");
         mainFrame.getFirstField_outputArea().setText(SelectedIstituzione.getNazione());
+        setPercentualeIstituzione(mainFrame, SelectedIstituzione);
         dListModel.clear();
         Hide_Istituzione_UnusedFields(mainFrame);
     }
 
+    public void setPercentualeIstituzione(CF_MainFrame mainFrame, Istituzione SelectedIstituzione){
+        JSpinner Spinner_mese = mainFrame.getMeseSpinner();
+
+        int CurrentSpinnerValue = (int) Spinner_mese.getValue();
+
+        mainFrame.getSecondField_label().setText("Percetuale mensile");
+        int totale_speaker = Istituzione_DAO.getDAO().allKeynoteSpeaker();
+        mainFrame.getSecondField_outputArea().setText(String.valueOf(totale_speaker));
+        int totale_speaker_forIstituzione = Istituzione_DAO.getDAO().countKeynoteSpeaker_byIstituzione(CurrentSpinnerValue, SelectedIstituzione);
+        mainFrame.getThirdField_outputArea().setText(String.valueOf(totale_speaker_forIstituzione));
+        mainFrame.getThirdField_label().setText("Percentuale annuale");
+    }
+
+
+
     private void Hide_Istituzione_UnusedFields(CF_MainFrame mainFrame) {
-        mainFrame.getSecondField_label().setVisible(false);
-        mainFrame.getThirdField_label().setVisible(false);
         mainFrame.getFourthField_label().setVisible(false);
-        mainFrame.getSecondField_outputArea().setVisible(false);
-        mainFrame.getThirdField_outputArea().setVisible(false);
         mainFrame.getFourthField_outputArea().setVisible(false);
         mainFrame.getFirstList_Panel().setVisible(false);
     }
@@ -238,5 +251,10 @@ public class DetailsPanel_setter {
         SessionDetailsFrame.getDescrizione_Label().setText("Abstract");
         SessionDetailsFrame.getDescrizione_textArea().setText(selectedEvento.getAbstract());
         SessionDetailsFrame.getDescrizione_JPanel().setVisible(true);
+    }
+
+    public void aggiornaPercentualeIstituzione(CF_MainFrame mainFrame, List<ModelClass> current_main_outputList) {
+        Istituzione currentIstituzione = (Istituzione) current_main_outputList.get((int) mainFrame.getSelection_spinner().getValue() - 1);
+        setPercentualeIstituzione(mainFrame, currentIstituzione);
     }
 }

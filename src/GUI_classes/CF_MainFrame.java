@@ -46,6 +46,7 @@ public class CF_MainFrame extends JFrame {
     private JLabel TitleLabel;
     private JButton loginButton;
     private JLabel LabelLogin;
+    private JSpinner meseSpinner;
 
     private List<JComponent> DetailsComp_list = new ArrayList<>(Details_panel.getComponentCount());
 
@@ -114,6 +115,12 @@ public class CF_MainFrame extends JFrame {
                 business_logic.DeleteButtonClicked();
             }
         });
+        meseSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                business_logic.meseSpinner_Changed();
+            }
+        });
     }
 
     private CF_MainFrame MainFrame_setUp() {
@@ -127,6 +134,7 @@ public class CF_MainFrame extends JFrame {
         Search_textField.setText("");
         dbAttr_comboBox.setVisible(false);
         LabelLogin.setVisible(false);
+        meseSpinner.setModel(new SpinnerNumberModel(1, 1, 12, 1));
         return MainFrame_holder;
     }
 
@@ -271,5 +279,9 @@ public class CF_MainFrame extends JFrame {
 
     public JButton getEditButton() {
         return editButton;
+    }
+
+    public JSpinner getMeseSpinner() {
+        return meseSpinner;
     }
 }
