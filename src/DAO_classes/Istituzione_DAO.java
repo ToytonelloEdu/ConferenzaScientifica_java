@@ -6,20 +6,21 @@ import Exceptions.InsertFailedException;
 import Model_classes.Istituzione;
 import Model_classes.ModelClass;
 
-public class Istituzione_DAO implements DaoClass{
+public class Istituzione_DAO implements DaoClass {
 
     private static Istituzione_DAO istituzioneDAO = null;
 
-    private Istituzione_DAO(){}
+    private Istituzione_DAO() {
+    }
 
-    public static Istituzione_DAO getDAO(){
+    public static Istituzione_DAO getDAO() {
         if (istituzioneDAO == null)
             istituzioneDAO = new Istituzione_DAO();
         return istituzioneDAO;
     }
 
     private Statement getStatement() throws SQLException {
-        try{
+        try {
             DBConnection dbConnection = DBConnection.getDBConnection();
 
             Connection conn = dbConnection.getConnection();
@@ -30,29 +31,27 @@ public class Istituzione_DAO implements DaoClass{
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("SET search_path TO Main");
             return stmt;
-        }
-        catch(SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return null;
     }
 
-    public List<ModelClass> getAll(){
+    public List<ModelClass> getAll() {
         ArrayList<ModelClass> AllIstituzione = new ArrayList<>();
 
-        try{
+        try {
             Statement LocalStatement = this.getStatement();
 
             ResultSet LocalRS = LocalStatement.executeQuery("SELECT * FROM Main.Istituzione");
 
-            while(LocalRS.next()){
+            while (LocalRS.next()) {
                 Istituzione Istituzione_temp = new Istituzione();
                 setIstituzione_tempFields(Istituzione_temp, LocalRS);
                 AllIstituzione.add(Istituzione_temp);
             }
             return AllIstituzione;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return AllIstituzione;
@@ -62,21 +61,20 @@ public class Istituzione_DAO implements DaoClass{
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
         ArrayList<ModelClass> AllIstituzione = new ArrayList<>();
 
-        try{
+        try {
             Statement LocalStatement = this.getStatement();
             String command = "SELECT * FROM Main.Istituzione " +
-                             "WHERE "+Attr_in+" = '"+Value_in+"';";
+                    "WHERE " + Attr_in + " = '" + Value_in + "';";
 
             ResultSet LocalRS = LocalStatement.executeQuery(command);
 
-            while(LocalRS.next()){
+            while (LocalRS.next()) {
                 Istituzione Istituzione_temp = new Istituzione();
                 setIstituzione_tempFields(Istituzione_temp, LocalRS);
                 AllIstituzione.add(Istituzione_temp);
             }
             return AllIstituzione;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return AllIstituzione;
@@ -85,52 +83,48 @@ public class Istituzione_DAO implements DaoClass{
     public void Insert(ModelClass Istituzione) throws InsertFailedException {
         try {
             Statement LocalStatement = this.getStatement();
-            String command = "INSERT INTO Main.Istituzione VALUES (DEFAULT, "+ Istituzione.toSQLrow() +");";
+            String command = "INSERT INTO Main.Istituzione VALUES (DEFAULT, " + Istituzione.toSQLrow() + ");";
 
             LocalStatement.execute(command);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             throw new InsertFailedException(e.getMessage());
         }
     }
 
-    public void Delete(ModelClass Istituzione){
+    public void Delete(ModelClass Istituzione) {
         try {
             Statement LocalStatement = this.getStatement();
-            String command = "DELETE FROM Main.Istituzione WHERE " + Istituzione.toSQLctrl() +";";
+            String command = "DELETE FROM Main.Istituzione WHERE " + Istituzione.toSQLctrl() + ";";
 
             LocalStatement.execute(command);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void Update(ModelClass OldIstit, ModelClass NewIstit){
+    public void Update(ModelClass OldIstit, ModelClass NewIstit) {
         try {
             Statement LocalStatement = this.getStatement();
             String command = "UPDATE Main.Istituzione SET (Nome, Nazione) = " +
-                    "("+ NewIstit.toSQLrow() +") " +
+                    "(" + NewIstit.toSQLrow() + ") " +
                     "WHERE " + OldIstit.toSQLctrl() + ";";
 
             LocalStatement.execute(command);
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-    public Integer getPK(ModelClass Istituzione){
-        try{
+    public Integer getPK(ModelClass Istituzione) {
+        try {
             Statement localStmt = this.getStatement();
             String command = "SELECT Istit_ID FROM Main.Istituzione WHERE " + Istituzione.toSQLctrl() + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
-            if(localRS.next())
+            if (localRS.next())
                 return localRS.getInt("Istit_ID");
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -138,18 +132,17 @@ public class Istituzione_DAO implements DaoClass{
 
     public Istituzione getByPK(int PK) {
         Istituzione Istituzione_temp = new Istituzione();
-        try{
+        try {
             Statement localStmt = this.getStatement();
             String command = "SELECT * FROM Main.Istituzione WHERE Istit_ID = " + PK + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
-            if(localRS.next()) {
+            if (localRS.next()) {
                 setIstituzione_tempFields(Istituzione_temp, localRS);
             }
 
             return Istituzione_temp;
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -160,28 +153,27 @@ public class Istituzione_DAO implements DaoClass{
         Istituzione_temp.setNazione(localRS.getString("nazione"));
     }
 
-    public int allKeynoteSpeaker(){
-        try{
+    public int allKeynoteSpeakerformonth(int mese, int anno) {
+        try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers;";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE (date_part('month', inizio) = " + mese + " OR date_part('month', fine) = " + mese + ") AND date_part('year', inizio) = " + anno + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
-            if(localRS.next()) {
+            if (localRS.next()) {
                 return localRS.getInt(1);
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return 0;
     }
 
-    public int countKeynoteSpeaker_byIstituzione(Istituzione Istituzione_temp, int anno){
+    public int countKeynoteSpeaker_byIstituzioneformonth(int mese, Istituzione Istituzione_temp, int anno){
         String nome_istituzione = Istituzione_temp.getNome();
 
         try{
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND date_part('year', inizio) = "+ anno +";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND (date_part('month', inizio) = "+ mese +" OR date_part('month', fine) = "+ mese +") AND date_part('year', inizio) = "+ anno +";";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next()) {
@@ -194,21 +186,36 @@ public class Istituzione_DAO implements DaoClass{
         return 0;
     }
 
-    public int countKeynoteSpeaker_byIstituzione(int mese, Istituzione Istituzione_temp){
+    public int allKeynoteSpeakerforyear(int anno) {
+        try {
+            Statement localStmt = this.getStatement();
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE date_part('year', inizio) = " + anno + ";";
+
+            ResultSet localRS = localStmt.executeQuery(command);
+            if (localRS.next()) {
+                return localRS.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public int countKeynoteSpeaker_byIstituzioneforyear(Istituzione Istituzione_temp, int anno) {
         String nome_istituzione = Istituzione_temp.getNome();
 
-        try{
+        try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND date_part('month', inizio) = "+ mese +";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '" + nome_istituzione + "' AND date_part('year', inizio) = " + anno + ";";
 
             ResultSet localRS = localStmt.executeQuery(command);
-            if(localRS.next()) {
+            if (localRS.next()) {
                 return localRS.getInt(1);
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return 0;
     }
+
 }

@@ -469,4 +469,8 @@ public class Controller {
     public void meseSpinner_Changed() {
         detailsPanel_setter.aggiornaPercentualeIstituzione(MainFrame, Current_Main_outputList);
     }
+
+    public void annoSpinner_Changed() {
+        detailsPanel_setter.aggiornaPercentualeIstituzione(MainFrame, Current_Main_outputList);
+    }
 }
