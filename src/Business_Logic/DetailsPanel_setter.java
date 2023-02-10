@@ -59,25 +59,55 @@ public class DetailsPanel_setter {
         mainFrame.getDetail_ObjectName_label().setText(SelectedIstituzione.getNome());
         mainFrame.getFirstField_label().setText("Nazione");
         mainFrame.getFirstField_outputArea().setText(SelectedIstituzione.getNazione());
+        mainFrame.getLabelMese().setText("Mese");
+        mainFrame.getLabelAnno().setText("Anno");
         setPercentualeIstituzione(mainFrame, SelectedIstituzione);
         dListModel.clear();
         Hide_Istituzione_UnusedFields(mainFrame);
     }
 
     public void setPercentualeIstituzione(CF_MainFrame mainFrame, Istituzione SelectedIstituzione){
-        JSpinner Spinner_mese = mainFrame.getMeseSpinner();
 
-        int CurrentSpinnerValue = (int) Spinner_mese.getValue();
+        int CurrentSpinnerValue = getCurrentSpinnerValue_Mese(mainFrame);
+        int CurrentSpinnerValue_Anno = getCurrentSpinnerValue_Anno(mainFrame);
 
         mainFrame.getSecondField_label().setText("Percetuale mensile");
-        int totale_speaker = Istituzione_DAO.getDAO().allKeynoteSpeaker();
-        mainFrame.getSecondField_outputArea().setText(String.valueOf(totale_speaker));
-        int totale_speaker_forIstituzione = Istituzione_DAO.getDAO().countKeynoteSpeaker_byIstituzione(CurrentSpinnerValue, SelectedIstituzione);
-        mainFrame.getThirdField_outputArea().setText(String.valueOf(totale_speaker_forIstituzione));
+        setPercentualeMensile(mainFrame, SelectedIstituzione, CurrentSpinnerValue, CurrentSpinnerValue_Anno);
         mainFrame.getThirdField_label().setText("Percentuale annuale");
+        setPercentualeAnnuale(mainFrame, SelectedIstituzione, CurrentSpinnerValue_Anno);
     }
 
+    private void setPercentualeMensile(CF_MainFrame mainFrame, Istituzione SelectedIstituzione, int CurrentSpinnerValue, int CurrentSpinnerValue_Anno) {
+        int totale_speakerformonth = Istituzione_DAO.getDAO().allKeynoteSpeakerformonth(CurrentSpinnerValue, CurrentSpinnerValue_Anno);
+        int totale_speaker_forIstituzione = Istituzione_DAO.getDAO().countKeynoteSpeaker_byIstituzioneformonth(CurrentSpinnerValue, SelectedIstituzione, CurrentSpinnerValue_Anno);
+        if(totale_speakerformonth != 0) {
+            int percentuale_mensile = (totale_speaker_forIstituzione * 100) / totale_speakerformonth;
+            mainFrame.getSecondField_outputArea().setText(percentuale_mensile+"%");
+        }
+        else
+            mainFrame.getSecondField_outputArea().setText("0%");
+    }
 
+    private void setPercentualeAnnuale(CF_MainFrame mainFrame, Istituzione SelectedIstituzione, int CurrentSpinnerValue_Anno) {
+        int totale_speakerforyear = Istituzione_DAO.getDAO().allKeynoteSpeakerforyear(CurrentSpinnerValue_Anno);
+        int totale_speaker_forIstituzione = Istituzione_DAO.getDAO().countKeynoteSpeaker_byIstituzioneforyear(SelectedIstituzione, CurrentSpinnerValue_Anno);
+        if(totale_speakerforyear != 0) {
+            int percentuale_mensile = (totale_speaker_forIstituzione * 100) / totale_speakerforyear;
+            mainFrame.getThirdField_outputArea().setText(percentuale_mensile+"%");
+        }
+        else
+            mainFrame.getThirdField_outputArea().setText("0%");
+    }
+
+    private int getCurrentSpinnerValue_Mese(CF_MainFrame mainFrame) {
+        JSpinner Spinner_mese = mainFrame.getMeseSpinner();
+        return (int) Spinner_mese.getValue();
+    }
+
+    private int getCurrentSpinnerValue_Anno(CF_MainFrame mainFrame) {
+        JSpinner Spinner_anno = mainFrame.getAnnoSpinner();
+        return (int) Spinner_anno.getValue();
+    }
 
     private void Hide_Istituzione_UnusedFields(CF_MainFrame mainFrame) {
         mainFrame.getFourthField_label().setVisible(false);
@@ -120,8 +150,17 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Utenti_UnusedComp(CF_MainFrame mainFrame) {
+        Hide_percentualeComponents(mainFrame);
         mainFrame.getFirstList_Panel().setVisible(false);
     }
+
+    private void Hide_percentualeComponents(CF_MainFrame mainFrame) {
+        mainFrame.getAnnoSpinner().setVisible(false);
+        mainFrame.getMeseSpinner().setVisible(false);
+        mainFrame.getLabelMese().setVisible(false);
+        mainFrame.getLabelAnno().setVisible(false);
+    }
+
     //Conferenza's details setting methods
     private void setFields_inDetPanel_forConferenza(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
         Conferenza SelectedConferenza = (Conferenza) Current_Main_outputList.get(CurrentSpinnerValue);
@@ -154,6 +193,7 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Conferenza_UnusedComp(CF_MainFrame MainFrame) {
+        Hide_percentualeComponents(MainFrame);
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
     }
@@ -171,6 +211,7 @@ public class DetailsPanel_setter {
     }
 
     private void Hide_Sede_UnusedComp(CF_MainFrame MainFrame) {
+        Hide_percentualeComponents(MainFrame);
         MainFrame.getThirdField_label().setVisible(false);
         MainFrame.getThirdField_outputArea().setVisible(false);
         MainFrame.getFourthField_label().setVisible(false);
