@@ -32,6 +32,8 @@ public class Controller {
     private final DefaultListModel<ModelClass> dlModel11;
     private final DefaultListModel<ModelClass> dlModel12;
     private final DefaultListModel<ModelClass> dlModel14;
+    private final DefaultListModel<String> dlModel12i;
+    private final DefaultListModel<Integer> dlModel14i;
 
     public static void main(String[] args) {
         try {
@@ -51,15 +53,19 @@ public class Controller {
         dlModel11 = AddEditClassFrame.getDlModel11();
         dlModel12 = AddEditClassFrame.getDlModel12();
         dlModel14 = AddEditClassFrame.getDlModel14();
+        dlModel12i = AddEditClassFrame.getDlModel12i();
+        dlModel14i = AddEditClassFrame.getDlModel14i();
         NewLocazioneFrame = new CF_NewLocazioneFrame(this);
         NewSponsorFrame = new CF_NewSponsorFrame(this);
-        AddEditFrame_controller = new AddEditFrameAppearanceController(this);
-        NewSessioneFrame = new CF_NewSessioneFrame(this, AddEditFrame_controller);
+        NewSessioneFrame = new CF_NewSessioneFrame(this);
+        NewLoginFrame = new CF_LoginFrame(this);
 
+        AddEditFrame_controller = new AddEditFrameAppearanceController(this);
         login_controller = new UserLogin_Controller(this);
         instInsert_controller = new InstanceInsert_Controller(this);
         addEdit_checksController = new AddEdit_ChecksController(this);
-        NewLoginFrame = new CF_LoginFrame(this);
+
+
         MainFrame = new CF_MainFrame(this);
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
     }
@@ -220,6 +226,7 @@ public class Controller {
 
 
     public void addButton_clicked(){
+        SwitchAddEditButton(false);
         AddInstanceFrame_initialization();
         if(MainFrame.getLoginButton().isVisible()) {
             NewLoginFrame.setVisible(true);
@@ -229,7 +236,6 @@ public class Controller {
     }
 
     private void AddInstanceFrame_initialization() {
-        MainFrame.getAddButton().setEnabled(false);
         ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         AddEditFrame_controller.ChoiceClassAdd(ClassSelected);
         AddEditClassFrame.getObjectAdded_label().setText("Aggiungi " + ClassSelected);
@@ -240,8 +246,7 @@ public class Controller {
         {
             AddEditClassFrame.setVisible(false);
             EmptyComboboxInAddFrame();
-            MainFrame.getAddButton().setEnabled(true);
-
+            SwitchAddEditButton(true);
         }
     }
 
@@ -459,11 +464,44 @@ public class Controller {
     }
 
     public void LocaleButtonClicked() {
-        AddEditFrame_controller.switchLocaleButton(true);
+        AddEditFrame_controller.switchLocaleButton(false);
     }
 
     public void ScientificoButtonClicked() {
-        AddEditFrame_controller.switchLocaleButton(false);
+        AddEditFrame_controller.switchLocaleButton(true);
+    }
+
+    public void textField9_contentChange(String textImporto) {
+        boolean b = addEdit_checksController.CheckCorrectImporto(textImporto);
+        AddEditFrame_controller.EnableSponsorAdd(b);
+    }
+
+    public void AlignLists(JList clickedList, JList otherList) {
+        if(otherList.getSelectedIndex() != clickedList.getSelectedIndex()){
+            otherList.setSelectedIndex(clickedList.getSelectedIndex());
+        }
+    }
+
+    public void editButtonClicked() {
+        SwitchAddEditButton(false);
+        EditInstanceFrame_initialization();
+        if(MainFrame.getLoginButton().isVisible()) {
+            NewLoginFrame.setVisible(true);
+        } else {
+            AddEditClassFrame.setVisible(true);
+        }
+    }
+
+    private void SwitchAddEditButton(boolean b) {
+        MainFrame.getEditButton().setEnabled(b);
+        MainFrame.getAddButton().setEnabled(b);
+    }
+
+    private void EditInstanceFrame_initialization() {
+        ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        AddEditFrame_controller.ChoiceClassAdd(ClassSelected);
+        AddEditFrame_controller.setValuesForObjectToEdit(ClassSelected);
+        AddEditClassFrame.getObjectAdded_label().setText("Modifica " + ClassSelected);
     }
 
     public void meseSpinner_Changed() {

@@ -29,6 +29,8 @@ public class InstanceInsert_Controller {
     private final DefaultListModel<ModelClass> dlModel11;
     private final DefaultListModel<ModelClass> dlModel12;
     private final DefaultListModel<ModelClass> dlModel14;
+    private final DefaultListModel<String> dlModel12i;
+    private final DefaultListModel<Integer> dlModel14i;
 
     public InstanceInsert_Controller(Controller c){
         business_logic = c;
@@ -37,6 +39,12 @@ public class InstanceInsert_Controller {
         dlModel11 = AddEditClassFrame.getDlModel11();
         dlModel12 = AddEditClassFrame.getDlModel12();
         dlModel14 = AddEditClassFrame.getDlModel14();
+        dlModel12i = AddEditClassFrame.getDlModel12i();
+        dlModel14i = AddEditClassFrame.getDlModel14i();
+    }
+
+    public void setChecksBL(AddEdit_ChecksController checksBL) {
+        this.checksBL = checksBL;
     }
 
     //CASO CONFERENZA:
@@ -123,32 +131,46 @@ public class InstanceInsert_Controller {
     private void InsertConfOrganizzatori() throws InsertFailedException {
         Conf_Organ confOrgan = new Conf_Organ();
         confOrgan.setConferenza(((Conferenza) CurrentOggetto));
-        confOrgan.setComitato(getComitato());
         for(int i = 0; i < dlModel12.getSize(); i++){
-            confOrgan.setOrganizzatore((Organizzatore) dlModel12.getElementAt(i));
+            confOrgan.setOrganizzatore(getOrganizzatore(i));
+            confOrgan.setComitato(getComitato(i));
             Conf_Organ_DAO.getDAO().Insert(confOrgan);
         }
     }
 
-    private String getComitato() {
-        if(AddEditClassFrame.getLocaleButton().isEnabled())
-            return "Locale";
-        else
-            return "Scientifico";
+    private Organizzatore getOrganizzatore(int i) {
+        return (Organizzatore) dlModel12.getElementAt(i);
+    }
+
+    private String getComitato(int i) {
+        return  dlModel12i.getElementAt(i);
     }
 
     private void InsertConfSponsors() throws InsertFailedException {
         Conf_Sponsor conf_sponsor = new Conf_Sponsor();
         conf_sponsor.setConferenza(((Conferenza) CurrentOggetto));
-        conf_sponsor.setImporto(BigDecimal.valueOf(0));
         for(int i = 0; i < dlModel14.getSize(); i++){
-            Sponsor sponsor = ((Sponsor) dlModel14.getElementAt(i));
+            Sponsor sponsor = getSponsor(i);
             conf_sponsor.setSponsor(sponsor);
-            try{
-                Sponsor_DAO.getDAO().Insert(sponsor);
-            }catch (InsertFailedException ignored){}
+            conf_sponsor.setImporto(getImporto(i));
+
+            trySponsorInsert(sponsor);
             Conf_Sponsor_DAO.getDAO().Insert(conf_sponsor);
         }
+    }
+
+    private void trySponsorInsert(Sponsor sponsor) {
+        try{
+            Sponsor_DAO.getDAO().Insert(sponsor);
+        }catch (InsertFailedException ignored){}
+    }
+
+    private Sponsor getSponsor(int i) {
+        return ((Sponsor) dlModel14.getElementAt(i));
+    }
+
+    private BigDecimal getImporto(int i) {
+        return BigDecimal.valueOf(dlModel14i.getElementAt(i));
     }
 
     //CASO SEDE:

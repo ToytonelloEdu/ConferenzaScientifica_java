@@ -28,6 +28,8 @@ public class AddEditFrameAppearanceController {
     private final DefaultListModel<ModelClass> dlModel11;
     private final DefaultListModel<ModelClass> dlModel12;
     private final DefaultListModel<ModelClass> dlModel14;
+    private final DefaultListModel<String> dlModel12i;
+    private final DefaultListModel<Integer> dlModel14i;
 
     public AddEditFrameAppearanceController(Controller c) {
         business_logic = c;
@@ -39,6 +41,8 @@ public class AddEditFrameAppearanceController {
         dlModel11 = AddEditClassFrame.getDlModel11();
         dlModel12 = AddEditClassFrame.getDlModel12();
         dlModel14 = AddEditClassFrame.getDlModel14();
+        dlModel12i = AddEditClassFrame.getDlModel12i();
+        dlModel14i = AddEditClassFrame.getDlModel14i();
     }
 
     public DefaultListModel<ModelClass> getDlModel10() {
@@ -460,14 +464,31 @@ public class AddEditFrameAppearanceController {
 
     public void AddSelectedItemToList12() {
         ModelClass selectedItem12 = (ModelClass) AddEditClassFrame.getSelect_comboBox12().getSelectedItem();
-        if(!dlModel12.contains(selectedItem12))
+        if(!dlModel12.contains(selectedItem12)) {
             dlModel12.addElement(selectedItem12);
+            dlModel12i.addElement(getComitato());
+        }
+    }
+
+    private String getComitato() {
+        if(AddEditClassFrame.getLocaleButton().isEnabled())
+            return "Scientifico";
+        else
+            return "Locale";
     }
 
     public void AddSelectedItemToList14() {
         ModelClass selectedItem14 = (ModelClass) AddEditClassFrame.getSelect_comboBox14().getSelectedItem();
-        if(!dlModel14.contains(selectedItem14))
+        if(!dlModel14.contains(selectedItem14)) {
             dlModel14.addElement(selectedItem14);
+            dlModel14i.addElement(getImporto());
+        }
+    }
+
+    private Integer getImporto() {
+        Integer importo = Integer.parseInt(AddEditClassFrame.getTextField9().getText());
+        AddEditClassFrame.getTextField9().setText("");
+        return importo;
     }
 
     public void newButton14Clicked() {
@@ -678,5 +699,13 @@ public class AddEditFrameAppearanceController {
     public void switchLocaleButton(boolean b) {
         AddEditClassFrame.getLocaleButton().setEnabled(b);
         AddEditClassFrame.getScientificoButton().setEnabled(!b);
+        AddEditClassFrame.getAddButton12().setEnabled(true);
+    }
+
+    public void EnableSponsorAdd(boolean b) {
+        AddEditClassFrame.getAddButton14().setEnabled(b);
+    }
+
+    public void setValuesForObjectToEdit(String classSelected) {
     }
 }

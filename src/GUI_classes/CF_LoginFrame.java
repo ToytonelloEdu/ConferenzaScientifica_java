@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CF_LoginFrame extends JFrame{
-    private Controller business_logic;
+    private final Controller business_logic;
     private JPanel HomePanel;
     private JTextField textField1;
     private JTextField textField2;

@@ -28,6 +28,7 @@ public class AddEdit_ChecksController {
 
     public AddEdit_ChecksController(Controller c){
         business_logic = c;
+        business_logic.instInsert_controller.setChecksBL(this);
         AddEditClassFrame = business_logic.AddEditClassFrame;
         NewSessioneFrame = business_logic.NewSessioneFrame;
     }
@@ -333,5 +334,15 @@ public class AddEdit_ChecksController {
                 NewSessioneFrame.getTextField4().getText().equals("") ||
                 ((NewSessioneFrame.getTextField5().getText().equals("") && NewSessioneFrame.getTextField6().getText().equals(""))
                         && NewSessioneFrame.getPausaButton().isEnabled());
+    }
+
+    public boolean CheckCorrectImporto(String textImporto) {
+
+        try {
+            Integer.parseInt(textImporto);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

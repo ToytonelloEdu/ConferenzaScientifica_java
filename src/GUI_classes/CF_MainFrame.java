@@ -121,6 +121,12 @@ public class CF_MainFrame extends JFrame {
                 business_logic.meseSpinner_Changed();
             }
         });
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                   business_logic.editButtonClicked();
+            }
+        });
     }
 
     private CF_MainFrame MainFrame_setUp() {

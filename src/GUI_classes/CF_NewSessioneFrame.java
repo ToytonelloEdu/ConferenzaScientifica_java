@@ -12,7 +12,6 @@ import java.util.List;
 
 public class CF_NewSessioneFrame extends JFrame {
     private final Controller business_logic;
-    private final AddEditFrameAppearanceController AddEdit_bl;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -61,10 +60,8 @@ public class CF_NewSessioneFrame extends JFrame {
     private final DefaultListModel<Evento> EvDLModel = new DefaultListModel<>();
     private String EventoSelected;
 
-    public CF_NewSessioneFrame(Controller c, AddEditFrameAppearanceController aic){
+    public CF_NewSessioneFrame(Controller c){
         business_logic = c;
-        AddEdit_bl = aic;
-        AddEdit_bl.setNewSessioneFrame(this);
         list1.setModel(EvDLModel);
         for(Component comp : EventoData_JPanel.getComponents()){
             EventoDataComponents.add((JComponent) comp);

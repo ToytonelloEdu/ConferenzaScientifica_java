@@ -4,6 +4,7 @@ import Business_Logic.Controller;
 import Model_classes.ModelClass;
 
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,7 +98,6 @@ public class CF_AddEditClassFrame extends JFrame {
     public CF_AddEditClassFrame(Controller c) {
         business_logic = c;
         CF_AddEditClassFrame FrameHolder = AddIstanceClassFrame_setup();
-
 
 
         leftButton9Button.addActionListener(e -> business_logic.PartecipanteButtonClicked());
@@ -200,6 +200,32 @@ public class CF_AddEditClassFrame extends JFrame {
                 business_logic.ScientificoButtonClicked();
             }
         });
+        textField9.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                business_logic.textField9_contentChange(textField9.getText());
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                business_logic.textField9_contentChange(textField9.getText());
+
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                business_logic.textField9_contentChange(textField9.getText());
+            }
+        });
+        SelectedItems_list14.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                business_logic.AlignLists(SelectedItems_list14, SelectedItems_infoList14);
+            }
+        });
+        SelectedItems_infoList14.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                business_logic.AlignLists(SelectedItems_infoList14, SelectedItems_list14);
+            }
+        });
     }
 
     private CF_AddEditClassFrame AddIstanceClassFrame_setup() {
@@ -272,6 +298,10 @@ public class CF_AddEditClassFrame extends JFrame {
 
     public JTextField getTextField8() {
         return textField8;
+    }
+
+    public JTextField getTextField9() {
+        return textField9;
     }
 
     public JLabel getLabel1() {
@@ -442,6 +472,14 @@ public class CF_AddEditClassFrame extends JFrame {
         return SelectedItems_infoList14;
     }
 
+    public DefaultListModel<String> getDlModel12i() {
+        return dlModel12i;
+    }
+
+    public DefaultListModel<Integer> getDlModel14i() {
+        return dlModel14i;
+    }
+
     public void EraseAllFieldsAndJLists() {
         for(JComponent comp: getDataInsertComponentList()){
             try{
@@ -453,5 +491,7 @@ public class CF_AddEditClassFrame extends JFrame {
         dlModel11.clear();
         dlModel12.clear();
         dlModel14.clear();
+        dlModel12i.clear();
+        dlModel14i.clear();
     }
 }
