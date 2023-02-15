@@ -61,7 +61,7 @@ public class CF_MainFrame extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.MainFrame_searchButton_clicked(MainFrame_holder);
+                business_logic.MainFrame_searchButton_clicked();
             }
         });
         Class_comboBox.addActionListener(new ActionListener() {

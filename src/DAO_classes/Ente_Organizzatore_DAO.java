@@ -46,14 +46,7 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
 
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_org");
 
-            while (LocalRS.next()){
-                Conferenza conferenza_temp = Conferenza_DAO.getDAO().getByPK(LocalRS.getInt("conferenza"));
-                Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(LocalRS.getInt("istituzione"));
-
-                Ente_organizzatore Enteorg_temp = this.setEnteorg_tempFields(conferenza_temp, istituzione_temp);
-                AllEnte_organizzatore.add(Enteorg_temp);
-            }
-            return AllEnte_organizzatore;
+            return getEntesFromResultSet(AllEnte_organizzatore, LocalRS);
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
@@ -63,7 +56,31 @@ public class Ente_Organizzatore_DAO implements CompPK_DaoClass {
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        List<ModelClass> AllEnte_organizzatore = new ArrayList<>();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Ente_org WHERE "+Attr_in+" = "+Value_in+";");
+
+            return getEntesFromResultSet(AllEnte_organizzatore, LocalRS);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
+
+    }
+
+    private List<ModelClass> getEntesFromResultSet(List<ModelClass> allEnte_organizzatore, ResultSet localRS) throws SQLException {
+        while (localRS.next()){
+            Conferenza conferenza_temp = Conferenza_DAO.getDAO().getByPK(localRS.getInt("conferenza"));
+            Istituzione istituzione_temp = Istituzione_DAO.getDAO().getByPK(localRS.getInt("istituzione"));
+
+            Ente_organizzatore Enteorg_temp = this.setEnteorg_tempFields(conferenza_temp, istituzione_temp);
+            allEnte_organizzatore.add(Enteorg_temp);
+        }
+        return allEnte_organizzatore;
     }
 
     private Ente_organizzatore setEnteorg_tempFields(Conferenza conferenza_temp, Istituzione istituzione_temp)throws SQLException {

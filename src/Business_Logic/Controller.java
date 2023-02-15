@@ -24,6 +24,7 @@ public class Controller {
     CF_LoginFrame NewLoginFrame;
     UserLogin_Controller login_controller;
     InstanceInsert_Controller instInsert_controller;
+    InstanceUpdate_Controller instUpdate_controller;
     AddEdit_ChecksController addEdit_checksController;
     dbAccess_byClassName dbAccess_instance = new dbAccess_byClassName();
     String ClassSelected;
@@ -63,6 +64,7 @@ public class Controller {
         AddEditFrame_controller = new AddEditFrameAppearanceController(this);
         login_controller = new UserLogin_Controller(this);
         instInsert_controller = new InstanceInsert_Controller(this);
+        instUpdate_controller = new InstanceUpdate_Controller(this);
         addEdit_checksController = new AddEdit_ChecksController(this);
 
 
@@ -70,30 +72,34 @@ public class Controller {
         MainFrame.getDetPanel_FirstList().setModel(detailsPanel_setter.getdListModel());
     }
 
+    private ModelClass getCurrentOggetto(){
+        return Current_Main_outputList.get((Integer) MainFrame.getSelection_spinner().getValue() - 1);
+    }
+
     private boolean isEmpty(JTextComponent text_Comp) {
         return text_Comp.getText().equals("");
     }
 
-    public void MainFrame_searchButton_clicked(CF_MainFrame Frame) {
+    public void MainFrame_searchButton_clicked() {
         detailsPanel_setter.getdListModel().clear();
-        Frame.getOutput_TextArea().setText("");
-        String Class_SearchIn_str = (String) Frame.getClass_comboBox().getSelectedItem();
-        if(isEmpty(Frame.getSearch_textField()) || isNo_filter()){
-            Current_Main_outputList = setOutput_textArea_noFilter(Frame, Class_SearchIn_str);
+        MainFrame.getOutput_TextArea().setText("");
+        String Class_SearchIn_str = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        if(isEmpty(MainFrame.getSearch_textField()) || isNo_filter()){
+            Current_Main_outputList = setOutput_textArea_noFilter(MainFrame, Class_SearchIn_str);
         }
         else{
-            Current_Main_outputList = setOutput_textArea_Filtered(Frame, Class_SearchIn_str);
+            Current_Main_outputList = setOutput_textArea_Filtered(MainFrame, Class_SearchIn_str);
         }
         try {
             if (!(Current_Main_outputList.isEmpty()))
-                detailsPanel_setter.setDetailPanel_onSearch(MainFrame, Current_Main_outputList);
+                detailsPanel_setter.setDetailPanel_onSearch(this.MainFrame, Current_Main_outputList);
         }catch (NullPointerException e){
-            MainFrame.getDetails_panel().setVisible(false);
+            this.MainFrame.getDetails_panel().setVisible(false);
         }
     }
 
     private boolean isNo_filter() {
-        return ((String) MainFrame.getAttribute_comboBox().getSelectedItem()).equals("No Filter");
+        return MainFrame.getAttribute_comboBox().getSelectedItem().equals("No Filter");
     }
 
 
@@ -236,6 +242,7 @@ public class Controller {
     }
 
     private void AddInstanceFrame_initialization() {
+        AddEditClassFrame.setEditModeB(false);
         ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         AddEditFrame_controller.ChoiceClassAdd(ClassSelected);
         AddEditClassFrame.getObjectAdded_label().setText("Aggiungi " + ClassSelected);
@@ -246,6 +253,7 @@ public class Controller {
         {
             AddEditClassFrame.setVisible(false);
             EmptyComboboxInAddFrame();
+            AddEditClassFrame.EraseAllFieldsAndJLists();
             SwitchAddEditButton(true);
         }
     }
@@ -267,14 +275,29 @@ public class Controller {
         AddEditClassFrame.getRightButton9Button().setEnabled(false);
     }
 
-    public void NewButton11Clicked() {
-        if(ClassSelected.equals("Sede")){
-            NewLocazioneFrame.setVisible(true);
+    public void NewButton11Clicked(Boolean editModeB) {
+        switch (ClassSelected) {
+            case "Sede" -> NewLocazioneFrame.setVisible(true);
+            case "Conferenza" -> {
+                NewSessioneFrame.setEditModeB(false);
+                AddEditFrame_controller.NewSessioneFrameSetUp();
+                NewSessioneFrame.setVisible(true);
+            }
         }
-        else if (ClassSelected.equals("Conferenza")){
-            AddEditFrame_controller.NewSessioneFrameSetUp();
-            NewSessioneFrame.setVisible(true);
+    }
+
+    public void EditButton11_Clicked(Boolean editModeB) {
+        switch (ClassSelected) {
+            case "Sede" -> NewLocazioneFrame.setVisible(true);
+            case "Conferenza" -> {
+                NewSessioneFrame.setEditModeB(true);
+                AddEditFrame_controller.NewSessioneFrameSetUp();
+                Sessione sessToEdit = AddEditFrame_controller.SetValuesForSessioneToEdit();
+                NewSessioneFrame.setOldSessione(sessToEdit);
+                NewSessioneFrame.setVisible(true);
+            }
         }
+
     }
 
     public void confermaButtonClicked() {
@@ -286,30 +309,70 @@ public class Controller {
         }
     }
 
-    public void removeButtonClicked(){
-        AddEditFrame_controller.RemoveSelectedItemFromList11();
+    public void removeButton11Clicked(Boolean editModeB){
+        try {
+            ModelClass DelObj = AddEditFrame_controller.RemoveSelectedItemFromList11();
+            if(dlModel11.isEmpty())
+                AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
+            if(editModeB)
+                instUpdate_controller.AddObjectToDelete(ClassSelected, DelObj);
+        } catch (DataInsertedException ignored) {}
     }
 
-    public void addButton10_clicked() {
-        AddEditFrame_controller.AddSelectedItemToList10();
+    public void addButton10_clicked(Boolean editModeB) {
+        try {
+            ModelClass InsObj = AddEditFrame_controller.AddSelectedItemToList10();
+            if(editModeB)
+                instUpdate_controller.AddObjectToInsert10(ClassSelected, InsObj);
+        } catch (DataInsertedException ignored) {}
     }
 
-    public void addButton14_clicked(){ AddEditFrame_controller.AddSelectedItemToList14();}
 
-    public void addButton12_clicked(){ AddEditFrame_controller.AddSelectedItemToList12();}
+    public void addButton12_clicked(Boolean editModeB){
+        try {
+            ModelClass InsObj = AddEditFrame_controller.AddSelectedItemToList12();
+            if(editModeB)
+                instUpdate_controller.AddObjectToInsert12(ClassSelected, InsObj, AddEditFrame_controller.getComitato());
+        } catch (DataInsertedException ignored) {}
+    }
+
+
+    public void addButton14_clicked(Boolean editModeB){
+        try {
+            ModelClass InsObj = AddEditFrame_controller.AddSelectedItemToList14();
+            if (editModeB)
+                instUpdate_controller.AddObjectToInsert14(ClassSelected, InsObj, AddEditFrame_controller.getImporto());
+            AddEditFrame_controller.ClearImporto();
+        }catch (DataInsertedException ignored){}
+    }
+
+    public void removeButton10_clicked(Boolean editModeB){
+        try {
+            ModelClass DelObj = AddEditFrame_controller.RemoveSelectedItemFromList10();
+            if(editModeB)
+                instUpdate_controller.AddObjectToDelete10(ClassSelected, DelObj);
+        } catch (DataInsertedException ignored) {}
+    }
+
+    public void removeButton12_clicked(Boolean editModeB){
+        try {
+            String comitato = AddEditFrame_controller.getComitatoSelected();
+            ModelClass DelObj = AddEditFrame_controller.RemoveSelectedItemFromList12();
+            if(editModeB)
+                instUpdate_controller.AddObjectToDelete12(ClassSelected, DelObj, comitato);
+        } catch (DataInsertedException ignored) {}
+    }
+    public void removeButton14_clicked(Boolean editModeB){
+        try {
+            Integer importo = AddEditFrame_controller.getImportoSelected();
+            ModelClass DelObj = AddEditFrame_controller.RemoveSelectedItemFromList14();
+            if(editModeB)
+                instUpdate_controller.AddObjectToDelete14(ClassSelected, DelObj, importo);
+        } catch (DataInsertedException ignored) {}
+    }
 
     public void newButton14_clicked() {
-        AddEditFrame_controller.newButton14Clicked();
-    }
-
-    public void removeButton10_clicked(){
-        AddEditFrame_controller.RemoveSelectedItemFromList10();
-    }
-    public void removeButton12_clicked(){
-        AddEditFrame_controller.RemoveSelectedItemFromList12();
-    }
-    public void removeButton14_clicked(){
-        AddEditFrame_controller.RemoveSelectedItemFromList14();
+        AddEditFrame_controller.ShowNewSponsorFrame();
     }
 
 
@@ -357,7 +420,7 @@ public class Controller {
         int risposta = JOptionPane.showConfirmDialog(MainFrame.getDetails_panel(), "Vuoi cancellare l'oggetto: "+ CurrentObjectOutput +"?");
         if(risposta == 0) {
             CurrentObjectOutput.getDao().Delete(CurrentObjectOutput);
-            MainFrame_searchButton_clicked(MainFrame);
+            MainFrame_searchButton_clicked();
         }
         MainFrame.getDeleteButton().setEnabled(true);
     }
@@ -384,8 +447,12 @@ public class Controller {
     public void NewSpons_confermaButtonClicked() {
         NewSponsorFrame.getConfermaButton().setEnabled(false);
         if(addEdit_checksController.NoCampiVuoti_forSpons(NewSponsorFrame)) {
+            Integer importo = instInsert_controller.getImporto(NewSponsorFrame);
+            AddEditFrame_controller.AddNewImportoToJList(importo);
             Sponsor tempSponsor = instInsert_controller.createSponsor(NewSponsorFrame);
             AddEditFrame_controller.AddNewSponsToJList(tempSponsor);
+            if(AddEditClassFrame.getEditModeB())
+                instUpdate_controller.AddObjectToInsert14(ClassSelected, tempSponsor, importo);
         }
         else
             JOptionPane.showMessageDialog(NewSponsorFrame, "Dati mancanti");
@@ -403,15 +470,29 @@ public class Controller {
         AddEditFrame_controller.Select_pausaButton();
     }
 
-    public void NewSess_AnnullaButton_clicked() {
+    public void NewSess_AnnullaButton_clicked(Boolean editModeB) {
         AddEditFrame_controller.HideNewSessFrame();
+        if(editModeB){
+            NewSessioneFrame.setEditModeB(false);
+            NewSessioneFrame.setOldSessione(null);
+        }
     }
 
-    public void NewSess_ConfermaButtonClicked() {
+
+    public void NewSess_ConfermaButtonClicked(Boolean SessEditModeB, Sessione oldSessione) {
         try {
             if (CheckSessioneInserted()) {
                 Sessione tempSessione = instInsert_controller.createSessione(NewSessioneFrame);
                 AddEditFrame_controller.InsertNewSessioneInJList(tempSessione);
+                if(SessEditModeB) {
+                    AddEditFrame_controller.RemoveOldSessioneFromJList(oldSessione);
+                }
+                if(AddEditClassFrame.getEditModeB()){
+                    instUpdate_controller.setConfDiSessione(tempSessione);
+                    instUpdate_controller.AddObjectToInsert(tempSessione);
+                    instUpdate_controller.AddObjectToDelete(ClassSelected, oldSessione);
+                }
+
             }
         }
         catch (IllegalArgumentException ile){
@@ -498,10 +579,17 @@ public class Controller {
     }
 
     private void EditInstanceFrame_initialization() {
+        ModelClass CurrentObject = getCurrentObject();
+        AddEditClassFrame.setEditModeB(true);
         ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         AddEditFrame_controller.ChoiceClassAdd(ClassSelected);
-        AddEditFrame_controller.setValuesForObjectToEdit(ClassSelected);
+        AddEditFrame_controller.setValuesForObjectToEdit(ClassSelected, CurrentObject);
         AddEditClassFrame.getObjectAdded_label().setText("Modifica " + ClassSelected);
+        instUpdate_controller.setOldOggetto(CurrentObject);
+    }
+
+    private ModelClass getCurrentObject(){
+        return Current_Main_outputList.get((Integer) MainFrame.getSelection_spinner().getValue() - 1);
     }
 
     public void meseSpinner_Changed() {
@@ -510,5 +598,34 @@ public class Controller {
 
     public void annoSpinner_Changed() {
         detailsPanel_setter.aggiornaPercentualeIstituzione(MainFrame, Current_Main_outputList);
+    }
+
+    public void CheckButtonClickedForEdit() {
+        try {
+            AddEditFrame_controller.EnableConf_SessioneAdd(isConfDateCorrect(getCurrentOggetto()));
+        } catch (ParseException ignored) {}
+        catch(DataInsertedException die){
+            AddEditFrame_controller.EnableConf_SessioneAdd(false);
+            JOptionPane.showMessageDialog(AddEditClassFrame, die.getMessage());
+        }
+    }
+
+    private boolean isConfDateCorrect(ModelClass currentOggetto) throws ParseException {
+        return addEdit_checksController.CheckDateConferenzaForEdit(currentOggetto);
+    }
+
+    public void confermaButtonClickedForEdit() {
+        switch (ClassSelected){
+            case "Sede" -> instUpdate_controller.UpdateSede_Control();
+            case "Conferenza" -> instUpdate_controller.UpdateConferenza_Control();
+            case "Istituzione" -> instUpdate_controller.UpdateIstituzione_Control();
+            case "Utente", "Organizzatore", "Partecipante" -> instUpdate_controller.UpdateUtente_Control();
+        }
+    }
+
+    public void importoField_contentChange(String textImporto) {
+        boolean b = addEdit_checksController.CheckCorrectImporto(textImporto);
+        NewSponsorFrame.getConfermaButton().setEnabled(b);
+
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
 
 public class CF_NewSessioneFrame extends JFrame {
     private final Controller business_logic;
+    private Boolean EditModeB;
+    private Sessione OldSessione;
     private JPanel MainPanel;
     private JTextField textField1;
     private JTextField textField2;
@@ -95,13 +97,13 @@ public class CF_NewSessioneFrame extends JFrame {
         annullaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.NewSess_AnnullaButton_clicked();
+                business_logic.NewSess_AnnullaButton_clicked(EditModeB);
             }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.NewSess_ConfermaButtonClicked();
+                business_logic.NewSess_ConfermaButtonClicked(EditModeB, OldSessione);
             }
         });
         aggiungiButton.addActionListener(new ActionListener() {
@@ -150,6 +152,18 @@ public class CF_NewSessioneFrame extends JFrame {
                 business_logic.NewSess_DateTextFieldsExited();
             }
         });
+    }
+
+    public Boolean getEditModeB() {
+        return EditModeB;
+    }
+
+    public void setEditModeB(Boolean editModeB) {
+        EditModeB = editModeB;
+    }
+
+    public void setOldSessione(Sessione oldSessione) {
+        OldSessione = oldSessione;
     }
 
     public DefaultListModel<Evento> getEvDLModel() {

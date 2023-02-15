@@ -21,6 +21,12 @@ public class Conf_Sponsor implements ModelClass{
         this.importo = new BigDecimal(importo);
     }
 
+    public Conf_Sponsor(Conferenza conferenza, Sponsor sponsor, BigDecimal importo) {
+        this.conferenza = conferenza;
+        this.sponsor = sponsor;
+        this.importo = importo;
+    }
+
     public Conferenza getConferenza() {
         return conferenza;
     }

@@ -4,6 +4,7 @@ import DAO_classes.Istituzione_DAO;
 import DAO_classes.Locazione_DAO;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Istituzione implements ModelClass{
 
@@ -70,5 +71,23 @@ public class Istituzione implements ModelClass{
     @Override
     public String toString() {
         return Nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Istituzione that = (Istituzione) o;
+
+        if (!Objects.equals(Nome, that.Nome)) return false;
+        return Objects.equals(Nazione, that.Nazione);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Nome != null ? Nome.hashCode() : 0;
+        result = 31 * result + (Nazione != null ? Nazione.hashCode() : 0);
+        return result;
     }
 }

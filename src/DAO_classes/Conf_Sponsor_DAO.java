@@ -2,6 +2,7 @@ package DAO_classes;
 
 import Exceptions.InsertFailedException;
 import Model_classes.*;
+import org.postgresql.util.PGmoney;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
@@ -64,6 +66,22 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        ArrayList<ModelClass> AllConf_Sponsor = new ArrayList<>();
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Sponsorizzazioni WHERE "+Attr_in+" = "+Value_in+";");
+
+            while (LocalRS.next()){
+                Conf_Sponsor Conf_Sponsor_temp = this.setConf_Sponsor_tempFields(LocalRS);
+                AllConf_Sponsor.add(Conf_Sponsor_temp);
+            }
+            return AllConf_Sponsor;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
@@ -172,9 +190,18 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
         Conferenza conferenza_temp = getConferenza_temp(localRS);
         Conf_Sponsor_temp.setConferenza(conferenza_temp);
 
-        Conf_Sponsor_temp.setImporto(BigDecimal.valueOf(localRS.getInt("importo")));
+        System.out.println(localRS.getMetaData().getColumnType(3));
+        Conf_Sponsor_temp.setImporto(getImporto(localRS));
 
         return Conf_Sponsor_temp;
+    }
+
+    private BigDecimal getImporto(ResultSet localRS) throws SQLException {
+        String imp = localRS.getString("importo");
+        imp = imp.replaceAll("\\.", "");
+        imp = imp.replaceAll(" €", "");
+        imp = imp.replaceAll(",", "\\.");
+        return BigDecimal.valueOf(Double.parseDouble(imp));
     }
 
     private Sponsor getSponsor_temp(ResultSet localRS) throws SQLException {

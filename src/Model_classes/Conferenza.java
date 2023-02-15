@@ -5,6 +5,7 @@ import DAO_classes.Conferenza_DAO;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Conferenza implements ModelClass {
     private String nome;
@@ -121,12 +122,32 @@ public class Conferenza implements ModelClass {
         return ret;
     }
 
-    private Conferenza castToConf(ModelClass o){
-        return (Conferenza) o;
-    }
-
     @Override
     public String toString() {
         return nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Conferenza that = (Conferenza) o;
+
+        if (!Objects.equals(nome, that.nome)) return false;
+        if (!Objects.equals(dataInizio, that.dataInizio)) return false;
+        if (!Objects.equals(dataFine, that.dataFine)) return false;
+        if (!Objects.equals(descrizione, that.descrizione)) return false;
+        return Objects.equals(collocazione, that.collocazione);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nome != null ? nome.hashCode() : 0;
+        result = 31 * result + (dataInizio != null ? dataInizio.hashCode() : 0);
+        result = 31 * result + (dataFine != null ? dataFine.hashCode() : 0);
+        result = 31 * result + (descrizione != null ? descrizione.hashCode() : 0);
+        result = 31 * result + (collocazione != null ? collocazione.hashCode() : 0);
+        return result;
     }
 }

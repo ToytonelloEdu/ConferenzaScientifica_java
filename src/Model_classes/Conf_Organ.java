@@ -7,14 +7,14 @@ import java.util.List;
 public class Conf_Organ implements ModelClass{
 
     private Conferenza conferenza;
-    private Utente organizzatore;
+    private Organizzatore organizzatore;
     private String comitato;
     private Conf_Organ_DAO dao = Conf_Organ_DAO.getDAO();
 
     public Conf_Organ(){
     }
 
-    public Conf_Organ(Conferenza conferenza, Utente organizzatore, String comitato){
+    public Conf_Organ(Conferenza conferenza, Organizzatore organizzatore, String comitato){
         this.conferenza = conferenza;
         this.organizzatore = organizzatore;
         this.comitato = comitato;
@@ -28,11 +28,11 @@ public class Conf_Organ implements ModelClass{
         this.conferenza = conferenza;
     }
 
-    public Utente getOrganizzatore() {
+    public Organizzatore getOrganizzatore() {
         return organizzatore;
     }
 
-    public void setOrganizzatore(Utente organizzatore) {
+    public void setOrganizzatore(Organizzatore organizzatore) {
         this.organizzatore = organizzatore;
     }
 

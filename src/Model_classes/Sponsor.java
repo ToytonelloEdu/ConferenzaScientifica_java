@@ -2,6 +2,7 @@ package Model_classes;
 import DAO_classes.Sponsor_DAO;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Sponsor implements ModelClass{
 
@@ -64,5 +65,23 @@ public class Sponsor implements ModelClass{
     @Override
     public String toString() {
         return Nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sponsor sponsor = (Sponsor) o;
+
+        if (!Objects.equals(Nome, sponsor.Nome)) return false;
+        return Objects.equals(PartitaIVA, sponsor.PartitaIVA);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Nome != null ? Nome.hashCode() : 0;
+        result = 31 * result + (PartitaIVA != null ? PartitaIVA.hashCode() : 0);
+        return result;
     }
 }

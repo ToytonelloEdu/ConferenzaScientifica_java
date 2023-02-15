@@ -1,6 +1,7 @@
 package Business_Logic;
 
 import DAO_classes.*;
+import Exceptions.DataInsertedException;
 import GUI_classes.CF_AddEditClassFrame;
 import GUI_classes.CF_NewLocazioneFrame;
 import GUI_classes.CF_NewSessioneFrame;
@@ -13,8 +14,12 @@ import java.lang.*;
 import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 public class AddEditFrameAppearanceController {
     Controller business_logic;
@@ -81,6 +86,25 @@ public class AddEditFrameAppearanceController {
         setComboboxInterventistaforSessione();
         AddEditClassFrame.getNewButton11().setEnabled(false);
         AddEditClassFrame.getSelectOne_comboBox13().setEnabled(false);
+    }
+
+    public Sessione SetValuesForSessioneToEdit() {
+        Sessione sessione = (Sessione) AddEditClassFrame.getAddOnly_list11().getSelectedValue();
+        NewSessioneFrame.getTextField0().setText(sessione.getNome());
+        NewSessioneFrame.getTextField1().setText(sessione.getInizio().toLocalDate().toString());
+        NewSessioneFrame.getTextField1_1().setText(sessione.getInizio().toLocalTime().toString());
+        NewSessioneFrame.getTextField2().setText(sessione.getFine().toLocalDate().toString());
+        NewSessioneFrame.getTextField2_1().setText(sessione.getFine().toLocalTime().toString());
+        NewSessioneFrame.getComboBox3().setSelectedItem(sessione.getLocazione());
+        NewSessioneFrame.getComboBox4().setSelectedItem(sessione.getChair());
+        if(isNull(sessione.getKeynote_speaker()))
+            business_logic.NewSess_NessunoButtonClicked();
+        else
+            NewSessioneFrame.getComboBox5().setSelectedItem(sessione.getKeynote_speaker());
+        for(Evento e: sessione.getEventoList()){
+            NewSessioneFrame.getEvDLModel().addElement(e);
+        }
+        return sessione;
     }
 
     private void setComboboxInterventistaforSessione() {
@@ -445,53 +469,65 @@ public class AddEditFrameAppearanceController {
         NewLocazioneFrame.getTextField2().setText("");
     }
 
-    public void RemoveSelectedItemFromList11(){
+    public ModelClass RemoveSelectedItemFromList11(){
         int currentlistIndex = AddEditClassFrame.getAddOnly_list11().getSelectedIndex();
         if(isListSelected(AddEditClassFrame.getAddOnly_list11())){
-            dlModel11.remove(currentlistIndex);
+            return dlModel11.remove(currentlistIndex);
         }
+        throw new DataInsertedException("Cannot remove object");
     }
 
     private boolean ListIsSelected(int currentlistIndex) {
         return currentlistIndex != -1;
     }
 
-    public void AddSelectedItemToList10() {
+    public ModelClass AddSelectedItemToList10() {
         ModelClass selectedItem10 = (ModelClass) AddEditClassFrame.getSelect_comboBox10().getSelectedItem();
-        if(!dlModel10.contains(selectedItem10))
+        if(!dlModel10.contains(selectedItem10)) {
             dlModel10.addElement(selectedItem10);
+            return selectedItem10;
+        }
+        throw new DataInsertedException("Object already added");
     }
 
-    public void AddSelectedItemToList12() {
+    public ModelClass AddSelectedItemToList12() {
         ModelClass selectedItem12 = (ModelClass) AddEditClassFrame.getSelect_comboBox12().getSelectedItem();
         if(!dlModel12.contains(selectedItem12)) {
             dlModel12.addElement(selectedItem12);
             dlModel12i.addElement(getComitato());
+            return selectedItem12;
         }
+        throw new DataInsertedException("Object already added");
     }
 
-    private String getComitato() {
+    String getComitato() {
         if(AddEditClassFrame.getLocaleButton().isEnabled())
             return "Scientifico";
         else
             return "Locale";
     }
 
-    public void AddSelectedItemToList14() {
+    public ModelClass AddSelectedItemToList14() {
         ModelClass selectedItem14 = (ModelClass) AddEditClassFrame.getSelect_comboBox14().getSelectedItem();
         if(!dlModel14.contains(selectedItem14)) {
             dlModel14.addElement(selectedItem14);
             dlModel14i.addElement(getImporto());
+            return selectedItem14;
         }
+        throw new DataInsertedException("Object already added");
     }
 
-    private Integer getImporto() {
+    Integer getImporto() {
         Integer importo = Integer.parseInt(AddEditClassFrame.getTextField9().getText());
-        AddEditClassFrame.getTextField9().setText("");
         return importo;
     }
 
-    public void newButton14Clicked() {
+    void ClearImporto(){
+        AddEditClassFrame.getTextField9().setText("");
+    }
+
+    public void ShowNewSponsorFrame() {
+        NewSponsorFrame.getConfermaButton().setEnabled(false);
         NewSponsorFrame.setVisible(true);
     }
 
@@ -500,31 +536,40 @@ public class AddEditFrameAppearanceController {
         HideNewSponsorFrame();
     }
 
+    public void AddNewImportoToJList(Integer importo) {
+        dlModel14i.addElement(importo);
+    }
+
     void HideNewSponsorFrame() {
         NewSponsorFrame.setVisible(false);
         NewSponsorFrame.getTextField1().setText("");
         NewSponsorFrame.getTextField2().setText("");
     }
 
-    public void RemoveSelectedItemFromList10(){
+    public ModelClass RemoveSelectedItemFromList10(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list10().getSelectedIndex();
         if(!dlModel10.isEmpty() && ListIsSelected(currentlistIndex)){
-            dlModel10.remove(currentlistIndex);
+            return dlModel10.remove(currentlistIndex);
         }
+        throw new DataInsertedException("Cannot remove object");
     }
 
-    public void RemoveSelectedItemFromList12(){
+    public ModelClass RemoveSelectedItemFromList12(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list12().getSelectedIndex();
         if(!dlModel12.isEmpty() && ListIsSelected(currentlistIndex)){
-            dlModel12.remove(currentlistIndex);
+            dlModel12i.remove(currentlistIndex);
+            return dlModel12.remove(currentlistIndex);
         }
+        throw new DataInsertedException("Cannot remove object");
     }
 
-    public void RemoveSelectedItemFromList14(){
+    public ModelClass RemoveSelectedItemFromList14(){
         int currentlistIndex = AddEditClassFrame.getSelectedItems_list14().getSelectedIndex();
         if(!dlModel14.isEmpty() && ListIsSelected(currentlistIndex)){
-            dlModel14.remove(currentlistIndex);
+            dlModel14i.remove(currentlistIndex);
+            return dlModel14.remove(currentlistIndex);
         }
+        throw new DataInsertedException("Cannot remove object");
     }
 
     public void Select_interventoButton() {
@@ -608,21 +653,21 @@ public class AddEditFrameAppearanceController {
     public void HideNewSessFrame() {
         NewSessioneFrame.setVisible(false);
         AddEditClassFrame.getNewButton11().setEnabled(true);
-        AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
-        EraseAllTextFieldsInNewSessionFrame();
+        if(dlModel11.isEmpty())
+            AddEditClassFrame.getSelectOne_comboBox13().setEnabled(true);
+        EraseAllFieldsInNewSessionFrame();
         NewSessioneFrame.getEventoData_JPanel().setVisible(false);
         NewSessioneFrame.getPausaButton().setEnabled(true);
         NewSessioneFrame.getEventoSocialeButton().setEnabled(true);
         NewSessioneFrame.getInterventoButton().setEnabled(true);
     }
 
-    //TODO: Sposta in controller accordingly
     public void InsertNewSessioneInJList(Sessione tempSessione) {
         dlModel11.addElement(tempSessione);
         HideNewSessFrame();
     }
 
-    private void EraseAllTextFieldsInNewSessionFrame() {
+    private void EraseAllFieldsInNewSessionFrame() {
         for(Component comp: NewSessioneFrame.getComponents()){
             try{
                 ((JTextField) comp).setText("");
@@ -706,6 +751,107 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getAddButton14().setEnabled(b);
     }
 
-    public void setValuesForObjectToEdit(String classSelected) {
+    public void setValuesForObjectToEdit(String classSelected, ModelClass currentObject) {
+        switch (ClassSelected){
+            case "Conferenza" -> SetConferenzaValues((Conferenza) currentObject);
+            case "Sede" -> SetSedeValues((Sede) currentObject);
+            case "Utente", "Partecipante", "Organizzatore" -> SetUtenteValues((Utente) currentObject);
+            case "Istituzione" -> SetIstituzioneValues((Istituzione) currentObject);
+        }
     }
+
+    private void SetConferenzaValues(Conferenza currentObject) {
+        AddEditClassFrame.getTextField1().setText(currentObject.getNome());
+        AddEditClassFrame.getTextField2().setText(getDateString(currentObject.getDataInizio()));
+        AddEditClassFrame.getTextField3().setText(getDateString(currentObject.getDataFine()));
+        AddEditClassFrame.getTextField4().setText(currentObject.getDescrizione());
+        AddEditClassFrame.getSelectOne_comboBox13().setSelectedItem(currentObject.getCollocazione());
+        dlModel11.addAll(currentObject.getSessioneList());
+        dlModel10.addAll(getAllIstituzioniByConferenza(currentObject));
+        dlModel12.addAll(getAllOrganizzatoriByConferenza(currentObject));
+        dlModel12i.addAll(getAllComitatiByConferenza(currentObject));
+        dlModel14.addAll(getAllSponsorByConferenza(currentObject));
+        dlModel14i.addAll(getAllImportiByConferenza(currentObject));
+    }
+
+    private String getDateString(Date dataInizio) {
+        return String.valueOf(dataInizio);
+    }
+
+    private Collection<? extends ModelClass> getAllIstituzioniByConferenza(Conferenza currentObject) {
+        List<Istituzione> istitList = new ArrayList<>();
+        for(ModelClass eo : Ente_Organizzatore_DAO.getDAO().getAll_byAttribute("conferenza", String.valueOf(currentObject.toPK()))){
+            istitList.add(((Ente_organizzatore) eo).getIstituzione());
+        }
+        return istitList;
+    }
+
+    private Collection<? extends ModelClass> getAllOrganizzatoriByConferenza(Conferenza currentObject) {
+        List<Organizzatore> orgList = new ArrayList<>();
+        for(ModelClass org : Conf_Organ_DAO.getDAO().getAll_byAttribute("conferenza", String.valueOf(currentObject.toPK()))){
+            orgList.add(((Conf_Organ) org).getOrganizzatore());
+        }
+        return orgList;
+    }
+
+    private Collection<String> getAllComitatiByConferenza(Conferenza currentObject) {
+        List<String> comitatiList = new ArrayList<>();
+        for(ModelClass org: Conf_Organ_DAO.getDAO().getAll_byAttribute("conferenza", String.valueOf(currentObject.toPK()))){
+            comitatiList.add(((Conf_Organ) org).getComitato());
+        }
+        return comitatiList;
+    }
+
+    private Collection<? extends ModelClass> getAllSponsorByConferenza(Conferenza currentObject) {
+        List<Sponsor> sponsList = new ArrayList<>();
+        for(ModelClass confspo: Conf_Sponsor_DAO.getDAO().getAll_byAttribute("conferenza", String.valueOf(currentObject.toPK()))){
+            sponsList.add(((Conf_Sponsor) confspo).getSponsor());
+        }
+        return sponsList;
+    }
+
+    private Collection<Integer> getAllImportiByConferenza(Conferenza currentObject) {
+        List<Integer> importiList = new ArrayList<>();
+        for(ModelClass confspo: Conf_Sponsor_DAO.getDAO().getAll_byAttribute("conferenza", String.valueOf(currentObject.toPK()))){
+            importiList.add(getImporto(confspo));
+        }
+        return importiList;
+    }
+
+    private Integer getImporto(ModelClass confspo) {
+        return ((Conf_Sponsor) confspo).getImporto().intValue();
+    }
+
+
+
+
+
+    private void SetSedeValues(Sede currentObject) {
+    }
+
+    private void SetUtenteValues(Utente currentObject) {
+    }
+
+    private void SetIstituzioneValues(Istituzione currentObject) {
+        
+    }
+
+
+    public String getComitatoSelected() {
+        if(isListSelected(AddEditClassFrame.getSelectedItems_infoList12()))
+            return AddEditClassFrame.getSelectedItems_infoList12().getSelectedValue();
+        throw new DataInsertedException("List is not selected");
+    }
+
+    public Integer getImportoSelected() {
+        if(isListSelected(AddEditClassFrame.getSelectedItems_infoList14()))
+            return AddEditClassFrame.getSelectedItems_infoList14().getSelectedValue();
+        throw new DataInsertedException("List is not selected");
+    }
+
+    public boolean RemoveOldSessioneFromJList(Sessione oldSessione) {
+        return dlModel11.removeElement(oldSessione);
+    }
+
+
 }

@@ -341,6 +341,10 @@ public class InstanceInsert_Controller {
         return tempSponsor;
     }
 
+    Integer getImporto(CF_NewSponsorFrame newSponsorFrame) {
+        return Integer.parseInt(newSponsorFrame.getTextField3().getText());
+    }
+
     Evento createIntervento(CF_NewSessioneFrame NewSessioneFrame) {
         Intervento interventoTemp = new Intervento();
         SetInizio_e_Fine(interventoTemp, NewSessioneFrame);
@@ -404,5 +408,6 @@ public class InstanceInsert_Controller {
         business_logic.EmptyComboboxInAddFrame();
         AddEditClassFrame.EraseAllFieldsAndJLists();
         JOptionPane.showMessageDialog(business_logic.MainFrame, "Inserimento riuscito");
+        business_logic.MainFrame_searchButton_clicked();
     }
 }

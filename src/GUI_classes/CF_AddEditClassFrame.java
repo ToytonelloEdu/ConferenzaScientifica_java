@@ -15,7 +15,8 @@ import java.util.List;
 
 public class CF_AddEditClassFrame extends JFrame {
 
-    private Controller business_logic;
+    private final Controller business_logic;
+    private Boolean EditModeB;
     private JPanel MainPanel;
     private JLabel ObjectAdded_label;
     private JPanel ObjectAdded_JPanel;
@@ -85,6 +86,7 @@ public class CF_AddEditClassFrame extends JFrame {
     private JList<String> SelectedItems_infoList12;
     private JList<Integer> SelectedItems_infoList14;
     private JPanel ListsPanel14;
+    private JButton editButton11;
 
     private final DefaultListModel<ModelClass> dlModel10 = new DefaultListModel<>();
     private final DefaultListModel<ModelClass> dlModel11 = new DefaultListModel<>();
@@ -105,13 +107,16 @@ public class CF_AddEditClassFrame extends JFrame {
         NewButton11.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.NewButton11Clicked();
+                business_logic.NewButton11Clicked(EditModeB);
             }
         });
         confermaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.confermaButtonClicked();
+                if(EditModeB.equals(false))
+                    business_logic.confermaButtonClicked();
+                else if(EditModeB.equals(true))
+                    business_logic.confermaButtonClickedForEdit();
             }
         });
         annullaButton.addActionListener(new ActionListener() {
@@ -123,43 +128,43 @@ public class CF_AddEditClassFrame extends JFrame {
         removeButton11.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.removeButtonClicked();
+                business_logic.removeButton11Clicked(EditModeB);
             }
         });
         addButton10.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.addButton10_clicked();
+                business_logic.addButton10_clicked(EditModeB);
             }
         });
         addButton14.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.addButton14_clicked();
+                business_logic.addButton14_clicked(EditModeB);
             }
         });
         addButton12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.addButton12_clicked();
+                business_logic.addButton12_clicked(EditModeB);
             }
         });
         removeButton10.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.removeButton10_clicked();
+                business_logic.removeButton10_clicked(EditModeB);
             }
         });
         removeButton12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.removeButton12_clicked();
+                business_logic.removeButton12_clicked(EditModeB);
             }
         });
         removeButton14.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.removeButton14_clicked();
+                business_logic.removeButton14_clicked(EditModeB);
             }
         });
         newButton14.addActionListener(new ActionListener() {
@@ -185,7 +190,10 @@ public class CF_AddEditClassFrame extends JFrame {
         checkDisponibilitaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                business_logic.CheckButtonClicked();
+                if(EditModeB.equals(false))
+                    business_logic.CheckButtonClicked();
+                else if(EditModeB.equals(true))
+                    business_logic.CheckButtonClickedForEdit();
             }
         });
         localeButton.addActionListener(new ActionListener() {
@@ -226,6 +234,32 @@ public class CF_AddEditClassFrame extends JFrame {
                 business_logic.AlignLists(SelectedItems_infoList14, SelectedItems_list14);
             }
         });
+        SelectedItems_list12.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                business_logic.AlignLists(SelectedItems_list12, SelectedItems_infoList12);
+            }
+        });
+        SelectedItems_infoList12.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                business_logic.AlignLists(SelectedItems_infoList12, SelectedItems_list12);
+            }
+        });
+        editButton11.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                business_logic.EditButton11_Clicked(EditModeB);
+            }
+        });
+    }
+
+    public void setEditModeB(Boolean editModeB) {
+        EditModeB = editModeB;
+    }
+
+    public Boolean getEditModeB() {
+        return EditModeB;
     }
 
     private CF_AddEditClassFrame AddIstanceClassFrame_setup() {
@@ -478,6 +512,10 @@ public class CF_AddEditClassFrame extends JFrame {
 
     public DefaultListModel<Integer> getDlModel14i() {
         return dlModel14i;
+    }
+
+    public JButton getEditButton11() {
+        return editButton11;
     }
 
     public void EraseAllFieldsAndJLists() {

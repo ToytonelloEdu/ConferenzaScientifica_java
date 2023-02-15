@@ -29,6 +29,7 @@ public class AddEdit_ChecksController {
     public AddEdit_ChecksController(Controller c){
         business_logic = c;
         business_logic.instInsert_controller.setChecksBL(this);
+        business_logic.instUpdate_controller.setChecksBL(this);
         AddEditClassFrame = business_logic.AddEditClassFrame;
         NewSessioneFrame = business_logic.NewSessioneFrame;
     }
@@ -36,6 +37,10 @@ public class AddEdit_ChecksController {
 
     private boolean isEmpty(JTextComponent text_Comp) {
         return text_Comp.getText().equals("");
+    }
+
+    private boolean isEmpty(DefaultListModel<ModelClass> dlModel) {
+        return dlModel.isEmpty();
     }
 
     boolean NoCampiVuotiInJPanel(JPanel mainPanel) {
@@ -49,10 +54,17 @@ public class AddEdit_ChecksController {
     }
 
     boolean NoCampiVuoti_forConferenza() {
-        return  !isEmpty(AddEditClassFrame.getTextField1()) &&
-                !isEmpty(AddEditClassFrame.getTextField2()) &&
-                !isEmpty(AddEditClassFrame.getTextField3()) &&
-                !isEmpty(AddEditClassFrame.getTextField4());
+        if  (isEmpty(AddEditClassFrame.getTextField1())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getTextField2())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getTextField3())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getTextField4())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getDlModel10())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getDlModel11())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getDlModel12())) throw new DataInsertedException("Dati mancanti");
+        if  (isEmpty(AddEditClassFrame.getDlModel14()))
+            throw new DataInsertedException("Dati mancanti");
+        else
+            return true;
     }
 
     public void CheckCorrectSessioneDates() {
@@ -344,5 +356,18 @@ public class AddEdit_ChecksController {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public boolean CheckDateConferenzaForEdit(ModelClass currentOggetto) throws ParseException {
+        return CheckDatesOrdered() && CheckNoOverlapConferenze((Conferenza) currentOggetto);
+    }
+
+    private boolean CheckNoOverlapConferenze(Conferenza currentOggetto) throws ParseException {
+        List<Date> DateConferenza = GetDateFromInsertedConferenza();
+        for(ModelClass c : Conferenza_DAO.getDAO().getAll())
+            if(!currentOggetto.equals(c) && OverlapDate(DateConferenza.get(0), DateConferenza.get(1), (Conferenza) c)) {
+                throw new DataInsertedException("Sede occupata nelle date scelte");
+            }
+        return true;
     }
 }

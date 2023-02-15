@@ -51,10 +51,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
             ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Organizzatori");
 
             while (LocalRS.next()){
-                Conferenza conferenza_temp = Conferenza_DAO.getDAO().getByPK(LocalRS.getInt("conferenza"));
-                Utente oranizzatore_temp = Organizzatore_DAO.getDAO().getByPK(LocalRS.getInt("organizzatore"));
-
-                Conf_Organ Conf_Organ_temp = this.setConf_Organ_tempFields(LocalRS);
+                Conf_Organ Conf_Organ_temp = setConf_Organ_tempFields(LocalRS);
                 AllConf_Organ.add(Conf_Organ_temp);
             }
             return AllConf_Organ;
@@ -67,6 +64,23 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
 
     @Override
     public List<ModelClass> getAll_byAttribute(String Attr_in, String Value_in) {
+        ArrayList<ModelClass> AllConf_Organ = new ArrayList<>();
+
+
+        try{
+            Statement LocalStmt = this.getStatement();
+
+            ResultSet LocalRS = LocalStmt.executeQuery("SELECT * FROM Main.Organizzatori WHERE "+Attr_in+" = "+Value_in+";");
+
+            while (LocalRS.next()){
+                Conf_Organ Conf_Organ_temp = setConf_Organ_tempFields(LocalRS);
+                AllConf_Organ.add(Conf_Organ_temp);
+            }
+            return AllConf_Organ;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
@@ -172,7 +186,7 @@ public class Conf_Organ_DAO implements CompPK_DaoClass{
         Conferenza conferenza_temp = getConferenza_temp(localRS);
         Conf_Organ_temp.setConferenza(conferenza_temp);
 
-        Utente Organizzatore_temp = getOrganizzatore_temp(localRS);
+        Organizzatore Organizzatore_temp = (Organizzatore) getOrganizzatore_temp(localRS);
         Conf_Organ_temp.setOrganizzatore(Organizzatore_temp);
 
         Conf_Organ_temp.setComitato(localRS.getString("comitato"));
