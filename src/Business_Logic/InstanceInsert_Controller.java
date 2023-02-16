@@ -53,7 +53,6 @@ public class InstanceInsert_Controller {
         try {
             if (checksBL.NoCampiVuoti_forConferenza()){
                 insertConferenza();
-                SuccessfulInsertCompleted();
             }else
                 JOptionPane.showMessageDialog(AddEditClassFrame, "Inserimento fallito: Dati mancanti");
         } catch (DataInsertedException e) {
@@ -74,6 +73,8 @@ public class InstanceInsert_Controller {
             InsertConfOrganizzatori();
 
             InsertConfSponsors();
+
+            SuccessfulInsertCompleted();
         }catch (InsertFailedException ife){
             JOptionPane.showMessageDialog(AddEditClassFrame,"Inserimento fallito: "+ife.getMessage());
         }
@@ -178,7 +179,6 @@ public class InstanceInsert_Controller {
     void InsertSede_Control() {
         if(NoCampiVuoti_forSede()) {
             insertSede();
-            business_logic.MainFrame.getAddButton().setEnabled(true);
         }
         else
             JOptionPane.showMessageDialog(AddEditClassFrame, "Inserimento fallito: dati mancanti");
@@ -206,6 +206,7 @@ public class InstanceInsert_Controller {
     private void CommitSedeInsert() throws InsertFailedException {
         CurrentOggetto.getDao().Insert(CurrentOggetto);
         for (Locazione l : ((Sede) CurrentOggetto).getLocazioneList()) {
+            l.setCollocazione((Sede) CurrentOggetto);
             l.getDao().Insert(l);
         }
     }
@@ -404,6 +405,7 @@ public class InstanceInsert_Controller {
 
 
     private void SuccessfulInsertCompleted() {
+        business_logic.MainFrame.getAddButton().setEnabled(true);
         AddEditClassFrame.setVisible(false);
         business_logic.EmptyComboboxInAddFrame();
         AddEditClassFrame.EraseAllFieldsAndJLists();

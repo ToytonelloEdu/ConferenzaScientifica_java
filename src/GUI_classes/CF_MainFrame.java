@@ -3,12 +3,11 @@ package GUI_classes;
 import Business_Logic.*;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,6 +133,12 @@ public class CF_MainFrame extends JFrame {
             @Override
             public void stateChanged(ChangeEvent e) {
                 business_logic.annoSpinner_Changed();
+            }
+        });
+        Detail_ObjectName_label.addPropertyChangeListener("text", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                business_logic.AdjustTextSize(Detail_ObjectName_label);
             }
         });
     }

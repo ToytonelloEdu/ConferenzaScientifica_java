@@ -88,7 +88,8 @@ public class Conferenza implements ModelClass {
         Timestamp DataInizioTimestamp = convertToTimestamp(this.dataInizio);
         Timestamp DataFineTimestamp = convertToTimestamp(this.dataFine);
 
-        String ret = "'"+ this.nome+"', '"+ DataInizioTimestamp +"', '"+ DataFineTimestamp+ "', '"+ this.descrizione + "', "+this.collocazione.toPK();
+        String ret = "'"+ adjustDoubleQuotes(this.nome) +"', '"+ DataInizioTimestamp +"', '"+ DataFineTimestamp+ "', '"
+                        + adjustDoubleQuotes(this.descrizione) + "', "+this.collocazione.toPK();
 
         return ret;
     }

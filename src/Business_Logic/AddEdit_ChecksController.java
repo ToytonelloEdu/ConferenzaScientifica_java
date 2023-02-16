@@ -174,6 +174,24 @@ public class AddEdit_ChecksController {
 
     }
 
+    boolean CheckSessioneInserted(DefaultListModel<ModelClass> dlModel11, Sessione oldSessione) {
+        return CheckNoCampiVuotiForSessione()
+                && CheckDate()
+                && CheckNoOverlapSessione(dlModel11, oldSessione)
+                && CheckChair_e_Keynote();
+
+    }
+
+    private boolean CheckNoOverlapSessione(DefaultListModel<ModelClass> dlModel11, Sessione oldSessione) {
+        List<LocalDateTime> listLDT = TryLocalDateTimeConversion();
+        List<ModelClass> sessList = getAllbyDLModel(dlModel11);
+        for(ModelClass sess: sessList){
+            if (!oldSessione.equals(sess) && SessionsOverlap(listLDT.get(0), listLDT.get(1), (Sessione) sess))
+                throw new DataInsertedException("Locazione scelta già occupata nell'intervallo di tempo");
+        }
+        return true;
+    }
+
     private boolean CheckNoOverlapSessione(DefaultListModel<ModelClass> dlModel11) {
         List<LocalDateTime> listLDT = TryLocalDateTimeConversion();
         List<ModelClass> sessList = getAllbyDLModel(dlModel11);
