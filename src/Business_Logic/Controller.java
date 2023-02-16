@@ -7,10 +7,13 @@ import GUI_classes.*;
 import Model_classes.*;
 
 import javax.swing.*;
+import javax.swing.plaf.synth.SynthTableUI;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.text.ParseException;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 public class Controller {
     CF_MainFrame MainFrame;
@@ -84,12 +87,12 @@ public class Controller {
     public void MainFrame_searchButton_clicked() {
         detailsPanel_setter.getdListModel().clear();
         MainFrame.getOutput_TextArea().setText("");
-        String Class_SearchIn_str = (String) MainFrame.getClass_comboBox().getSelectedItem();
+        ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         if(isEmpty(MainFrame.getSearch_textField()) || isNo_filter()){
-            Current_Main_outputList = setOutput_textArea_noFilter(MainFrame, Class_SearchIn_str);
+            Current_Main_outputList = setOutput_textArea_noFilter(MainFrame, ClassSelected);
         }
         else{
-            Current_Main_outputList = setOutput_textArea_Filtered(MainFrame, Class_SearchIn_str);
+            Current_Main_outputList = setOutput_textArea_Filtered(MainFrame, ClassSelected);
         }
         try {
             if (!(Current_Main_outputList.isEmpty()))
@@ -400,6 +403,7 @@ public class Controller {
     }
 
     public void LoginButtonClicked() {
+        ClassSelected = (String) MainFrame.getClass_comboBox().getSelectedItem();
         login_controller.LoginButtonClicked();
     }
 
@@ -579,9 +583,17 @@ public class Controller {
         }
     }
 
-    private void SwitchAddEditButton(boolean b) {
-        MainFrame.getEditButton().setEnabled(b);
-        MainFrame.getAddButton().setEnabled(b);
+    void SwitchAddEditButton(boolean b) {
+
+        if(b && !ClassSelected.equals("Conferenza")){
+            MainFrame.getAddButton().setEnabled(true);
+            MainFrame.getEditButton().setEnabled(false);
+        }
+        else{
+            MainFrame.getAddButton().setEnabled(b);
+            MainFrame.getEditButton().setEnabled(b);
+        }
+
     }
 
     private void EditInstanceFrame_initialization() {

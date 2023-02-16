@@ -37,6 +37,7 @@ public class UserLogin_Controller {
         if(classSelected.equals("Conferenza")){
             business_logic.MainFrame.getEditButton().setEnabled(true);
         }
+        business_logic.AddInstanceFrame_hidden();
         business_logic.NewLoginFrame.setVisible(false);
         business_logic.NewLoginFrame.getTextField1().setText("");
         business_logic.NewLoginFrame.getTextField2().setText("");
