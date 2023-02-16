@@ -30,11 +30,13 @@ public class UserLogin_Controller {
             JOptionPane.showMessageDialog(business_logic.NewLoginFrame, "Inserimento fallito: dati mancanti");
     }
 
-    public void AnnullaButtonLoginClicked(){
+    public void AnnullaButtonLoginClicked(String classSelected){
         business_logic.MainFrame.getAddButton().setEnabled(true);
         business_logic.MainFrame.getDeleteButton().setEnabled(true);
         business_logic.MainFrame.getLoginButton().setEnabled(true);
-        business_logic.MainFrame.getEditButton().setEnabled(true);
+        if(classSelected.equals("Conferenza")){
+            business_logic.MainFrame.getEditButton().setEnabled(true);
+        }
         business_logic.NewLoginFrame.setVisible(false);
         business_logic.NewLoginFrame.getTextField1().setText("");
         business_logic.NewLoginFrame.getTextField2().setText("");

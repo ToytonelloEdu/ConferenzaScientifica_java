@@ -408,7 +408,7 @@ public class Controller {
     }
 
     public void AnnullaButtonLoginClicked() {
-        login_controller.AnnullaButtonLoginClicked();
+        login_controller.AnnullaButtonLoginClicked(ClassSelected);
     }
 
     public void AccediButtonLoginClicked() {
