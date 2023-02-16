@@ -189,8 +189,6 @@ public class Conf_Sponsor_DAO implements CompPK_DaoClass {
 
         Conferenza conferenza_temp = getConferenza_temp(localRS);
         Conf_Sponsor_temp.setConferenza(conferenza_temp);
-
-        System.out.println(localRS.getMetaData().getColumnType(3));
         Conf_Sponsor_temp.setImporto(getImporto(localRS));
 
         return Conf_Sponsor_temp;
