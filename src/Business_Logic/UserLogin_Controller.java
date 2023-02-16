@@ -34,6 +34,7 @@ public class UserLogin_Controller {
         business_logic.MainFrame.getAddButton().setEnabled(true);
         business_logic.MainFrame.getDeleteButton().setEnabled(true);
         business_logic.MainFrame.getLoginButton().setEnabled(true);
+        business_logic.MainFrame.getEditButton().setEnabled(true);
         business_logic.NewLoginFrame.setVisible(false);
         business_logic.NewLoginFrame.getTextField1().setText("");
         business_logic.NewLoginFrame.getTextField2().setText("");

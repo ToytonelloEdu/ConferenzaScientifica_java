@@ -15,9 +15,6 @@ public class Conferenza implements ModelClass {
     private Sede collocazione;
 
     private List<Sessione> sessioneList;
-    private List<Sponsor> sponsorList;
-    private List<Istituzione> istitList;
-    private List<Organizzatore> organizList;
 
     private Conferenza_DAO dao = Conferenza_DAO.getDAO();
 

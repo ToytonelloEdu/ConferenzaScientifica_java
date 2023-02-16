@@ -195,6 +195,7 @@ public class AddEditFrameAppearanceController {
 
     private void setConf_SessioniField(){
         AddEditClassFrame.getLabel11().setText("Sessioni");
+        AddEditClassFrame.getEditButton11().setVisible(true);
     }
 
     private void setConf_EntiOrgField(){
@@ -310,6 +311,7 @@ public class AddEditFrameAppearanceController {
         AddEditClassFrame.getSelectOnly_JPanel13().setVisible(false);
         AddEditClassFrame.getSelectItems_JPanel14().setVisible(false);
         AddEditClassFrame.getTwoButton_JPanel().setVisible(false);
+        AddEditClassFrame.getEditButton11().setVisible(false);
     }
 
     private void Hide_CheckboxDisponibilita(){

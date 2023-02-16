@@ -392,18 +392,8 @@ public class InstanceInsert_Controller {
         return locazioneTemp;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     private void SuccessfulInsertCompleted() {
+        business_logic.MainFrame.getAddButton().setEnabled(true);
         AddEditClassFrame.setVisible(false);
         business_logic.EmptyComboboxInAddFrame();
         AddEditClassFrame.EraseAllFieldsAndJLists();

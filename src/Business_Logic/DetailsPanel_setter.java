@@ -113,6 +113,7 @@ public class DetailsPanel_setter {
         mainFrame.getFourthField_label().setVisible(false);
         mainFrame.getFourthField_outputArea().setVisible(false);
         mainFrame.getFirstList_Panel().setVisible(false);
+        mainFrame.getEditButton().setEnabled(false);
     }
 
     private void setFields_inDetPanel_forUtenti(CF_MainFrame MainFrame, List Current_Main_outputList, int CurrentSpinnerValue) {
@@ -152,6 +153,7 @@ public class DetailsPanel_setter {
     private void Hide_Utenti_UnusedComp(CF_MainFrame mainFrame) {
         Hide_percentualeComponents(mainFrame);
         mainFrame.getFirstList_Panel().setVisible(false);
+        mainFrame.getEditButton().setEnabled(false);
     }
 
     private void Hide_percentualeComponents(CF_MainFrame mainFrame) {
@@ -168,6 +170,7 @@ public class DetailsPanel_setter {
         SetConf_FirstField(MainFrame, SelectedConferenza);
         SetConf_SecondField(MainFrame, SelectedConferenza);
         SetConf_ThirdField(MainFrame, SelectedConferenza);
+        MainFrame.getEditButton().setEnabled(true);
         for(Sessione s : SelectedConferenza.getSessioneList())
             dListModel.addElement(s.toDetailString());
         Hide_Conferenza_UnusedComp(MainFrame);
@@ -217,6 +220,7 @@ public class DetailsPanel_setter {
         MainFrame.getFourthField_label().setVisible(false);
         MainFrame.getFourthField_outputArea().setVisible(false);
         MainFrame.getDetailsButton().setVisible(false);
+        MainFrame.getEditButton().setEnabled(false);
     }
 
     private void SetSede_FirstField(CF_MainFrame MainFrame, Sede SelectedSede) {

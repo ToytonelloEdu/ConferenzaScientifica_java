@@ -156,7 +156,7 @@ public class Istituzione_DAO implements DaoClass {
     public int allKeynoteSpeakerformonth(int mese, int anno) {
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE (date_part('month', inizio) = " + mese + " OR date_part('month', fine) = " + mese + ") AND date_part('year', inizio) = " + anno + ";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE (date_part('month', inizio) = " + mese + " OR date_part('month', fine) = " + mese + ") AND (date_part('year', inizio) = " + anno + " OR date_part('year', fine) = " + anno + ");";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
@@ -173,7 +173,7 @@ public class Istituzione_DAO implements DaoClass {
 
         try{
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND (date_part('month', inizio) = "+ mese +" OR date_part('month', fine) = "+ mese +") AND date_part('year', inizio) = "+ anno +";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '"+ nome_istituzione +"' AND (date_part('month', inizio) = "+ mese +" OR date_part('month', fine) = "+ mese +") AND (date_part('year', inizio) = " + anno + " OR date_part('year', fine) = " + anno + ");";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if(localRS.next()) {
@@ -189,7 +189,7 @@ public class Istituzione_DAO implements DaoClass {
     public int allKeynoteSpeakerforyear(int anno) {
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE date_part('year', inizio) = " + anno + ";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE (date_part('year', inizio) = " + anno + " OR date_part('year', fine) = " + anno + ");";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
@@ -206,7 +206,7 @@ public class Istituzione_DAO implements DaoClass {
 
         try {
             Statement localStmt = this.getStatement();
-            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '" + nome_istituzione + "' AND date_part('year', inizio) = " + anno + ";";
+            String command = "SELECT COUNT(*) FROM Main.keynote_speakers_withistituzione WHERE nome_istituzione = '" + nome_istituzione + "' AND (date_part('year', inizio) = " + anno + " OR date_part('year', fine) = " + anno + ");";
 
             ResultSet localRS = localStmt.executeQuery(command);
             if (localRS.next()) {
