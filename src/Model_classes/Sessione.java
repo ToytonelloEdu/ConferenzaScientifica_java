@@ -159,4 +159,28 @@ public class Sessione implements ModelClass{
     public String toString() {
         return nome +", da "+ inizio +" a "+ fine;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sessione sessione = (Sessione) o;
+
+        if (!Objects.equals(nome, sessione.nome)) return false;
+        if (!Objects.equals(inizio, sessione.inizio)) return false;
+        if (!Objects.equals(fine, sessione.fine)) return false;
+        if (!Objects.equals(conferenza, sessione.conferenza)) return false;
+        return Objects.equals(locazione, sessione.locazione);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nome != null ? nome.hashCode() : 0;
+        result = 31 * result + (inizio != null ? inizio.hashCode() : 0);
+        result = 31 * result + (fine != null ? fine.hashCode() : 0);
+        result = 31 * result + (conferenza != null ? conferenza.hashCode() : 0);
+        result = 31 * result + (locazione != null ? locazione.hashCode() : 0);
+        return result;
+    }
 }

@@ -8,6 +8,7 @@ import Model_classes.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.text.ParseException;
 import java.util.List;
 
@@ -451,8 +452,10 @@ public class Controller {
             AddEditFrame_controller.AddNewImportoToJList(importo);
             Sponsor tempSponsor = instInsert_controller.createSponsor(NewSponsorFrame);
             AddEditFrame_controller.AddNewSponsToJList(tempSponsor);
-            if(AddEditClassFrame.getEditModeB())
+            if(AddEditClassFrame.getEditModeB()) {
+                instUpdate_controller.AddObjectToInsert(tempSponsor);
                 instUpdate_controller.AddObjectToInsert14(ClassSelected, tempSponsor, importo);
+            }
         }
         else
             JOptionPane.showMessageDialog(NewSponsorFrame, "Dati mancanti");
@@ -481,7 +484,7 @@ public class Controller {
 
     public void NewSess_ConfermaButtonClicked(Boolean SessEditModeB, Sessione oldSessione) {
         try {
-            if (CheckSessioneInserted()) {
+            if (CheckSessioneInserted(SessEditModeB, oldSessione)) {
                 Sessione tempSessione = instInsert_controller.createSessione(NewSessioneFrame);
                 AddEditFrame_controller.InsertNewSessioneInJList(tempSessione);
                 if(SessEditModeB) {
@@ -540,8 +543,11 @@ public class Controller {
         AddEditFrame_controller.DisableEventiAdd();
     }
 
-    public boolean CheckSessioneInserted() {
-        return addEdit_checksController.CheckSessioneInserted(dlModel11);
+    public boolean CheckSessioneInserted(Boolean sessEditModeB, Sessione oldSessione) {
+        if(sessEditModeB)
+            return addEdit_checksController.CheckSessioneInserted(dlModel11, oldSessione);
+        else
+            return addEdit_checksController.CheckSessioneInserted(dlModel11);
     }
 
     public void LocaleButtonClicked() {
@@ -626,6 +632,15 @@ public class Controller {
     public void importoField_contentChange(String textImporto) {
         boolean b = addEdit_checksController.CheckCorrectImporto(textImporto);
         NewSponsorFrame.getConfermaButton().setEnabled(b);
+
+    }
+
+    public void AdjustTextSize(JLabel label) {
+        Font font = label.getFont();
+        if(label.getText().length() < 30)
+            label.setFont(font.deriveFont(font.getStyle(), 14));
+        else
+            label.setFont(font.deriveFont(font.getStyle(), 11));
 
     }
 }
